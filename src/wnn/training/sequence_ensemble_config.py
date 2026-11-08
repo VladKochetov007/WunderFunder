@@ -5,6 +5,15 @@ from collections.abc import Mapping
 LABELS_MODE = "labels_wmse_v1"
 MIXTURE_MODE = "mixture_wmse_pearson_v1"
 STANDALONE_LABELS_MODE = "standalone_labels_wmse_v2"
+P5_CONFIG_FIELDS = frozenset(
+    (
+        "gradient_horizon_rows",
+        "optimizer_update_diagnostics_every",
+        "lr_role_factors",
+        "lr_head_factor",
+        "lr_body_factor",
+    )
+)
 
 
 def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None:
@@ -50,6 +59,8 @@ def validate_ensemble_objective(config: Mapping[str, object]) -> None:
         return
     if mode not in (LABELS_MODE, MIXTURE_MODE):
         raise ValueError("unsupported explicit ensemble objective mode")
+    if P5_CONFIG_FIELDS.intersection(config):
+        raise ValueError("frozen four-fit objectives reject new runtime and optimizer controls")
     expected = {
         "epochs": 4,
         "batch_size": 128,

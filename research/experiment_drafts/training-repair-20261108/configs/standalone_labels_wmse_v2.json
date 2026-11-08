@@ -4,6 +4,16 @@
   "batch_size": 128,
   "accumulate_chunks": 4,
   "chunk_rows": 256,
+  "gradient_horizon_rows": 256,
+  "optimizer_update_diagnostics_every": 50,
+  "lr_role_factors": {
+    "muon_qkv": 1.0,
+    "muon_hidden": 1.0,
+    "adamw_matrix": 1.0,
+    "adamw_no_decay": 1.0
+  },
+  "lr_head_factor": 1.0,
+  "lr_body_factor": 1.0,
   "seed": 101101,
   "lr": 0.0003,
   "weight_decay": 0.01,

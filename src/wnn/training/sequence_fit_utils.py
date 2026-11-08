@@ -15,6 +15,10 @@ import torch
 from torch.utils.data._utils.collate import default_collate
 
 from wnn.training.sequence_optimizer import build_sequence_muon_optimizer
+from wnn.training.sequence_optimizer_controls import (
+    LR_CONTROL_KEYS,
+    apply_optimizer_lr_factors,
+)
 from wnn.training.sequence_provenance import json_value
 
 SEQUENCE_ROWS = 20_000
@@ -104,13 +108,34 @@ def make_optimizer(
             float(config.get("adamw_beta1", 0.9)),
             float(config.get("adamw_beta2", 0.999)),
         )
-        optimizer: torch.optim.Optimizer = torch.optim.AdamW(
-            parameters,
-            lr=learning_rate,
-            betas=betas,
-            eps=float(config.get("adamw_eps", 1e-8)),
-            weight_decay=float(config["weight_decay"]),
-        )
+        if LR_CONTROL_KEYS.intersection(config):
+            groups = apply_optimizer_lr_factors(
+                [
+                    {
+                        "params": parameters,
+                        "lr": learning_rate,
+                        "role": "adamw",
+                        "group_name": "adamw",
+                    }
+                ],
+                model,
+                config,
+            )
+            optimizer = torch.optim.AdamW(
+                groups,
+                lr=learning_rate,
+                betas=betas,
+                eps=float(config.get("adamw_eps", 1e-8)),
+                weight_decay=float(config["weight_decay"]),
+            )
+        else:
+            optimizer = torch.optim.AdamW(
+                parameters,
+                lr=learning_rate,
+                betas=betas,
+                eps=float(config.get("adamw_eps", 1e-8)),
+                weight_decay=float(config["weight_decay"]),
+            )
     elif optimizer_name == "muon":
         optimizer = build_sequence_muon_optimizer(model, config)
     else:

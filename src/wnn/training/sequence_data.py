@@ -25,6 +25,7 @@ from wnn.training.sequence_normalization import (
     moments_sha256,
     normalization_identity_sha256,
 )
+from wnn.training.sequence_runtime_context import P5_RUNTIME_KEYS, runtime_context_contract
 
 # Heterogeneous JSON recipes/provenance are restricted to the public runtime boundary.
 if TYPE_CHECKING:
@@ -272,6 +273,8 @@ def build_data(
     declared_objective = objective_contract(config)
     if declared_objective is not None:
         provenance["objective_contract"] = declared_objective
+    if declared_objective is not None or P5_RUNTIME_KEYS.intersection(config):
+        provenance["runtime_context_contract"] = runtime_context_contract(config)
     if reference is not None:
         provenance["reference"] = reference.identity
     fit = SequenceRecords(

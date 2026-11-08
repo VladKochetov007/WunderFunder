@@ -54,6 +54,18 @@ def test_new_preset_has_explicit_contract_and_flexible_generic_controls(
     assert config["objective_mode"] == STANDALONE_LABELS_MODE
     assert config["checkpoint_retention"] == "all_epochs"
     assert config["checkpoint_endpoint_policy"] == "configured_final_epoch"
+    assert (config["epochs"], config["batch_size"], config["chunk_rows"]) == (4, 128, 256)
+    assert config["accumulate_chunks"] == 4
+    assert config["optimizer"] == "muon" and config["lr"] == 0.0003
+    assert config["gradient_horizon_rows"] == 256
+    assert config["optimizer_update_diagnostics_every"] == 50
+    assert config["lr_head_factor"] == config["lr_body_factor"] == 1.0
+    assert config["lr_role_factors"] == {
+        "muon_qkv": 1.0,
+        "muon_hidden": 1.0,
+        "adamw_matrix": 1.0,
+        "adamw_no_decay": 1.0,
+    }
     assert config["monitoring"] == {
         "train_eval_sequences": 128,
         "eval_batch_size": 4,
@@ -79,6 +91,7 @@ def test_new_preset_has_explicit_contract_and_flexible_generic_controls(
             "accumulate_chunks": 2,
             "required_world_size": None,
             "required_device": None,
+            "lr_role_factors": {"adamw": 1.0},
             "model": {
                 "architecture": "gru",
                 "hidden": 128,

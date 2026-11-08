@@ -1,6 +1,6 @@
 # Five-point training repair, 8 November 2026
 
-Status: implementation in progress; no new fits or GPU measurements.
+Status: all five points implemented and CPU checked; no new fits or GPU measurements.
 Objective mode: engineering. Tier A tests verify software contracts; empirical
 score benefit remains unmeasured (exposed official valid, no fresh holdout).
 
@@ -57,8 +57,13 @@ fail-closed contracts. Run Ruff and check_training_structure on changed modules.
 | 2 | implemented; CPU checked | POINT2_B300.md; 13 focused tests plus 3-test masked-NaN rerun; exact legacy metric parity, zero extra forwards, component/target moments; Ruff and structure 115/0. |
 | 3 | implemented; CPU checked | POINT3_B300.md; 7 tests: immutable epochs, final endpoint, resume identity, atomic storage including zero remaining; new all_epochs policy overlay, legacy unchanged. Structure 116/0. |
 | 4 | implemented; CPU checked | POINT4_B300.md; standalone labels v2, cache-free raw-z primary/full valid, ancestry/flag guards, 62 tests and exact producer config goldens. Full new preset included; structure 117/0. |
-| 5 | pending | |
+| 5 | implemented; CPU checked | POINT5_B300.md; 82 focused tests, corrected 10325-member schedule check, then 3 preset/validation tests. Actual-step parity, role/head/body LR, identity-bound context and horizon; main preset opts in. Three unrun profile candidates preserve global batch and 820 updates/epoch. Structure 120/0. |
 
 Each point adds a receipt with rationale, files, exact checks, limitations and
 operational thresholds. GPU memory/time/quality remain unmeasured until admitted
 profiles and paired fits; preserve failed checks with their correction.
+
+See [NEXT_RUN_AND_MONITORING.md](NEXT_RUN_AND_MONITORING.md) for the exact
+starting recipes, online interpretation, admission measurements and decision
+criteria. Each point has a separate commit on the L4/UI and B300 runtime branches.
+No new GitHub result or validation/public score is claimed by this repair.

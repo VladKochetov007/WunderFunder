@@ -9,7 +9,9 @@ from wnn.training.sequence_blend import validate_blend_config
 from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
 from wnn.training.sequence_complement_monitor import validate_complement_monitor
 from wnn.training.sequence_ensemble_config import validate_ensemble_objective
+from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+from wnn.training.sequence_runtime_context import runtime_context_contract
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
 DEFAULTS: dict[str, Any] = {
@@ -71,6 +73,11 @@ def load_config(path: Path) -> dict[str, Any]:
         "muon_batch_by_shape",
         "objective_mode",
         "correlation_prediction_std_floor",
+        "gradient_horizon_rows",
+        "optimizer_update_diagnostics_every",
+        "lr_role_factors",
+        "lr_head_factor",
+        "lr_body_factor",
     }
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
@@ -101,6 +108,15 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be a positive integer")
     if config["schema_version"] != 1 or config["chunk_rows"] > 20_000:
         raise ValueError("unsupported schema or chunk length")
+    if "gradient_horizon_rows" in config and (
+        type(config["gradient_horizon_rows"]) is not int or config["gradient_horizon_rows"] < 1
+    ):
+        raise ValueError("gradient_horizon_rows must be a positive integer")
+    if "optimizer_update_diagnostics_every" in config and (
+        type(config["optimizer_update_diagnostics_every"]) is not int
+        or config["optimizer_update_diagnostics_every"] < 1
+    ):
+        raise ValueError("optimizer_update_diagnostics_every must be a positive integer")
     if type(config["seed"]) is not int or not 0 <= config["seed"] < 2**32:
         raise ValueError("seed must be an unsigned 32-bit integer")
     for key in (
@@ -196,7 +212,9 @@ def load_config(path: Path) -> dict[str, Any]:
     config["model"] = model
     validate_blend_config(config)
     validate_complement_monitor(config)
+    validate_lr_factor_config(config)
     validate_ensemble_objective(config)
+    runtime_context_contract(config)
     if "muon_batch_by_shape" in config and (
         type(config["muon_batch_by_shape"]) is not bool
         or config["optimizer"] != "muon"

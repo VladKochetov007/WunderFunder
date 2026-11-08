@@ -35,7 +35,7 @@ from wnn.training.sequence_objectives import (
 )
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 from wnn.training.sequence_precision import backward_context, forward_context
-from wnn.training.sequence_update import finish_update
+from wnn.training.sequence_update import finish_sampled_update, finish_update
 from wnn.training.sequence_window_reporting import window_record as _window_record
 
 
@@ -222,6 +222,7 @@ def train_epoch(
             objective_stats = (
                 torch.zeros_like(objective_totals) if objective_totals is not None else None
             )
+            diagnostics_interval = config.get("optimizer_update_diagnostics_every")
             state, local_stats = _backward_window(
                 model,
                 optimizer,
@@ -238,9 +239,21 @@ def train_epoch(
                 context,
                 objective_stats,
             )
-            gradient_norm, optimizer_seconds = finish_update(
-                model, optimizer, scheduler, context, float(config["grad_clip"])
-            )
+            if diagnostics_interval is None:
+                gradient_norm, optimizer_seconds = finish_update(
+                    model, optimizer, scheduler, context, float(config["grad_clip"])
+                )
+                update_diagnostics = None
+            else:
+                gradient_norm, optimizer_seconds, update_diagnostics = finish_sampled_update(
+                    model,
+                    optimizer,
+                    scheduler,
+                    context,
+                    float(config["grad_clip"]),
+                    global_step + updates + 1,
+                    int(diagnostics_interval),
+                )
             updates += 1
             global_step += 1
             global_stats = global_sum(local_stats, context)
@@ -269,6 +282,8 @@ def train_epoch(
             record.update(blend_loss_metrics(config, float(record["label_loss"])))
             record.update(objective_metrics(config, objective_stats))
             record["optimizer_seconds"] = optimizer_seconds
+            if update_diagnostics is not None:
+                record["optimizer_update_diagnostics"] = update_diagnostics
             rank_log.write(record)
             if progress is not None:
                 progress.optimizer_update(
