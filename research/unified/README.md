@@ -1,5 +1,16 @@
 # Unified research library
 
+## 8 November: TL3 standalone benchmark and long-memory re-audit
+
+[The role replay](../experiment_drafts/long-memory-prep-20261108/RESULTS_R4.md)
+reproduces all three pinned TL3 roles and the fixed mixture on full official
+valid. Best roleWP0.691416504; fixed blend0.692377425. This is exposed cached
+regrading with a historical consumed-cache ancestry limitation, not a new gain.
+[The historical architecture review](../experiment_drafts/long-memory-prep-20261108/SCREEN_REVIEW_R1.md)
+retains all six12E GRU/GRU-local/Mamba2 curves, marks GRU-local as previously
+tested, and defers new fitting. A combined Mamba2/local-attention/direct-head
+model is a conditional idea with no adapter or device profile yet.
+
 ## 7 November: measured cluster optimization and online validation
 
 [The current amendment](../experiment_drafts/architecture-execution-20261107/OPTIMIZATION_R2.md)

@@ -1,3 +1,15 @@
+## Latest 8 November: approved next-screen execution and representation preparation
+
+The user approved TOP1_NEXT_ALLOCATION_R1.json: ROOT executes exactly six fresh
+B300 optimizer/horizon fits from the sibling runtime worktree, with live input,
+device/profile/restore receipts and a finite receiving deadline. Do not resume
+any historical fit. This L4/UI worktree prepares a compact carried-memory/local-
+attention comparison and audits qualified individual TL3 roles; no L4 fit is
+admitted yet. ROOT alone owns SSH/RPC, GPU admission and native process signals.
+Use the existing bounded three actor/critic roles, Luna/max; no child agents.
+Do not alter old archives, repair commits or results. No new provider/billing,
+unrelated deletion, new data download or competition submission.
+
 ## Latest 8 November: five-point training repair (code only)
 
 The user requests sequential diagnosis, implementation, checks and a separate
