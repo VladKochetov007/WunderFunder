@@ -14,7 +14,6 @@ import numpy as np
 import torch
 from torch.utils.data._utils.collate import default_collate
 
-from wnn.training.sequence_optimizer import build_sequence_muon_optimizer
 from wnn.training.sequence_provenance import json_value
 
 SEQUENCE_ROWS = 20_000
@@ -95,36 +94,10 @@ def move_and_validate_batch(
 def make_optimizer(
     model: torch.nn.Module, config: Mapping[str, object], total_updates: int
 ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR]:
-    """Create the configured sequence optimizer and update-indexed LR schedule."""
-    optimizer_name = config.get("optimizer", "adamw")
-    if optimizer_name == "adamw":
-        parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
-        if not parameters:
-            raise ValueError("sequence model has no trainable parameters")
-        learning_rate = float(config["lr"])
-        betas = (
-            float(config.get("adamw_beta1", 0.9)),
-            float(config.get("adamw_beta2", 0.999)),
-        )
-        optimizer: torch.optim.Optimizer = torch.optim.AdamW(
-            parameters,
-            lr=learning_rate,
-            betas=betas,
-            eps=float(config.get("adamw_eps", 1e-8)),
-            weight_decay=float(config["weight_decay"]),
-        )
-    elif optimizer_name == "muon":
-        optimizer = build_sequence_muon_optimizer(model, config)
-    else:
-        raise ValueError("optimizer must be adamw or muon")
-    multiplier = sequence_lr_multiplier(
-        str(config.get("schedule", "legacy_warmup_cosine")),
-        total_updates,
-        float(config.get("warmup_fraction", 0.05)),
-        float(config.get("min_lr_ratio", 0.0)),
-    )
-    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, multiplier)
-    return optimizer, scheduler
+    """Create the configured optimizer and update-indexed schedule."""
+    from wnn.training.sequence_optimizer_factory import make_optimizer as factory
+
+    return factory(model, config, total_updates)
 
 
 def sequence_lr_multiplier(

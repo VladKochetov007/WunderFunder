@@ -16,6 +16,14 @@ const keys = [
  'train/objective_correlation_surrogate/t0', 'train/objective_correlation_surrogate/t1',
  'diagnostics/missing_output_gradient/local/hidden_state_rms_count',
  'diagnostics/missing_parameter_gradient_count', 'diagnostics/trainable_parameter_count',
+ 'optimizer_update/group/adamw.head/delta_weight_over_pre_weight_norm',
+ 'optimizer_update/group/adamw.head/delta_weight_rms',
+ 'optimizer_update/group/adamw.head/pre_weight_rms',
+ 'optimizer_update/group/adamw.head/applied_lr',
+ 'optimizer_update/group/adamw.head/preclip_gradient_norm',
+ 'optimizer_update/group/adamw.head/postclip_gradient_norm',
+ 'optimizer_update/group/adamw.head/momentum_norm',
+ 'optimizer_update/group/adamw.head/zero_weight_denominator_count',
 ];
 const groups = vm.runInNewContext(functions.join('\n') + '\nmetricGroups();', {
  state: {metricKeys: keys, snapshots: []},
@@ -24,6 +32,15 @@ const groups = vm.runInNewContext(functions.join('\n') + '\nmetricGroups();', {
  targetScoreKeys: () => [], comparableScoreKeys: () => [],
 });
 function family(key) {
+ if (key.startsWith('optimizer_update/')) {
+  if (key.endsWith('/delta_weight_over_pre_weight_norm')) return 'actual_ratio';
+  if (key.endsWith('/delta_weight_rms')) return 'actual_delta_rms';
+  if (key.endsWith('/pre_weight_rms')) return 'actual_weight_rms';
+  if (key.endsWith('/applied_lr')) return 'applied_rate';
+  if (key.endsWith('clip_gradient_norm')) return 'actual_gradient';
+  if (key.endsWith('/momentum_norm') || key.endsWith('/exp_avg_norm')) return 'state_norm';
+  return 'actual_counter';
+ }
  if (key.includes('/objective_weight/') || key === 'train/blend_alpha') return 'weight';
  if (/\/wp(?:\/|$)/.test(key)) return 'wp';
  if (/\/wmse(?:\/|$)/.test(key)) return 'wmse';
@@ -38,7 +55,7 @@ const visibleKeys = new Set(groups.flatMap(group => group.keys));
 for (const key of keys) assert.ok(visibleKeys.has(key), `Sentinel metric omitted: ${key}`);
 const failures = [];
 for (const group of groups) {
- const selected = group.keys.filter(k => k.startsWith('valid/z/') || k.startsWith('valid/target/') || k.startsWith('train/objective_'));
+ const selected = group.keys.filter(k => k.startsWith('valid/z/') || k.startsWith('valid/target/') || k.startsWith('train/objective_') || k.startsWith('optimizer_update/'));
  const families = [...new Set(selected.map(family))];
  if (families.length > 1) failures.push({title:group.title, families, keys:selected});
 }

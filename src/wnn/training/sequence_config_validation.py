@@ -6,6 +6,8 @@ import math
 from collections.abc import Mapping
 from typing import Any
 
+from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
+
 STANDALONE_LABELS_OBJECTIVE_MODE = "standalone_labels_wmse_v2"
 
 
@@ -32,6 +34,24 @@ def validate_sequence_objective_config(value: Mapping[str, object]) -> None:
         raise ValueError("standalone labels objective requires training_mask=all_after_warmup")
     if value.get("normalization_scope") != "all_fit":
         raise ValueError("standalone labels objective requires normalization_scope=all_fit")
+
+
+def validate_sequence_update_config(
+    config: Mapping[str, object], raw: Mapping[str, object]
+) -> None:
+    """Validate opt-in update telemetry, LR factors, and declared TBPTT horizon."""
+    interval = raw.get("optimizer_update_diagnostics_every")
+    if "optimizer_update_diagnostics_every" in raw and (type(interval) is not int or interval < 1):
+        raise ValueError("optimizer_update_diagnostics_every must be a positive integer")
+    if "lr_role_factors" in raw and raw["lr_role_factors"] is None:
+        raise ValueError("lr_role_factors cannot be null")
+    validate_lr_factor_config(raw)
+    horizon = raw.get("gradient_horizon_rows")
+    if "gradient_horizon_rows" in raw:
+        if type(horizon) is not int or horizon < 1:
+            raise ValueError("gradient_horizon_rows must be a positive integer")
+        if horizon != config.get("chunk_rows"):
+            raise ValueError("gradient_horizon_rows must equal chunk_rows")
 
 
 def validate_runtime_requirements(

@@ -8,13 +8,12 @@ from typing import Any
 from wnn.training.sequence_compact_config import (
     COMPACT_ARCHITECTURES,
     compact_model_fields,
-    validate_compact_recipe,
 )
+from wnn.training.sequence_config_finalize import finalize_loaded_config
 from wnn.training.sequence_config_validation import (
     is_galam_lstm64_muon,
     validate_input_prefetch_batches,
     validate_monitoring_config,
-    validate_sequence_objective_config,
 )
 from wnn.training.sequence_config_validation import (
     validate_expected_fold as validate_expected_fold,
@@ -98,6 +97,11 @@ def load_config(path: Path) -> dict[str, Any]:
             "monitoring",
             "input_prefetch_batches",
             "objective_mode",
+            "optimizer_update_diagnostics_every",
+            "lr_role_factors",
+            "lr_head_factor",
+            "lr_body_factor",
+            "gradient_horizon_rows",
         }
     ):
         raise ValueError("unknown sequence recipe field")
@@ -279,10 +283,4 @@ def load_config(path: Path) -> dict[str, Any]:
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
-    # This runtime-only field lets fit and inference build the same precision-aware model.
-    model["precision_mode"] = config["precision_mode"]
-    config["model"] = model
-    if "objective_mode" in raw:
-        validate_sequence_objective_config(config)
-    validate_compact_recipe(config)
-    return config
+    return finalize_loaded_config(config, raw, model)

@@ -7,6 +7,10 @@ from pathlib import Path
 
 from scripts.collect_sequence_monitor import CHUNK_BYTES
 from scripts.sequence_monitor_mirror_io import _archive_journal, atomic_bytes
+from wnn.optimizer_update_view import (
+    flatten_optimizer_update_diagnostics,
+    optimizer_update_group_context,
+)
 
 METRICS = {
     "total_loss": "train/loss",
@@ -96,12 +100,15 @@ def update_rank0_view(native: Path, view: Path, previous: dict[str, object]) -> 
             if isinstance(row.get(key), (int, float)) and math.isfinite(float(row[key]))
         }
         metrics.update(_native_objective_metrics(row, metadata["config"]))
+        update_payload = row.get("optimizer_update_diagnostics")
+        update_metrics = flatten_optimizer_update_diagnostics(update_payload)
+        metrics.update(update_metrics)
         for name, rate in row.get("learning_rates", {}).items():
             if isinstance(rate, (int, float)) and math.isfinite(float(rate)):
                 metrics[f"optimizer/lr/{str(name).replace('/', '_')}"] = float(rate)
         event = {
             "schema": "wnn.monitor.v1",
-            "kind": "train_step",
+            "kind": "diagnostics" if update_metrics else "train_step",
             "step": int(row["step"]),
             "epoch": int(row["step"]) / updates_per_epoch,
             "wall_time": datetime.fromtimestamp(info.st_mtime, UTC).isoformat(),
@@ -114,6 +121,12 @@ def update_rank0_view(native: Path, view: Path, previous: dict[str, object]) -> 
                 "epoch_basis": "native fit-members/config/world-size padded update schedule",
                 "loss_scope": "native label or curvature-scaled composite objective, as configured",
                 "native_objective": _native_objective_context(row, metadata["config"]),
+                "optimizer_update_groups": optimizer_update_group_context(update_payload),
+                "optimizer_update_sampling": (
+                    "first update and producer-declared periodic samples; retain without train stride"
+                    if update_metrics
+                    else "not sampled on this update"
+                ),
             },
         }
         events.append((json.dumps(event, sort_keys=True, allow_nan=False) + "\n").encode())

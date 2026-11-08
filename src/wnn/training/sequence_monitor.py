@@ -9,6 +9,7 @@ from wnn.gmetric import METRIC_ID
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_fit_utils import SequenceDataset
 from wnn.training.sequence_monitor_diagnostics import DiagnosticProbe
+from wnn.training.sequence_monitor_diagnostics_events import record_diagnostics_event
 from wnn.training.sequence_monitor_evaluation import (
     EvaluationEventContext,
     evaluate_and_record_epoch,
@@ -220,27 +221,17 @@ class SequenceMonitor:
         epoch_index: int,
         epoch_position: float,
         metrics: dict[str, int | float],
+        optimizer_update: Mapping[str, object] | None = None,
     ) -> None:
-        """Append one sampled diagnostic map, leaving unobserved branches absent."""
-        self.writer.append(
-            "diagnostics",
+        """Append one merged hook/optimizer event, omitting unsampled model branches."""
+        record_diagnostics_event(
+            self.writer,
             step,
+            epoch_index,
             epoch_position,
+            self.diagnostics_every_steps,
             metrics,
-            {
-                "sampling": f"every {self.diagnostics_every_steps} optimizer steps",
-                "scope": "rank-zero sampled forward/backward optimizer window",
-                "missing_metrics": "unavailable model branches are omitted",
-                "gradient_absence_semantics": (
-                    "named missing_output_gradient counts are output tensors without backward "
-                    "gradients; detached recurrent returned states may be expected. "
-                    "missing_parameter_gradient_count separately counts trainable parameters "
-                    "whose grad is None after backward."
-                ),
-                "hook_semantics": "tensor-hook measurements are detached; callbacks return None",
-                "parameter_norm_sampling": "first 4096 trainable scalars in model parameter order",
-                "epoch_index": epoch_index + 1,
-            },
+            optimizer_update,
         )
 
     def evaluate_epoch(

@@ -12,6 +12,7 @@ from wnn.multistage_plot_fit_figures import (
     _plot_pair,
     _training_series,
 )
+from wnn.multistage_plot_optimizer_updates import actual_optimizer_update_figures
 from wnn.multistage_search import atomic_write_json, file_sha256
 
 LOGGER = logging.getLogger(__name__)
@@ -125,6 +126,9 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
             if figure is not None:
                 figure.axes[-1].set_xlabel("Optimizer updates")
                 figures.append((name, figure))
+    figures.extend(actual_optimizer_update_figures(plt, training, first_wall, source="live"))
+    if rank_zero:
+        figures.extend(actual_optimizer_update_figures(plt, rank_zero, None, source="native"))
     keys = {key for event in training for key in event.get("metrics", {})}
     for name, selected in (
         (

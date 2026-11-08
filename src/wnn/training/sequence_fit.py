@@ -20,8 +20,7 @@ from wnn.training.sequence_fit_data_setup import build_fit_data
 from wnn.training.sequence_fit_modes import run_full_fit
 from wnn.training.sequence_fit_monitor_setup import (
     initialize_monitor,
-    prepare_monitor_event_budgets,
-    record_monitoring_plan,
+    prepare_fit_monitoring_plan,
     select_train_eval_members,
 )
 from wnn.training.sequence_fit_utils import (
@@ -173,21 +172,15 @@ def run_sequence_fit(
         schedule_updates = total_updates(config, len(fit_dataset), context.world_size)
         if schedule_updates < 1:
             raise ValueError("configured fit has no optimizer updates")
-        monitor_event_budget, profile_event_budget = prepare_monitor_event_budgets(
-            monitor_config, schedule_updates, int(config["epochs"]), profile_updates
+        monitor_event_budget, profile_event_budget = prepare_fit_monitoring_plan(
+            config,
+            data,
+            train_eval_members,
+            schedule_updates,
+            profile_updates,
         )
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
         root = Path(__file__).resolve().parents[3]
-        if monitor_config is not None:
-            model_config = config["model"]
-            input_feature_mode = str(model_config.get("input_feature_mode", "raw112"))
-            record_monitoring_plan(
-                data,
-                monitor_config,
-                train_eval_members,
-                input_feature_mode,
-                monitor_event_budget,
-            )
         source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)

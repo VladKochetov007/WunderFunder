@@ -61,6 +61,7 @@ def prepare_monitor_event_budgets(
     schedule_updates: int,
     epochs: int,
     profile_updates: int,
+    optimizer_update_diagnostics_every: int | None = None,
 ) -> tuple[MonitorEventBudget | None, MonitorEventBudget | None]:
     """Preflight the complete fit journal and the smaller profile journal separately."""
     if not isinstance(monitor_config, Mapping):
@@ -70,7 +71,11 @@ def prepare_monitor_event_budgets(
     training_every_steps = int(monitor_config["training_telemetry_every_steps"])
     diagnostics_every_steps = int(monitor_config["diagnostics_every_steps"])
     full_budget = validate_monitor_event_budget(
-        schedule_updates, epochs, training_every_steps, diagnostics_every_steps
+        schedule_updates,
+        epochs,
+        training_every_steps,
+        diagnostics_every_steps,
+        optimizer_update_diagnostics_every,
     )
     profile_budget = None
     if profile_updates:
@@ -79,8 +84,40 @@ def prepare_monitor_event_budgets(
             schedule_updates // epochs,
             training_every_steps,
             diagnostics_every_steps,
+            optimizer_update_diagnostics_every,
         )
     return full_budget, profile_budget
+
+
+def prepare_fit_monitoring_plan(
+    config: Mapping[str, object],
+    data: SequenceData,
+    train_eval_members: list[tuple[str, int]],
+    schedule_updates: int,
+    profile_updates: int,
+) -> tuple[MonitorEventBudget | None, MonitorEventBudget | None]:
+    """Preflight journal bounds and bind the monitor plan before run identity."""
+    monitor_config = config.get("monitoring")
+    budgets = prepare_monitor_event_budgets(
+        monitor_config,
+        schedule_updates,
+        int(config["epochs"]),
+        profile_updates,
+        config.get("optimizer_update_diagnostics_every"),
+    )
+    if isinstance(monitor_config, Mapping):
+        model = config.get("model")
+        if not isinstance(model, Mapping):
+            raise TypeError("monitored fit requires a model mapping")
+        record_monitoring_plan(
+            data,
+            monitor_config,
+            train_eval_members,
+            str(model.get("input_feature_mode", "raw112")),
+            budgets[0],
+            config.get("optimizer_update_diagnostics_every"),
+        )
+    return budgets
 
 
 def record_monitoring_plan(
@@ -89,6 +126,7 @@ def record_monitoring_plan(
     train_eval_members: list[tuple[str, int]],
     input_feature_mode: str,
     event_budget: MonitorEventBudget | None,
+    optimizer_update_diagnostics_every: int | None = None,
 ) -> None:
     """Record mask, selection, and event-journal policy in fit provenance."""
     early_policy = monitor_config.get("early_stopping")
@@ -151,6 +189,12 @@ def record_monitoring_plan(
         ),
         "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
     }
+    if optimizer_update_diagnostics_every is not None:
+        plan["optimizer_update_diagnostics"] = {
+            "sampling_interval": optimizer_update_diagnostics_every,
+            "includes_first_update": True,
+            "event_kind": "diagnostics",
+        }
     if event_budget is not None:
         plan["event_journal_budget"] = event_budget.as_dict()
     data.provenance["monitoring_plan"] = plan

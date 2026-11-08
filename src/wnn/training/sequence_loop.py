@@ -132,10 +132,14 @@ def train_epoch(
                 current_lr = float(optimizer.param_groups[0]["lr"])
                 step = global_step + 1
                 interval = _diagnostic_interval(config, monitor_enabled)
-                sample = interval > 0 and step % interval == 0
+                hook_sample = interval > 0 and step % interval == 0
+                optimizer_interval = int(config.get("optimizer_update_diagnostics_every", 0))
+                optimizer_sample = optimizer_interval > 0 and (
+                    step == 1 or step % optimizer_interval == 0
+                )
                 probe = (
                     monitor.diagnostic_probe(model)
-                    if monitor is not None and sample
+                    if monitor is not None and hook_sample
                     else nullcontext(None)
                 )
                 with probe as diagnostics:
@@ -157,8 +161,14 @@ def train_epoch(
                     )
                     if diagnostics is not None:
                         diagnostics.capture_parameter_gradient_status()
-                gradient_norm, optimizer_seconds = finish_update(
-                    model, optimizer, scheduler, context, float(config["grad_clip"])
+                gradient_norm, optimizer_seconds, optimizer_update = finish_update(
+                    model,
+                    optimizer,
+                    scheduler,
+                    context,
+                    float(config["grad_clip"]),
+                    update_step=step,
+                    diagnostics_interval=optimizer_interval,
                 )
                 updates += 1
                 global_step += 1
@@ -183,6 +193,8 @@ def train_epoch(
                 )
                 record["learning_rates"] = rates
                 record["optimizer_seconds"] = optimizer_seconds
+                if optimizer_update is not None:
+                    record["optimizer_update_diagnostics"] = optimizer_update
                 if monitor is not None:
                     record_successful_update(
                         monitor,
@@ -200,20 +212,21 @@ def train_epoch(
                     telemetry_sample = _training_telemetry_due(
                         global_step, updates, updates_per_epoch, telemetry_interval
                     )
-                    if telemetry_sample:
+                    if telemetry_sample or optimizer_sample:
                         # The same opt-in cadence bounds rank-local diagnostic JSONL growth.
                         rank_log.write(record)
                 else:
                     telemetry_sample = True
                     rank_log.write(record)
-                if monitor_enabled and (telemetry_sample or sample):
+                if monitor_enabled and (telemetry_sample or hook_sample or optimizer_sample):
                     _append_monitor_events(
                         record,
                         epoch,
                         epoch_position,
                         global_step,
                         telemetry_sample,
-                        sample,
+                        hook_sample,
+                        optimizer_sample,
                         diagnostics,
                         monitor,
                         context,
@@ -249,7 +262,8 @@ def _append_monitor_events(
     epoch_position: float,
     step: int,
     telemetry_sample: bool,
-    sample: bool,
+    hook_sample: bool,
+    optimizer_sample: bool,
     diagnostics: DiagnosticProbe | None,
     monitor: SequenceMonitor | None,
     context: DistributedContext,
@@ -263,10 +277,19 @@ def _append_monitor_events(
                 raise RuntimeError("rank zero monitor was not initialized")
             if telemetry_sample:
                 monitor.train_step(record, epoch, epoch_position, context.device)
-            if sample:
-                if diagnostics is None:
+            if hook_sample or optimizer_sample:
+                if hook_sample and diagnostics is None:
                     raise RuntimeError("rank zero diagnostic probe is missing")
-                monitor.diagnostics(step, epoch, epoch_position, diagnostics.metrics())
+                hook_metrics = diagnostics.metrics() if diagnostics is not None else {}
+                optimizer_update = record.get("optimizer_update_diagnostics")
+                monitor.diagnostics(
+                    step,
+                    epoch,
+                    epoch_position,
+                    hook_metrics,
+                    optimizer_update if isinstance(optimizer_update, dict) else None,
+                )
+            if hook_sample:
                 monitor.resources(step, epoch, epoch_position, context.device)
         return True
 

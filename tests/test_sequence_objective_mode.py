@@ -130,6 +130,11 @@ def test_full_new_recipe_loads_and_legacy_identity_is_unchanged() -> None:
         "action": "report_only",
     }
     expected["checkpoint_retention"] = "all_epochs"
+    expected["gradient_horizon_rows"] = 1000
+    expected["optimizer_update_diagnostics_every"] = 50
+    expected["lr_role_factors"] = {"adamw": 1.0}
+    expected["lr_head_factor"] = 1.0
+    expected["lr_body_factor"] = 1.0
 
     assert candidate == expected
     assert candidate["epochs"] == 6
@@ -139,6 +144,8 @@ def test_full_new_recipe_loads_and_legacy_identity_is_unchanged() -> None:
     assert candidate["training_mask"] == "all_after_warmup"
     assert candidate["kd_weight"] == candidate["hint_weight"] == 0
     assert "objective_mode" not in DEFAULTS
+    assert "gradient_horizon_rows" not in DEFAULTS
+    assert "optimizer_update_diagnostics_every" not in DEFAULTS
     assert "objective_mode" not in legacy
     assert canonical_sha256(legacy) == LEGACY_CONFIG_SHA256
 

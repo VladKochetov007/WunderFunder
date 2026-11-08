@@ -18,6 +18,7 @@ from wnn.training.sequence_final_fit import (
     load_final_sequence_membership,
     validate_final_lstm_recipe,
 )
+from wnn.training.sequence_runtime_contract import record_sequence_runtime_contract
 
 
 @dataclass(frozen=True)
@@ -124,6 +125,7 @@ def validate_fit_data_contract(config: dict[str, Any], data: SequenceData, world
     validate_expected_fold(config, data.split.fold)
     if config.get("objective_mode") == STANDALONE_LABELS_OBJECTIVE_MODE:
         _record_standalone_labels_contract(config, data)
+    record_sequence_runtime_contract(config, data.provenance)
     return True
 
 

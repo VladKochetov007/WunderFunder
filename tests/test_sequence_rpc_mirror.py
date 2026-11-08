@@ -209,3 +209,45 @@ def test_panel_file_queue_keeps_source_times_and_rank_curves_out_of_liveness(
         assert "train/loss" in optimized["metric_keys"]
         assert (tmp_path / "native" / "b300-cell-fit").is_dir()
         assert (tmp_path / "native" / "b300-opt-cell-fit").is_dir()
+
+
+def test_actual_optimizer_samples_survive_the_dense_train_stride(tmp_path: Path) -> None:
+    """Keep sampled updates 1 and 50, with actual applied rates distinct from next LR."""
+    from wnn.multistage_plot_data import read_training_events
+
+    native = _source(tmp_path / "native")
+    view = tmp_path / "view"
+    view.mkdir()
+    payload = {
+        "sampled_update_step": 1,
+        "sampling_interval": 50,
+        "applied_learning_rates": {"adamw.head": 0.02},
+        "groups": {
+            "adamw.head": {
+                "role": "adamw_matrix",
+                "parameter_partition": "head",
+                "delta_weight_over_pre_weight_norm": 0.01,
+                "applied_lr": 0.02,
+            }
+        },
+    }
+    rows = []
+    for step in (1, 2, 50):
+        row = {"step": step, "total_loss": 0.5, "learning_rates": {"adamw.head": 0.03}}
+        if step in (1, 50):
+            row["optimizer_update_diagnostics"] = payload | {"sampled_update_step": step}
+        rows.append(row)
+    (native / "rank0.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8"
+    )
+    update_rank0_view(native, view, {})
+    events, policy = read_training_events(view / "monitor_rank0.jsonl")
+    assert [event["step"] for event in events] == [1, 50]
+    assert policy["diagnostic_events_seen"] == 2
+    assert all(event["kind"] == "diagnostics" for event in events)
+    assert events[0]["metrics"]["optimizer_update/group/adamw.head/applied_lr"] == 0.02
+    assert events[0]["metrics"]["optimizer/lr/adamw.head"] == 0.03
+    assert (
+        events[0]["context"]["optimizer_update_groups"]["adamw.head"]["parameter_partition"]
+        == "head"
+    )

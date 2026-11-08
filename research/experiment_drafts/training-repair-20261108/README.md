@@ -1,6 +1,6 @@
 # Five-point training repair, 8 November 2026
 
-Status: points 1–4 implemented; no new fits or GPU measurements.
+Status: all five points implemented and CPU checked; no new fits or GPU measurements.
 Objective mode: engineering. Tier A tests verify software contracts; empirical
 score benefit remains unmeasured (exposed official valid, no fresh holdout).
 
@@ -57,8 +57,13 @@ fail-closed contracts. Run Ruff and check_training_structure on changed modules.
 | 2 | implemented; CPU checked | POINT2_L4.md; 37 tests passed, 1 dependency skip; independent JS guard 41 groups/21 keys, actual full B3280 journal rendered (12 files, no inference); Ruff and structure 156/0. |
 | 3 | implemented; CPU checked | POINT3_L4.md; 30 focused tests passed, plus 4 checkpoint/restore/resume tests; report-only plateau keeps the configured endpoint and retains epoch snapshots; Ruff and structure 156/0. Full CLI resume is unverified on Windows (`resource` import limitation). |
 | 4 | implemented; CPU checked | POINT4_L4.md; 68 focused tests passed; standalone WMSE mode matches legacy label-only value/gradient; legacy config SHA preserved; Ruff and structure 156/0. No fits or quality claims. |
-| 5 | pending | |
+| 5 | implemented; CPU checked | POINT5_L4.md; 99 core tests plus 10 view/dashboard/mirror tests; actual-step observational parity, identity-bound GRU1000-row horizon, neutral LR controls, sampled updates 1 and every 50. Seven plot families rendered from a synthetic CPU producer fixture; hardware overhead remains unmeasured. |
 
 Each point adds a receipt with rationale, files, exact checks, limitations and
 operational thresholds. GPU memory/time/quality remain unmeasured until admitted
 profiles and paired fits; preserve failed checks with their correction.
+
+See [NEXT_RUN_AND_MONITORING.md](NEXT_RUN_AND_MONITORING.md) for the exact
+starting recipes, online interpretation, admission measurements and decision
+criteria. Each point has a separate commit on the L4/UI and B300 runtime branches.
+No new GitHub result or validation/public score is claimed by this repair.

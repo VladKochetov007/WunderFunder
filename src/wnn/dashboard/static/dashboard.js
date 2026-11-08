@@ -223,6 +223,19 @@ function comparableScoreKeys() {
     && (key === "train_eval/score" || key === "control/score" || key === "valid/score" || key.includes("/wp/")));
 }
 
+function optimizerUpdateGroups(addMetricGroup) {
+  const groupKeys = (suffix) => findKeys((key) => key.startsWith("optimizer_update/group/") && key.endsWith(`/${suffix}`));
+  return [
+    ...addMetricGroup("Actual relative weight updates", "Measured ||W_after - W_before|| / ||W_before|| for non-floored groups. Zero/tiny pre-weight norms are omitted here; absolute updates and denominator flags remain visible.", groupKeys("delta_weight_over_pre_weight_norm")),
+    ...addMetricGroup("Actual update RMS", "RMS of the actual parameter change, including decay, measured only on sampled updates.", groupKeys("delta_weight_rms")),
+    ...addMetricGroup("Pre-update weight RMS", "Full-group parameter RMS before the sampled optimizer update.", groupKeys("pre_weight_rms")),
+    ...addMetricGroup("Applied group learning rates", "Rates captured before optimizer.step and before scheduler.step; separate from the legacy next scheduled rates.", groupKeys("applied_lr")),
+    ...addMetricGroup("Sampled group gradient norms", "Actual pre-clip and post-clip gradient norms, by parameter group.", [...groupKeys("preclip_gradient_norm"), ...groupKeys("postclip_gradient_norm")]),
+    ...addMetricGroup("Sampled optimizer state norms", "Momentum and exp_avg norms from supported optimizer states. State tensor counts remain available in the metric picker.", [...groupKeys("momentum_norm"), ...groupKeys("exp_avg_norm")]),
+    ...addMetricGroup("Relative-update denominator flags", "A nonzero value means the relative update used its explicit floor; inspect absolute update RMS for these groups.", groupKeys("zero_weight_denominator_count")),
+  ];
+}
+
 function metricGroups() {
   const cohortMetricKeys = (group, predicate) => findKeys((key) => /^(train_eval|valid|control)\//.test(key)
     && key.split("/")[1] === group && predicate(key));
@@ -261,6 +274,7 @@ function metricGroups() {
     ...["z", "reference", "mixture"].flatMap(componentDistributionGroups),
     { title: "Per-target score t0", subtitle: "Recorded t0 series; row masks are recorded per cohort", keys: targetScoreKeys("t0") },
     { title: "Per-target score t1", subtitle: "Recorded t1 series; row masks are recorded per cohort", keys: targetScoreKeys("t1") },
+    ...optimizerUpdateGroups(addMetricGroup),
     { title: "Learning rate", subtitle: "Recorded optimizer learning rate", keys: findKeys((key) => key === "optimizer/lr" || key.startsWith("optimizer/lr/") || key.endsWith("/learning_rate")) },
     { title: "Gradient norm", subtitle: "Recorded optimizer gradient norm", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("grad") && key.includes("norm")) },
     { title: "Gradient clipping", subtitle: "Recorded clipping threshold, fraction, or count", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("clip")) },

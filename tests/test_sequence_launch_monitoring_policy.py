@@ -361,6 +361,32 @@ def test_profile_budget_counts_profile_updates_and_statuses_only() -> None:
     assert budget.estimated_total_bytes == 229_376
 
 
+@pytest.mark.parametrize(
+    ("total", "hook_every", "optimizer_every", "expected_diagnostics"),
+    [(100, 20, 50, 7), (100, 50, 50, 3), (100, 1, 50, 100), (10, 20, 50, 1)],
+)
+def test_monitor_budget_counts_unique_merged_optimizer_probe_steps(
+    total: int, hook_every: int, optimizer_every: int, expected_diagnostics: int
+) -> None:
+    budget = validate_monitor_event_budget(
+        total,
+        1,
+        10,
+        hook_every,
+        optimizer_update_diagnostics_every=optimizer_every,
+    )
+
+    assert budget.event_counts["diagnostics"] == expected_diagnostics
+    assert budget.event_counts["resources"] == (total + hook_every - 1) // hook_every
+
+
+def test_legacy_monitor_budget_preserves_conservative_cadence_estimate() -> None:
+    budget = validate_monitor_event_budget(10, 1, 10, 20)
+
+    assert budget.event_counts["diagnostics"] == 1
+    assert budget.event_counts["resources"] == 1
+
+
 def test_extended_writer_enforces_each_kind_cap_and_preserves_legacy_line_limit(
     tmp_path: Path,
 ) -> None:

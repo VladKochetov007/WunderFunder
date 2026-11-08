@@ -20,4 +20,4 @@ def test_dashboard_preserves_metrics_without_mixing_units() -> None:
     assert result.returncode == 0, result.stdout + result.stderr
     receipt = json.loads(result.stdout)
     assert receipt["status"] == "passed"
-    assert receipt["checked_keys"] >= 21
+    assert receipt["checked_keys"] >= 29

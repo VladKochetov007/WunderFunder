@@ -13,6 +13,7 @@ from wnn.training.sequence_config_validation import validate_monitoring_config
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_fit_monitor_setup import (
     initialize_monitor,
+    prepare_fit_monitoring_plan,
     record_monitoring_plan,
     select_train_eval_members,
 )
@@ -165,3 +166,43 @@ def test_report_only_plan_labels_exposed_best_and_keeps_control_role_distinct() 
     assert control_plan["evaluation_role"] == "control"
     assert "inner control" in control_plan["checkpoint_selection"]
     assert "official valid" not in control_plan["checkpoint_selection"]
+
+
+def test_fit_monitor_plan_records_optimizer_sampling_and_merged_budget() -> None:
+    config = {
+        "epochs": 2,
+        "optimizer_update_diagnostics_every": 50,
+        "model": {"architecture": "gru", "input_feature_mode": "raw112"},
+        "monitoring": {
+            "train_eval_sequences": 1,
+            "train_eval_mask": "all_after_warmup",
+            "train_eval_selection": "hash_rank_v1",
+            "diagnostics_every_steps": 20,
+            "eval_batch_size": 1,
+            "training_telemetry_every_steps": 10,
+        },
+    }
+    data = SimpleNamespace(
+        split=SimpleNamespace(
+            evaluation_role="valid",
+            evaluation_source="valid.parquet",
+            evaluation_mask="is_scored",
+        ),
+        evaluation=SimpleNamespace(members=[("valid", 2)]),
+        provenance={},
+    )
+
+    full_budget, profile_budget = prepare_fit_monitoring_plan(
+        config, data, [("train", 1)], schedule_updates=100, profile_updates=10
+    )
+
+    assert full_budget is not None and profile_budget is not None
+    plan = data.provenance["monitoring_plan"]
+    assert plan["optimizer_update_diagnostics"] == {
+        "sampling_interval": 50,
+        "includes_first_update": True,
+        "event_kind": "diagnostics",
+    }
+    assert full_budget.event_counts["diagnostics"] == 7
+    assert full_budget.event_counts["resources"] == 5
+    assert profile_budget.event_counts["diagnostics"] == 1
