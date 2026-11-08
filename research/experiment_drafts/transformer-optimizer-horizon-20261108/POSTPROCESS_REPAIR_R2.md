@@ -49,3 +49,11 @@ capsule and scientific plan stay unchanged. ROOT records the actual new source
 commit, native preflight, owner/birth and status in the execution artifact root.
 These scripts are specific to this dated cohort and original clock; they are
 not a reusable admission for another experiment.
+
+## Actual native handoff
+
+[POSTPROCESS_NATIVE_R2.json](POSTPROCESS_NATIVE_R2.json) records actual staged
+source986cbd054 and timeout-owner PID1836824 /birth158483562. Native preflight
+passed against the real plan, authority, six config files, source manifest and
+frozen R1 grader. The worker was observed waiting for the original receiver;
+no premature exit proof exists. The original source5d73bc2b1 fits continue.

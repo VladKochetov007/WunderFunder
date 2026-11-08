@@ -30,13 +30,21 @@ the root-level `comparison.json`. It first checks the fixed plan SHA
 `b40ba65c7c2495f1a08a42331800ce8090bf9bbe63e7cb5514af401e784cf1c0`, then reads
 only each of the six literal cells' `fit/terminal_status.json` and
 `fit/score.json`, plus `R/comparison.json`. It refuses symlinks, changed files,
-files above4MiB, or more than8MiB aggregate data. It never reads weights, input
+files above4MiB, or more than16MiB aggregate data. It never reads weights, input
 rows, source code, control state or process identities and writes nothing on the
 native host. ROOT keeps RPC request/result ownership and executes the collector
 source in memory with the frozen runtime and plan paths; no collector script is
 installed or invoked on the native host. ROOT saves the returned JSON as the
 local `readout-bundle.json`; the reporter checks its plan/source binding and
 byte bound before use.
+
+The R2 envelope follows actual producer sizes: the first completed cell has a
+724,777-byte terminal record and a1,870,045-byte score record. Six equal pairs
+already require15,568,932 bytes before the small comparison; the original8MiB
+aggregate could not retain the complete panel. The13-file test verifies the
+larger bounded collection, while the4MiB individual-file rejection remains.
+The original eight-test receipt is retained as `focused-reporting-tests.xml`;
+the nine-test R2 receipt is `focused-reporting-tests-r2.xml`.
 
 The progress signature changes on a new validated canonical score, final byte
 audit, or producer failure. Otherwise the existing pending-marker publisher

@@ -97,6 +97,22 @@ def test_readout_collector_rejects_wrong_panel_and_bounds_each_file(
     assert "byte bound" in value["files"][key]["reason"]
 
 
+def test_readout_collector_accepts_thirteen_valid_files_over_eight_mib(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    plan_path, digest = _write_plan(tmp_path, monkeypatch)
+    payload = json.dumps({"padding": "x" * 850_000}).encode()
+    for name in collect_readouts.EXPECTED_CELLS:
+        fit = tmp_path / "runs" / name / "fit"
+        fit.mkdir(parents=True)
+        for filename in ("terminal_status.json", "score.json"):
+            (fit / filename).write_bytes(payload)
+    (tmp_path / "comparison.json").write_bytes(payload)
+    value = collect_readouts.collect_readouts(tmp_path, plan_path, digest)
+    assert 8 * 1_048_576 < value["total_bytes"] <= 16 * 1_048_576
+    assert all(entry["status"] == "read" for entry in value["files"].values())
+
+
 def _grade_fixture() -> tuple[dict, dict, dict, dict]:
     ids = {
         "source": progress.SOURCE_SHA256,
