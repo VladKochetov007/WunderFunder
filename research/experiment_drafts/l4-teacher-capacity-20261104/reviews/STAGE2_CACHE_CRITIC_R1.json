@@ -1,0 +1,76 @@
+{
+  "schema": "wnn.l4-stage2-cache-independent-review.v1",
+  "review_id": "STAGE2_CACHE_CRITIC_R1",
+  "reviewed_at": "2026-11-04",
+  "reviewer_scope": "independent_read_only_source_review",
+  "decision": {
+    "cpu_init": "approve_exact_qualified_pr60_cache_only",
+    "teacher_add_finalize": "conditional_actual_node_artifact_review",
+    "student_fits": "not_admitted_by_this_review"
+  },
+  "source_hashes": {
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_common.py": "1067be5942012374f28c755fc7374464821b4b518a44680da75b9164f48b149a",
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_finalize.py": "b2108be47a63e4e3806142fac30f5d3a9d63448304b130277d77b5c8ae984ba9",
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_native.py": "10a3029dbf477340bd54c0eadf441372494a5a1dc8e3d6ab5ab3f75d43e489b",
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_teachers.py": "316b7fc10734f326cd99b8b3fd0b02ceed70d5c09b2976b308b15e92cb03790",
+    "scripts/l4_teacher_capacity_20261104/stream_stage2_targets.py": "0c7b98fc18b9160b912871885937d9ee77c0596b6550e02609e3a2d4f26a5c43",
+    "research/experiment_drafts/l4-teacher-capacity-20261104/STAGE2_HANDOFF_R1.md": "f2da733ca4c81d54d5d429bff3fca5b231cfa6f061c80fb4c4aa8d60b0258c82"
+  },
+  "frozen_recipe": {
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "official_valid_sequences": 1873,
+    "target_formula": "float32(0.8*T_old + 0.2*0.8125*mean(clip(each_new_teacher,-2,2)))",
+    "teacher_epoch_zero_based": 3,
+    "student_epochs": 2,
+    "student_fixed_checkpoint_epoch_zero_based": 1,
+    "student_distill_alpha": 0.7,
+    "student_family_weight": 0.1
+  },
+  "qualified_pr60_base_cache": {
+    "metadata_sha256": "f9e983f311589f3510263cf5f75dbfd113b799693d2e69e078989aa313469536",
+    "main_source_train_sha256": "a5e298741d0d4ac251cb5068bf8a1a8d772f1e534efa739cc717d069c6d2f31e",
+    "families_train_sha256": "ed1ebad4912908d6a476b49b53b2169b793fefb07966ab7a107559f1105bad20"
+  },
+  "static_checks": {
+    "official_chronological_split_and_order": "pass",
+    "exact_pr60_base_cache_hash_pins": "pass",
+    "native_gru_checkpoint_and_recursive_ancestry_helpers": "pass_actual_node_pending",
+    "transformer_r4_config_profile_device_and_source_bindings": "pass_actual_node_pending",
+    "event211_train_only_normalization_and_membership": "pass_actual_node_pending",
+    "prediction_finite_fp32_shape_and_group_order": "pass_actual_node_pending",
+    "fp32_clipping_equal_mean_and_blend_equation": "pass",
+    "native_w18_cache_schema_and_zero_row_valid_targets": "pass",
+    "retained_auxiliary_family_arrays": "pass_read_only_consumer_mapping_actual_hash_pending",
+    "new_main_target_lineage": "dedicated_stage2_receipt_required"
+  },
+  "actual_node_receipt_required_before_student_admission": [
+    "teacher_checkpoint_sha256_and_fixed_epoch",
+    "full_config_and_panel_sha256",
+    "approved_profile_receipt_identity_and_device",
+    "split_and_exact_fit_membership_hash",
+    "source_fingerprints_and_event211_normalizer_identity_and_moments",
+    "strict_fp32_runtime_and_checkpoint_tensor_dtypes",
+    "recursive_teacher_parent_closure_and_prediction_hashes",
+    "qualified_pr60_base_cache_hash_tuple",
+    "target_formula_and_finalized_cache_metadata_and_array_hashes",
+    "student_initializer_and_preprocessing_identity",
+    "student_argv_and_actual_output_and_free_space_budget"
+  ],
+  "execution_by_reviewer": {
+    "tests": false,
+    "profile": false,
+    "inference": false,
+    "ssh": false,
+    "gpu": false,
+    "cache_initialization": false,
+    "teacher_aggregation": false,
+    "scientific_fit": false
+  },
+  "limitations": [
+    "Static source review only; actual teacher and output artifacts do not yet exist for this review.",
+    "The generic W18 cache validator checks schema and array identity but does not grade target_contract.teachers ancestry.",
+    "Previously inspected official validation remains exposed development evidence."
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "schema": "tabdata.fixed-eight-launch.v1",
+  "status": "approved_for_launch",
+  "authority": "User explicitly requests full execution without hypothesis changes",
+  "epochs_max": 20,
+  "seed": 1001,
+  "scientific_fits": 8,
+  "teacher_fits": 0,
+  "precision": "fp32",
+  "train_source": "official earlier train only",
+  "validation": "complete official later valid, original is_scored mask and pooled official WP",
+  "checkpoint_policy": "all epochs plus strict-best and last pointers; min5/patience4/delta0.0005 stopping",
+  "batch_status": "profiled_and_frozen",
+  "schedule": "warmup_cosine_v2 over20 configured epochs, warmup5%; deliberate adaptation from historical short OneCycle GRU",
+  "baseline_adaptation": "Fresh GRU256x2/event211, no old weights/teachers/propensity/auxiliary supervision; system-level benchmark versus raw112 GALAM",
+  "cells": [
+    {
+      "id": "g0-plain-gru256x2",
+      "gpu": 0,
+      "cpu_affinity": "0-7",
+      "numa_node": 0,
+      "config": "configs/g0-plain-gru256x2.json",
+      "config_file_sha256": "08048b42cb18de2179277332b51a322ad68643c1e84dea2368d2b98227514aa2",
+      "initial_batch_size": 32,
+      "scientific_fits": 1,
+      "batch_size": 32,
+      "profile_updates": 100
+    },
+    {
+      "id": "g1-galam-lstm64",
+      "gpu": 1,
+      "cpu_affinity": "8-15",
+      "numa_node": 0,
+      "config": "configs/g1-galam-lstm64.json",
+      "config_file_sha256": "698a654256177000b0e575a45da6ffb94066753cfbffc812ed429eeb1a9f9b5b",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    },
+    {
+      "id": "g2-galam-lstm128",
+      "gpu": 2,
+      "cpu_affinity": "16-23",
+      "numa_node": 0,
+      "config": "configs/g2-galam-lstm128.json",
+      "config_file_sha256": "58546e3f05c27af09d03c72a447146e38e404441ec91c2f238859791057a40da",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    },
+    {
+      "id": "g3-galam-depth2",
+      "gpu": 3,
+      "cpu_affinity": "24-31",
+      "numa_node": 0,
+      "config": "configs/g3-galam-depth2.json",
+      "config_file_sha256": "fd5e726eb1dc212e085b6d73eaa586954a419656780c9c0f4cf519d3046a8c66",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    },
+    {
+      "id": "g4-galam-gru72",
+      "gpu": 4,
+      "cpu_affinity": "48-55",
+      "numa_node": 1,
+      "config": "configs/g4-galam-gru72.json",
+      "config_file_sha256": "d2b2946bb0241d472627ea058229cdb5c12a2f513cf106c7a7178639944f841c",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    },
+    {
+      "id": "g5-galam-history256",
+      "gpu": 5,
+      "cpu_affinity": "56-63",
+      "numa_node": 1,
+      "config": "configs/g5-galam-history256.json",
+      "config_file_sha256": "a4e6a92b2c4698458519f7899c7e5cde34af5a988ed643820d25740066cba205",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    },
+    {
+      "id": "g6-galam-tbptt256",
+      "gpu": 6,
+      "cpu_affinity": "64-71",
+      "numa_node": 1,
+      "config": "configs/g6-galam-tbptt256.json",
+      "config_file_sha256": "62af80d1a28d819b3bf7cda1b6fcd7cd2de500aab387b33201055d8edc838ce7",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 80
+    },
+    {
+      "id": "g7-galam-muon",
+      "gpu": 7,
+      "cpu_affinity": "72-79",
+      "numa_node": 1,
+      "config": "configs/g7-galam-muon.json",
+      "config_file_sha256": "5ab5647288342ef0d777601a80b6fa16a4163cbe36128f5721a06607114d9865",
+      "initial_batch_size": 16,
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
+    }
+  ],
+  "engineering_basis": "R2 strict-FP32 L4 shape probes: GALAM384 improves rows/s over128/256 and fits bounded synthetic memory. Full20k-row current+prefetched input buffers and diagnostic overhead still require real-source profiles. Plain GRU32 retains audited scratch batch; eval384 is report-only.",
+  "resource_review_sha256": "9a407670b50600d3e0bab51f5237af7fb94f840cfd506ea1c223fcc14d7f92a1",
+  "training_source_sha256": "f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230",
+  "source_git_sha": "50053909e365549b9146002d6c7d9118b81e9f97",
+  "approved_at": "2026-10-28T05:57:15.046223+00:00",
+  "fit_train_sequences": 10325,
+  "fit_valid_sequences": 0,
+  "primary_valid_sequences": 1873,
+  "profile_approvals": {
+    "g0-plain-gru256x2": {
+      "raw_receipt_sha256": "b41cdc6f1dc771b7b301e0c42a0ca5298d02636a9aa7a4886918debd9ec9750d",
+      "approved_receipt_sha256": "9cddd69169b773ffb1df718d2dd182b00ce770d9501287f866e0e36a5bd9bea3"
+    },
+    "g1-galam-lstm64": {
+      "raw_receipt_sha256": "66727b7d01ba53f4128648a2e646352629b1e28a5a24ee58ed8044d734552914",
+      "approved_receipt_sha256": "f2d8ff53e77288d7c481f105c3816dc85c658dce1b682473a6c8175da0dc9329"
+    },
+    "g2-galam-lstm128": {
+      "raw_receipt_sha256": "3c418d5e539bc54e445e447bcb725e99023c724ba9920557776d13d4fc64b982",
+      "approved_receipt_sha256": "15ea4347060efe6e299d5ba64ddcf6c4f3454ef5efcb22ec5dba62218a919367"
+    },
+    "g3-galam-depth2": {
+      "raw_receipt_sha256": "8d3a1a40c873fc6e92aa28759b9d68443fb662a1878cfed3a7bf1fbef75e8c52",
+      "approved_receipt_sha256": "1f9e215d4499dd610ae3c347627a486b242b7188580870878845bd288c00149d"
+    },
+    "g4-galam-gru72": {
+      "raw_receipt_sha256": "c82ea3939c2895fc4ca40f7986beff265968a57b8d174888facbeb5eda631914",
+      "approved_receipt_sha256": "2b98c4f7774ea228d2bd5c559512fd3f87460c7dcbc7ce0ccbb2054d47206365"
+    },
+    "g5-galam-history256": {
+      "raw_receipt_sha256": "e04ff70fff8e68bf1497aa18be21cfbd9c520ce0dc6581d9fe97e3d7ba399f1b",
+      "approved_receipt_sha256": "9216168316f5f1dc9a51d127d70ceb9b8349d94754bb164bc1bffbd07ce7a172"
+    },
+    "g6-galam-tbptt256": {
+      "raw_receipt_sha256": "45ea68427145789ae18ac570d85f572987e4e13f1b4265fe2506be3fd2529d16",
+      "approved_receipt_sha256": "19e4bd92eb594722e71c3c430fc4e4e03a726b80f2ab6b5b3e74a9bf5d41d611"
+    },
+    "g7-galam-muon": {
+      "raw_receipt_sha256": "cee80af46a57d8546ef6cf15fced69b72fe6d5c75e9943358925566ef473a307",
+      "approved_receipt_sha256": "e25efd7993cae2c18028c8e4e3532ff83e2787ecae0b0a648806834669430502"
+    }
+  }
+}

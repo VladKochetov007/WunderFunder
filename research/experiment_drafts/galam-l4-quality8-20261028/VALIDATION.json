@@ -1,0 +1,17 @@
+{
+  "schema": "wnn.quality8-preparation-checks.v1",
+  "date": "2026-10-28",
+  "source_base": "aac25c7c38fa9e39ff00a25a6b35f729bc00f047",
+  "checks": ["Eight JSON recipes accepted by canonical load_config", "All eight effective GALAM variants constructed on one-thread CPU and counted", "Packet JSON parsed", "Existing local train footer metadata inspected without row payload", "git diff --check passed", "Remote post-cleanup exact target absence and tabdata source/Python presence verified"],
+  "scientific_fits": 0,
+  "forward_passes": 0,
+  "optimizer_steps": 0,
+  "gpu_profiles": 0,
+  "downloads": 0,
+  "tests_added": 0,
+  "scope": "Config and documentation preparation plus user-authorized RSNA deletion. No new trainer implementation; the historical92-test receipt is not rerun or promoted to receiving-data compatibility.",
+  "open_code_gates": ["Train has no is_scored, while present monitored train-eval cohort requires it", "Legacy row-group528 exclusion conflicts with complete-coverage manifest generation", "Receiving Torch2.8+cu128 differs from locally checked Torch2.14 and cu130 lock"],
+  "eta": null,
+  "quality": null,
+  "remote_training_or_monitoring_started": false
+}

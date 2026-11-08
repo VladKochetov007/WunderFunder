@@ -1,0 +1,59 @@
+{
+  "pid": 1341552,
+  "start_ticks": "2078217019",
+  "only_controller_signaled": true,
+  "reason": "identified source-identity representation mismatch in cache adoption",
+  "jobs": {
+    "export-tcn_s1202-train-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-tcn_s1202-train-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-tcn_s1202-train-r1.json",
+      "runner_pid": 1342149,
+      "runner_start_ticks": "2078224881",
+      "phase": "train_export",
+      "role": "tcn_s1202",
+      "gpu": 1,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "running",
+        "started_utc": "2026-10-30T18:32:12.698380+00:00",
+        "request_sha256": "9c0629e13ff8117e6a30fd5ea691f266a845de08a3cedd4a3c5d34664c4b8262",
+        "command_sha256": "30ddf4fe2357bbb128d85e1ddcf6adc5b65af827c70427d5d1af67270ea4bdfd",
+        "phase": "train_export",
+        "role": "tcn_s1202",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-tcn_s1202-train-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1342149,
+        "runner_start_ticks": "2078224881",
+        "pid": 1342152,
+        "start_ticks": "2078224885",
+        "process_group": 1342152,
+        "session": 1342152,
+        "command_started_utc": "2026-10-30T18:32:12.703212+00:00"
+      }
+    }
+  },
+  "errors": {
+    "cache:gru-only": "ValueError: external owned request/source differs: cache-gru-only-r2"
+  }
+}

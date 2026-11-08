@@ -1,5 +1,58 @@
 # Active frontier
 
+Current7 November: [architecture portfolio](unified/ideas/architecture_portfolio_20261107/README.md)
+is prepared from independent lenses and a fresh GitHub source read. Highest new
+representation priority is carried memory plus local attention; PR67 is the
+existing implementation-backed fixed-TL3-contribution handoff, still unrun.
+Old PR61 terminal status is10/12 fits completed, both TF teachers finished,
+TF students unstarted after profile identity rejection. No old allocation is
+active by inference from earlier notes. The proposed8B300/8L4 use is planning
+only; no new compute or empirical gain occurred. Retain sibling/duplicate
+mechanisms and exposed validation labels explicitly.
+
+Current4 November: [the four-fit clipping/objective comparison is complete](experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md).
+Clip5 mean delta−.000058670; late auxiliary anneal−.000212692 against matched
+fixed-ep3 controls. The exact spending gate returned `no_students`; neither
+change is promoted. PR61 wide-student canonical mean delta is−.000203715;
+all28 completed teacher/student epoch checkpoints are published. Two original
+Transformer teachers remain running under the separate old authority. Continue
+that evidence path before repeating numerical optimizer tuning.
+
+[Actual PR61 R5 handoff](experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md):
+the original TF fits and detached continuation are active. The independent
+cache-checker/publisher receiving gate passed; completion/hourly GitHub updates
+are running. This is an operational handoff, not another measured quality gain.
+
+Earlier4 November: the user authorizes improving the served W18 endpoint on
+the existing eight L4. [PR62 objective follow-up](experiment_drafts/l4-objective-20261104/README.md)
+has four fresh GRU256x2 fits after four finite FP32 profiles: paired clip5 and
+late auxiliary anneal, fixed4E/ep3. Reuse PR61 teacher and PR60 student controls;
+at most two students require the frozen teacher gain gate. Official train-only
+ancestry/full official valid remain primary; valid is exposed. The failed
+no-update diagnostic provided no gradient evidence. No gain is claimed yet.
+PR61's two Transformer teachers remain running; its two completed wide-teacher
+students are being canonically graded through a separate recovery of the
+reference-sidecar filename check, without refitting. Older allocations below
+are historical and do not override the live receiving authorities.
+
+Current instruction,2026-10-31: prepare the [full-corpus final submission](experiment_drafts/final-submit-all-labeled-20261031/README.md)
+under [ADR0045](../specs/adr/0045-submission-only-all-labeled-final-fit.md).
+Reuse the fixed TL3+LSTM architecture; no broad new search. Audit all12480
+source-qualified groups, final-only teacher/cache ancestry, CPU serving and
+actual bounded profiles before full fits. Final valid is fitting data; old
+honest train-only scores remain recipe evidence. No platform upload yet.
+
+Current scoped continuation,2026-10-31: the user approved the
+[five-fit batch/TBPTT screen](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+after the completed multistage wave. Fixed4E, exact reused A/1301, official
+train-only ancestry, two matched seeds per arm; no open-ended search. The six
+cheap prior-model mixtures are complete;90%TL3+10%LSTM scores0.692502063 versus
+TL30.692377425 on exposed official valid. [Final endpoints](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+are complete: B-A negative at both seeds, C-B mixed, all six new GRU-pool/TL3
+mixtures negative. Five configured-final weights and17rows are published; all
+owned GPU commands exited. No successor is queued. Foreign NIER/MPS preserved.
+The older dated allocations and targets below are historical.
+
 Current continuation, 2026-10-04: implementation and autonomous local/Kaggle
 GPU/TPU research are user-authorized. Read
 [the execution contract](campaign_2026-10-04/EXECUTION_CONTRACT.md) and

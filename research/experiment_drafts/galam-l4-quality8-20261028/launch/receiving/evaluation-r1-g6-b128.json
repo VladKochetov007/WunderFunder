@@ -1,0 +1,69 @@
+{
+  "config": {
+    "architecture": "galam",
+    "input_feature_mode": "raw112",
+    "input_width": 112,
+    "path": "/data2/lc-epanov_s/tabdata/runtime/launch-20261028/source-r4/research/experiment_drafts/galam-l4-quality8-20261028/launch/configs/g6-galam-tbptt256.json",
+    "seed": 1001,
+    "sha256": "62af80d1a28d819b3bf7cda1b6fcd7cd2de500aab387b33201055d8edc838ce7"
+  },
+  "evaluation": {
+    "batch_size": 128,
+    "chunk_rows": 256,
+    "device_event_seconds": 197.1929375,
+    "elapsed_seconds": 197.19278536364436,
+    "forwarded_rows": 7680000,
+    "forwarded_rows_per_second": 38946.658143893386,
+    "metrics": {
+      "valid/loss": 2.3014476394871703,
+      "valid/prediction_clipped_fraction": 0.0,
+      "valid/prediction_mean": 0.31070834639536254,
+      "valid/prediction_std": 0.3751838187075894,
+      "valid/selected_rows": 729759,
+      "valid/sequence_count": 384,
+      "valid/wp": 0.037525972517489806,
+      "valid/wp/t0": 0.09488260531079631,
+      "valid/wp/t1": -0.0198306602758167
+    },
+    "peak_allocated_bytes": 117125632,
+    "peak_allocated_delta_bytes": 115604480,
+    "peak_reserved_bytes": 148897792,
+    "selected_rows_per_second": 3700.7388412017567
+  },
+  "membership": {
+    "official_split": "complete later valid source",
+    "row_groups_sha256": "4b32c0cfd27e742ebdf2bc2801143a2b53f036e88ffabbde9b0f19d09cab94e7",
+    "selected_sequences": 384,
+    "selection": "first physical row groups; deterministic subset, not chronological order"
+  },
+  "no_fit_or_checkpoint": true,
+  "normalization": {
+    "mean": 0.0,
+    "mode": "identity defaults; no moments fitted or loaded",
+    "std": 1.0
+  },
+  "normalization_history": "untrained/no moments",
+  "precision": {
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "matmul_precision": "highest",
+    "mode": "fp32"
+  },
+  "purpose": "actual_valid_subset_engineering_only",
+  "quality_claim": "none_untrained_weights",
+  "row_source": "/data2/lc-epanov_s/tabdata/data/datasets/valid.parquet",
+  "schema": "tabdata.untrained-validation-evaluation-probe.v1",
+  "source": {
+    "audit_path": "/data2/lc-epanov_s/tabdata/runtime/launch-20261028/source-r4/research/experiment_drafts/galam-l4-quality8-20261028/SERVER_AUDIT.json",
+    "audit_sha256": "78d2930084d55d2bbe03640f49f955623c69776c2b134215066fbca33f738c83",
+    "identity": {
+      "bytes": 5615509128,
+      "row_groups": 1873,
+      "rows": 37460000,
+      "sha256_receipt_pin": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+      "sha256_verification": "reused exact complete-transfer receipt; local full-file rehash not repeated"
+    },
+    "path": "/data2/lc-epanov_s/tabdata/data/datasets/valid.parquet"
+  },
+  "weights": "fresh canonical random initialization"
+}

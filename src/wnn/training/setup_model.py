@@ -13,6 +13,7 @@ from wnn.sentinel import SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_parent
+from wnn.tiedlead import LEAD_WIDTH
 from wnn.training.inheritance import (
     can_extend_research_features,
     expand_research_feature_state,
@@ -57,6 +58,9 @@ def build_model(run: TrainingRun) -> None:
         + len(research_feature_names(environment.inputs.research_features))
         + (N_FEATURES if environment.inputs.privileged_mode != "none" else 0)
     )
+    environment.inputs.tiedlead = args.enc == "tiedlead"
+    if environment.inputs.tiedlead:
+        n_in += LEAD_WIDTH
     if args.raw_only:
         environment.inputs.raw_only = True
     if args.heuristics:
@@ -157,7 +161,13 @@ def load_initializer(run: TrainingRun) -> None:
             )
         if args.qat != "none" and init.get("factorization"):
             ap.error("combined QAT and factorized initialization is not implemented")
-        validate_campaign_checkpoint(init, args, final_initializer=args.final_model_adaptation)
+        validate_campaign_checkpoint(
+            init,
+            args,
+            final_initializer=args.final_model_adaptation,
+            campaign_split=campaign_split,
+            final_fit_membership=run.data.final_fit_membership,
+        )
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)

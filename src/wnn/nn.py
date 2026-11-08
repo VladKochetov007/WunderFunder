@@ -10,6 +10,7 @@ from torch import nn
 
 from wnn.event_content import ENDPOINT
 from wnn.numeric_ple import NumericFeatureMap
+from wnn.tiedlead import LEAD_WIDTH, TIEDLEAD_INPUT_WIDTH
 
 METRIC_CLIP = 2.0
 
@@ -116,6 +117,21 @@ class RNNModel(nn.Module):
             self.conv_k = conv_k
             self.conv_dw = nn.Conv1d(encoder_width, encoder_width, conv_k, groups=encoder_width)
             self.conv_pw = nn.Linear(encoder_width, encoder_width)
+        elif enc == "tiedlead":
+            if n_in != TIEDLEAD_INPUT_WIDTH or numeric_map != "none":
+                raise ValueError("tiedlead requires the un-mapped 263-column input schema")
+            self.tied = nn.Sequential(
+                nn.Linear(2 * LEAD_WIDTH, 128),
+                nn.GELU(),
+                nn.Linear(128, 64),
+                nn.GELU(),
+            )
+            self.tied_out = nn.Linear(128, encoder_width)
+            self.lead_out = nn.Linear(64, encoder_width)
+            nn.init.zeros_(self.tied_out.weight)
+            nn.init.zeros_(self.tied_out.bias)
+            nn.init.zeros_(self.lead_out.weight)
+            nn.init.zeros_(self.lead_out.bias)
         elif enc != "linear":
             raise ValueError(enc)
         rnn = {"gru": nn.GRU, "lstm": nn.LSTM}[cell]
@@ -136,13 +152,33 @@ class RNNModel(nn.Module):
         )
 
     def encode(self, xn):
+        if self.enc == "tiedlead" and xn.shape[-1] != TIEDLEAD_INPUT_WIDTH:
+            raise ValueError("tiedlead model requires exactly 263 input columns")
         if self.numeric_feature_map is not None:
             xn = self.numeric_feature_map(xn)
         u = self.inp(xn)
+        if self.enc == "tiedlead":
+            raw = xn * self.std + self.mean
+            row_changes = torch.cat(
+                [
+                    torch.zeros_like(raw[:, :1, :104]),
+                    raw[:, 1:, :104] - raw[:, :-1, :104],
+                ],
+                dim=1,
+            )
+            i0 = self.tied(torch.cat([raw[..., :52], row_changes[..., :52]], dim=-1))
+            i1 = self.tied(torch.cat([raw[..., 52:104], row_changes[..., 52:104]], dim=-1))
+            u = u + self.tied_out(torch.cat([i0, i1], dim=-1))
+            at = raw[..., -LEAD_WIDTH:]
+            lead = self.tied(torch.cat([raw[..., 52:104], raw[..., 52:104] - at], dim=-1))
+            u = u + self.lead_out(lead)
         if self.enc == "tokens":
             b, t, _ = xn.shape
             flat = xn.reshape(b * t, -1)
-            toks = torch.stack([lin(flat[:, a:c]) for lin, (a, c) in zip(self.tok_in, self.groups)], dim=1)
+            toks = torch.stack(
+                [lin(flat[:, a:c]) for lin, (a, c) in zip(self.tok_in, self.groups, strict=True)],
+                dim=1,
+            )
             toks = self.att(torch.cat([self.cls.expand(b * t, -1, -1), toks], dim=1))
             pooled = torch.cat([toks[:, 0], toks[:, 1:].mean(1)], dim=-1)
             u = u + self.tok_out(pooled).reshape(b, t, -1)
@@ -156,6 +192,8 @@ class RNNModel(nn.Module):
         return z
 
     def forward(self, x, h=None):
+        if self.enc == "tiedlead" and x.shape[-1] != TIEDLEAD_INPUT_WIDTH:
+            raise ValueError("tiedlead model requires exactly 263 input columns")
         z = self.encode((x - self.mean) / self.std)
         o, h = self.gru(z, h)
         return self.head(torch.cat([o, z], dim=-1)), h

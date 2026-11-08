@@ -1,0 +1,65 @@
+{
+  "schema": "wnn.multistage-owned-process.v1",
+  "stage": 2,
+  "trial_number": 0,
+  "mode": "pr61-r5-results-publication",
+  "gpu_key": "cpu-publisher",
+  "owner": {
+    "source_binding_sha256": "5e9bb13ac62941869e34bb4e3fc0007032cdd34117a52c32c92b695c119f7a21",
+    "data_binding_sha256": "5dfccec74a9510e419177f22e17ceb9a15769b1209dc314132c70db9da5d1806",
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_members_sha256": "075c50995165f7a35f31c1e4f022b27fc6247270cc15ddda28075e6eeb624e19",
+    "baseline_ancestry_sha256": "f73324b9160a401c1337444c1aa4d35f525558d7b9759d73c19c048733127e2a",
+    "pr60_panel_sha256": "f3e0327fee7de17e445f4ddb8ed5983af8348490ac3ab7a2887cf19deb5661b2",
+    "continuation_panel_sha256": "02e98a78e79a8187e5432f8706ac1162e73c0ae893aab6b55aa774063a477c1c",
+    "publisher_source_binding_sha256": "b19d639e48a0391775a4c3edeb23a3ef42db242203eeb4d3bea3b8a3776d0f9e",
+    "entrypoint_path": "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5-r2/scripts/l4_teacher_capacity_20261104/publish_r5_results.py",
+    "entrypoint_sha256": "d8d1d53e16ce40aeb21a25f289a127ed4b481aa21f5a37210835616daf0fd8fe",
+    "cell_id": "pr61_r5_results_publisher",
+    "run_name": "pr61_r5_results_publisher",
+    "family": "publication"
+  },
+  "command": [
+    "/usr/bin/taskset",
+    "-c",
+    "8",
+    "/data2/lc-epanov_s/tabdata/.venv/bin/python",
+    "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5-r2/scripts/l4_teacher_capacity_20261104/publish_r5_results.py",
+    "--panel",
+    "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/control/STUDENT_CONTINUATION_PANEL_R1.json",
+    "--r5-complete",
+    "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R5_COMPLETE.json",
+    "--token-file",
+    "/data2/lc-epanov_s/tabdata/private/tabdata-pr61-r5-final.token",
+    "--deadline",
+    "1793842488.8254418",
+    "--poll-seconds",
+    "30"
+  ],
+  "command_sha256": "24e23962477d3cd7fd5e883a16f9b68375eb62227306ab4ba11530359dca93b4",
+  "cwd": "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5-r2",
+  "output_dir": "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/publication-r5",
+  "started_at_utc": "2026-11-04T19:19:55.221961+00:00",
+  "started_at_epoch": 1793819995.2219756,
+  "timeout_seconds": 22493,
+  "effective_thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "child_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "cpu_thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "status": "running",
+  "child": {
+    "pid": 1627803,
+    "pgid": 1627803,
+    "birth": "2121711137"
+  }
+}

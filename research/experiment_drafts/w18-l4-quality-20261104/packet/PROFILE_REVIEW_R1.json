@@ -1,0 +1,169 @@
+{
+    "schema":  "wnn.w18_l4_profile_review.v1",
+    "status":  "approved_for_fit",
+    "approval_scope":  "bounded resource and ETA gate only; no scientific or quality approval",
+    "reviewed_at_utc":  "2026-11-04",
+    "user_authorized_eight_fits":  true,
+    "raw_evidence":  {
+                         "archive_path":  "C:/Users/admin/Documents/Codex/reviews/tabdata-w18-l4-20261104/profile-evidence-r1.tar.gz",
+                         "archive_sha256":  "5ef6343c48350774d81d77066862e139bfada0fea82da4280781b47c69f8b985",
+                         "archive_sha256_verified_locally":  true,
+                         "profile_report_path":  "profile-evidence/receipts/PROFILE_R1.json",
+                         "profile_report_sha256":  "9ea6cd8d4ff029de5ba2ce2fd568aeeb8b4905ff9f44903775291b0c60909987",
+                         "active_panel_sha256_linux":  "f3e0327fee7de17e445f4ddb8ed5983af8348490ac3ab7a2887cf19deb56661b2",
+                         "source_data_ancestry_admission_sha256":  "b556388926504754888b3653f90f478309c8d140d9a6588b17e5017a35c2e545",
+                         "numeric_source_binding_git_lf_sha256":  "3fe830c1cafdd02b9c046755994aa4bd3cd730af3d74b27922bd8506ef656dd9",
+                         "execution_source_binding_sha256":  "08372640609f8b1ff61012019dc225fd30a749a3170e5bc84c59923125d81ea0",
+                         "json_transport_binding_sha256":  "1928b3f7e0b422fe8b5fe43f2af0dd67285c069a197f70e969a82e8b8938fab0",
+                         "node_source_git":  "685522daa9b2bb2a2a62323e35a96661678cfa43",
+                         "actual_node_byte_gate":  "passed before profiles: 315 numeric source blobs, four execution-controller files, and source/data/ancestry bindings; transport manifest proves exact CRLF reconstruction for declared JSONs",
+                         "actual_node_cpu_preflight":  "16 passed, 1 skipped; skip requires absent datasets/*.parquet"
+                     },
+    "profile_gate":  {
+                         "profile_count":  8,
+                         "profile_attempts":  8,
+                         "scientific_fit_attempts_at_profile_collection":  0,
+                         "all_exit_code_zero":  true,
+                         "all_timed_out_false":  true,
+                         "profile_batches_per_cell":  68,
+                         "warmup_batches_per_cell":  65,
+                         "timed_batches_per_cell":  3,
+                         "optimizer_attempts_per_cell":  680,
+                         "optimizer_completed_updates_per_cell":  680,
+                         "amp_skips_per_cell":  0,
+                         "all_losses_finite":  true,
+                         "all_gradients_finite":  true,
+                         "official_valid_evaluation_performed":  false,
+                         "score_or_quality_claim":  null,
+                         "cohort_profile_wall_seconds":  76.82,
+                         "cell_process_wall_seconds_range":  [
+                                                                 71.81,
+                                                                 76.12
+                                                             ],
+                         "cells":  [
+                                       {
+                                           "cell_id":  "g0_control_s1001",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  19.51,
+                                           "process_wall_seconds":  73.31
+                                       },
+                                       {
+                                           "cell_id":  "g1_control_s1002",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  19.71,
+                                           "process_wall_seconds":  72.25
+                                       },
+                                       {
+                                           "cell_id":  "g2_innovations_s1001",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  18.89,
+                                           "process_wall_seconds":  76.12
+                                       },
+                                       {
+                                           "cell_id":  "g3_innovations_s1002",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  19.04,
+                                           "process_wall_seconds":  75.72
+                                       },
+                                       {
+                                           "cell_id":  "g4_alpha50_s1001",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  19.52,
+                                           "process_wall_seconds":  72.81
+                                       },
+                                       {
+                                           "cell_id":  "g5_alpha50_s1002",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  20.01,
+                                           "process_wall_seconds":  72.36
+                                       },
+                                       {
+                                           "cell_id":  "g6_family01_s1001",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  19.75,
+                                           "process_wall_seconds":  72.94
+                                       },
+                                       {
+                                           "cell_id":  "g7_family01_s1002",
+                                           "exit_code":  0,
+                                           "updates":  680,
+                                           "skips":  0,
+                                           "finite_loss_gradient":  true,
+                                           "seq_per_s":  20.0,
+                                           "process_wall_seconds":  71.81
+                                       }
+                                   ]
+                     },
+    "resource_review":  {
+                            "gpu":  {
+                                        "device":  "NVIDIA L4",
+                                        "concurrent_gpus":  8,
+                                        "allocated_threads_per_cell":  8,
+                                        "aggregate_cpu_thread_budget":  64,
+                                        "sampled_free_memory_mib_range":  [
+                                                                              18974,
+                                                                              20121
+                                                                          ],
+                                        "device_total_memory_mib":  23034,
+                                        "interpretation":  "coarse resource snapshots, not peak-memory telemetry; maximum sampled usage is about 4060 MiB"
+                                    },
+                            "host":  {
+                                         "aggregate_memory_budget_bytes":  429496729600,
+                                         "maximum_sampled_cohort_owned_rss_bytes":  57090596864,
+                                         "interpretation":  "about 53.2 GiB sampled RSS against 400 GiB budget; periodic snapshots do not guarantee peak"
+                                     },
+                            "disk":  {
+                                         "sampled_free_bytes_approximately":  12856000000,
+                                         "final_output_bytes":  39316437,
+                                         "budget_output_bytes":  8000000000
+                                     },
+                            "utilization":  "timed profile snapshots showed about 84-100% GPU utilization"
+                        },
+    "eta":  {
+                "full_fit_recipe":  "2 epochs; 1,290 full sequence batches; 20,640 train-sequence exposures after drop-last",
+                "measured_training_throughput_seq_per_s_range":  [
+                                                                     18.89,
+                                                                     20.01
+                                                                 ],
+                "training_core_estimate_minutes_per_fit":  [
+                                                               17.2,
+                                                               18.2
+                                                           ],
+                "planning_estimate_minutes_per_parallel_cohort_including_setup_full_valid_passes_and_checkpoint_io":  [
+                                                                                                                          25,
+                                                                                                                          35
+                                                                                                                      ],
+                "confidence":  "moderate for warmed training-core rate; low-to-moderate for total wall ETA",
+                "basis":  "eight concurrent L4 profiles; 65 warm-up plus three timed whole-sequence batches per cell; 680 actual finite optimizer updates per cell",
+                "limitations":  [
+                                    "Only three batches contribute timed throughput; full-fit data-loader, checkpoint, and full-valid costs were not run.",
+                                    "Periodic resource snapshots are not peak memory measurements.",
+                                    "Gradient clipping at clip=1 is active and clip rates vary by recipe/seed; full-fit clipping and throughput may differ from the short profile.",
+                                    "No full-valid predictions or metrics were produced by profile mode.",
+                                    "The profile does not emit a checkpoint; inspect the serialized causal prior at the first actual fit checkpoint, without making that a profile prerequisite."
+                                ]
+            },
+    "fit_gate_decision":  "Proceed with the already user-authorized eight fits; inspect the serialized train-only prior at the first actual fit checkpoint. Profile admission does not require a checkpoint because profile mode emits none. Monitor actual full-fit memory, update counts, clipping, evaluation, and terminal receipts. This is resource/ETA only and makes no quality claim.",
+    "report_path":  "research/experiment_drafts/w18-l4-quality-20261104/packet/PROFILE_REVIEW_R1.json"
+}

@@ -1,0 +1,348 @@
+{
+  "schema": "wnn.tl3_chronological_restore.source_recipe.v1",
+  "status": "independent historical-source reconstruction; no fit, GPU, or receiver action",
+  "historical_review_checkout": {
+    "worktree": "C:/Users/admin/Documents/Codex/reviews/galam-launch-data-20261028",
+    "git_head": "7ec3c0afc7ec766ae68b201f73a9973c9ce0c14b",
+    "archived_w18_code_commit": "833aaf541155c591e930bbc6c640b8817e01a536"
+  },
+  "protocol": {
+    "authority": "current user standing instruction plus ADR0044; old TL3 memberships are historical only",
+    "primary_order": "train | valid | public | small gap | private",
+    "fit_membership": {
+      "source": "root receiving source-audit and chronological-primary receipts",
+      "fit_train_groups": 10325,
+      "fit_valid_groups": 0,
+      "full_valid_evaluation_groups": 1873,
+      "source_train_groups_not_fit": 282,
+      "note": "Use the exact source-qualified fit_train index/root receipt; do not reconstruct membership from seq_ix or Parquet order."
+    },
+    "validation_use": "Full official valid, all 1,873 groups and official is_scored mask, for evaluation only. Do not use it for fit, normalizer, teacher, initializer, propensity, target cache, endpoint selection, or learned blend weights.",
+    "data_identity": "Bind each new run and train-only prediction cache to root's receiving source audit, index, and chronological_primary manifest hashes. Historical TL3 source pins and model/cache artifacts are not inputs.",
+    "source_mask_fact": "Root's receiving source audit records no is_scored column in official train; valid does contain the mask.",
+    "evidence": ["policy_agens", "policy_adr", "root_source_receipt", "source_file_mask_behavior"]
+  },
+  "final_blend": [
+    {
+      "member": "w18final_distilled_s5@ep1",
+      "weight": 0.34,
+      "role": "W18 main-distilled student with four family targets",
+      "evidence": ["historical_final_blend", "w18_final_cli", "w18_final_metadata"]
+    },
+    {
+      "member": "fttall_tlead_s5@ep3",
+      "weight": 0.33,
+      "role": "fresh scratch tied-lead student, seed 5",
+      "evidence": ["historical_final_blend", "tiedlead_s5_log", "tiedlead_wrapper"]
+    },
+    {
+      "member": "fttall_tlead_s6@ep3",
+      "weight": 0.33,
+      "role": "fresh scratch tied-lead student, seed 6",
+      "evidence": ["historical_final_blend", "tiedlead_s6_log", "tiedlead_wrapper"]
+    }
+  ],
+  "rebuild_contract": {
+    "learned_predictor_fit_count": 17,
+    "learned_predictor_configured_epochs_sum": 54,
+    "propensity_model_fit_count": 0,
+    "removed_historical_propensity": {
+      "name": "prop_f0",
+      "replacement": "explicit neutral row weighting (no propensity model/cache; p=1 for each fit row)",
+      "applies_to": ["fin256_s3", "fin256_s4", "fttall_tlead_s5", "fttall_tlead_s6", "fbc1k_s5", "fmu128_s3", "fmu128_s4", "frawW_s3", "frawW_s4", "orgbase", "w18final_distilled_s5"],
+      "why": "The creative prop_f0 training source/command/membership is unrecovered, and the supplied official train source has no is_scored targets for a train-only propensity fit. Fitting on valid would violate the current policy. This is an explicit modified recipe; it is not called prop_f0 and no model/cache is silently reused.",
+      "effect": "For old propensity-weighted WMSE roots, retain the ordinary clipped-label magnitude weighting after warmup, with unit row propensity. Fine-tune stages with no historical propensity remain unweighted by propensity."
+    },
+    "common_new_membership_and_selection": {
+      "fit_source": "root-issued fit_train index only (10,325 groups)",
+      "evaluation_source": "full official valid only after each epoch; do not choose upstream checkpoint epochs from valid",
+      "fixed_endpoint_policy": "Use listed zero-based endpoint epochs; no best-valid replacement. The three final members are fixed at ep1/ep3/ep3.",
+      "normalization": "Scratch roots fit normalization on their exact fit_train index only. Initialized fine-tunes inherit the matching newly rebuilt parent's model and normalization buffers. W18 final inherits the fresh fbc1k_s5@ep3 buffers. Tied-lead students are scratch initialized; fttall_s5 is not a weight parent.",
+      "teacher_cache_scope": "Regenerate every cache from newly rebuilt train-only producers and the exact ordered fit_train index; no historical prediction arrays. Cache and row-order identities must be source-qualified. Do not need or use valid teacher caches for training.",
+      "fixed_blend": "FP32 0.34*W18 + 0.33*tiedlead_s5 + 0.33*tiedlead_s6 on identical full-valid ordered rows; do not fit or retune coefficients. Apply the official metric's fixed clipping/mask at scoring."
+    },
+    "important_adaptations": [
+      "Every historical train+valid or valid-only fit becomes fit_train-only. The historical 10,607/600 and 1,873 counts/roles are not current memberships.",
+      "Where saved args say mask_weight=true, set false for new train-only fit because train has no is_scored column. Keep GCorr loss but train on available labels after the 99-row warmup.",
+      "Do not carry forward old F0, random/component-fold, CP30, or 30-seed protocol clauses from the design packets.",
+      "The W18 source sums and family mappings are retained but recomputed from fresh train-only leaves. orgbase stays as a first-class teacher/family target."
+    ]
+  },
+  "recipe_definitions": {
+    "fin256_root": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 256, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 32, "chunk_rows": 2000, "epochs": 4, "fixed_zero_based_checkpoint_epoch": 3, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "loss_normalization": "chunk", "lr": 0.001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16", "deterministic": false},
+        "optimizer": {"class": "Muon for eligible hidden 2D matrices plus AdamW for excluded input/output/bias parameters", "muon_lr_multiplier": 6.0, "muon_inp": false, "muon_gatewise": "none", "momentum": 0.95, "adam_beta2": 0.999, "fused_adam": true},
+        "targets_and_weights": {"initializer": "scratch", "distill_teachers": [], "main_target": "clip(y,-2,2)", "loss_normalization": "chunk", "row_weight": "abs(clip(y,-2,2)) times unit propensity; rows before warmup excluded", "aux_next": 0.3, "aux_struct": 0.3, "aux_weight": 0.5, "since_weight": 32.0, "since_floor": 0.25, "ema_teacher_weight": 1.0, "ema_decay": 0.999, "evaluate_ema": true, "legacy_valid_true_mask": "disable; no train mask", "prop_cache": false},
+        "seed": "per node: 3 or 4"
+      },
+      "historical_recorded": {
+        "known": "4 epochs, endpoint ep3, lr .001, weight_decay .01, WMSE, GRU256x2, batch32/chunk2000, empty init/distill, prop_f0 power2/eps.03, aux_next=.3, aux_struct=.3, aux_weight=.5, EMA=.999/eval EMA, seeds 3/4, train+valid including held-out valid.",
+        "optimizer": "not present in saved checkpoint args; historical optimizer is unknown",
+        "scheduler": "not present in saved checkpoint args; OneCycle is the explicit rebuild choice",
+        "proposed_resolution": "Use Muon x6 for new rebuild, as explicitly proposed (not recovered) in R2. Do not describe this as the historical optimizer."
+      },
+      "cost_per_run": {"optimizer_steps_at_10325_groups": 12920}
+    },
+    "fin256_finetune": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 256, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 16, "chunk_rows": 2000, "epochs": 2, "fixed_zero_based_checkpoint_epoch": 1, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "gcorr", "lr": 0.0001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "AdamW", "beta2": 0.999},
+        "initializer": "same-seed fresh fin256 root @ep3; inherit its normalization buffers",
+        "mask_weight": false,
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "ema_teacher": 0.0,
+        "propensity": "none"
+      },
+      "historical_recorded": "2 epochs, ep1, lr .0001, GCorr, AdamW, batch16/chunk2000, matching fin256_s3/s4@ep3 initializer, train_source=valid, mask_weight=true. Rebuild changes membership to fit_train and disables mask_weight because train has no is_scored."
+    },
+    "tiedlead_final": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "tiedlead", "base_channels": 211, "lead_channels": 52, "effective_input_channels": 263, "hidden": 256, "layers": 2, "dropout": 0.0, "RS_LEAD": 1, "tied_encoder_dims": [128, 64]},
+        "fit": {"batch_sequences": 32, "chunk_rows": 1000, "epochs": 4, "fixed_zero_based_checkpoint_epoch": 3, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "lr": 0.001, "weight_decay": 0.01, "scheduler": "onecycle", "min_lr": 0.000001, "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "Muon for eligible hidden 2D matrices plus AdamW for excluded input/output/bias parameters", "muon_lr_multiplier": 3.0, "momentum": 0.95, "adam_beta2": 0.999},
+        "initializer": "scratch; do not load fttall_s5 weights",
+        "distill_teachers": ["fin256ft_s3@ep1", "fin256ft_s4@ep1"],
+        "distill_teacher_reduction": "equal arithmetic mean",
+        "distill_alpha": 0.5,
+        "distill_bootstrap_horizon": 8,
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "ema_teacher_weight": 1.0,
+        "ema_decay": 0.999,
+        "evaluate_ema": true,
+        "legacy_valid_true_mask": "disable; no train mask",
+        "seeds": {"fttall_tlead_s5": 5, "fttall_tlead_s6": 6}
+      },
+      "historical_recorded": "Exact s5/s6 logs agree: batch32/chunk1000, 4 epochs, lr .001, OneCycle/min_lr1e-6, Muon x3, tiedlead, empty init, teachers fin256ft_s3/s4, alpha .5, boot8, prop_f0 p2/eps.03, EMA .999/evaluate EMA, train+valid plus all validation, fp16. The wrapper uses fttall_s5@ep3 only to copy args, then overrides name/seed/enc; it does not load those model weights.",
+      "cost_per_run": {"optimizer_steps_at_10325_groups": 25840}
+    },
+    "fbc1k_s5": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 256, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 32, "chunk_rows": 1000, "epochs": 4, "fixed_zero_based_checkpoint_epoch": 3, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "lr": 0.001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "Muon plus AdamW exclusions", "muon_lr_multiplier": 3.0, "momentum": 0.95, "adam_beta2": 0.999},
+        "initializer": "scratch",
+        "distill_teachers": ["fin256_s3@ep3", "fin256_s4@ep3"],
+        "distill_teacher_reduction": "equal arithmetic mean",
+        "distill_alpha": 0.5,
+        "distill_bootstrap_horizon": 8,
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "ema_teacher_weight": 1.0,
+        "ema_decay": 0.999,
+        "evaluate_ema": true
+      },
+      "historical_recorded": "Saved args: 4 epochs, ep3, lr .001, WMSE, Muon x3, scratch init, fin256_s3/s4 teachers, alpha .5, boot8, prop_f0, EMA and auxiliary settings above. No run-bound command/source/log receipt; schedule is explicitly OneCycle in rebuild."
+    },
+    "wmse128_root": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 128, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 32, "chunk_rows": 2000, "epochs": 4, "fixed_zero_based_checkpoint_epoch": 3, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "lr": 0.001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "Muon plus AdamW exclusions", "muon_lr_multiplier": 6.0, "momentum": 0.95, "adam_beta2": 0.999},
+        "initializer": "scratch",
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "since_weight": 32.0,
+        "since_floor": 0.25,
+        "ema_teacher_weight": 1.0,
+        "ema_decay": 0.999,
+        "evaluate_ema": true,
+        "raw_only": "node-specific"
+      },
+      "historical_recorded": "Saved fmu128_s3/s4 and frawW_s3/s4 args record these settings; frawW has raw_only=true. Historical runs used train+valid/include-heldout-valid. No old checkpoint or cache will be loaded."
+    },
+    "gcorr128_finetune": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 128, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 16, "chunk_rows": 2000, "epochs": 2, "fixed_zero_based_checkpoint_epoch": 1, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "gcorr", "lr": 0.0001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "AdamW", "beta2": 0.999},
+        "initializer": "same-seed fmu128 or frawW base @ep3; inherit parent normalization",
+        "mask_weight": false,
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "ema_teacher": 0.0,
+        "propensity": "none",
+        "raw_only": "inherit same parent family"
+      },
+      "historical_recorded": "2 epochs, ep1, lr .0001, GCorr, AdamW, batch16/chunk2000, valid-only fit, matching @ep3 initializer. The old `ffull` and `frawWft` wrappers are not run-bound receipts; the fresh recipe pins all arguments explicitly and sets train-only membership."
+    },
+    "orgbase": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 128, "layers": 2, "dropout": 0.0},
+        "fit": {"batch_sequences": 32, "chunk_rows": 2000, "epochs": 4, "fixed_zero_based_checkpoint_epoch": 3, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "lr": 0.001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "Muon plus AdamW exclusions", "muon_lr_multiplier": 6.0, "momentum": 0.95, "adam_beta2": 0.999},
+        "initializer": "scratch",
+        "aux_next": 0.0,
+        "aux_struct": 0.0,
+        "aux_weight": 0.5,
+        "propensity": "neutral unit row weights",
+        "ema_teacher_weight": 1.0,
+        "ema_decay": 0.999,
+        "evaluate_ema": true,
+        "seed": 3
+      },
+      "historical_recorded": "Saved model.pt args specify 4 epochs, 128x2 GRU, lr .001, WMSE, Muon x6, scratch, prop_f0 p2/eps.03, EMA, no aux. The model.pt metadata has no epoch field; ep3 is the explicit fresh fixed endpoint and R2 design choice, not a recovered historical selection fact. Keep this source in both W18 main and family labels."
+    },
+    "w18_final": {
+      "resolved_rebuild_args": {
+        "architecture": {"arch": "gru", "cell": "gru", "encoder": "linear", "input_channels": 211, "hidden": 256, "layers": 2, "dropout": 0.0, "family_outputs": 4},
+        "fit": {"batch_sequences": 16, "chunk_rows": 2000, "epochs": 2, "fixed_zero_based_checkpoint_epoch": 1, "train_membership": "fit_train only", "eval_membership": "full_valid after epoch; not used for checkpoint selection", "loss": "wmse", "lr": 0.0001, "weight_decay": 0.01, "scheduler": "onecycle", "warmup_fraction": 0.05, "final_div_factor": 100, "global_gradient_clip": 1.0, "precision": "fp16"},
+        "optimizer": {"class": "AdamW", "beta2": 0.999},
+        "initializer": "fresh fbc1k_s5@ep3 model weights and normalization",
+        "main_teacher": "w18final_teacher",
+        "main_distill_alpha": 0.7,
+        "family_teachers_in_output_order": ["w18final_fbc1k_s5", "w18final_family_full", "w18final_family_raw", "orgbase"],
+        "family_loss_weight": 0.1,
+        "aux_next": 0.3,
+        "aux_struct": 0.3,
+        "aux_weight": 0.5,
+        "ema_teacher": 0.0,
+        "propensity": "neutral unit row weights",
+        "since_weight": 0.0,
+        "seed": 5
+      },
+      "historical_recorded": "Saved args and archived final_student_lane.sh agree on 2 epochs, ep1, lr .0001, AdamW, WMSE, init fbc1k_s5@ep3, main distill alpha .7, four family aliases in this order, propensity prop_f0, and auxiliary heads. Historical scope was train+valid plus held-out valid and is replaced. The archived source did not save a schedule field; rebuild pins OneCycle explicitly."
+    }
+  },
+  "nodes": [
+    {"id": "fin256_s3@ep3", "recipe": "fin256_root", "seed": 3, "role": "base teacher and initializer", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "evidence": ["fin256_metadata_s3", "fin256_design_choice"]},
+    {"id": "fin256_s4@ep3", "recipe": "fin256_root", "seed": 4, "role": "base teacher and initializer", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "evidence": ["fin256_metadata_s4", "fin256_design_choice"]},
+    {"id": "fin256ft_s3@ep1", "recipe": "fin256_finetune", "seed": 3, "role": "direct teacher for both tiedlead finals", "parents": [{"id": "fin256_s3@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; mask_weight=true", "fixed_endpoint": 1, "evidence": ["checkpoint_metadata_fin256ft_s3"]},
+    {"id": "fin256ft_s4@ep1", "recipe": "fin256_finetune", "seed": 4, "role": "direct teacher for both tiedlead finals", "parents": [{"id": "fin256_s4@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; mask_weight=true", "fixed_endpoint": 1, "evidence": ["checkpoint_metadata_fin256ft_s4"]},
+    {"id": "fttall_tlead_s5@ep3", "recipe": "tiedlead_final", "seed": 5, "role": "final blend member, weight .33", "parents": [{"id": "fin256ft_s3@ep1", "edge": "mean teacher prediction"}, {"id": "fin256ft_s4@ep1", "edge": "mean teacher prediction"}], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "evidence": ["tiedlead_s5_log", "tiedlead_wrapper", "tiedlead_scratch_init"]},
+    {"id": "fttall_tlead_s6@ep3", "recipe": "tiedlead_final", "seed": 6, "role": "final blend member, weight .33", "parents": [{"id": "fin256ft_s3@ep1", "edge": "mean teacher prediction"}, {"id": "fin256ft_s4@ep1", "edge": "mean teacher prediction"}], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "evidence": ["tiedlead_s6_log", "tiedlead_wrapper", "tiedlead_scratch_init"]},
+    {"id": "fbc1k_s5@ep3", "recipe": "fbc1k_s5", "seed": 5, "role": "W18 initializer and strong family/main teacher source", "parents": [{"id": "fin256_s3@ep3", "edge": "equal-mean distillation target"}, {"id": "fin256_s4@ep3", "edge": "equal-mean distillation target"}], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "evidence": ["checkpoint_metadata_fbc1k"]},
+    {"id": "fmu128_s3@ep3", "recipe": "wmse128_root", "seed": 3, "role": "parent of full fine-tune and W18 main/family teacher", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "node_overrides": {"raw_only": false}, "evidence": ["w18_metadata_fmu_s3", "w18_history_finding"]},
+    {"id": "fmu128_s4@ep3", "recipe": "wmse128_root", "seed": 4, "role": "parent of full fine-tune and W18 main/family teacher", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "node_overrides": {"raw_only": false}, "evidence": ["w18_metadata_fmu_s4", "w18_history_finding"]},
+    {"id": "ffull_s3@ep1", "recipe": "gcorr128_finetune", "seed": 3, "role": "full-family and W18 main teacher source", "parents": [{"id": "fmu128_s3@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; include_heldout_valid=true", "fixed_endpoint": 1, "node_overrides": {"raw_only": false}, "evidence": ["w18_metadata_ffull_s3", "w18_history_readme"]},
+    {"id": "ffull_s4@ep1", "recipe": "gcorr128_finetune", "seed": 4, "role": "full-family and W18 main teacher source", "parents": [{"id": "fmu128_s4@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; include_heldout_valid=true", "fixed_endpoint": 1, "node_overrides": {"raw_only": false}, "evidence": ["w18_metadata_ffull_s4", "w18_history_readme"]},
+    {"id": "frawW_s3@ep3", "recipe": "wmse128_root", "seed": 3, "role": "parent of raw fine-tune", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "node_overrides": {"raw_only": true}, "evidence": ["w18_metadata_fraw_s3", "rawW_wrapper"]},
+    {"id": "frawW_s4@ep3", "recipe": "wmse128_root", "seed": 4, "role": "parent of raw fine-tune", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "node_overrides": {"raw_only": true}, "evidence": ["w18_metadata_fraw_s4", "rawW_wrapper"]},
+    {"id": "frawW_s3ft@ep1", "recipe": "gcorr128_finetune", "seed": 3, "role": "raw-family and W18 main teacher source", "parents": [{"id": "frawW_s3@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; include_heldout_valid=true", "fixed_endpoint": 1, "node_overrides": {"raw_only": true}, "evidence": ["w18_metadata_rawft_s3", "rawW_wrapper"]},
+    {"id": "frawW_s4ft@ep1", "recipe": "gcorr128_finetune", "seed": 4, "role": "raw-family and W18 main teacher source", "parents": [{"id": "frawW_s4@ep3", "edge": "loaded initialization weights and normalization"}], "historical_scope": "valid only; include_heldout_valid=true", "fixed_endpoint": 1, "node_overrides": {"raw_only": true}, "evidence": ["w18_metadata_rawft_s4", "rawW_wrapper"]},
+    {"id": "orgbase@ep3", "recipe": "orgbase", "seed": 3, "role": "required W18 main teacher and fourth family target", "parents": [], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 3, "legacy_endpoint_status": "model.pt has no saved epoch; ep3 is the explicit fresh fixed choice", "evidence": ["checkpoint_metadata_orgbase", "orgbase_r2_recipe_choice"]},
+    {"id": "w18final_distilled_s5@ep1", "recipe": "w18_final", "seed": 5, "role": "final blend member, weight .34", "parents": [{"id": "fbc1k_s5@ep3", "edge": "loaded initialization weights and normalization"}, {"id": "w18final_teacher", "edge": "main distillation target, alpha .7"}, {"id": "w18final_fbc1k_s5", "edge": "family output 0"}, {"id": "w18final_family_full", "edge": "family output 1"}, {"id": "w18final_family_raw", "edge": "family output 2"}, {"id": "orgbase@ep3", "edge": "family output 3; also contributes to main teacher"}], "historical_scope": "train+valid; include_heldout_valid=true", "fixed_endpoint": 1, "evidence": ["w18_final_metadata", "w18_final_cli"]}
+  ],
+  "derived_teacher_targets": [
+    {
+      "id": "w18final_fbc1k_s5",
+      "operation": "prediction cache alias of fbc1k_s5@ep3",
+      "model_fit": false,
+      "evidence": ["w18_teacher_cache_producer"]
+    },
+    {
+      "id": "w18final_family_full",
+      "operation": "0.5*ffull_s3@ep1 + 0.5*ffull_s4@ep1",
+      "coefficient_sum": 1.0,
+      "model_fit": false,
+      "evidence": ["w18_teacher_composition"]
+    },
+    {
+      "id": "w18final_family_raw",
+      "operation": "0.5*frawW_s3ft@ep1 + 0.5*frawW_s4ft@ep1",
+      "coefficient_sum": 1.0,
+      "model_fit": false,
+      "evidence": ["w18_teacher_composition"]
+    },
+    {
+      "id": "w18final_teacher",
+      "operation": "0.3*fbc1k_s5@ep3 + 0.1*ffull_s3@ep1 + 0.1*ffull_s4@ep1 + 0.125*frawW_s3ft@ep1 + 0.125*frawW_s4ft@ep1 + 0.0625*orgbase@ep3",
+      "coefficient_sum": 0.8125,
+      "normalization_denominator": "none",
+      "model_fit": false,
+      "application": "W18 main target is (1-.7)*clip(y,-2,2) + .7*clip(w18final_teacher,-2,2); old training code clamps the combined teacher at target use.",
+      "evidence": ["w18_teacher_composition", "distillation_target_arithmetic"]
+    }
+  ],
+  "target_arithmetic": {
+    "multi_teacher_reduction": "The legacy Sequences producer scales each listed cache, sums, then divides by teacher count. With default unit scales, fin256_s3/s4 and fin256ft_s3/s4 are equal arithmetic means.",
+    "distillation": "After y is clipped to [-2,2], target=(1-alpha)*label + alpha*clip(teacher,-2,2). For distill_boot_h=8, where the label run outlives t+8, the label term is replaced by clipped teacher[t+8] before blending with teacher[t].",
+    "weighted_wmse": "The main label row weight is abs(clipped y) times the active row propensity; rebuilt legacy-prop nodes use explicit unit propensity. Warmup rows are excluded.",
+    "family_loss": "Four family cache arrays are concatenated in the `family_teachers` order; the legacy family objective adds 0.1 times squared family-output error, weighted by abs(clipped main y) and active row mask.",
+    "evidence": ["legacy_teacher_mean", "distillation_target_arithmetic", "family_target_arithmetic"]
+  },
+  "execution_cost_estimate": {
+    "assumption": "10,325 source-qualified fit groups; DataLoader batches use drop_last=false; recurrent chunks are optimizer steps; no skipped batches.",
+    "fixed_fit_epochs": 54,
+    "predictor_runs": 17,
+    "expected_chunk_optimizer_steps_total": 258400,
+    "per_recipe_steps": {
+      "fin256_root": 12920,
+      "fin256_finetune": 12920,
+      "tiedlead_final": 25840,
+      "fbc1k_s5": 25840,
+      "wmse128_root": 12920,
+      "gcorr128_finetune": 12920,
+      "orgbase": 12920,
+      "w18_final": 12920
+    },
+    "note": "This is an optimizer-step count, not a runtime forecast. Root owns receiver profiling and source admission before the first fit."
+  },
+  "readiness": {
+    "first_useful_root_to_profile": "fin256_s3@ep3 recipe; no learned parent, directly supplies fin256ft_s3 and fbc1k_s5. Use the explicitly resolved Muon x6 rebuild choice, not a claim about the old checkpoint optimizer. Root should run source admission and actual-device profile before fitting.",
+    "missing_historical_facts_that_do_not_block_fresh_rebuild": [
+      "The fin256_s3/s4 checkpoint args omit optimizer class and do not bind the historical runner source; rebuild pins Muon x6 explicitly as a declared choice.",
+      "The historical creative prop_f0 command/fit membership/normalization and selected epoch are not recovered; rebuilt recipes deliberately use neutral row weights and do not fit on valid.",
+      "The orgbase model.pt metadata does not state its saved epoch; rebuilt orgbase uses fixed ep3.",
+      "The old W18 target arrays and their row identities are not verified; rebuild regenerates each direct and composite cache from fresh nodes and asserts one exact train row order.",
+      "Exact source-run bindings for some old checkpoint arguments are absent; new run manifests must pin current source and the fully explicit recipes in this ledger."
+    ],
+    "preserved_required_nodes": ["fbc1k_s5", "ffull_s3", "ffull_s4", "frawW_s3", "frawW_s4", "frawW_s3ft", "frawW_s4ft", "orgbase", "w18final_teacher", "w18final_family_full", "w18final_family_raw"],
+    "old_learned_checkpoints_or_prediction_arrays_reused": false,
+    "scientific_quality_claim": false
+  },
+  "evidence_index": {
+    "policy_agens": {"path": "AGENTS.md", "lines": [47, 62], "claim": "Chronological primary order and no validation ancestry; source does not establish current source timestamps."},
+    "policy_adr": {"path": "specs/adr/0044-chronological-primary-validation.md", "lines": [8, 25], "claim": "Official file boundary, whole sequences, validation excluded from fit and ancestry, seq_ix not time."},
+    "root_source_receipt": {"path": "receiver evidence: data-source-proof/source_audit.json and data-preparation-r1/chronological_primary.json", "json_pointers": ["/sources/train/has_is_scored", "/fit_train_groups", "/fit_valid_groups", "/evaluation_groups"], "claim": "Actual source counts and official train mask absence supplied by root; read-only source identity."},
+    "source_file_mask_behavior": {"path": "src/wnn/data.py", "lines": [79, 109], "claim": "Mask is optional at file level; `is_scored` read only when present."},
+    "propensity_trainer_constraints": {"path": "scripts/train_propensity.py", "lines": [39, 60], "claim": "Legacy propensity CLI defaults and its validation-fold/dev fit options."},
+    "propensity_label_training": {"path": "scripts/train_propensity.py", "lines": [92, 129], "claim": "Trainer loads valid sequence data and uses mask m as binary target; no train-side is_scored target is available in this source."},
+    "historical_final_blend": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/SOURCE_CLOSURE.json", "lines": [117, 139], "claim": "Fixed incumbent weights and endpoints .34 W18 ep1, .33 tiedlead s5 ep3, .33 s6 ep3."},
+    "historical_members_and_w18_init": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/SOURCE_CLOSURE.json", "lines": [141, 183], "claim": "W18 direct teacher names, fbc1k ep3 loaded initializer, train+valid scope, and absent run args/provenance."},
+    "tiedlead_scratch_init": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/SOURCE_CLOSURE.json", "lines": [185, 220], "claim": "Tiedlead parent checkpoint is an args donor only; init is empty and child starts from scratch."},
+    "tiedlead_wrapper": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/raw_metadata/rs1013/fatl.sh", "lines": [5, 10], "claim": "ARGS_FROM=fttall_s5 ep3; explicit seed and tiedlead override; PLE unset; RS_LEAD=1."},
+    "tiedlead_s5_log": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/raw_metadata/rs1013/logs/fttall_tlead_s5.log", "lines": [1, 6], "claim": "Resolved s5 recipe, optimizer, data scope, teachers, LR, scheduler, bootstrap and updates."},
+    "tiedlead_s6_log": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/raw_metadata/rs1013/logs/fttall_tlead_s6.log", "lines": [1, 6], "claim": "Resolved s6 recipe matches s5 except seed."},
+    "fin256_metadata_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json", "lines": [21, 258], "claim": "Saved fin256_s3 endpoint and args; optimizer class absent."},
+    "fin256_metadata_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json", "lines": [259, 497], "claim": "Saved fin256_s4 endpoint and args; optimizer class absent."},
+    "checkpoint_metadata_fin256ft_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [578, 860], "claim": "S3 valid-only fine-tune from fin256_s3 ep3, AdamW, GCorr, mask_weight=true, fixed ep1 file."},
+    "checkpoint_metadata_fin256ft_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [1142, 1424], "claim": "S4 valid-only fine-tune from fin256_s4 ep3, AdamW, GCorr, mask_weight=true, fixed ep1 file."},
+    "checkpoint_metadata_fbc1k": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [21, 296], "claim": "fbc1k_s5 args: scratch, train+valid, fin256 teachers, alpha .5, boot8, Muon x3, prop_f0, ep3 endpoint."},
+    "checkpoint_metadata_orgbase": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [1425, 1692], "claim": "orgbase args and model.pt; no endpoint epoch field."},
+    "checkpoint_metadata_prop_f0": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [1693, 1793], "claim": "Creative propensity safe metadata only: hidden64/n_in211; no args/fit provenance."},
+    "w18_final_metadata": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json", "lines": [1794, 1985], "claim": "W18 saved args, initializer, distillation, family aliases and fixed ep1 endpoint."},
+    "w18_metadata_ffull_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [30, 307], "claim": "ffull s3 valid-only fine-tune from fmu128 s3 ep3, AdamW, GCorr, ep1."},
+    "w18_metadata_ffull_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [308, 585], "claim": "ffull s4 valid-only fine-tune from fmu128 s4 ep3, AdamW, GCorr, ep1."},
+    "w18_metadata_fraw_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [586, 866], "claim": "rawW s3 scratch root, WMSE, Muon x6, train+valid, prop_f0, raw_only=true, ep3."},
+    "w18_metadata_fraw_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [867, 1147], "claim": "rawW s4 scratch root, WMSE, Muon x6, train+valid, prop_f0, raw_only=true, ep3."},
+    "w18_metadata_rawft_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [1148, 1428], "claim": "raw fine-tune s3 from matching rawW s3 ep3, valid-only GCorr/AdamW, ep1."},
+    "w18_metadata_rawft_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [1429, 1709], "claim": "raw fine-tune s4 from matching rawW s4 ep3, valid-only GCorr/AdamW, ep1."},
+    "w18_metadata_fmu_s3": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [1710, 1985], "claim": "fmu128 s3 scratch root, WMSE/Muon x6, train+valid, prop_f0, endpoint ep3."},
+    "w18_metadata_fmu_s4": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "lines": [1986, 2260], "claim": "fmu128 s4 scratch root, WMSE/Muon x6, train+valid, prop_f0, endpoint ep3."},
+    "w18_history_finding": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/FINDINGS.md", "lines": [8, 18], "claim": "Saved config identities and scope caveat; optimizer metadata is not proof of runtime optimizer state."},
+    "w18_history_readme": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/README.md", "lines": [9, 47], "claim": "Teacher aliases, ffull/raw training history, target cache identity limits, and missing orgbase provenance."},
+    "w18_teacher_cache_producer": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/source_snapshot/research/iterations/2026-10-05-wave18/full_teacher_lane.sh", "lines": [8, 19], "claim": "Prediction alias mapping and legacy train/valid cache producer procedure."},
+    "w18_teacher_composition": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/source_snapshot/research/iterations/2026-10-05-wave18/prepare_full_teachers.py", "lines": [5, 14], "claim": "Exact direct-sum coefficients, no normalization denominator, and family means."},
+    "w18_final_cli": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/source_snapshot/research/iterations/2026-10-05-wave18/final_student_lane.sh", "lines": [8, 14], "claim": "Archived W18 final command arguments and source scope."},
+    "rawW_wrapper": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/source_snapshot/research/iterations/2026-10-02-slow-fast/final_rawW.sh", "lines": [8, 15], "claim": "Archived raw-root and matching raw fine-tune args; wrapper intent is not run binding."},
+    "legacy_defaults": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "lines": [792, 900], "claim": "Legacy CLI defaults; defaults alone are not historical run proof."},
+    "legacy_optimizer_schedule": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "lines": [1276, 1305], "claim": "Muon/AdamW parameter split, LR multiplier, OneCycle total step calculation and final_div_factor."},
+    "legacy_teacher_mean": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "lines": [176, 215], "claim": "Teacher caches are scaled, averaged, then family arrays concatenated in list order."},
+    "distillation_target_arithmetic": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "lines": [1538, 1553], "claim": "Clipped labels, stopped bootstrap h, alpha blend, and absolute-label row weights."},
+    "family_target_arithmetic": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "line_spans": [[1452, 1464], [1672, 1674]], "claim": "Family label placement and 0.1 absolute-label weighted squared-error term."},
+    "tiedlead_architecture": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/wnn_nn.py", "lines": [46, 94], "claim": "Shared tied encoder and causal lead residual implementation; tied-lead input path."},
+    "tiedlead_causal_features": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py", "line_spans": [[508, 521], [580, 585], [1184, 1185]], "claim": "RS_LEAD=1 uses last i1 block at the last i0 price event and adds 52 channels."},
+    "fin256_design_choice": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/recipe.json", "lines": [138, 183], "claim": "Muon x6 is labeled as an explicit design choice because saved fin256 args omit optimizer; only this setting is reused, not the old F0/CP30 layout."},
+    "orgbase_r2_recipe_choice": {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/recipe.json", "lines": [1034, 1085], "claim": "Retain orgbase; ep3 is a new fixed endpoint because historic model.pt has no run-bound selected epoch."}
+  }
+}

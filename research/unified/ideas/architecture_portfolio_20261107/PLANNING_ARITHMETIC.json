@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.architecture-planning-arithmetic.v1",
+  "status": "arithmetic_only_not_profile",
+  "data": {
+    "fit_sequences": 10325,
+    "full_sequence_rows": 20000,
+    "processed_fit_rows_per_epoch": 206500000,
+    "objective_rows_after99_per_epoch": 205477825,
+    "float32_raw112_bytes": 92512000000,
+    "float32_event211_bytes": 174286000000,
+    "two_float32_targets_bytes": 1652000000,
+    "full_valid_two_float32_predictions_bytes": 299680000,
+    "scored_valid_two_float32_predictions_bytes": 28226184,
+    "float32_raw112_gib": 86.15851402282715,
+    "float32_event211_gib": 162.3164862394333
+  },
+  "dense_weight_examples": [
+    {
+      "approximate_parameters": 40000000,
+      "fp32_weight_bytes_per_checkpoint": 160000000,
+      "fp32_weight_bytes_for30checkpoints": 4800000000,
+      "dense_6PN_flops_for30epochs": 1486800000000000000
+    },
+    {
+      "approximate_parameters": 170000000,
+      "fp32_weight_bytes_per_checkpoint": 680000000,
+      "fp32_weight_bytes_for30checkpoints": 20400000000,
+      "dense_6PN_flops_for30epochs": 6318900000000000000
+    },
+    {
+      "approximate_parameters": 1540000000,
+      "fp32_weight_bytes_per_checkpoint": 6160000000,
+      "fp32_weight_bytes_for30checkpoints": 184800000000,
+      "dense_6PN_flops_for30epochs": 57241800000000000000
+    }
+  ],
+  "unknown": [
+    "actual_model_parameters",
+    "host_RSS_and_file_cache",
+    "GPU_VRAM",
+    "training_throughput",
+    "CPU_step_latency",
+    "wall_time",
+    "score_gain",
+    "student_transfer"
+  ],
+  "notes": [
+    "Inputs are materialized byte counts, not parquet sizes or RSS.",
+    "Parameter examples are rounded proposed sizes, not measured module counts.",
+    "Dense6PN is only a rough matmul training-work basis and excludes attention/state/data/optimizer work."
+  ]
+}

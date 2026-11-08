@@ -78,6 +78,15 @@ def save_epoch_checkpoint(
             str(model_config.get("attention_backend", "math")),
         ),
     }
+    monitoring_plan = data_provenance.get("monitoring_plan")
+    if isinstance(monitoring_plan, Mapping):
+        provenance["evaluation_annotation"] = {
+            "no_eval_during_fit": False,
+            "validation_reporting": (
+                "full official valid after each epoch; report-only; no checkpoint selection"
+            ),
+            "monitoring_plan": json_value(monitoring_plan),
+        }
     payload = {
         "checkpoint_schema": "wnn.sequence-epoch.v1",
         "model": _cpu_model_state(model),

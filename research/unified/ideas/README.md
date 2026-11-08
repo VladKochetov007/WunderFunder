@@ -1,5 +1,33 @@
 # Ideas and hypotheses
 
+- [7 November architecture portfolio](architecture_portfolio_20261107/README.md)
+  ranks carried-state/local-attention, completed-patch memory, recurrent hybrids,
+  modern Transformer/TL3-contribution and cheap statistical regressors. Three
+  independent literature lenses, current PR61/63–67 status, causal/CPU limits,
+  a proposed B300/L4 allocation and arithmetic are retained. Planning only;
+  no new model/GPU/SSH action or measured gain.
+
+- [Completed heterogeneous-teacher screen](../../experiment_drafts/heterogeneous-tl3-20261030/results/R3/README.md)
+  reports six fixed fits and12 predeclared ensembles against canonical fresh TL3.
+  Both matched student seeds improve; the two-student ensemble gains0.0004057735
+  over controls. Its tested20%TL3 addition is negative. Best tested fixed mixture
+  is90%TL3 +10%GALAM, +0.0001190223. All25outputs independently rescore within
+  5.55e-15 on exposed full valid; no public/significance claim or automatic new wave.
+
+- [Heterogeneous teachers before scaling seeds](HETEROGENEOUS_TEACHERS_20261029_R1.md)
+  records the user's GRU/LSTM/GALAM/other-family proposal, a6-new-fit paired
+  student screen, fixed family-level weights and chronological ancestry rules.
+  Existing blend gains support testing complementarity; the latest reported
+  six fine-tune regressions argue against mandatory unchanged GCorr stages.
+  Proposal only: no new fits, queue/source changes or resource allocation.
+
+- [Source-traced GALAM and four WUNDERNN directions](../sources/galam-20261027/SOURCE_IDEAS.json)
+  preserves Sultan's recurrent diversity/SWA/augmentation, Denis's dual-memory
+  fusion, AlexKlos's pretrained GRU memory and arsenyinfo's causal EMA/ridge.
+  [H-GALAM-20261027 / E-GALAM-20261027 packet](../../experiment_drafts/galam-reconstruction-20261027/README.md)
+  implements the visible GALAM graph and chronological policy only; no new
+  scientific fit or exact-reference claim. Other directions remain unrun arms.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
@@ -208,3 +236,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [R4 fixed nonlinear follow-up](../../campaign_2026-10-19/idea_screens_r4/README.md) tests four matched identity/tanh random-feature cases on the existing R3 panel. Selected endpoints lose0.009039/0.023440WP; the predeclared history alpha1 contrast remains+0.002015 with32positive fixed-prediction drop-one contrasts. No outer retuning, generic nonlinear-family rejection, full-model/public or recurrent-state claim. Results, exact22pin source, tests/reviews, audit and operational evidence are indexed together.
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
+
+- [Compact Transformer factor/LR screens with live train/val figures](../../experiment_drafts/compact-factor-sweep-20261026/README.md): eight new fits, exact PR43 controls reused; bounded profiles before admission.

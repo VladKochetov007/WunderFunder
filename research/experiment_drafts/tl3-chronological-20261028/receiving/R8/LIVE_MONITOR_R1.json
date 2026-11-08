@@ -1,0 +1,3432 @@
+{
+  "schema": "wnn.tl3-r8-live-monitor.v1",
+  "retrieved_utc": "2026-10-28T18:55:06.015562+00:00",
+  "status": "running",
+  "fits_used": 2,
+  "verified_fits": 1,
+  "nodes": {
+    "fbc1k_s5": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "ffull_s3": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "ffull_s4": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fin256_s3": {
+      "state": "complete",
+      "phase": "train_export_complete"
+    },
+    "fin256_s4": {
+      "state": "running",
+      "phase": "fit"
+    },
+    "fin256ft_s3": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fin256ft_s4": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fmu128_s3": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fmu128_s4": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "frawW_s3": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "frawW_s3ft": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "frawW_s4": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "frawW_s4ft": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fttall_tlead_s5": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "fttall_tlead_s6": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "orgbase": {
+      "state": "not_started",
+      "phase": "not_started"
+    },
+    "w18final_distilled_s5": {
+      "state": "not_started",
+      "phase": "not_started"
+    }
+  },
+  "tasks": {
+    "fit:fin256_s3": {
+      "state": "complete",
+      "pid": 4125363,
+      "started_unix": 1793206248.0,
+      "finished_unix": 1793213050.0473824,
+      "return_code": 0
+    },
+    "fit:fin256_s4": {
+      "state": "running",
+      "pid": 4182162,
+      "started_unix": 1793213328.9670267,
+      "finished_unix": null,
+      "return_code": null
+    },
+    "train-export:fin256_s3": {
+      "state": "complete",
+      "pid": 4179734,
+      "started_unix": 1793213050.3764753,
+      "finished_unix": 1793213325.6737404,
+      "return_code": 0
+    }
+  },
+  "dashboard": [
+    {
+      "run_id": "tl3c_fin256_s3",
+      "error": null,
+      "config_state": null,
+      "metrics": [
+        "cpu/process_rss_mib",
+        "evaluation/pending",
+        "gpu/device_memory_free_mib",
+        "gpu/device_memory_used_mib",
+        "gpu/power_watts",
+        "gpu/process_memory_mib",
+        "gpu/utilization_pct",
+        "optimizer/gradient_clip_rate",
+        "optimizer/gradient_clip_threshold",
+        "optimizer/gradient_family_median/bias",
+        "optimizer/gradient_family_median/head",
+        "optimizer/gradient_family_median/inp",
+        "optimizer/gradient_family_median/rnn_hh",
+        "optimizer/gradient_family_median/rnn_ih",
+        "optimizer/gradient_family_sq_share/bias",
+        "optimizer/gradient_family_sq_share/head",
+        "optimizer/gradient_family_sq_share/inp",
+        "optimizer/gradient_family_sq_share/rnn_hh",
+        "optimizer/gradient_family_sq_share/rnn_ih",
+        "optimizer/gradient_mean_clip_factor",
+        "optimizer/gradient_nonfinite_steps",
+        "optimizer/gradient_norm_preclip/q05",
+        "optimizer/gradient_norm_preclip/q50",
+        "optimizer/gradient_norm_preclip/q95",
+        "optimizer/gradient_steps",
+        "optimizer/lr",
+        "optimizer/lr/group_0/mean",
+        "run/completed",
+        "run/completed_epoch",
+        "run/epoch_progress",
+        "throughput/sequences_per_second",
+        "train/epoch_fraction",
+        "train/loss",
+        "train/objective_batch",
+        "train/objective_window_mean",
+        "train_eval/loss",
+        "train_eval/score",
+        "train_eval/score/t0",
+        "train_eval/score/t1",
+        "train_eval/t0",
+        "train_eval/t1",
+        "train_eval/wmse",
+        "train_eval/wp",
+        "valid/loss",
+        "valid/score",
+        "valid/score/t0",
+        "valid/score/t1",
+        "valid/t0",
+        "valid/t1",
+        "valid/wmse",
+        "valid/wp"
+      ],
+      "events": [
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 0,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T17:32:31.118406+00:00",
+          "metrics": {
+            "evaluation/pending": 1
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "evaluation_status": "pending",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 1,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T18:04:31.460929+00:00",
+          "metrics": {
+            "evaluation/pending": 0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "evaluation_status": "complete",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1,
+          "epoch": 0.003105590062111801,
+          "wall_time": "2026-10-28T17:29:27.689844+00:00",
+          "metrics": {
+            "optimizer/lr": 4.06e-05,
+            "throughput/sequences_per_second": 1.0,
+            "train/epoch_fraction": 0.003105590062111801,
+            "train/loss": 3.8599,
+            "train/objective_batch": 3.8599
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 5,
+          "epoch": 4.0,
+          "wall_time": "2026-10-28T18:04:31.463082+00:00",
+          "metrics": {
+            "run/completed": 1
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "selected_epoch": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "terminal": "selected_fixed_checkpoint"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 21,
+          "epoch": 0.06521739130434782,
+          "wall_time": "2026-10-28T17:29:27.691981+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000271,
+            "throughput/sequences_per_second": 10.3,
+            "train/epoch_fraction": 0.06521739130434782,
+            "train/loss": 2.5358,
+            "train/objective_batch": 2.5358
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 41,
+          "epoch": 0.12732919254658384,
+          "wall_time": "2026-10-28T17:29:27.694187+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000721,
+            "throughput/sequences_per_second": 13.4,
+            "train/epoch_fraction": 0.12732919254658384,
+            "train/loss": 2.401,
+            "train/objective_batch": 2.401
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 61,
+          "epoch": 0.18944099378881987,
+          "wall_time": "2026-10-28T17:29:27.696130+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000994,
+            "throughput/sequences_per_second": 14.9,
+            "train/epoch_fraction": 0.18944099378881987,
+            "train/loss": 2.0317,
+            "train/objective_batch": 2.0317
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 81,
+          "epoch": 0.2515527950310559,
+          "wall_time": "2026-10-28T17:29:27.698092+00:00",
+          "metrics": {
+            "optimizer/lr": 0.001,
+            "throughput/sequences_per_second": 15.0,
+            "train/epoch_fraction": 0.2515527950310559,
+            "train/loss": 2.1238,
+            "train/objective_batch": 2.1238
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 101,
+          "epoch": 0.3136645962732919,
+          "wall_time": "2026-10-28T17:29:27.700125+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000998,
+            "throughput/sequences_per_second": 15.7,
+            "train/epoch_fraction": 0.3136645962732919,
+            "train/loss": 1.9153,
+            "train/objective_batch": 1.9153
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 121,
+          "epoch": 0.37577639751552794,
+          "wall_time": "2026-10-28T17:29:27.702095+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000995,
+            "throughput/sequences_per_second": 16.1,
+            "train/epoch_fraction": 0.37577639751552794,
+            "train/loss": 1.9624,
+            "train/objective_batch": 1.9624
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 141,
+          "epoch": 0.43788819875776397,
+          "wall_time": "2026-10-28T17:29:27.704017+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00099,
+            "throughput/sequences_per_second": 16.5,
+            "train/epoch_fraction": 0.43788819875776397,
+            "train/loss": 1.7434,
+            "train/objective_batch": 1.7434
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 161,
+          "epoch": 0.5,
+          "wall_time": "2026-10-28T17:29:27.705944+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000985,
+            "throughput/sequences_per_second": 16.7,
+            "train/epoch_fraction": 0.5,
+            "train/loss": 1.8847,
+            "train/objective_batch": 1.8847
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 181,
+          "epoch": 0.562111801242236,
+          "wall_time": "2026-10-28T17:29:27.707943+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000978,
+            "throughput/sequences_per_second": 16.9,
+            "train/epoch_fraction": 0.562111801242236,
+            "train/loss": 2.1469,
+            "train/objective_batch": 2.1469
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 201,
+          "epoch": 0.6242236024844721,
+          "wall_time": "2026-10-28T17:29:27.709913+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00097,
+            "throughput/sequences_per_second": 17.0,
+            "train/epoch_fraction": 0.6242236024844721,
+            "train/loss": 2.0147,
+            "train/objective_batch": 2.0147
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 221,
+          "epoch": 0.6863354037267081,
+          "wall_time": "2026-10-28T17:29:27.711875+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00096,
+            "throughput/sequences_per_second": 17.2,
+            "train/epoch_fraction": 0.6863354037267081,
+            "train/loss": 1.9915,
+            "train/objective_batch": 1.9915
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 241,
+          "epoch": 0.7484472049689441,
+          "wall_time": "2026-10-28T17:29:27.713858+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000949,
+            "throughput/sequences_per_second": 17.3,
+            "train/epoch_fraction": 0.7484472049689441,
+            "train/loss": 1.953,
+            "train/objective_batch": 1.953
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 261,
+          "epoch": 0.8105590062111802,
+          "wall_time": "2026-10-28T17:29:27.715772+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000938,
+            "throughput/sequences_per_second": 17.3,
+            "train/epoch_fraction": 0.8105590062111802,
+            "train/loss": 1.8256,
+            "train/objective_batch": 1.8256
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 281,
+          "epoch": 0.8726708074534162,
+          "wall_time": "2026-10-28T17:29:27.717777+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000925,
+            "throughput/sequences_per_second": 17.4,
+            "train/epoch_fraction": 0.8726708074534162,
+            "train/loss": 1.7717,
+            "train/objective_batch": 1.7717
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 301,
+          "epoch": 0.9347826086956522,
+          "wall_time": "2026-10-28T17:29:27.720028+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000911,
+            "throughput/sequences_per_second": 17.5,
+            "train/epoch_fraction": 0.9347826086956522,
+            "train/loss": 1.8489,
+            "train/objective_batch": 1.8489
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 321,
+          "epoch": 0.9968944099378882,
+          "wall_time": "2026-10-28T17:29:27.721961+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000895,
+            "throughput/sequences_per_second": 17.5,
+            "train/epoch_fraction": 0.9968944099378882,
+            "train/loss": 1.7711,
+            "train/objective_batch": 1.7711
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 323,
+          "epoch": 1.0031055900621118,
+          "wall_time": "2026-10-28T17:29:27.723809+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000894,
+            "throughput/sequences_per_second": 8.6,
+            "train/epoch_fraction": 0.003105590062111801,
+            "train/loss": 1.8923,
+            "train/objective_batch": 1.8923
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 343,
+          "epoch": 1.065217391304348,
+          "wall_time": "2026-10-28T17:29:27.725727+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000877,
+            "throughput/sequences_per_second": 18.2,
+            "train/epoch_fraction": 0.06521739130434782,
+            "train/loss": 1.6704,
+            "train/objective_batch": 1.6704
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 363,
+          "epoch": 1.1273291925465838,
+          "wall_time": "2026-10-28T17:29:27.727680+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00086,
+            "throughput/sequences_per_second": 18.6,
+            "train/epoch_fraction": 0.12732919254658384,
+            "train/loss": 1.6322,
+            "train/objective_batch": 1.6322
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 383,
+          "epoch": 1.18944099378882,
+          "wall_time": "2026-10-28T17:29:27.729529+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000842,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.18944099378881987,
+            "train/loss": 1.8271,
+            "train/objective_batch": 1.8271
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 403,
+          "epoch": 1.2515527950310559,
+          "wall_time": "2026-10-28T17:29:27.731414+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000823,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.2515527950310559,
+            "train/loss": 1.8512,
+            "train/objective_batch": 1.8512
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 423,
+          "epoch": 1.3136645962732918,
+          "wall_time": "2026-10-28T17:29:27.733328+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000803,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.3136645962732919,
+            "train/loss": 1.7823,
+            "train/objective_batch": 1.7823
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 443,
+          "epoch": 1.375776397515528,
+          "wall_time": "2026-10-28T17:29:27.735327+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000782,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.37577639751552794,
+            "train/loss": 1.8558,
+            "train/objective_batch": 1.8558
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 463,
+          "epoch": 1.437888198757764,
+          "wall_time": "2026-10-28T17:29:27.737225+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00076,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.43788819875776397,
+            "train/loss": 1.7417,
+            "train/objective_batch": 1.7417
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 483,
+          "epoch": 1.5,
+          "wall_time": "2026-10-28T17:29:27.739094+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000738,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.5,
+            "train/loss": 1.6305,
+            "train/objective_batch": 1.6305
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 503,
+          "epoch": 1.562111801242236,
+          "wall_time": "2026-10-28T17:29:27.740928+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000715,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.562111801242236,
+            "train/loss": 1.838,
+            "train/objective_batch": 1.838
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 523,
+          "epoch": 1.624223602484472,
+          "wall_time": "2026-10-28T17:29:27.742926+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000692,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.6242236024844721,
+            "train/loss": 1.6475,
+            "train/objective_batch": 1.6475
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 543,
+          "epoch": 1.6863354037267082,
+          "wall_time": "2026-10-28T17:29:27.745089+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000668,
+            "throughput/sequences_per_second": 18.7,
+            "train/epoch_fraction": 0.6863354037267081,
+            "train/loss": 1.7122,
+            "train/objective_batch": 1.7122
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 563,
+          "epoch": 1.7484472049689441,
+          "wall_time": "2026-10-28T17:29:27.747050+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000643,
+            "throughput/sequences_per_second": 18.6,
+            "train/epoch_fraction": 0.7484472049689441,
+            "train/loss": 1.6162,
+            "train/objective_batch": 1.6162
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 583,
+          "epoch": 1.81055900621118,
+          "wall_time": "2026-10-28T17:29:27.748992+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000619,
+            "throughput/sequences_per_second": 18.6,
+            "train/epoch_fraction": 0.8105590062111802,
+            "train/loss": 1.8312,
+            "train/objective_batch": 1.8312
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 603,
+          "epoch": 1.8726708074534162,
+          "wall_time": "2026-10-28T17:29:27.750867+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000593,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.8726708074534162,
+            "train/loss": 1.836,
+            "train/objective_batch": 1.836
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 623,
+          "epoch": 1.9347826086956523,
+          "wall_time": "2026-10-28T17:29:27.752769+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000568,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9347826086956522,
+            "train/loss": 1.6951,
+            "train/objective_batch": 1.6951
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 643,
+          "epoch": 1.9968944099378882,
+          "wall_time": "2026-10-28T17:29:27.754685+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000543,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9968944099378882,
+            "train/loss": 1.7923,
+            "train/objective_batch": 1.7923
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 645,
+          "epoch": 2.0031055900621118,
+          "wall_time": "2026-10-28T17:29:27.756623+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00054,
+            "throughput/sequences_per_second": 8.9,
+            "train/epoch_fraction": 0.003105590062111801,
+            "train/loss": 1.9773,
+            "train/objective_batch": 1.9773
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 665,
+          "epoch": 2.0652173913043477,
+          "wall_time": "2026-10-28T17:29:27.758497+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000514,
+            "throughput/sequences_per_second": 18.0,
+            "train/epoch_fraction": 0.06521739130434782,
+            "train/loss": 1.7455,
+            "train/objective_batch": 1.7455
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 685,
+          "epoch": 2.127329192546584,
+          "wall_time": "2026-10-28T17:29:27.760422+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000489,
+            "throughput/sequences_per_second": 18.4,
+            "train/epoch_fraction": 0.12732919254658384,
+            "train/loss": 1.7922,
+            "train/objective_batch": 1.7922
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 705,
+          "epoch": 2.18944099378882,
+          "wall_time": "2026-10-28T17:29:27.762351+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000463,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.18944099378881987,
+            "train/loss": 1.8517,
+            "train/objective_batch": 1.8517
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 725,
+          "epoch": 2.251552795031056,
+          "wall_time": "2026-10-28T17:29:27.764297+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000438,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.2515527950310559,
+            "train/loss": 1.7146,
+            "train/objective_batch": 1.7146
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 745,
+          "epoch": 2.313664596273292,
+          "wall_time": "2026-10-28T17:29:27.766222+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000412,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.3136645962732919,
+            "train/loss": 1.4006,
+            "train/objective_batch": 1.4006
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 765,
+          "epoch": 2.375776397515528,
+          "wall_time": "2026-10-28T17:29:27.768244+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000387,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.37577639751552794,
+            "train/loss": 1.9276,
+            "train/objective_batch": 1.9276
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 785,
+          "epoch": 2.437888198757764,
+          "wall_time": "2026-10-28T17:29:27.770284+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000362,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.43788819875776397,
+            "train/loss": 1.9399,
+            "train/objective_batch": 1.9399
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 805,
+          "epoch": 2.5,
+          "wall_time": "2026-10-28T17:29:27.772194+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000338,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.5,
+            "train/loss": 1.9073,
+            "train/objective_batch": 1.9073
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 825,
+          "epoch": 2.562111801242236,
+          "wall_time": "2026-10-28T17:29:27.774062+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000314,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.562111801242236,
+            "train/loss": 1.6115,
+            "train/objective_batch": 1.6115
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 845,
+          "epoch": 2.624223602484472,
+          "wall_time": "2026-10-28T17:29:27.775985+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00029,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.6242236024844721,
+            "train/loss": 1.93,
+            "train/objective_batch": 1.93
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 865,
+          "epoch": 2.686335403726708,
+          "wall_time": "2026-10-28T17:29:27.777913+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000267,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.6863354037267081,
+            "train/loss": 1.4235,
+            "train/objective_batch": 1.4235
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 885,
+          "epoch": 2.748447204968944,
+          "wall_time": "2026-10-28T17:29:27.779885+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000245,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.7484472049689441,
+            "train/loss": 1.7433,
+            "train/objective_batch": 1.7433
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 905,
+          "epoch": 2.81055900621118,
+          "wall_time": "2026-10-28T17:29:27.781723+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000223,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.8105590062111802,
+            "train/loss": 1.9186,
+            "train/objective_batch": 1.9186
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 925,
+          "epoch": 2.8726708074534164,
+          "wall_time": "2026-10-28T17:29:27.783706+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000202,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.8726708074534162,
+            "train/loss": 1.4705,
+            "train/objective_batch": 1.4705
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 945,
+          "epoch": 2.9347826086956523,
+          "wall_time": "2026-10-28T17:29:27.785624+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000182,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9347826086956522,
+            "train/loss": 1.6474,
+            "train/objective_batch": 1.6474
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 965,
+          "epoch": 2.9968944099378882,
+          "wall_time": "2026-10-28T17:29:27.787508+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000163,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9968944099378882,
+            "train/loss": 1.8881,
+            "train/objective_batch": 1.8881
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 967,
+          "epoch": 3.0031055900621118,
+          "wall_time": "2026-10-28T17:29:27.789448+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000161,
+            "throughput/sequences_per_second": 8.3,
+            "train/epoch_fraction": 0.003105590062111801,
+            "train/loss": 1.5246,
+            "train/objective_batch": 1.5246
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 987,
+          "epoch": 3.0652173913043477,
+          "wall_time": "2026-10-28T17:29:27.791386+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000142,
+            "throughput/sequences_per_second": 17.8,
+            "train/epoch_fraction": 0.06521739130434782,
+            "train/loss": 1.9423,
+            "train/objective_batch": 1.9423
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1007,
+          "epoch": 3.127329192546584,
+          "wall_time": "2026-10-28T17:29:27.793303+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000125,
+            "throughput/sequences_per_second": 18.3,
+            "train/epoch_fraction": 0.12732919254658384,
+            "train/loss": 1.7675,
+            "train/objective_batch": 1.7675
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1027,
+          "epoch": 3.18944099378882,
+          "wall_time": "2026-10-28T17:29:27.795451+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000108,
+            "throughput/sequences_per_second": 18.4,
+            "train/epoch_fraction": 0.18944099378881987,
+            "train/loss": 1.6736,
+            "train/objective_batch": 1.6736
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1047,
+          "epoch": 3.251552795031056,
+          "wall_time": "2026-10-28T17:29:27.797326+00:00",
+          "metrics": {
+            "optimizer/lr": 9.3e-05,
+            "throughput/sequences_per_second": 18.4,
+            "train/epoch_fraction": 0.2515527950310559,
+            "train/loss": 1.511,
+            "train/objective_batch": 1.511
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1067,
+          "epoch": 3.313664596273292,
+          "wall_time": "2026-10-28T17:32:30.235677+00:00",
+          "metrics": {
+            "optimizer/lr": 7.87e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.3136645962732919,
+            "train/loss": 1.9082,
+            "train/objective_batch": 1.9082
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1087,
+          "epoch": 3.375776397515528,
+          "wall_time": "2026-10-28T17:32:30.237734+00:00",
+          "metrics": {
+            "optimizer/lr": 6.54e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.37577639751552794,
+            "train/loss": 1.7718,
+            "train/objective_batch": 1.7718
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1107,
+          "epoch": 3.437888198757764,
+          "wall_time": "2026-10-28T17:32:30.240567+00:00",
+          "metrics": {
+            "optimizer/lr": 5.33e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.43788819875776397,
+            "train/loss": 1.57,
+            "train/objective_batch": 1.57
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1127,
+          "epoch": 3.5,
+          "wall_time": "2026-10-28T17:32:30.242626+00:00",
+          "metrics": {
+            "optimizer/lr": 4.24e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.5,
+            "train/loss": 1.7889,
+            "train/objective_batch": 1.7889
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1147,
+          "epoch": 3.562111801242236,
+          "wall_time": "2026-10-28T17:32:30.244563+00:00",
+          "metrics": {
+            "optimizer/lr": 3.27e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.562111801242236,
+            "train/loss": 1.509,
+            "train/objective_batch": 1.509
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1167,
+          "epoch": 3.624223602484472,
+          "wall_time": "2026-10-28T17:33:42.746065+00:00",
+          "metrics": {
+            "optimizer/lr": 2.43e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.6242236024844721,
+            "train/loss": 1.8552,
+            "train/objective_batch": 1.8552
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1187,
+          "epoch": 3.686335403726708,
+          "wall_time": "2026-10-28T17:33:42.748346+00:00",
+          "metrics": {
+            "optimizer/lr": 1.71e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.6863354037267081,
+            "train/loss": 1.6053,
+            "train/objective_batch": 1.6053
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1207,
+          "epoch": 3.748447204968944,
+          "wall_time": "2026-10-28T17:58:58.113628+00:00",
+          "metrics": {
+            "optimizer/lr": 1.11e-05,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.7484472049689441,
+            "train/loss": 1.687,
+            "train/objective_batch": 1.687
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1227,
+          "epoch": 3.81055900621118,
+          "wall_time": "2026-10-28T17:58:58.115620+00:00",
+          "metrics": {
+            "optimizer/lr": 6.5e-06,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.8105590062111802,
+            "train/loss": 1.8142,
+            "train/objective_batch": 1.8142
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1247,
+          "epoch": 3.8726708074534164,
+          "wall_time": "2026-10-28T17:58:58.118213+00:00",
+          "metrics": {
+            "optimizer/lr": 3.15e-06,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.8726708074534162,
+            "train/loss": 1.6297,
+            "train/objective_batch": 1.6297
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1267,
+          "epoch": 3.9347826086956523,
+          "wall_time": "2026-10-28T17:58:58.120221+00:00",
+          "metrics": {
+            "optimizer/lr": 1.12e-06,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9347826086956522,
+            "train/loss": 1.6081,
+            "train/objective_batch": 1.6081
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1287,
+          "epoch": 3.9968944099378882,
+          "wall_time": "2026-10-28T17:58:58.122222+00:00",
+          "metrics": {
+            "optimizer/lr": 4.01e-07,
+            "throughput/sequences_per_second": 18.5,
+            "train/epoch_fraction": 0.9968944099378882,
+            "train/loss": 1.6422,
+            "train/objective_batch": 1.6422
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "objective_definition": "legacy combined training scalar; not validation WMSE",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "step_unit": "logged training batch ordinal"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "diagnostics",
+          "step": 3220,
+          "epoch": 1.0,
+          "wall_time": "2026-10-28T17:29:27.814442+00:00",
+          "metrics": {
+            "optimizer/gradient_clip_rate": 0.9404,
+            "optimizer/gradient_clip_threshold": 1.0,
+            "optimizer/gradient_family_median/bias": 0.18329,
+            "optimizer/gradient_family_median/head": 1.86131,
+            "optimizer/gradient_family_median/inp": 0.20006,
+            "optimizer/gradient_family_median/rnn_hh": 0.0551,
+            "optimizer/gradient_family_median/rnn_ih": 0.10764,
+            "optimizer/gradient_family_sq_share/bias": 0.0168,
+            "optimizer/gradient_family_sq_share/head": 0.9594,
+            "optimizer/gradient_family_sq_share/inp": 0.0168,
+            "optimizer/gradient_family_sq_share/rnn_hh": 0.0019,
+            "optimizer/gradient_family_sq_share/rnn_ih": 0.0051,
+            "optimizer/gradient_mean_clip_factor": 0.5516,
+            "optimizer/gradient_nonfinite_steps": 0,
+            "optimizer/gradient_norm_preclip/q05": 0.95605,
+            "optimizer/gradient_norm_preclip/q50": 1.89139,
+            "optimizer/gradient_norm_preclip/q95": 4.76027,
+            "optimizer/gradient_steps": 3220,
+            "valid/score": 0.6744168482375886,
+            "valid/score/t0": 0.6702838726185671,
+            "valid/score/t1": 0.6785498238566101
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "d5683a2d581d0aef926161de6c6a08479761f995058ca8b3abd90e411053eb45",
+            "gradient_timing": "after unscale and before clipping",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "valid_score_source": "trainer VALID log; pooled full official validation"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 3220,
+          "epoch": 1.0,
+          "wall_time": "2026-10-28T17:33:43.105253+00:00",
+          "metrics": {
+            "cpu/process_rss_mib": 4746.4921875,
+            "gpu/device_memory_free_mib": 15039.0,
+            "gpu/device_memory_used_mib": 7536.0,
+            "gpu/power_watts": 63.92,
+            "gpu/process_memory_mib": 7524.0,
+            "gpu/utilization_pct": 100.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "d5683a2d581d0aef926161de6c6a08479761f995058ca8b3abd90e411053eb45",
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "pid": 4125364,
+            "pid_start_ticks": 2060336421,
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "timeout_parent_pid": 4125363
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "evaluation",
+          "step": 3220,
+          "epoch": 1.0,
+          "wall_time": "2026-10-28T18:00:21.087688+00:00",
+          "metrics": {
+            "optimizer/lr/group_0/mean": 0.0008754640053172582,
+            "train/objective_window_mean": 2.033926903387034,
+            "train_eval/loss": 1.3452587963885871,
+            "train_eval/score": 0.4591397114453163,
+            "train_eval/score/t0": 0.46719108551246225,
+            "train_eval/score/t1": 0.4510883373781703,
+            "train_eval/t0": 0.46719108551246225,
+            "train_eval/t1": 0.4510883373781703,
+            "train_eval/wmse": 1.3452587963885871,
+            "train_eval/wp": 0.4591397114453163,
+            "valid/loss": 1.023873775949359,
+            "valid/score": 0.674416848237589,
+            "valid/score/t0": 0.6702838726185665,
+            "valid/score/t1": 0.6785498238566116,
+            "valid/t0": 0.6702838726185665,
+            "valid/t1": 0.6785498238566116,
+            "valid/wmse": 1.023873775949359,
+            "valid/wp": 0.674416848237589
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "d5683a2d581d0aef926161de6c6a08479761f995058ca8b3abd90e411053eb45",
+            "completed_epoch": 1,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 3220,
+          "epoch": 1.0,
+          "wall_time": "2026-10-28T18:00:21.092271+00:00",
+          "metrics": {
+            "run/completed_epoch": 1,
+            "run/epoch_progress": 1.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "d5683a2d581d0aef926161de6c6a08479761f995058ca8b3abd90e411053eb45",
+            "completed_epoch": 1,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 0,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "diagnostics",
+          "step": 6440,
+          "epoch": 2.0,
+          "wall_time": "2026-10-28T17:32:30.420697+00:00",
+          "metrics": {
+            "optimizer/gradient_clip_rate": 0.9099,
+            "optimizer/gradient_clip_threshold": 1.0,
+            "optimizer/gradient_family_median/bias": 0.14641,
+            "optimizer/gradient_family_median/head": 1.53504,
+            "optimizer/gradient_family_median/inp": 0.19871,
+            "optimizer/gradient_family_median/rnn_hh": 0.05741,
+            "optimizer/gradient_family_median/rnn_ih": 0.10326,
+            "optimizer/gradient_family_sq_share/bias": 0.0099,
+            "optimizer/gradient_family_sq_share/head": 0.9619,
+            "optimizer/gradient_family_sq_share/inp": 0.0214,
+            "optimizer/gradient_family_sq_share/rnn_hh": 0.0016,
+            "optimizer/gradient_family_sq_share/rnn_ih": 0.0052,
+            "optimizer/gradient_mean_clip_factor": 0.6579,
+            "optimizer/gradient_nonfinite_steps": 0,
+            "optimizer/gradient_norm_preclip/q05": 0.9214,
+            "optimizer/gradient_norm_preclip/q50": 1.56317,
+            "optimizer/gradient_norm_preclip/q95": 2.89206,
+            "optimizer/gradient_steps": 3220,
+            "valid/score": 0.6852992217878293,
+            "valid/score/t0": 0.6814186684670257,
+            "valid/score/t1": 0.6891797751086328
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "6f7a60e94e4d7d3dc1625341bf9b1217ecf9f19ccd803bc0ce0076dc6f9b298d",
+            "gradient_timing": "after unscale and before clipping",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "valid_score_source": "trainer VALID log; pooled full official validation"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 6440,
+          "epoch": 2.0,
+          "wall_time": "2026-10-28T17:32:30.767341+00:00",
+          "metrics": {
+            "cpu/process_rss_mib": 4666.7421875,
+            "gpu/device_memory_free_mib": 15039.0,
+            "gpu/device_memory_used_mib": 7536.0,
+            "gpu/power_watts": 68.03,
+            "gpu/process_memory_mib": 7524.0,
+            "gpu/utilization_pct": 100.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "6f7a60e94e4d7d3dc1625341bf9b1217ecf9f19ccd803bc0ce0076dc6f9b298d",
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "pid": 4125364,
+            "pid_start_ticks": 2060336421,
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "timeout_parent_pid": 4125363
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "evaluation",
+          "step": 6440,
+          "epoch": 2.0,
+          "wall_time": "2026-10-28T18:01:44.245729+00:00",
+          "metrics": {
+            "optimizer/lr/group_0/mean": 0.000731306825732166,
+            "train/objective_window_mean": 1.7709628845593943,
+            "train_eval/loss": 1.2916384022177179,
+            "train_eval/score": 0.47786261779364414,
+            "train_eval/score/t0": 0.48653762035731574,
+            "train_eval/score/t1": 0.4691876152299725,
+            "train_eval/t0": 0.48653762035731574,
+            "train_eval/t1": 0.4691876152299725,
+            "train_eval/wmse": 1.2916384022177179,
+            "train_eval/wp": 0.47786261779364414,
+            "valid/loss": 0.9626083445635876,
+            "valid/score": 0.6852992217878298,
+            "valid/score/t0": 0.6814186684670258,
+            "valid/score/t1": 0.6891797751086337,
+            "valid/t0": 0.6814186684670258,
+            "valid/t1": 0.6891797751086337,
+            "valid/wmse": 0.9626083445635876,
+            "valid/wp": 0.6852992217878298
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "6f7a60e94e4d7d3dc1625341bf9b1217ecf9f19ccd803bc0ce0076dc6f9b298d",
+            "completed_epoch": 2,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 6440,
+          "epoch": 2.0,
+          "wall_time": "2026-10-28T18:01:44.250224+00:00",
+          "metrics": {
+            "run/completed_epoch": 2,
+            "run/epoch_progress": 1.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "6f7a60e94e4d7d3dc1625341bf9b1217ecf9f19ccd803bc0ce0076dc6f9b298d",
+            "completed_epoch": 2,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 1,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "diagnostics",
+          "step": 9660,
+          "epoch": 3.0,
+          "wall_time": "2026-10-28T17:32:30.785319+00:00",
+          "metrics": {
+            "optimizer/gradient_clip_rate": 0.8621,
+            "optimizer/gradient_clip_threshold": 1.0,
+            "optimizer/gradient_family_median/bias": 0.12792,
+            "optimizer/gradient_family_median/head": 1.40114,
+            "optimizer/gradient_family_median/inp": 0.23495,
+            "optimizer/gradient_family_median/rnn_hh": 0.07681,
+            "optimizer/gradient_family_median/rnn_ih": 0.12862,
+            "optimizer/gradient_family_sq_share/bias": 0.0089,
+            "optimizer/gradient_family_sq_share/head": 0.9447,
+            "optimizer/gradient_family_sq_share/inp": 0.0336,
+            "optimizer/gradient_family_sq_share/rnn_hh": 0.0034,
+            "optimizer/gradient_family_sq_share/rnn_ih": 0.0094,
+            "optimizer/gradient_mean_clip_factor": 0.7045,
+            "optimizer/gradient_nonfinite_steps": 0,
+            "optimizer/gradient_norm_preclip/q05": 0.85306,
+            "optimizer/gradient_norm_preclip/q50": 1.43917,
+            "optimizer/gradient_norm_preclip/q95": 2.61545,
+            "optimizer/gradient_steps": 3220,
+            "valid/score": 0.6878730780475946,
+            "valid/score/t0": 0.6842182308739069,
+            "valid/score/t1": 0.6915279252212824
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "ee758f4d3895a31d44c347a5ee392586b63291a75fabe75e8a067900911a61d6",
+            "gradient_timing": "after unscale and before clipping",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "valid_score_source": "trainer VALID log; pooled full official validation"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 9660,
+          "epoch": 3.0,
+          "wall_time": "2026-10-28T17:32:31.116143+00:00",
+          "metrics": {
+            "cpu/process_rss_mib": 4563.6796875,
+            "gpu/device_memory_free_mib": 15039.0,
+            "gpu/device_memory_used_mib": 7536.0,
+            "gpu/power_watts": 66.56,
+            "gpu/process_memory_mib": 7524.0,
+            "gpu/utilization_pct": 100.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "ee758f4d3895a31d44c347a5ee392586b63291a75fabe75e8a067900911a61d6",
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "pid": 4125364,
+            "pid_start_ticks": 2060336421,
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "timeout_parent_pid": 4125363
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "evaluation",
+          "step": 9660,
+          "epoch": 3.0,
+          "wall_time": "2026-10-28T18:03:07.635363+00:00",
+          "metrics": {
+            "optimizer/lr/group_0/mean": 0.0003424385809557838,
+            "train/objective_window_mean": 1.725985660908385,
+            "train_eval/loss": 1.268610884028881,
+            "train_eval/score": 0.4890887947638869,
+            "train_eval/score/t0": 0.49737494040830377,
+            "train_eval/score/t1": 0.48080264911947,
+            "train_eval/t0": 0.49737494040830377,
+            "train_eval/t1": 0.48080264911947,
+            "train_eval/wmse": 1.268610884028881,
+            "train_eval/wp": 0.4890887947638869,
+            "valid/loss": 0.9516539131270777,
+            "valid/score": 0.6878730780475947,
+            "valid/score/t0": 0.6842182308739069,
+            "valid/score/t1": 0.6915279252212825,
+            "valid/t0": 0.6842182308739069,
+            "valid/t1": 0.6915279252212825,
+            "valid/wmse": 0.9516539131270777,
+            "valid/wp": 0.6878730780475947
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "ee758f4d3895a31d44c347a5ee392586b63291a75fabe75e8a067900911a61d6",
+            "completed_epoch": 3,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 9660,
+          "epoch": 3.0,
+          "wall_time": "2026-10-28T18:03:07.639297+00:00",
+          "metrics": {
+            "run/completed_epoch": 3,
+            "run/epoch_progress": 1.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "ee758f4d3895a31d44c347a5ee392586b63291a75fabe75e8a067900911a61d6",
+            "completed_epoch": 3,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 2,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "diagnostics",
+          "step": 12880,
+          "epoch": 4.0,
+          "wall_time": "2026-10-28T18:03:07.645450+00:00",
+          "metrics": {
+            "optimizer/gradient_clip_rate": 0.7894,
+            "optimizer/gradient_clip_threshold": 1.0,
+            "optimizer/gradient_family_median/bias": 0.11083,
+            "optimizer/gradient_family_median/head": 1.24749,
+            "optimizer/gradient_family_median/inp": 0.27725,
+            "optimizer/gradient_family_median/rnn_hh": 0.10056,
+            "optimizer/gradient_family_median/rnn_ih": 0.16285,
+            "optimizer/gradient_family_sq_share/bias": 0.0083,
+            "optimizer/gradient_family_sq_share/head": 0.9127,
+            "optimizer/gradient_family_sq_share/inp": 0.0546,
+            "optimizer/gradient_family_sq_share/rnn_hh": 0.0068,
+            "optimizer/gradient_family_sq_share/rnn_ih": 0.0176,
+            "optimizer/gradient_mean_clip_factor": 0.7583,
+            "optimizer/gradient_nonfinite_steps": 0,
+            "optimizer/gradient_norm_preclip/q05": 0.79401,
+            "optimizer/gradient_norm_preclip/q50": 1.30313,
+            "optimizer/gradient_norm_preclip/q95": 2.41994,
+            "optimizer/gradient_steps": 3220,
+            "valid/score": 0.6882596673755748,
+            "valid/score/t0": 0.6846225431846994,
+            "valid/score/t1": 0.6918967915664502
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "36a99a47cde014f053f4cb8163ec7f3e1580a149c6d32a5db9c4d8045e9efef1",
+            "gradient_timing": "after unscale and before clipping",
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "valid_score_source": "trainer VALID log; pooled full official validation"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "evaluation",
+          "step": 12880,
+          "epoch": 4.0,
+          "wall_time": "2026-10-28T18:04:31.228856+00:00",
+          "metrics": {
+            "optimizer/lr/group_0/mean": 5.539537060348822e-05,
+            "train/objective_window_mean": 1.6937641025329968,
+            "train_eval/loss": 1.2576543608241837,
+            "train_eval/score": 0.4952831747080555,
+            "train_eval/score/t0": 0.5035274592315836,
+            "train_eval/score/t1": 0.4870388901845274,
+            "train_eval/t0": 0.5035274592315836,
+            "train_eval/t1": 0.4870388901845274,
+            "train_eval/wmse": 1.2576543608241837,
+            "train_eval/wp": 0.4952831747080555,
+            "valid/loss": 0.9510011790911009,
+            "valid/score": 0.6882596673755751,
+            "valid/score/t0": 0.6846225431846991,
+            "valid/score/t1": 0.6918967915664511,
+            "valid/t0": 0.6846225431846991,
+            "valid/t1": 0.6918967915664511,
+            "valid/wmse": 0.9510011790911009,
+            "valid/wp": 0.6882596673755751
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "36a99a47cde014f053f4cb8163ec7f3e1580a149c6d32a5db9c4d8045e9efef1",
+            "completed_epoch": 4,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 12880,
+          "epoch": 4.0,
+          "wall_time": "2026-10-28T18:04:31.233148+00:00",
+          "metrics": {
+            "run/completed_epoch": 4,
+            "run/epoch_progress": 1.0
+          },
+          "context": {
+            "actual_training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b",
+            "checkpoint_sha256": "36a99a47cde014f053f4cb8163ec7f3e1580a149c6d32a5db9c4d8045e9efef1",
+            "completed_epoch": 4,
+            "run": "tl3c_fin256_s3",
+            "run_identity_sha256": "e4a4d9de3d3359e6ebe712f9e7a782124406aaf0c6d25d080a8a08985b10b940",
+            "source_epoch_index": 3,
+            "source_identity_file_sha256": "26324fe29dc96b002c8fa84272ea1b87d7e428d8268d4beea6b4cecae49a4d45",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+            "train_eval": {
+              "cohort_count": 32,
+              "cohort_group_order_sha256": "6f857f8bf10684a21413cc01df33a93522ec27b7cf9cb6b9179d1db09ddce2c1",
+              "row_mask": "all_after_warmup"
+            },
+            "training_objective": "mean full mixed per-window scalar; not WMSE",
+            "valid": {
+              "cohort_count": 1873,
+              "official_split": "valid",
+              "row_mask": "is_scored"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "tl3c_fin256_s4",
+      "error": null,
+      "config_state": "running",
+      "metrics": [
+        "optimizer/lr",
+        "resource/gpu_memory_used_mib",
+        "resource/gpu_utilization_percent",
+        "resource/process_gpu_memory_used_mib",
+        "resource/process_rss_bytes",
+        "run/queued",
+        "run/running",
+        "throughput/sequences_per_second",
+        "train/loss"
+      ],
+      "events": [
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 0,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T18:47:13.940489+00:00",
+          "metrics": {
+            "run/queued": 1
+          },
+          "context": {
+            "cell_state": "queued",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 0,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T18:49:00.792030+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 2474.0,
+            "resource/gpu_utilization_percent": 0.0,
+            "resource/process_gpu_memory_used_mib": 2464.0,
+            "resource/process_rss_bytes": 2821804032
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "status",
+          "step": 1,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T18:49:00.788126+00:00",
+          "metrics": {
+            "run/running": 1
+          },
+          "context": {
+            "cell_state": "running",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 1,
+          "epoch": 0.0,
+          "wall_time": "2026-10-28T18:49:16.050694+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 2474.0,
+            "resource/gpu_utilization_percent": 0.0,
+            "resource/process_gpu_memory_used_mib": 2464.0,
+            "resource/process_rss_bytes": 2821804032
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 2,
+          "epoch": 0.003105590062111801,
+          "wall_time": "2026-10-28T18:49:31.294925+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3996123136
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 3,
+          "epoch": 0.003105590062111801,
+          "wall_time": "2026-10-28T18:49:46.553848+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 4043583488
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 4,
+          "epoch": 0.003105590062111801,
+          "wall_time": "2026-10-28T18:50:01.817575+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993190400
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 5,
+          "epoch": 0.06521739130434782,
+          "wall_time": "2026-10-28T18:50:17.071683+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993194496
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 6,
+          "epoch": 0.06521739130434782,
+          "wall_time": "2026-10-28T18:50:32.338456+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993235456
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 7,
+          "epoch": 0.12732919254658384,
+          "wall_time": "2026-10-28T18:50:47.619510+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 4082917376
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 8,
+          "epoch": 0.12732919254658384,
+          "wall_time": "2026-10-28T18:51:02.873011+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993243648
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 9,
+          "epoch": 0.18944099378881987,
+          "wall_time": "2026-10-28T18:51:18.148923+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993251840
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 10,
+          "epoch": 0.003105590062111801,
+          "wall_time": "2026-10-28T18:49:31.292425+00:00",
+          "metrics": {
+            "optimizer/lr": 4.06e-05,
+            "throughput/sequences_per_second": 1.0,
+            "train/loss": 3.7257
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 10,
+          "epoch": 0.18944099378881987,
+          "wall_time": "2026-10-28T18:51:33.399293+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993260032
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 11,
+          "epoch": 0.2515527950310559,
+          "wall_time": "2026-10-28T18:51:48.681761+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993272320
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 12,
+          "epoch": 0.2515527950310559,
+          "wall_time": "2026-10-28T18:52:03.926940+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3996512256
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 13,
+          "epoch": 0.2515527950310559,
+          "wall_time": "2026-10-28T18:52:19.222490+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3996520448
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 14,
+          "epoch": 0.3136645962732919,
+          "wall_time": "2026-10-28T18:52:34.500190+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993288704
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 15,
+          "epoch": 0.3136645962732919,
+          "wall_time": "2026-10-28T18:52:49.750850+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993292800
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 16,
+          "epoch": 0.37577639751552794,
+          "wall_time": "2026-10-28T18:53:05.011778+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3996540928
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 17,
+          "epoch": 0.37577639751552794,
+          "wall_time": "2026-10-28T18:53:20.264116+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993313280
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 18,
+          "epoch": 0.43788819875776397,
+          "wall_time": "2026-10-28T18:53:35.536327+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3996553216
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 19,
+          "epoch": 0.43788819875776397,
+          "wall_time": "2026-10-28T18:53:50.800501+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993325568
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 20,
+          "epoch": 0.5,
+          "wall_time": "2026-10-28T18:54:06.068321+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993325568
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 21,
+          "epoch": 0.5,
+          "wall_time": "2026-10-28T18:54:21.322832+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993337856
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 22,
+          "epoch": 0.5,
+          "wall_time": "2026-10-28T18:54:36.591471+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993346048
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "resources",
+          "step": 23,
+          "epoch": 0.562111801242236,
+          "wall_time": "2026-10-28T18:54:51.845732+00:00",
+          "metrics": {
+            "resource/gpu_memory_used_mib": 4188.0,
+            "resource/gpu_utilization_percent": 100.0,
+            "resource/process_gpu_memory_used_mib": 4176.0,
+            "resource/process_rss_bytes": 3993346048
+          },
+          "context": {
+            "gpu_process_pid_uuid_verified": true,
+            "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+            "node_id": "fin256_s4",
+            "pid": 4182162,
+            "pid_start_ticks": "2061044512",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "process_identity_verified": true,
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 210,
+          "epoch": 0.06521739130434782,
+          "wall_time": "2026-10-28T18:50:17.068985+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000271,
+            "throughput/sequences_per_second": 10.2,
+            "train/loss": 2.4063
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 410,
+          "epoch": 0.12732919254658384,
+          "wall_time": "2026-10-28T18:50:47.616827+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000721,
+            "throughput/sequences_per_second": 13.1,
+            "train/loss": 2.0822
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 610,
+          "epoch": 0.18944099378881987,
+          "wall_time": "2026-10-28T18:51:18.146129+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000994,
+            "throughput/sequences_per_second": 14.6,
+            "train/loss": 2.2176
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 810,
+          "epoch": 0.2515527950310559,
+          "wall_time": "2026-10-28T18:51:48.679212+00:00",
+          "metrics": {
+            "optimizer/lr": 0.001,
+            "throughput/sequences_per_second": 15.4,
+            "train/loss": 2.0073
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1010,
+          "epoch": 0.3136645962732919,
+          "wall_time": "2026-10-28T18:52:34.497641+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000998,
+            "throughput/sequences_per_second": 16.0,
+            "train/loss": 2.103
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1210,
+          "epoch": 0.37577639751552794,
+          "wall_time": "2026-10-28T18:53:05.009308+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000995,
+            "throughput/sequences_per_second": 16.3,
+            "train/loss": 2.1212
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1410,
+          "epoch": 0.43788819875776397,
+          "wall_time": "2026-10-28T18:53:35.533686+00:00",
+          "metrics": {
+            "optimizer/lr": 0.00099,
+            "throughput/sequences_per_second": 16.6,
+            "train/loss": 1.5922
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1610,
+          "epoch": 0.5,
+          "wall_time": "2026-10-28T18:54:06.065721+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000985,
+            "throughput/sequences_per_second": 16.8,
+            "train/loss": 1.9661
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        },
+        {
+          "schema": "wnn.monitor.v1",
+          "kind": "train_step",
+          "step": 1810,
+          "epoch": 0.562111801242236,
+          "wall_time": "2026-10-28T18:54:51.842573+00:00",
+          "metrics": {
+            "optimizer/lr": 0.000978,
+            "throughput/sequences_per_second": 17.0,
+            "train/loss": 2.0323
+          },
+          "context": {
+            "loss_definition": "legacy TrainingRun.batch.loss: composite per-window fit objective; not validation WMSE",
+            "node_id": "fin256_s4",
+            "plan_sha256": "ce89f2689baacf7e75c07e3186650c60113bbd5b5a86813fe35077426ad21572",
+            "run": "tl3c_fin256_s4",
+            "run_identity_sha256": "be4bcc59e660ec4d04338e7b59a5fa860e7bb0673addce895035172dc982b6b0",
+            "source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+            "source_timestamp_available": false,
+            "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+          }
+        }
+      ]
+    }
+  ]
+}
