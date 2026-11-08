@@ -14,6 +14,13 @@ from wnn.training.sequence_config_validation import (
     is_galam_lstm64_muon,
     validate_input_prefetch_batches,
     validate_monitoring_config,
+    validate_sequence_objective_config,
+)
+from wnn.training.sequence_config_validation import (
+    validate_expected_fold as validate_expected_fold,
+)
+from wnn.training.sequence_config_validation import (
+    validate_runtime_requirements as validate_runtime_requirements,
 )
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 
@@ -90,6 +97,7 @@ def load_config(path: Path) -> dict[str, Any]:
             "dropout_policy",
             "monitoring",
             "input_prefetch_batches",
+            "objective_mode",
         }
     ):
         raise ValueError("unknown sequence recipe field")
@@ -274,26 +282,7 @@ def load_config(path: Path) -> dict[str, Any]:
     # This runtime-only field lets fit and inference build the same precision-aware model.
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
+    if "objective_mode" in raw:
+        validate_sequence_objective_config(config)
     validate_compact_recipe(config)
     return config
-
-
-def validate_runtime_requirements(
-    config: dict[str, Any], world_size: int, device_name: str
-) -> bool:
-    """Check the recipe's optional world-size and device requirements on this rank."""
-    required_world_size = config["required_world_size"]
-    if required_world_size is not None and world_size != required_world_size:
-        raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
-    required_device = config["required_device"]
-    if required_device is not None and required_device not in device_name.upper():
-        raise ValueError(f"recipe requires NVIDIA {required_device}, received {device_name!r}")
-    return True
-
-
-def validate_expected_fold(config: dict[str, Any], actual_fold: int) -> bool:
-    """Check the loaded split's fold against the recipe's optional fold requirement."""
-    expected_fold = config["expected_fold"]
-    if expected_fold is not None and actual_fold != expected_fold:
-        raise ValueError(f"recipe requires fold {expected_fold}, received fold {actual_fold}")
-    return True

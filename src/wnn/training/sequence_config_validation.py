@@ -4,6 +4,55 @@ from __future__ import annotations
 
 import math
 from collections.abc import Mapping
+from typing import Any
+
+STANDALONE_LABELS_OBJECTIVE_MODE = "standalone_labels_wmse_v2"
+
+
+def validate_sequence_objective_config(value: Mapping[str, object]) -> None:
+    """Fail closed for the explicit reference-free weighted-label objective."""
+    mode = value.get("objective_mode")
+    if mode != STANDALONE_LABELS_OBJECTIVE_MODE:
+        raise ValueError(f"unsupported sequence objective mode: {mode!r}")
+    model = value.get("model")
+    if not isinstance(model, Mapping):
+        raise ValueError("standalone labels objective requires a validated model mapping")
+    for key in ("kd_weight", "hint_weight"):
+        weight = value.get(key)
+        if (
+            isinstance(weight, bool)
+            or not isinstance(weight, (int, float))
+            or not math.isfinite(weight)
+            or weight != 0
+        ):
+            raise ValueError("standalone labels objective requires kd_weight=0 and hint_weight=0")
+    if model.get("hint_dim") != 0 or value.get("hint_mode") != "aligned":
+        raise ValueError("standalone labels objective forbids hint targets and hint permutation")
+    if value.get("training_mask") != "all_after_warmup":
+        raise ValueError("standalone labels objective requires training_mask=all_after_warmup")
+    if value.get("normalization_scope") != "all_fit":
+        raise ValueError("standalone labels objective requires normalization_scope=all_fit")
+
+
+def validate_runtime_requirements(
+    config: dict[str, Any], world_size: int, device_name: str
+) -> bool:
+    """Check the recipe's optional world-size and device requirements on this rank."""
+    required_world_size = config["required_world_size"]
+    if required_world_size is not None and world_size != required_world_size:
+        raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
+    required_device = config["required_device"]
+    if required_device is not None and required_device not in device_name.upper():
+        raise ValueError(f"recipe requires NVIDIA {required_device}, received {device_name!r}")
+    return True
+
+
+def validate_expected_fold(config: dict[str, Any], actual_fold: int) -> bool:
+    """Check the loaded split's fold against the recipe's optional fold requirement."""
+    expected_fold = config["expected_fold"]
+    if expected_fold is not None and actual_fold != expected_fold:
+        raise ValueError(f"recipe requires fold {expected_fold}, received fold {actual_fold}")
+    return True
 
 
 def validate_input_prefetch_batches(value: object) -> None:
