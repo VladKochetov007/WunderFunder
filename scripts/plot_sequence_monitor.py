@@ -49,29 +49,64 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
     if len(roles) != 1:
         raise ValueError("plot export requires exactly one explicitly recorded evaluation role")
     role = roles[0]
-    role_label = "Official valid (is_scored)" if role == "valid" else "Fitting-only inner control"
+    latest_context = evaluations[-1].get("context", {})
+    train_context = latest_context.get("train_eval", {}) if isinstance(latest_context, dict) else {}
+    role_context = latest_context.get(role, {}) if isinstance(latest_context, dict) else {}
+    train_label = _cohort_label(
+        "Train-eval in-sample subset", train_context, include_selection=True
+    )
+    role_label = _cohort_label(
+        "Official valid" if role == "valid" else "Fitting-only inner control",
+        role_context,
+    )
     first_wall = min(str(event["wall_time"]) for event in training + evaluations)
     figures = [
         (
             "train_eval_vs_evaluation_wmse",
             _plot_pair(
-                plt, evaluations, "train_eval/loss", f"{role}/loss", "Weighted MSE", role_label
+                plt,
+                evaluations,
+                "train_eval/loss",
+                f"{role}/loss",
+                "Weighted MSE",
+                role_label,
+                train_label=train_label,
             ),
         ),
         (
             "train_eval_vs_evaluation_wp",
-            _plot_pair(plt, evaluations, "train_eval/wp", f"{role}/wp", "Pooled WP", role_label),
+            _plot_pair(
+                plt,
+                evaluations,
+                "train_eval/wp",
+                f"{role}/wp",
+                "Pooled WP",
+                role_label,
+                train_label=train_label,
+            ),
         ),
         (
             "target_t0_wp",
             _plot_pair(
-                plt, evaluations, "train_eval/wp/t0", f"{role}/wp/t0", "Target t0 WP", role_label
+                plt,
+                evaluations,
+                "train_eval/wp/t0",
+                f"{role}/wp/t0",
+                "Target t0 WP",
+                role_label,
+                train_label=train_label,
             ),
         ),
         (
             "target_t1_wp",
             _plot_pair(
-                plt, evaluations, "train_eval/wp/t1", f"{role}/wp/t1", "Target t1 WP", role_label
+                plt,
+                evaluations,
+                "train_eval/wp/t1",
+                f"{role}/wp/t1",
+                "Target t1 WP",
+                role_label,
+                train_label=train_label,
             ),
         ),
         ("online_objectives", _plot_online(plt, training, first_wall)),
@@ -135,10 +170,10 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
         figure.text(
             0.01,
             0.01,
-            "Train-eval and official valid masks differ; valid is development-exposed. Native sampled telemetry only.",
+            _comparison_note(role),
             fontsize=7,
         )
-        figure.tight_layout(rect=(0, 0.04, 1, 0.95))
+        figure.tight_layout(rect=(0, 0.07, 1, 0.95))
         for suffix in ("png", "svg"):
             path = plots_dir / f"{name}.{suffix}"
             figure.savefig(path, dpi=160 if suffix == "png" else None)
@@ -165,6 +200,7 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
         "source_sha256": source_files,
         "evaluation_role": role,
         "evaluation_context": evaluations[-1].get("context", {}),
+        "train_eval_comparability": train_context.get("comparison_to_evaluation", {}),
         "training_sampling_policy": training_policy,
         "evaluation_sampling_policy": evaluation_policy,
         "observer_sampling_policy": observer_policy,
@@ -175,6 +211,36 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
     }
     atomic_write_json(plots_dir / "plot_source.json", receipt)
     return receipt
+
+
+def _cohort_label(base: str, context: object, *, include_selection: bool = False) -> str:
+    """Show recorded cohort size and mask without inferring missing metadata."""
+    if not isinstance(context, dict):
+        return base
+    details: list[str] = []
+    count = context.get("member_count")
+    if isinstance(count, int):
+        details.append(f"n={count}")
+    selection = context.get("selection")
+    if include_selection and isinstance(selection, str):
+        details.append(selection)
+    mask = context.get("row_mask")
+    if isinstance(mask, str):
+        details.append(mask)
+    return f"{base} ({', '.join(details)})" if details else base
+
+
+def _comparison_note(role: str) -> str:
+    """State the interpretation limit of each reported cohort pair."""
+    if role == "valid":
+        return (
+            "Train-eval is an in-sample fitting subset; its difference from full official valid\n"
+            "is not a calibrated generalization gap. Valid is development-exposed."
+        )
+    return (
+        "Train-eval and inner control are fitting diagnostics;\n"
+        "neither difference is independent validation."
+    )
 
 
 def main() -> None:

@@ -4,11 +4,13 @@ import json
 from dataclasses import asdict, replace
 from pathlib import Path
 
+import numpy as np
 import pytest
 import torch
 from torch import nn
 
 from wnn.galam import connectome_112_to_2_config
+from wnn.gmetric import reference_global_wp
 from wnn.training.sequence_config_validation import validate_monitoring_config
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import _training_telemetry_due
@@ -67,13 +69,14 @@ class _MonitorDataset:
 class _PassThrough(nn.Module):
     def __init__(self) -> None:
         super().__init__()
+        self.scale = nn.Parameter(torch.ones(2))
         self.seen_batch_sizes: list[int] = []
 
     def forward(
         self, values: torch.Tensor, state: object = None
     ) -> tuple[torch.Tensor, torch.Tensor, object]:
         self.seen_batch_sizes.append(values.shape[0])
-        return values[..., :2], values.new_empty((*values.shape[:-1], 0)), state
+        return values[..., :2] * self.scale, values.new_empty((*values.shape[:-1], 0)), state
 
 
 def _expected_weighted_loss(dataset: _MonitorDataset) -> float:
@@ -100,6 +103,7 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
         "training_telemetry_every_steps": 5,
         "eval_batch_size": 2,
         "train_eval_mask": "all_after_warmup",
+        "train_eval_selection": "hash_rank_v1",
         "early_stopping": _policy(),
     }
     monitor = SequenceMonitor(
@@ -112,6 +116,9 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
         resume=False,
     )
     model = _PassThrough().train()
+    model.scale.grad = torch.tensor([0.125, -0.25])
+    before_scale = model.scale.detach().clone()
+    before_grad = model.scale.grad.clone()
     metrics = monitor.evaluate_epoch(
         model,
         train_eval,
@@ -126,11 +133,20 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
 
     assert metrics["train_eval/selected_rows"] == 12
     assert metrics["valid/selected_rows"] == 10
+    assert metrics["valid/sequence_count"] == len(valid)
     assert metrics["train_eval/loss"] == pytest.approx(_expected_weighted_loss(train_eval))
     assert metrics["valid/loss"] == pytest.approx(_expected_weighted_loss(valid))
+    valid_targets = np.stack([record["y"].numpy() for record in valid.records])
+    valid_predictions = np.stack([record["x"][:, :2].numpy() for record in valid.records])
+    valid_mask = np.stack([record["mask"].numpy() for record in valid.records])
+    assert metrics["valid/wp"] == pytest.approx(
+        reference_global_wp(valid_targets, valid_predictions, valid_mask)
+    )
     assert metrics["train_eval/loss"] != metrics["valid/loss"]
     assert model.seen_batch_sizes == [2] * 8
     assert model.training
+    assert torch.equal(model.scale.detach(), before_scale)
+    assert torch.equal(model.scale.grad, before_grad)
     assert "timing/train_eval_seconds" in metrics
     assert "timing/valid_seconds" in metrics
     assert "timing/paired_evaluation_seconds" in metrics
@@ -162,10 +178,78 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
     assert event["kind"] == "evaluation"
     assert len(event_lines[0].encode()) <= EXTENDED_EVENT_LINE_CAPS["evaluation"]
     assert event["context"]["train_eval"]["row_mask"] == "all_after_warmup"
+    assert event["context"]["train_eval"]["selection"] == "hash_rank_v1"
+    assert event["context"]["train_eval"]["selection_claims_representativeness"] is False
+    assert (
+        event["context"]["train_eval"]["comparison_to_evaluation"]["comparable_to_primary_valid"]
+        is False
+    )
     assert event["context"]["valid"]["row_mask"] == "is_scored"
     assert "actual fitting objective mask" in event["context"]["mask_comparison"]
     assert "official is_scored mask" in event["context"]["mask_comparison"]
     assert len(event_lines[-1].encode()) <= EXTENDED_EVENT_LINE_CAPS["train_step"]
+
+    alternative_dir = tmp_path / "alternative"
+    alternative_dir.mkdir()
+    alternative_train_eval = _MonitorDataset([3], "all_after_warmup")
+    alternative_monitor = SequenceMonitor(
+        alternative_dir,
+        settings,
+        alternative_train_eval.members,
+        valid.members,
+        "c" * 64,
+        "e" * 64,
+        resume=False,
+    )
+    alternative_metrics = alternative_monitor.evaluate_epoch(
+        model,
+        alternative_train_eval,
+        valid,
+        2,
+        2,
+        "fp32",
+        DistributedContext(0, 0, 1, torch.device("cpu"), False),
+        0,
+        1,
+    )
+    for key in (
+        "valid/wp",
+        "valid/wp/t0",
+        "valid/wp/t1",
+        "valid/loss",
+        "valid/selected_rows",
+        "valid/sequence_count",
+    ):
+        assert alternative_metrics[key] == pytest.approx(metrics[key])
+    assert torch.equal(model.scale.grad, before_grad)
+
+
+def test_inner_control_metadata_does_not_claim_primary_valid_comparison(tmp_path: Path) -> None:
+    settings = {
+        "diagnostics_every_steps": 10,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_selection": "hash_rank_v1",
+    }
+    train_members = [("train", 1)]
+    control_members = [("train", 2)]
+    monitor = SequenceMonitor(
+        tmp_path,
+        settings,
+        train_members,
+        control_members,
+        "c" * 64,
+        "d" * 64,
+        resume=False,
+        evaluation_role="control",
+        evaluation_mask="all_after_warmup",
+    )
+
+    metadata = monitor.fit_status_context(False)["train_eval_comparability"]
+    assert metadata["evaluation_role"] == "control"
+    assert metadata["comparable_to_evaluation"] is False
+    assert "comparable_to_primary_valid" not in metadata
+    assert "official_valid_sequence_count" not in metadata
+    assert "inner control" in str(metadata["reason"])
 
 
 def test_early_stop_keeps_strict_best_separate_from_min_delta_patience(tmp_path: Path) -> None:

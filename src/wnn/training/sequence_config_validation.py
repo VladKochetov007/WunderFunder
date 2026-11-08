@@ -23,10 +23,11 @@ def validate_monitoring_config(
         "training_telemetry_every_steps",
         "early_stopping",
     }
+    selection_fields = {"train_eval_selection"}
     if (
         not isinstance(value, dict)
         or not base_fields.issubset(value)
-        or set(value) - (base_fields | extended_fields)
+        or set(value) - (base_fields | extended_fields | selection_fields)
     ):
         raise ValueError("monitoring has unsupported fields or omits its required cohort controls")
     if value.keys() & extended_fields and "train_eval_mask" not in value:
@@ -48,6 +49,8 @@ def validate_monitoring_config(
             raise ValueError(f"monitoring.{key} must be a positive integer")
     if value["train_eval_sequences"] > 256:
         raise ValueError("monitoring.train_eval_sequences cannot exceed 256")
+    if value.get("train_eval_selection", "prefix") not in ("prefix", "hash_rank_v1"):
+        raise ValueError("monitoring.train_eval_selection must be prefix or hash_rank_v1")
     if "train_eval_mask" in value and value["train_eval_mask"] != "all_after_warmup":
         raise ValueError("monitoring.train_eval_mask must be all_after_warmup")
     extended_runtime = {"eval_batch_size", "training_telemetry_every_steps"}

@@ -1,3 +1,12 @@
+## Latest 8 November: five-point training repair (code only)
+
+The user requests sequential diagnosis, implementation, checks and a separate
+commit for each of five training problems. This authorizes source changes,
+bounded CPU correctness tests and concrete future-run handoffs only. No SSH,
+GPU profiling, fit, resume, provider allocation or competition upload is part
+of this repair. Historical recipes/results remain immutable. See
+research/experiment_drafts/training-repair-20261108/README.md.
+
 ## Completed follow-up,8 November2026 terminal audit
 
 All10 fresh fits completed:6L4 fixed6E and4B300 fixed4E, with24 L4 fixed grades

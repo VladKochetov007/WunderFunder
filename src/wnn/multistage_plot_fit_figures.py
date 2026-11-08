@@ -13,12 +13,14 @@ def _plot_pair(
     control_key: str,
     ylabel: str,
     control_label: str,
+    *,
+    train_label: str = "Train-eval diagnostic",
 ) -> object | None:
     values = _series(evaluations, (train_key, control_key))
     if not any(rows for rows in values.values()):
         return None
     fig, axis = plt.subplots(figsize=(8, 4.5))
-    for key, label in ((train_key, "Train-eval diagnostic"), (control_key, control_label)):
+    for key, label in ((train_key, train_label), (control_key, control_label)):
         rows = values[key]
         if rows:
             axis.plot([row[0] for row in rows], [row[1] for row in rows], marker="o", label=label)

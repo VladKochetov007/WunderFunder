@@ -29,6 +29,7 @@ from wnn.training.sequence_monitor_identity import (
 from wnn.training.sequence_monitor_identity import (
     membership_sha256 as _membership_sha256,
 )
+from wnn.training.sequence_monitor_identity import train_eval_context as _train_eval_context
 from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_monitor_resources import HostResourceSampler, resource_metrics
 from wnn.training.sequence_monitor_telemetry import record_train_step
@@ -57,6 +58,7 @@ class SequenceMonitor:
         self.training_telemetry_every_steps = int(config.get("training_telemetry_every_steps", 1))
         self.evaluation_batch_size = int(config.get("eval_batch_size", 1))
         self.train_eval_mask = str(config.get("train_eval_mask", "is_scored"))
+        self.train_eval_selection = str(config.get("train_eval_selection", "prefix"))
         self.input_feature_mode = input_feature_mode
         if evaluation_role not in ("valid", "control"):
             raise ValueError("unsupported monitored evaluation role")
@@ -77,14 +79,15 @@ class SequenceMonitor:
             "full official valid" if evaluation_role == "valid" else "inner train control"
         )
         self._monitoring_plan = {"evaluation_reporting": f"{evaluation_label} after each epoch"}
-        self._train_eval_context = {
-            "evaluation_scope": "fixed source-qualified fitting cohort; diagnostic only",
-            "row_mask": self.train_eval_mask,
-            "mask_definition": _mask_definition(self.train_eval_mask),
-            "member_count": len(train_eval_members),
-            "member_sha256": _membership_sha256(train_eval_members),
-            "input_feature_mode": input_feature_mode,
-        }
+        self._train_eval_context = _train_eval_context(
+            train_eval_members,
+            evaluation_mask,
+            len(valid_members),
+            self.train_eval_selection,
+            self.train_eval_mask,
+            input_feature_mode,
+            evaluation_role,
+        )
         self._evaluation_context = {
             "evaluation_scope": (
                 "full official valid; development-exposed report"
@@ -127,6 +130,8 @@ class SequenceMonitor:
             ),
             "early_stopping": self.early_stopping,
             "train_eval_mask": self.train_eval_mask,
+            "train_eval_selection": self.train_eval_selection,
+            "train_eval_comparability": self._train_eval_context["comparison_to_evaluation"],
             "evaluation_role": self.evaluation_role,
             "evaluation_mask": self.evaluation_mask,
             "input_feature_mode": self.input_feature_mode,
@@ -147,6 +152,8 @@ class SequenceMonitor:
             "evaluation_reporting": "not evaluated during bounded engineering profile",
             "intended_evaluation_reporting": self._monitoring_plan.get("evaluation_reporting"),
             "train_eval_mask": self.train_eval_mask,
+            "train_eval_selection": self.train_eval_selection,
+            "train_eval_comparability": self._train_eval_context["comparison_to_evaluation"],
             "evaluation_role": self.evaluation_role,
             "evaluation_mask": self.evaluation_mask,
             "input_feature_mode": self.input_feature_mode,

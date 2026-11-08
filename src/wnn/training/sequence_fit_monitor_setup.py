@@ -20,11 +20,17 @@ from wnn.training.sequence_monitor_events import (
     MONITOR_EVALUATION_FILENAME,
     MONITOR_EVENT_FILENAME,
 )
+from wnn.training.sequence_monitor_identity import (
+    TRAIN_EVAL_HASH_RANK_NAMESPACE,
+    hash_rank_train_eval_members,
+    membership_sha256,
+    train_eval_comparability,
+)
 from wnn.training.sequence_provenance import canonical_sha256
 
 
 def select_train_eval_members(monitor_config: object, data: SequenceData) -> list[tuple[str, int]]:
-    """Select the fixed source-qualified prefix from actual chronological fit membership."""
+    """Select a fitting-only diagnostic cohort without interpreting sequence IDs as time."""
     if monitor_config is None:
         return []
     if not isinstance(monitor_config, Mapping):
@@ -35,9 +41,18 @@ def select_train_eval_members(monitor_config: object, data: SequenceData) -> lis
     ):
         raise ValueError("online monitoring requires a primary or auxiliary source-bound split")
     requested = int(monitor_config["train_eval_sequences"])
-    members = list(data.fit.members[:requested])
+    selection = str(monitor_config.get("train_eval_selection", "prefix"))
+    if selection == "prefix":
+        members = list(data.fit.members[:requested])
+    elif selection == "hash_rank_v1":
+        members = hash_rank_train_eval_members(data.fit.members)[:requested]
+    else:
+        raise ValueError(f"unsupported train-eval selection: {selection}")
     if not members or any(member not in data.fit.members for member in members):
         raise ValueError("fixed train-eval cohort is not a subset of actual fit membership")
+    evaluation_members = set(getattr(data.evaluation, "members", ()))
+    if evaluation_members.intersection(members):
+        raise ValueError("train-eval diagnostic must not contain official evaluation members")
     return members
 
 
@@ -97,6 +112,26 @@ def record_monitoring_plan(
             "epoch cap"
         ),
         "train_eval_members": [list(member) for member in train_eval_members],
+        "train_eval_selection": monitor_config.get("train_eval_selection", "prefix"),
+        "train_eval_selection_algorithm": (
+            TRAIN_EVAL_HASH_RANK_NAMESPACE
+            if monitor_config.get("train_eval_selection", "prefix") == "hash_rank_v1"
+            else "legacy_fit_membership_prefix"
+        ),
+        "train_eval_selection_order_basis": (
+            "SHA256 rank of opaque source-qualified group keys; no temporal order inferred"
+            if monitor_config.get("train_eval_selection", "prefix") == "hash_rank_v1"
+            else "source-qualified fit-membership order; no temporal order inferred"
+        ),
+        "train_eval_member_sha256": membership_sha256(train_eval_members),
+        "train_eval_comparability": train_eval_comparability(
+            str(monitor_config.get("train_eval_mask", "is_scored")),
+            str(data.split.evaluation_mask),
+            str(data.split.evaluation_role),
+            str(monitor_config.get("train_eval_selection", "prefix")),
+            len(train_eval_members),
+            len(data.evaluation.members),
+        ),
         "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
     }
     if event_budget is not None:
