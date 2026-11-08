@@ -646,3 +646,80 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent-fit RNG diagnostic V1](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v1/READONLY_REJECTION.json) was rejected before output creation or submission. Its V2 successor produced a successful, accepted diagnostic-only capture of RNG metadata under the same parent-state stat; see the [record](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/README.md) and [metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/METADATA_REVIEW.json). This does not accept the parent fit or establish quality, and the exact-stop adapter is limited to the V2 diagnostic unit.
 
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
+# PR67 receiving preparation, 7 November 2026
+
+[GRU stopped-state recovery R3](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r3/README.md)
+corrects a probe-only false failure after native canonical CPU resume succeeded:
+the tensor projection now preserves OrderedDict rather than changing it to dict.
+The strict migration/payload helper and S4 science remain unchanged. Six CPU
+tests and independent review pass; fresh R3 outputs preserve R2 failures.
+ROOT's actual receipt113 now shows both canonical CPU and real CUDA zero-update
+probes passed, live archive readiness and both original fits active at update
+51,750 on7 November20:26:51UTC. Final12E/77,520 and complete archival remain pending.
+
+[GRU stopped-state recovery R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r2/README.md)
+preserves the failed S3 attempt after canonical load_resume exposed a monitor
+None-return bug. ROOT stopped both originals safely at8E/51,680 and authorized
+direct unchanged-S1-state recovery to fresh S4 siblings under the original
+deadline. R2 requires actual full canonical CPU and real-CUDA zero-update restore
+probes before resumed fitting, retains external archival, and fixes the native
+callback long-grace shutdown hang without changing S1 helpers. Five focused
+CPU tests and independent review pass; native probes/continuations remain ROOT's
+gates, with no new fit or seed counted.
+
+[Two-GRU continuation supervisor](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_supervisor/README.md)
+prepares the explicitly authorized diagnostic-source/retention transition of the
+existing L4 GRU trajectories. It preflights exact source/config/runtime/profile
+contracts before waiting for a later whole epoch, stops only the proven original
+trainer group, invokes the unchanged migrator, and requires a live external
+safe-state archiver before guarded canonical resume. The original deadline and
+12E/77,520 endpoint remain; no new fit or seed is counted. Nine focused CPU tests
+pass; native stop/migration/resume and final quality remain ROOT's actions.
+
+[Optimized B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/optimized_receiving/README.md)
+prepares four newly identified batch128/256 matched30E fits after the explicit
+optimization steering. It reuses unchanged source-r3 and the accepted owner relay,
+requires exact50-update production profiles and independent ROOT approval per
+cell, derives24,600/12,600 updates and bounds the panel to24h with1h reserve.
+Five focused CPU gates and independent static review pass; actual scientific
+profiles/fits and quality remain ROOT's receiving steps.
+
+[Throughput R1](../../experiment_drafts/tl3-transformer-complement-execution-20261107/throughput-r1/README.md)
+and [R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/throughput-r2/README.md)
+preserve separately identified direct-canonical engineering configs, exact POSIX
+argv/environment/config hashes and real-row/update budgets. R1 spans world1/2,
+batch4/16/32/64/128; ROOT admitted four50-update profiles. R2 contains the five
+separately admitted batch256/equal-global/peak probes. These are throughput
+measurements rather than quality results; no scientific fit is admitted by them.
+
+[Conditional observer-expiry continuation preparation](PR67_OBSERVER_EXPIRY_CONTINUATION_PREPARATION_20261107.md)
+documents the unchanged seven-day observation limit within ROOT's finite nine-day
+historical B4 fit envelope. The later explicit optimization steering retires those
+incomplete fits; this preparation supplies no permission to resume them. Per-epoch
+resumable state exists even under final-only retention. It proposes no live change
+or automatic replay.
+
+[Bounded B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/receiving/README.md)
+keeps frozen source-r3 unchanged while preparing checks, reference dependency
+gates, twelve bounded profiles and four independently ROOT-approved fits using
+existing PID/birth/PGID helpers. The short run alias avoids the diagnosed AF_UNIX
+path failure. Nine local CPU gate/lifecycle checks pass; native Linux containment
+proof and all actual controller/GPU stages remain receiver-owned and unexecuted
+by the preparation agent.
+
+[Separate receiving amendment](../../experiment_drafts/tl3-transformer-complement-execution-20261107/README.md)
+preserves the frozen PR67 objective and original update budget while preparing
+four parallel two-B300 fits, immutable source capsules and report-only full
+official validation after every epoch. Root owns remote execution. Local static
+checks pass; receiver baseline/acceptance/profiles and all model endpoints remain
+unmeasured by the preparation agent. Different physical device pairs are an
+explicit exploratory confound. The packet records exact commands and ancestry.
+
+[8 November ensemble-objective package](../../experiment_drafts/ensemble-objective-fix-20261108/README.md)
+freezes four new matched4E teachers, seeds101101/101102, with labels WMSE control
+and fixed-mixture unscaled WMSE plus attenuated microbatch correlation. The explicit
+pretrial.01 prediction-std floor is a package factor; the official grader is unchanged.
+Eight strict native NCCL gradient cases and four50-update actual BF16/BF16x9 profiles
+with both-rank state/RNG reload pass. The external receiver retains the earliest4h
+clock, ROOT profile copies, safe old-partial retirement, fixed4E3280 endpoint,
+canonical scoring, and actual per-epoch plots. No quality endpoint is claimed yet.
