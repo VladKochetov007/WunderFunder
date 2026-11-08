@@ -9,6 +9,7 @@ import torch
 
 from wnn.training.sequence_data import SequenceData, SequenceRecords
 from wnn.training.sequence_distributed import DistributedContext
+from wnn.training.sequence_ensemble_config import STANDALONE_LABELS_MODE
 from wnn.training.sequence_monitor_evaluation import evaluate_monitoring_sets
 from wnn.training.sequence_monitor_events import MONITOR_EVENT_FILENAME, MonitorEventWriter
 from wnn.training.sequence_monitor_identity import membership_sha256
@@ -66,6 +67,10 @@ def validate_complement_monitor(config: Mapping[str, object]) -> None:
             raise ValueError(f"monitoring.{key} must be in [1, {maximum}]")
     if monitor.get("train_eval_selection", "prefix") not in ("prefix", "hash_rank_v1"):
         raise ValueError("monitoring.train_eval_selection must be prefix or hash_rank_v1")
+    if config.get("objective_mode") == STANDALONE_LABELS_MODE:
+        if config.get("blend_objective_alpha", 0) != 0 or config["kd_weight"] != 0:
+            raise ValueError("standalone-label monitoring requires raw z without blend or KD")
+        return
     if config.get("blend_objective_alpha", 0.1) != 0.1 or config["kd_weight"] != 0:
         raise ValueError("receiving monitoring reports the fixed alpha=0.1 endpoint without KD")
 
@@ -76,7 +81,7 @@ class ComplementMonitor:
     def __init__(
         self,
         data: SequenceData,
-        reference_root: Path,
+        reference_root: Path | None,
         config: Mapping[str, object],
         output: Path,
         *,
@@ -90,19 +95,34 @@ class ComplementMonitor:
         evaluation = data.evaluation.members
         if len(members) != 10325 or len(evaluation) != 1873:
             raise ValueError("complement monitor requires the complete official memberships")
+        standalone_labels = config.get("objective_mode") == STANDALONE_LABELS_MODE
+        if standalone_labels and reference_root is not None:
+            raise ValueError(
+                "standalone-label monitoring rejects --monitor-reference-root; "
+                "use an offline fixed readout for TL3 diagnostics"
+            )
+        if not standalone_labels and reference_root is None:
+            raise ValueError("historical complement monitoring requires --monitor-reference-root")
         settings = config["monitoring"]
         self.batch_size = int(settings["eval_batch_size"])
-        fit_reference = ReferenceCache(reference_root / "fit", data.split, members)
-        valid_reference = ReferenceCache(
-            reference_root / "evaluation", data.split, evaluation, membership="evaluation"
-        )
-        if (
-            fit_reference.identity["reference_sha256"]
-            != valid_reference.identity["reference_sha256"]
-        ):
-            raise ValueError("monitor fit and valid references differ")
+        fit_reference = None
+        valid_reference = None
+        if reference_root is not None:
+            fit_reference = ReferenceCache(reference_root / "fit", data.split, members)
+            valid_reference = ReferenceCache(
+                reference_root / "evaluation", data.split, evaluation, membership="evaluation"
+            )
+            if (
+                fit_reference.identity["reference_sha256"]
+                != valid_reference.identity["reference_sha256"]
+            ):
+                raise ValueError("monitor fit and valid references differ")
         trained_reference = data.provenance.get("reference")
-        if trained_reference is not None and trained_reference != fit_reference.identity:
+        if standalone_labels and trained_reference is not None:
+            raise ValueError("standalone labels cannot have training reference ancestry")
+        if trained_reference is not None and (
+            fit_reference is None or trained_reference != fit_reference.identity
+        ):
             raise ValueError("monitoring reference differs from the training objective reference")
         selection = str(settings.get("train_eval_selection", "prefix"))
         train_members = select_train_eval_members(
@@ -131,13 +151,21 @@ class ComplementMonitor:
                 "population and row mask"
             ),
             "metric_id": "global_wp_clip2_v1",
-            "endpoint": "0.9 * clean_tl3 + 0.1 * z; no component preclipping",
-            "reference_sha256": fit_reference.identity["reference_sha256"],
-            "fit_reference_manifest_sha256": fit_reference.identity["manifest_sha256"],
-            "evaluation_reference_manifest_sha256": valid_reference.identity["manifest_sha256"],
+            "endpoint": (
+                "raw standalone z; no reference or blend"
+                if standalone_labels
+                else "0.9 * clean_tl3 + 0.1 * z; no component preclipping"
+            ),
             "checkpoint_selection": f"fixed final epoch {config['epochs']}; monitoring is report only",
             "evaluation_exposure": "development exposed; official source boundary",
         }
+        if not standalone_labels:
+            assert fit_reference is not None and valid_reference is not None
+            self.context.update(
+                reference_sha256=fit_reference.identity["reference_sha256"],
+                fit_reference_manifest_sha256=fit_reference.identity["manifest_sha256"],
+                evaluation_reference_manifest_sha256=valid_reference.identity["manifest_sha256"],
+            )
         # Both ranks bind reporting inputs before run identity is computed. They do
         # not become inputs to the label-only objective or fitting normalization.
         data.provenance["report_only_monitor"] = self.context
@@ -169,7 +197,7 @@ class ComplementMonitor:
             str(config["precision_mode"]),
             context,
             self.batch_size,
-            blend_alpha=0.1,
+            blend_alpha=None if config.get("objective_mode") == STANDALONE_LABELS_MODE else 0.1,
             report_standalone=config.get("objective_mode") is not None,
         )
         if valid["valid/sequence_count"] != 1873 or valid["valid/selected_rows"] != 3_528_273:

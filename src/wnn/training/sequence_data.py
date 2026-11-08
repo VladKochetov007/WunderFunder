@@ -16,6 +16,7 @@ from wnn.training.datasets import Sequences
 from wnn.training.environment import InputConfiguration, TrainingEnvironment
 from wnn.training.sequence_blend import fit_reference
 from wnn.training.sequence_cache import TeacherCache
+from wnn.training.sequence_ensemble_config import objective_contract
 from wnn.training.sequence_normalization import (
     NormalizationMoments,
     build_normalization_identity,
@@ -268,6 +269,9 @@ def build_data(
         "hint_mode": config["hint_mode"],
         "hint_members": None if hint_members is None else [list(member) for member in hint_members],
     }
+    declared_objective = objective_contract(config)
+    if declared_objective is not None:
+        provenance["objective_contract"] = declared_objective
     if reference is not None:
         provenance["reference"] = reference.identity
     fit = SequenceRecords(

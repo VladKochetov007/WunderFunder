@@ -4,6 +4,22 @@ from collections.abc import Mapping
 
 LABELS_MODE = "labels_wmse_v1"
 MIXTURE_MODE = "mixture_wmse_pearson_v1"
+STANDALONE_LABELS_MODE = "standalone_labels_wmse_v2"
+
+
+def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None:
+    """Describe the new standalone-label objective before it enters run identity."""
+    if config.get("objective_mode") != STANDALONE_LABELS_MODE:
+        return None
+    return {
+        "kind": "standalone_label_weighted_mse",
+        "mode": STANDALONE_LABELS_MODE,
+        "target_clip": [-2.0, 2.0],
+        "target_weight": "abs(clipped_target)",
+        "aggregation": "global_ddp_weighted_wmse_per_actual_optimizer_window",
+        "pearson_term": "none",
+        "reference_training_ancestry": "none",
+    }
 
 
 def validate_ensemble_objective(config: Mapping[str, object]) -> None:
@@ -12,6 +28,25 @@ def validate_ensemble_objective(config: Mapping[str, object]) -> None:
     if mode is None:
         if "correlation_prediction_std_floor" in config:
             raise ValueError("correlation floor requires the explicit treatment objective")
+        return
+    if mode == STANDALONE_LABELS_MODE:
+        if (
+            config["kd_weight"] != 0
+            or config["hint_weight"] != 0
+            or config["model"]["hint_dim"] != 0
+            or config.get("blend_objective_alpha", 0) != 0
+            or "correlation_prediction_std_floor" in config
+        ):
+            raise ValueError(
+                "standalone labels require no KD, hints, blend, or correlation objective"
+            )
+        if (
+            config["normalization_scope"] != "all_fit"
+            or config["training_mask"] != "all_after_warmup"
+        ):
+            raise ValueError("standalone labels require all-fit normalization and all-after-warmup")
+        if not isinstance(config.get("monitoring"), Mapping):
+            raise ValueError("standalone labels require full official-valid report-only monitoring")
         return
     if mode not in (LABELS_MODE, MIXTURE_MODE):
         raise ValueError("unsupported explicit ensemble objective mode")

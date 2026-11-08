@@ -20,6 +20,7 @@ from wnn.training.sequence_distributed import (
     shutdown_distributed,
     wrap_distributed,
 )
+from wnn.training.sequence_fit_admission import validate_fit_reference_inputs
 from wnn.training.sequence_fit_modes import run_full_fit
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
@@ -101,8 +102,7 @@ def run_sequence_fit(
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
-    if ("monitoring" in config) != (monitor_reference_root is not None):
-        raise ValueError("monitoring requires --monitor-reference-root, omitted for old recipes")
+    validate_fit_reference_inputs(config, teacher_cache, reference_cache, monitor_reference_root)
     output = output.resolve()
     resume_path = resume.resolve() if resume is not None else None
     receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
@@ -150,7 +150,7 @@ def run_sequence_fit(
                 "report-only monitor setup",
                 context,
             )
-            if monitor_reference_root is not None
+            if "monitoring" in config
             else None
         )
         seed_worker(int(config["seed"]), 0)
