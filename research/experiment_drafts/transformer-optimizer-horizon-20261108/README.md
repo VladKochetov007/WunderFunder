@@ -52,3 +52,8 @@ remaining cells are queued under the frozen four-plus-two waves. The source is
 is established. The local dashboard is http://127.0.0.1:8769/. Raw launch,
 qualification, profile, runtime and live progress receipts remain in the linked
 local artifact root. Coarse controller status can lag actual producer updates.
+
+[The live handoff](MONITORING_HANDOFF_R1.md) records verified epoch plots,
+checkpoint availability, detached monitor/publisher owners and the first
+automatic PR72 update. E1/E2 monitors remain provisional; final E4 grades and
+independent endpoint byte bindings are pending.
