@@ -430,8 +430,33 @@ def test_none_gradient_output_is_counted_without_zero_substitution() -> None:
 
     assert callback(None) is None
     metrics = probe.metrics()
-    assert metrics["diagnostics/missing_gradient_output_count"] == 1
+    assert metrics["diagnostics/missing_output_gradient/local/activation_rms/test_count"] == 1
+    assert metrics["diagnostics/missing_output_gradient_count"] == 1
+    assert metrics["diagnostics/missing_parameter_gradient_count"] == 2
     assert "local/gradient_rms/test" not in metrics
+
+
+def test_parameter_gradient_status_is_snapshotted_before_zeroing() -> None:
+    class LinearWithUnusedParameter(nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            self.linear = nn.Linear(2, 1)
+            self.unused = nn.Parameter(torch.tensor(1.0))
+
+        def forward(self, values: torch.Tensor) -> torch.Tensor:
+            return self.linear(values)
+
+    model = LinearWithUnusedParameter()
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+    with DiagnosticProbe(model) as probe:
+        model(torch.ones(2, 2)).sum().backward()
+        probe.capture_parameter_gradient_status()
+    optimizer.zero_grad(set_to_none=True)
+
+    metrics = probe.metrics()
+    assert metrics["diagnostics/trainable_parameter_count"] == 3
+    assert metrics["diagnostics/missing_parameter_gradient_count"] == 1
+    assert all(parameter.grad is None for parameter in model.parameters())
 
 
 @pytest.mark.parametrize("architecture", ["gru", "galam", "transformer"])
@@ -484,7 +509,7 @@ def test_prediction_only_diagnostics_allow_unused_hint_and_state_outputs(
         prediction.square().mean().backward()
 
     metrics = probe.metrics()
-    assert metrics["diagnostics/missing_gradient_output_count"] >= 0
+    assert metrics["diagnostics/missing_output_gradient_count"] >= 0
     if architecture == "transformer":
         assert "transformer/layer_0/attention_output_activation_rms" in metrics
         assert "transformer/layer_1/feedforward_out_activation_rms" in metrics

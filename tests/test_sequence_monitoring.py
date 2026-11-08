@@ -622,6 +622,8 @@ def test_diagnostic_probe_is_math_and_rng_neutral_and_reports_galam_branches() -
     base_prediction, _, _ = baseline(x)
     base_prediction.square().mean().backward()
     baseline_rng = torch.get_rng_state().clone()
+    baseline_modes = [(name, module.training) for name, module in baseline.named_modules()]
+    baseline_buffers = {name: value.detach().clone() for name, value in baseline.named_buffers()}
     torch.set_rng_state(starting_rng)
     with DiagnosticProbe(monitored) as probe:
         prediction, _, _ = monitored(x)
@@ -632,6 +634,11 @@ def test_diagnostic_probe_is_math_and_rng_neutral_and_reports_galam_branches() -
 
     torch.testing.assert_close(prediction, base_prediction, rtol=0, atol=0)
     assert torch.equal(baseline_rng, observed_rng)
+    assert [(name, module.training) for name, module in monitored.named_modules()] == baseline_modes
+    observed_buffers = dict(monitored.named_buffers())
+    assert observed_buffers.keys() == baseline_buffers.keys()
+    for name, expected in baseline_buffers.items():
+        torch.testing.assert_close(observed_buffers[name], expected, rtol=0, atol=0)
     for name, parameter in baseline.named_parameters():
         observed_gradient = dict(monitored.named_parameters())[name].grad
         assert (parameter.grad is None) == (observed_gradient is None)
@@ -657,6 +664,11 @@ def test_diagnostic_probe_is_math_and_rng_neutral_and_reports_galam_branches() -
         assert name in metrics
         assert np.isfinite(metrics[name])
     assert all(getattr(module, "_monitor_observer", None) is None for module in monitored.modules())
+    assert all(
+        not tensor.requires_grad and tensor.grad_fn is None
+        for mapping in (probe._sum, probe._square, probe._fraction, probe._maximum)
+        for tensor in mapping.values()
+    )
 
 
 def test_diagnostics_omit_absent_gru_cell_and_global_branches() -> None:
@@ -669,6 +681,31 @@ def test_diagnostics_omit_absent_gru_cell_and_global_branches() -> None:
     assert "local/gate/r/layer_0/mean" in metrics
     assert "local/cell_state_rms" not in metrics
     assert not any(name.startswith("global/") for name in metrics)
+    assert metrics["diagnostics/missing_output_gradient/local/hidden_state_rms_count"] >= 1
+    assert metrics["diagnostics/missing_parameter_gradient_count"] == 0
+
+
+def test_recurrent_output_activation_and_gradient_rms_have_distinct_origins() -> None:
+    torch.manual_seed(121)
+    baseline = _GRUProbeModel().train()
+    monitored = _GRUProbeModel().train()
+    monitored.load_state_dict(baseline.state_dict())
+    values = torch.randn(2, 5, 112)
+
+    hidden, _ = baseline.gru(values)
+    expected_gradient = torch.autograd.grad(baseline.head(hidden).square().mean(), hidden)[0]
+    expected_activation_rms = float(hidden.detach().float().square().mean().sqrt())
+    expected_gradient_rms = float(expected_gradient.detach().float().square().mean().sqrt())
+    with DiagnosticProbe(monitored) as probe:
+        prediction, _, _ = monitored(values)
+        prediction.square().mean().backward()
+    metrics = probe.metrics()
+
+    assert metrics["local/recurrent_output_rms"] == pytest.approx(expected_activation_rms)
+    assert metrics["local/recurrent_output_gradient_rms"] == pytest.approx(expected_gradient_rms)
+    assert metrics["local/recurrent_output_rms"] != metrics["local/recurrent_output_gradient_rms"]
+    assert metrics["diagnostics/missing_output_gradient/local/hidden_state_rms_count"] >= 1
+    assert metrics["diagnostics/missing_parameter_gradient_count"] == 0
 
 
 def _primary_epoch_producer(split_hash: str) -> dict[str, object]:

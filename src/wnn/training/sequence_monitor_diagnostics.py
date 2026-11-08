@@ -7,7 +7,18 @@ from torch import Tensor, nn
 from torch.nn.parallel import DistributedDataParallel
 
 from wnn.training.sequence_monitor_gates import collect_recurrent_gates
+from wnn.training.sequence_monitor_gradient_tracking import (
+    OutputGradientTracker,
+    parameter_gradient_status,
+)
 from wnn.training.sequence_monitor_parameters import SampledParameterProbe
+from wnn.training.sequence_monitor_probe_keys import (
+    _activation_metric,
+    _attention_tag,
+    _first_tensor,
+    _gradient_key,
+    _model_path,
+)
 
 
 class DiagnosticProbe:
@@ -21,7 +32,8 @@ class DiagnosticProbe:
         self._fraction: dict[str, Tensor] = {}
         self._maximum: dict[str, Tensor] = {}
         self._count: dict[str, int] = {}
-        self._missing_gradient_output_count = 0
+        self._gradient_tracker = OutputGradientTracker()
+        self._parameter_gradient_snapshot: tuple[int, int] | None = None
         self._handles: list[torch.utils.hooks.RemovableHandle] = []
         self._observers: list[nn.Module] = []
         self._parameters: SampledParameterProbe | None = None
@@ -113,17 +125,30 @@ class DiagnosticProbe:
         self._add_distribution_metrics(result, "train/prediction", remove_rms=True)
         self._add_distribution_metrics(result, "relative_bias/local", remove_rms=False)
         self._add_distribution_metrics(result, "relative_bias/global", remove_rms=False)
-        result["diagnostics/missing_gradient_output_count"] = self._missing_gradient_output_count
+        result.update(self._gradient_tracker.metrics())
+        if self._parameter_gradient_snapshot is None:
+            self.capture_parameter_gradient_status()
+        trainable, missing = self._parameter_gradient_snapshot or (0, 0)
+        result["diagnostics/trainable_parameter_count"] = trainable
+        result["diagnostics/missing_parameter_gradient_count"] = missing
         return result
+
+    def capture_parameter_gradient_status(self) -> None:
+        """Snapshot actual parameter grad presence before the optimizer clears buffers."""
+        self._parameter_gradient_snapshot = parameter_gradient_status(self.model)
 
     def _gradient_hook(self, key: str) -> Callable[[Tensor | None], None]:
         def _observe(gradient: Tensor | None) -> None:
+            self._gradient_tracker.observe(key, gradient)
             if gradient is None:
-                self._missing_gradient_output_count += 1
                 return
             self._add_rms(_gradient_key(key), gradient)
 
         return _observe
+
+    def _register_output_gradient(self, key: str, tensor: Tensor) -> None:
+        """Count one differentiable output and observe its backward gradient if used."""
+        self._gradient_tracker.register(key, tensor, self._gradient_hook(key))
 
     def _activation_hook(self, key: str) -> Callable[..., None]:
         def _observe(module: nn.Module, inputs: tuple[object, ...], output: object) -> None:
@@ -132,7 +157,7 @@ class DiagnosticProbe:
                 return
             self._add_rms(key, tensor)
             if tensor.requires_grad:
-                tensor.register_hook(self._gradient_hook(key))
+                self._register_output_gradient(key, tensor)
 
         return _observe
 
@@ -152,7 +177,7 @@ class DiagnosticProbe:
                 key = "local/recurrent_output_rms"
                 self._add_rms(key, sequence_output)
                 if sequence_output.requires_grad:
-                    sequence_output.register_hook(self._gradient_hook(key))
+                    self._register_output_gradient(key, sequence_output)
             if isinstance(state, tuple) and len(state) == 2:
                 hidden, cell = state
                 self._record_state("local/hidden_state_rms", hidden)
@@ -189,7 +214,7 @@ class DiagnosticProbe:
         if isinstance(value, Tensor):
             self._add_rms(key, value)
             if value.requires_grad:
-                value.register_hook(self._gradient_hook(key))
+                self._register_output_gradient(key, value)
 
     def _record_gate(self, name: str, value: Tensor, sigmoid: bool, layer: int) -> None:
         prefix = f"local/gate/{name}/layer_{layer}"
@@ -236,64 +261,3 @@ class DiagnosticProbe:
             result[f"{prefix}/std"] = max(0.0, rms * rms - mean * mean) ** 0.5
             if remove_rms:
                 del result[f"{prefix}/rms"]
-
-
-def _first_tensor(value: object) -> Tensor | None:
-    if isinstance(value, Tensor):
-        return value
-    if isinstance(value, tuple):
-        return next((tensor for item in value if (tensor := _first_tensor(item)) is not None), None)
-    return None
-
-
-def _model_path(name: str) -> str:
-    if ".galam." in name:
-        return name.split(".galam.", 1)[1]
-    if name.startswith("galam."):
-        return name.removeprefix("galam.")
-    return name.removeprefix("module.")
-
-
-def _attention_tag(path: str) -> str:
-    return "local" if path.startswith("local_attention.") else "global"
-
-
-def _activation_metric(path: str) -> str | None:
-    if path in ("input_projection", "output_head"):
-        return f"transformer/{path}_activation_rms"
-    if path.startswith("blocks."):
-        parts = path.split(".")
-        if (
-            len(parts) == 3
-            and parts[1].isdigit()
-            and parts[2]
-            in (
-                "attention_output",
-                "feedforward_in",
-                "feedforward_out",
-            )
-        ):
-            return f"transformer/layer_{parts[1]}/{parts[2]}_activation_rms"
-    if path.startswith("local_norms."):
-        return f"local/activation_rms/{path.rsplit('.', 1)[-1]}"
-    if path.startswith("global_attention_norms."):
-        return f"global/attention_activation_rms/{path.rsplit('.', 1)[-1]}"
-    if path.startswith("global_mixer_norms."):
-        return f"global/mixer_activation_rms/{path.rsplit('.', 1)[-1]}"
-    if path == "hidden_projection":
-        return "local/hidden_projection_activation_rms"
-    if path == "cell_projection":
-        return "local/cell_projection_activation_rms"
-    if path == "fusion":
-        return "fusion/output_activation_rms"
-    if path in ("fusion_norm", "feed_forward", "feed_forward_norm"):
-        return f"fusion/{path}_activation_rms"
-    if path.startswith(("local_attention.", "global_attention.")) and path.endswith(".output"):
-        return f"attention/{_attention_tag(path)}/output_activation_rms"
-    if ".relative_bias" in path and path.endswith("relative_bias"):
-        return f"relative_bias/{_attention_tag(path)}/activation_rms"
-    return None
-
-
-def _gradient_key(key: str) -> str:
-    return key.replace("activation_rms", "gradient_rms").replace("state_rms", "state_gradient_rms")

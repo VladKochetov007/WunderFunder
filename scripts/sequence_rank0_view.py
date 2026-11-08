@@ -22,6 +22,15 @@ METRICS = {
     "valid_rows_per_second": "throughput/objective_rows_per_second",
     "forwarded_rows_per_second": "throughput/forwarded_rows_per_second",
 }
+NATIVE_OBJECTIVE_METRICS = {
+    "objective_wmse": "train/objective_wmse_raw",
+    "objective_correlation_loss": "train/objective_correlation_loss_raw",
+    "wmse_objective_weight": "train/objective_weight/wmse",
+    "correlation_objective_weight": "train/objective_weight/correlation",
+    "microbatch_correlation_surrogate_t0": "train/objective_correlation_surrogate/t0",
+    "microbatch_correlation_surrogate_t1": "train/objective_correlation_surrogate/t1",
+    "correlation_prediction_std_floor": "train/correlation_prediction_std_floor",
+}
 
 
 def _updates_per_epoch(metadata: dict[str, object]) -> int:
@@ -86,6 +95,7 @@ def update_rank0_view(native: Path, view: Path, previous: dict[str, object]) -> 
             for key, metric in METRICS.items()
             if isinstance(row.get(key), (int, float)) and math.isfinite(float(row[key]))
         }
+        metrics.update(_native_objective_metrics(row, metadata["config"]))
         for name, rate in row.get("learning_rates", {}).items():
             if isinstance(rate, (int, float)) and math.isfinite(float(rate)):
                 metrics[f"optimizer/lr/{str(name).replace('/', '_')}"] = float(rate)
@@ -103,6 +113,7 @@ def update_rank0_view(native: Path, view: Path, previous: dict[str, object]) -> 
                 "wall_time_basis": "actual source file mtime; per-update wall time unavailable",
                 "epoch_basis": "native fit-members/config/world-size padded update schedule",
                 "loss_scope": "native label or curvature-scaled composite objective, as configured",
+                "native_objective": _native_objective_context(row, metadata["config"]),
             },
         }
         events.append((json.dumps(event, sort_keys=True, allow_nan=False) + "\n").encode())
@@ -110,3 +121,51 @@ def update_rank0_view(native: Path, view: Path, previous: dict[str, object]) -> 
         with target.open("ab") as stream:
             stream.write(b"".join(events))
     return {"identity": identity, "offset": stop, "marker": next_marker}
+
+
+def _native_objective_metrics(
+    row: dict[str, object], config: dict[str, object]
+) -> dict[str, float]:
+    """Expose native raw components and their weights as separate numeric series."""
+    metrics = {
+        metric: float(row[source])
+        for source, metric in NATIVE_OBJECTIVE_METRICS.items()
+        if isinstance(row.get(source), (int, float)) and math.isfinite(float(row[source]))
+    }
+    kd_weight = config.get("kd_weight", 0.0)
+    if isinstance(kd_weight, (int, float)) and math.isfinite(float(kd_weight)):
+        metrics["train/objective_weight/kd"] = float(kd_weight)
+    hint_weight = config.get("hint_weight", 0.0)
+    if isinstance(hint_weight, (int, float)) and math.isfinite(float(hint_weight)):
+        metrics["train/objective_weight/hint"] = float(hint_weight)
+    return metrics
+
+
+def _native_objective_context(
+    row: dict[str, object], config: dict[str, object]
+) -> dict[str, object]:
+    """Retain nonnumeric objective semantics needed to interpret native components."""
+    fields = (
+        "objective_mode",
+        "objective_aggregation",
+        "label_loss_is_curvature_scaled",
+        "correlation_scope",
+    )
+    context = {key: row[key] for key in fields if isinstance(row.get(key), (str, bool))}
+    floor = row.get("correlation_prediction_std_floor")
+    if isinstance(floor, (int, float)) and math.isfinite(float(floor)):
+        context["correlation_prediction_std_floor"] = float(floor)
+    label_scaled = row.get("label_loss_is_curvature_scaled") is True
+    context["component_semantics"] = {
+        "train/native_label_objective": (
+            "curvature-scaled label term" if label_scaled else "native label loss as logged"
+        ),
+        "train/objective_wmse_raw": "raw WMSE component; apply train/objective_weight/wmse",
+        "train/objective_correlation_loss_raw": (
+            "raw correlation component; apply train/objective_weight/correlation"
+        ),
+        "train/kd_loss": f"raw KD term; configured kd_weight={config.get('kd_weight', 0)}",
+        "train/hint_loss": f"raw hint term; configured hint_weight={config.get('hint_weight', 0)}",
+        "train/loss": "native total_loss; not recomputed from displayed components",
+    }
+    return context

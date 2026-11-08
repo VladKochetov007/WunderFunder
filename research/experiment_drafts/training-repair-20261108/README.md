@@ -54,7 +54,7 @@ fail-closed contracts. Run Ruff and check_training_structure on changed modules.
 | Point | Status | Evidence and next-run interpretation |
 |---|---|---|
 | 1 | implemented; CPU checked | POINT1_L4.md; 21 tests passed, 1 dependency skip; 22 plot artifacts rendered separately, Ruff and structure 154/0; independent role regression passed. |
-| 2 | pending | |
+| 2 | implemented; CPU checked | POINT2_L4.md; 37 tests passed, 1 dependency skip; independent JS guard 41 groups/21 keys, actual full B3280 journal rendered (12 files, no inference); Ruff and structure 156/0. |
 | 3 | pending | |
 | 4 | pending | |
 | 5 | pending | |

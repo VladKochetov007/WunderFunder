@@ -116,6 +116,14 @@ function renderConfigs() {
       observation.textContent = JSON.stringify({ status: run.observer_status, context: run.observer_context, metrics: run.observer_metrics }, null, 2);
       entry.append(node("div", "config-subhead", "INDEPENDENT PROCESS / GPU OBSERVATION"), observation);
     }
+    const objectiveEvent = [...(run.events || [])].reverse().find((event) =>
+      event.context && event.context.native_objective,
+    );
+    if (objectiveEvent) {
+      const objective = node("pre");
+      objective.textContent = JSON.stringify(objectiveEvent.context.native_objective, null, 2);
+      entry.append(node("div", "config-subhead", "NATIVE OBJECTIVE SEMANTICS"), objective);
+    }
     configList.append(entry);
   }
 }
@@ -159,6 +167,7 @@ async function refreshSelected() {
   const ids = [...state.selected];
   if (!ids.length) {
     state.snapshots = [];
+    updateAxisNote();
     renderConfigs();
     updateMetricOptions();
     renderCharts();
@@ -170,6 +179,7 @@ async function refreshSelected() {
     const query = new URLSearchParams({ ids: ids.join(","), limit: "1200" });
     const data = await getJson(`/api/run?${query}`);
     state.snapshots = data.runs || [];
+    updateAxisNote();
     renderConfigs();
     updateMetricOptions();
     renderCharts();
@@ -214,11 +224,41 @@ function comparableScoreKeys() {
 }
 
 function metricGroups() {
+  const cohortMetricKeys = (group, predicate) => findKeys((key) => /^(train_eval|valid|control)\//.test(key)
+    && key.split("/")[1] === group && predicate(key));
+  const addMetricGroup = (title, subtitle, keys) => keys.length
+    ? [{ title, subtitle, keys, wide: true }]
+    : [];
+  const targetDistributionGroups = () => [
+    ...addMetricGroup("Target output moments", "Raw, clipped and official-weighted target means or standard deviations, by cohort and target.", cohortMetricKeys("target", (key) => /\/(raw|clipped|weighted_raw|weighted_clipped)_(mean|std)\/t[01]$/.test(key))),
+    ...addMetricGroup("Target clipped counts", "Counts of clipped target values, shown separately from prediction moments and weight masses.", cohortMetricKeys("target", (key) => /\/clipped_count\/t[01]$/.test(key))),
+    ...addMetricGroup("Target weight mass", "Raw absolute, official and clipped weight mass summaries, by cohort and target.", cohortMetricKeys("target", (key) => /\/(raw_abs_mass|official_weight_mass|clipped_weight_mass(?:_delta)?)\/t[01]$/.test(key))),
+  ];
+  const componentDistributionGroups = (component) => {
+    const groups = [
+      ["output moments", "Raw and official-weighted means or standard deviations by target.", (key) => /\/(raw|weighted_raw)_(mean|std)\/t[01]$/.test(key)],
+      ["WP scores", "Per-target WP scores; score units are kept separate from prediction moments and WMSE.", (key) => /\/(wp|score)(\/t[01])?$/.test(key)],
+      ["WMSE losses", "Per-target WMSE or loss values, separate from WP and prediction moments.", (key) => /\/(wmse|loss)(\/t[01])?$/.test(key)],
+      ["clipping fractions", "Prediction clipping fractions by target.", (key) => /\/(prediction_)?clipped_fraction\/t[01]$/.test(key)],
+      ["clipped counts", "Prediction clipping counts by target, separate from fractions and weight mass.", (key) => /\/(prediction_)?clipped_count\/t[01]$/.test(key)],
+      ["clipped weight mass", "Official weight mass for clipped predictions, by target.", (key) => /\/(prediction_)?clipped_weight_mass(?:_delta)?\/t[01]$/.test(key)],
+    ];
+    return groups.flatMap(([label, subtitle, predicate]) => addMetricGroup(
+      `${component} ${label}`,
+      subtitle,
+      cohortMetricKeys(component, predicate),
+    ));
+  };
   return [
     { title: "Train eval, inner control and full validation loss", subtitle: "Train-eval is an in-sample fitting subset diagnostic. Full official valid uses is_scored. Their difference is not a calibrated generalization gap; inspect run provenance for cohort selection and masks.", keys: exactKeys("train_eval/loss", "control/loss", "valid/loss"), wide: true },
     { title: "Online training loss", subtitle: "train/loss uses the training objective mask during updates; it is separate from evaluation", keys: exactKeys("train/loss"), dashed: true },
     { title: "Train eval, inner control and full validation score / WP", subtitle: "Pooled WP. Train-eval is a fitting-only in-sample subset; inner control is also a fitting proxy. Official valid covers its full supplied membership. Cohort differences are diagnostic, not a calibrated generalization gap.", keys: comparableScoreKeys(), wide: true },
-    { title: "Training objective components", subtitle: "Label, teacher and auxiliary terms belong to their recorded stage and are separate from evaluation loss", keys: findKeys((key) => key.startsWith("train/") && key.includes("loss") && key !== "train/loss"), wide: true },
+    { title: "Training objective components", subtitle: "Raw teacher and auxiliary terms belong to their recorded stage; native objective weights are displayed separately", keys: findKeys((key) => key.startsWith("train/") && key.includes("loss") && key !== "train/loss" && !key.startsWith("train/objective_")), wide: true },
+    { title: "Native objective terms", subtitle: "Native label loss can be curvature-scaled; WMSE and correlation values are raw components. Total and legacy composite losses are shown as logged, not recomputed.", keys: exactKeys("train/native_label_objective", "train/objective_wmse_raw", "train/objective_correlation_loss_raw", "train/composite_wmse", "train/loss"), wide: true },
+    { title: "Native correlation surrogates", subtitle: "Microbatch correlation surrogate terms by target; separate from WMSE and correlation loss components.", keys: exactKeys("train/objective_correlation_surrogate/t0", "train/objective_correlation_surrogate/t1"), wide: true },
+    { title: "Native objective weights and blend coefficient", subtitle: "Configured objective weights and the legacy blend coefficient are shown separately from raw loss components; KD and hint may be inactive at zero weight.", keys: exactKeys("train/objective_weight/wmse", "train/objective_weight/correlation", "train/objective_weight/kd", "train/objective_weight/hint", "train/blend_alpha"), wide: true },
+    ...targetDistributionGroups(),
+    ...["z", "reference", "mixture"].flatMap(componentDistributionGroups),
     { title: "Per-target score t0", subtitle: "Recorded t0 series; row masks are recorded per cohort", keys: targetScoreKeys("t0") },
     { title: "Per-target score t1", subtitle: "Recorded t1 series; row masks are recorded per cohort", keys: targetScoreKeys("t1") },
     { title: "Learning rate", subtitle: "Recorded optimizer learning rate", keys: findKeys((key) => key === "optimizer/lr" || key.startsWith("optimizer/lr/") || key.endsWith("/learning_rate")) },
@@ -227,13 +267,15 @@ function metricGroups() {
     { title: "Sampled weight and update norms", subtitle: "First 4096 trainable scalar weights, sampled only at the configured diagnostics cadence", keys: exactKeys("optimizer/sampled_weight_l2_norm", "optimizer/sampled_update_l2_norm", "optimizer/sampled_update_to_weight_ratio") },
     { title: "Progress and artifact ages", subtitle: "Heartbeat freshness, successful optimizer progress, producer-event age and checkpoint age are separate observations", keys: findKeys((key) => key.startsWith("observer/") && key.endsWith("_age_seconds")) },
     { title: "Branch norms and activation RMS", subtitle: "Recorded local and global norms, activation, hidden, or cell RMS", keys: findKeys((key) => (key.startsWith("local/") || key.startsWith("global/")) && !key.includes("grad") && ["norm", "rms", "activation", "hidden", "cell"].some((token) => key.includes(token))) },
+    { title: "Output gradient coverage", subtitle: "Named output tensors without backward gradients. Detached returned recurrent states can be expected; these counts do not diagnose missing parameter gradients.", keys: findKeys((key) => key.startsWith("diagnostics/missing_output_gradient")) },
+    { title: "Parameter gradient coverage", subtitle: "Trainable tensor counts and missing parameter gradients, snapshotted after backward and before zero_grad.", keys: exactKeys("diagnostics/trainable_parameter_count", "diagnostics/missing_parameter_gradient_count") },
     { title: "Branch gradients", subtitle: "Recorded local and global branch gradients", keys: findKeys((key) => (key.startsWith("local/") || key.startsWith("global/")) && key.includes("grad")) },
     { title: "Branch gates", subtitle: "Recorded local or global gate mean and saturation", keys: findKeys((key) => (key.startsWith("local/gate/") || key.startsWith("global/gate/")) && (key.endsWith("/mean") || key.includes("saturat"))) },
     { title: "Fusion saturation", subtitle: "Recorded fusion gate or saturation diagnostics", keys: findKeys((key) => key.startsWith("fusion/") && (key.includes("gate") || key.includes("saturat"))) },
     { title: "Attention entropy", subtitle: "Recorded attention entropy diagnostics", keys: findKeys((key) => key.startsWith("attention/") && key.includes("entropy")) },
     { title: "Attention lag", subtitle: "Recorded attention lag diagnostics", keys: findKeys((key) => key.startsWith("attention/") && key.includes("lag")) },
     { title: "Relative position encoding / bias", subtitle: "Recorded relative-position or relative-bias metrics", keys: findKeys((key) => key.startsWith("relative_bias/")) },
-    { title: "Prediction mean, standard deviation, and clipping", subtitle: "Recorded prediction distribution summaries", keys: findKeys((key) => (key.startsWith("prediction/") || key.startsWith("train/prediction/") || key.includes("/prediction_")) && ["mean", "std", "clip", "fraction"].some((token) => key.includes(token))), wide: true },
+    { title: "Prediction mean, standard deviation, and clipping", subtitle: "Recorded aggregate prediction moments and clipping fractions; head-specific counts and weight masses have separate groups", keys: findKeys((key) => (key.startsWith("prediction/") || key.startsWith("train/prediction/") || /^(train_eval|valid|control)\/prediction_(mean|std|clip_fraction|clipped_fraction)(\/t[01])?$/.test(key)) && ["mean", "std", "clip", "fraction"].some((token) => key.includes(token))), wide: true },
     { title: "GPU utilization", subtitle: "Recorded GPU utilization", keys: findKeys((key) => key.startsWith("gpu/") && (key.includes("util") || key.includes("usage"))) },
     { title: "GPU memory", subtitle: "Recorded GPU memory use", keys: findKeys((key) => key.startsWith("gpu/") && (key.includes("memory") || key.includes("mem"))) },
     { title: "GPU power", subtitle: "Recorded GPU power draw", keys: findKeys((key) => key.startsWith("gpu/") && key.includes("power")) },
@@ -265,6 +307,7 @@ function renderCharts() {
 
 function buildSeries(keys, customDashed) {
   const series = [];
+  const xAxis = effectiveXAxis();
   state.snapshots.forEach((run, runIndex) => {
     const events = run.events || [];
     const timedEvents = events.filter((event) => !(event.context && event.context.wall_time_is_update_time === false));
@@ -274,8 +317,8 @@ function buildSeries(keys, customDashed) {
         const metrics = event.metrics || {};
         const value = metrics[key];
         let x = Number.NaN;
-        if (state.xAxis === "epoch") x = event.epoch;
-        else if (state.xAxis === "step") x = event.step;
+        if (xAxis === "epoch") x = event.epoch;
+        else if (xAxis === "step") x = event.step;
         else if (!(event.context && event.context.wall_time_is_update_time === false)) {
           const eventTime = Date.parse(event.wall_time);
           if (Number.isFinite(eventTime) && Number.isFinite(timeOrigin)) x = (eventTime - timeOrigin) / 1_000;
@@ -286,6 +329,7 @@ function buildSeries(keys, customDashed) {
           epoch: event.epoch,
           step: event.step,
           wallTime: event.wall_time,
+          wallTimeIsUpdateTime: !(event.context && event.context.wall_time_is_update_time === false),
         };
       });
       if (!points.some((point) => point.y !== null && point.x !== null)) continue;
@@ -344,7 +388,23 @@ function formatNumber(value) {
 }
 
 function axisLabel() {
-  return ({ epoch: "Epoch", step: "Training step", elapsed: "Elapsed wall time (s)" })[state.xAxis];
+  return ({ epoch: "Epoch", step: "Training step", elapsed: "Elapsed wall time (s)" })[effectiveXAxis()];
+}
+
+function effectiveXAxis() {
+  const nativeUpdateClock = state.snapshots.some((run) =>
+    (run.events || []).some((event) => event.context && event.context.wall_time_is_update_time === false),
+  );
+  return state.xAxis === "elapsed" && nativeUpdateClock ? "step" : state.xAxis;
+}
+
+function updateAxisNote() {
+  const note = state.xAxis === "elapsed" && effectiveXAxis() === "step"
+    ? "Optimizer updates are shown because a selected native journal has no per-update wall time."
+    : state.xAxis === "elapsed"
+      ? "Wall time since the first retained event; includes pauses and resume downtime."
+      : `${axisLabel()} values come directly from each event.`;
+  document.getElementById("chart-axis-note").textContent = note;
 }
 
 function drawChart(canvas, series, tooltip) {
@@ -429,10 +489,10 @@ function showHover(canvas, tooltip, event) {
     if (candidate < distance) { nearest = hit; distance = candidate; }
   }
   if (!nearest) { tooltip.classList.add("hidden"); return; }
-  const measuredX = state.xAxis === "elapsed"
+  const measuredX = effectiveXAxis() === "elapsed"
     ? `elapsed ${formatNumber(nearest.point.x)}s`
     : `${axisLabel().toLowerCase()} ${formatNumber(nearest.point.x)}`;
-  const time = nearest.point.wallTime ? ` · ${nearest.point.wallTime}` : "";
+  const time = nearest.point.wallTime && nearest.point.wallTimeIsUpdateTime ? ` · ${nearest.point.wallTime}` : "";
   tooltip.textContent = `${nearest.line.label} · ${measuredX} · step ${nearest.point.step} · ${formatNumber(nearest.point.y)}${time}`;
   tooltip.style.left = `${Math.min(x + 10, rect.width - 240)}px`;
   tooltip.style.top = `${Math.max(4, y - 34)}px`;
@@ -452,10 +512,7 @@ metricSelect.addEventListener("change", () => {
 });
 chartXAxis.addEventListener("change", () => {
   state.xAxis = chartXAxis.value;
-  const note = state.xAxis === "elapsed"
-    ? "Wall time since the first retained event; includes pauses and resume downtime."
-    : `${axisLabel()} values come directly from each event.`;
-  document.getElementById("chart-axis-note").textContent = note;
+  updateAxisNote();
   renderCharts();
 });
 document.getElementById("refresh-now").addEventListener("click", refreshRuns);

@@ -4,6 +4,7 @@ import argparse
 import logging
 from pathlib import Path
 
+from scripts.sequence_monitor_plot_distributions import component_distribution_figures
 from wnn.multistage_plot_data import read_evaluation_events, read_training_events
 from wnn.multistage_plot_fit_figures import (
     _plot_online,
@@ -112,6 +113,7 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
         ("online_objectives", _plot_online(plt, training, first_wall)),
         ("optimizer_telemetry", _plot_optimizer(plt, training, first_wall)),
     ]
+    figures.extend(component_distribution_figures(plt, evaluations))
     if rank_zero:
         # Native B300 rank rows lack update timestamps. Use their actual update
         # clock rather than interpreting sampled source-file mtime as update time.

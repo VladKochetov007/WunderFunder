@@ -231,6 +231,13 @@ class SequenceMonitor:
                 "sampling": f"every {self.diagnostics_every_steps} optimizer steps",
                 "scope": "rank-zero sampled forward/backward optimizer window",
                 "missing_metrics": "unavailable model branches are omitted",
+                "gradient_absence_semantics": (
+                    "named missing_output_gradient counts are output tensors without backward "
+                    "gradients; detached recurrent returned states may be expected. "
+                    "missing_parameter_gradient_count separately counts trainable parameters "
+                    "whose grad is None after backward."
+                ),
+                "hook_semantics": "tensor-hook measurements are detached; callbacks return None",
                 "parameter_norm_sampling": "first 4096 trainable scalars in model parameter order",
                 "epoch_index": epoch_index + 1,
             },

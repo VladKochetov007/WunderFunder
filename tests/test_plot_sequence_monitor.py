@@ -42,6 +42,13 @@ def test_local_plot_export_preserves_native_journals_and_role(tmp_path: Path) ->
             "valid/wp/t0": 0.31,
             "train_eval/wp/t1": 0.39,
             "valid/wp/t1": 0.29,
+            **{
+                f"{cohort}/{component}/{statistic}/{target}": 0.2
+                for cohort in ("train_eval", "valid")
+                for component in ("z", "reference", "mixture")
+                for statistic in ("raw_mean", "weighted_raw_mean", "raw_std", "weighted_raw_std")
+                for target in ("t0", "t1")
+            },
         },
         "context": {
             "train_eval": {
@@ -62,10 +69,20 @@ def test_local_plot_export_preserves_native_journals_and_role(tmp_path: Path) ->
         "wall_time": "2026-11-07T09:59:00Z",
         "metrics": {
             "train/loss": 0.95,
+            "train/native_label_objective": 0.8,
+            "train/objective_wmse_raw": 0.7,
+            "train/objective_correlation_loss_raw": 0.2,
+            "train/objective_correlation_surrogate/t0": 0.3,
+            "train/objective_correlation_surrogate/t1": 0.4,
+            "train/kd_loss": 0.1,
+            "train/hint_loss": 0.05,
+            "train/objective_weight/kd": 0.0,
+            "train/objective_weight/hint": 0.0,
             "optimizer/lr/adamw": 0.001,
             "optimizer/gradient_norm_preclip": 0.7,
             "optimizer/was_clipped": 0,
         },
+        "context": {"native_objective": {"objective_mode": "mixture_wmse_corr"}},
     }
     observation = {
         **training,
@@ -95,6 +112,16 @@ def test_local_plot_export_preserves_native_journals_and_role(tmp_path: Path) ->
     assert "not a calibrated generalization gap" in wp_markup
     assert (output / "gpu_utilization.png").is_file()
     assert (output / "native_rank0_objectives_by_update.png").is_file()
+    online_plot = (output / "online_objectives.svg").read_text(encoding="utf-8")
+    assert "Raw WMSE component (weight separate)" in online_plot
+    assert "Raw correlation loss (weight separate)" in online_plot
+    assert "Correlation surrogate t0" in online_plot
+    assert "Raw KD term" not in online_plot
+    native_updates = (output / "native_rank0_objectives_by_update.svg").read_text(encoding="utf-8")
+    assert "Optimizer updates" in native_updates
+    for component in ("z", "reference", "mixture"):
+        assert (output / f"prediction_{component}_means_by_target.png").is_file()
+        assert (output / f"prediction_{component}_spread_by_target.png").is_file()
     for name, content in before.items():
         assert (run / name).read_bytes() == content
         assert result["source_sha256"][name] == hashlib.sha256(content).hexdigest()

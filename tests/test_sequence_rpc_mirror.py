@@ -10,6 +10,7 @@ import pytest
 from scripts.collect_sequence_monitor import CHUNK_BYTES, collect_runs
 from scripts.mirror_sequence_rpc import tick
 from scripts.sequence_monitor_mirror_io import apply_snapshot
+from scripts.sequence_rank0_view import update_rank0_view
 from wnn.dashboard.reader import DashboardReader
 
 
@@ -40,6 +41,52 @@ def _source(root: Path) -> Path:
     (run / "monitor_events.jsonl").write_text(json.dumps(_event()) + "\n")
     (run / "monitor_evaluations.jsonl").write_bytes((run / "monitor_events.jsonl").read_bytes())
     return run
+
+
+def test_rank0_adapter_preserves_raw_objective_terms_weights_and_semantics(
+    tmp_path: Path,
+) -> None:
+    native = _source(tmp_path / "native")
+    view = tmp_path / "view"
+    view.mkdir()
+    row = {
+        "step": 5,
+        "rank": 0,
+        "total_loss": 1.4,
+        "label_loss": 0.8,
+        "kd_loss": 0.2,
+        "hint_loss": 0.1,
+        "objective_mode": "mixture_wmse_corr",
+        "objective_aggregation": "update_mean_wmse_plus_microbatch_correlation",
+        "label_loss_is_curvature_scaled": True,
+        "objective_wmse": 0.7,
+        "objective_correlation_loss": 0.5,
+        "wmse_objective_weight": 1.0,
+        "correlation_objective_weight": 0.1,
+        "microbatch_correlation_surrogate_t0": 0.45,
+        "microbatch_correlation_surrogate_t1": 0.55,
+        "correlation_scope": "per_microbatch",
+        "correlation_prediction_std_floor": 0.01,
+    }
+    (native / "rank0.jsonl").write_text(json.dumps(row) + "\n", encoding="utf-8")
+
+    update_rank0_view(native, view, {})
+
+    event = json.loads((view / "monitor_rank0.jsonl").read_text(encoding="utf-8"))
+    metrics = event["metrics"]
+    context = event["context"]["native_objective"]
+    assert metrics["train/objective_wmse_raw"] == 0.7
+    assert metrics["train/objective_correlation_loss_raw"] == 0.5
+    assert metrics["train/objective_weight/wmse"] == 1.0
+    assert metrics["train/objective_weight/correlation"] == 0.1
+    assert metrics["train/objective_correlation_surrogate/t0"] == 0.45
+    assert metrics["train/objective_correlation_surrogate/t1"] == 0.55
+    assert metrics["train/objective_weight/kd"] == 0.0
+    assert metrics["train/native_label_objective"] == 0.8
+    assert context["objective_mode"] == "mixture_wmse_corr"
+    assert context["label_loss_is_curvature_scaled"] is True
+    assert "raw WMSE component" in context["component_semantics"]["train/objective_wmse_raw"]
+    assert "curvature-scaled" in context["component_semantics"]["train/native_label_objective"]
 
 
 def test_delta_chunks_keep_complete_native_bytes_and_preserve_rotations(tmp_path: Path) -> None:

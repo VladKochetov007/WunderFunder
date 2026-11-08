@@ -72,21 +72,94 @@ def _plot_wp(
 def _plot_online(
     plt: object, events: Sequence[dict[str, object]], first_wall: str | None
 ) -> object | None:
-    keys = ("train/loss", "train/label_weighted_mse", "train/kd_loss", "train/hint_loss")
+    objective_keys = (
+        "train/loss",
+        "train/label_weighted_mse",
+        "train/native_label_objective",
+    )
+    component_keys = ("train/objective_wmse_raw", "train/objective_correlation_loss_raw")
+    surrogate_keys = (
+        "train/objective_correlation_surrogate/t0",
+        "train/objective_correlation_surrogate/t1",
+    )
+    native_objective = any(
+        isinstance(event.get("context"), Mapping)
+        and isinstance(event["context"].get("native_objective"), Mapping)
+        for event in events
+    )
+    auxiliary = ("train/kd_loss", "train/hint_loss")
+    if native_objective:
+        active_weights = {
+            "train/kd_loss": "train/objective_weight/kd",
+            "train/hint_loss": "train/objective_weight/hint",
+        }
+        auxiliary = tuple(
+            term
+            for term, weight in active_weights.items()
+            if any(
+                isinstance(event.get("metrics"), Mapping)
+                and isinstance(event["metrics"].get(weight), (int, float))
+                and event["metrics"][weight] > 0
+                for event in events
+            )
+        )
+    groups = [
+        (
+            "Logged objective values",
+            objective_keys,
+            {
+                "train/loss": "Native total loss (as logged)",
+                "train/label_weighted_mse": "Logged label WMSE",
+                "train/native_label_objective": "Native label term (may be curvature-scaled)",
+            },
+        ),
+        (
+            "Raw objective components",
+            component_keys,
+            {
+                "train/objective_wmse_raw": "Raw WMSE component (weight separate)",
+                "train/objective_correlation_loss_raw": "Raw correlation loss (weight separate)",
+            },
+        ),
+        (
+            "Microbatch correlation surrogates",
+            surrogate_keys,
+            {
+                "train/objective_correlation_surrogate/t0": "Correlation surrogate t0",
+                "train/objective_correlation_surrogate/t1": "Correlation surrogate t1",
+            },
+        ),
+    ]
+    if auxiliary:
+        groups.append(
+            (
+                "Raw auxiliary terms",
+                auxiliary,
+                {
+                    "train/kd_loss": "Raw KD term",
+                    "train/hint_loss": "Raw hint term",
+                },
+            )
+        )
+    keys = tuple(key for _, group_keys, _ in groups for key in group_keys)
     rows = _training_series(events, keys, first_wall)
     if not any(points for points in rows.values()):
         return None
-    fig, axis = plt.subplots(figsize=(8, 4.5))
-    for key, points in rows.items():
-        if points:
-            axis.plot([point[0] for point in points], [point[1] for point in points], label=key)
-    axis.set(
-        xlabel="Elapsed seconds",
-        ylabel="Online loss",
-        title="Online training objective (not validation WMSE)",
-    )
-    axis.legend()
-    axis.grid(True, alpha=0.25)
+    fig, axes = plt.subplots(len(groups), 1, figsize=(9, 3.2 * len(groups)), sharex=True)
+    for axis, (title, group_keys, labels) in zip(axes, groups, strict=True):
+        for key in group_keys:
+            points = rows[key]
+            if points:
+                axis.plot(
+                    [point[0] for point in points],
+                    [point[1] for point in points],
+                    label=labels[key],
+                )
+        axis.set_ylabel(title)
+        axis.legend(fontsize=8)
+        axis.grid(True, alpha=0.25)
+    axes[-1].set_xlabel("Elapsed seconds")
+    fig.suptitle("Online objective diagnostics (not validation WMSE); weights are separate")
     return fig
 
 

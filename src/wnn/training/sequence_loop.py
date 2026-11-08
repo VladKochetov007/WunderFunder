@@ -155,6 +155,8 @@ def train_epoch(
                         context,
                         diagnostics,
                     )
+                    if diagnostics is not None:
+                        diagnostics.capture_parameter_gradient_status()
                 gradient_norm, optimizer_seconds = finish_update(
                     model, optimizer, scheduler, context, float(config["grad_clip"])
                 )
