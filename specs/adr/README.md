@@ -4,6 +4,7 @@ ADRs explain why a consequential research or orchestration decision was made. Th
 
 | ADR | Decision | Status |
 |---|---|---|
+| [0044](0044-chronological-primary-validation.md) | Mandatory chronological primary validation; preserve old random-fold results as history | Accepted 2026-10-27 |
 | [0001](0001-long-term-winning.md) | Optimize long-term winning with exploration and deepening | Accepted |
 | [0002](0002-layered-evidence-memory.md) | Keep compact specifications, indexed episodes and immutable evidence | Accepted |
 | [0003](0003-independent-diverse-ideation.md) | Use diverse agents and random/directed literature components | Accepted |

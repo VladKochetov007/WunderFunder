@@ -1,0 +1,11 @@
+# Transformer resource amendment before scientific fitting
+
+The original math-SDPA batch8/accumulate4 profiles completed exactly50updates each, in107.423/106.529seconds. Both had errors=[], finite objective evidence, FP32 optimizer state and1,899,435,520-byte peak allocated VRAM (2,311,061,504 reserved). With25,820updates, the measured projection is15.3-15.4hours of training before validation, exceeding the twelve-hour wave allocation. Neither original Transformer scientific fit was started.
+
+Root therefore profiles the existing efficient-SDPA FP32 backend at batch32/accumulate1 and batch64/accumulate1 before freezing both fitting seeds to a single measured resource preset. The eight-layer d384/H8/FFN1536 architecture, causal1024-row window, event211 inputs, all-fit train-only normalization, AdamW3e-4, warmup-cosine, four epochs/fixedep3, primary split and masks remain the same. Each candidate has its own exact config/profile receipt and may not borrow the original math-profile admission.
+
+This is an explicit prospective resource/optimization-recipe change, not exact replay of the original batch schedule. Batch32/accumulate1 forwards the same nominal32,768rows per full update as batch8/accumulate4 but changes how sequences/chunks are grouped. Batch64 doubles that nominal update workload and reduces optimizer update count; its scheduler count must be recomputed from the actual config. No scientific validation result is available or used to choose the preset. The chosen candidate must leave sufficient time for required downstream execution and collection.
+
+A real-L4 forward/backward parity check of existing efficient versus math attention passed in torch.float32 with TF32 disabled: maximum output absolute difference1.8477439880371094e-6; Q/K/V gradient differences at most3.637978807091713e-10. Exact receiving check, identities, resource profiles and decision are retained in runtime/control. This bounded check is numerical admission, not evidence of learned quality.
+
+The six GRU scientific fits are unchanged and continue onGPU0-5. Engineering profile attempts count toward the existing24-profile maximum; no extra scientific fit is added. Preserve all original profiles and failed pre-fit dispatches. Full Transformer fitting requires an independent review of the selected actual profile and unchanged source/data/membership bindings.

@@ -1,0 +1,84 @@
+{
+  "schema": "wnn.multistage-independent-recipe-review.v1",
+  "review_id": "INDEPENDENT_RECIPE_REVIEW_R2",
+  "reviewer": "multistage_independent_critic",
+  "reviewer_role": "independent specification/data/protocol critic",
+  "reviewed_at_utc": "2026-10-31T01:18:08Z",
+  "status": "approved",
+  "continuation_path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/R2_CONTINUATION.json",
+  "continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+  "recipe_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+  "approved_scope": {
+    "stage1": "Eight additional distinct profile-then-fit candidates over only the reviewed GRU/LSTM conditional space; stage1 uses source4, exact R6 base configs, strict FP32, the frozen auxiliary fit/control split, and the all-after-warmup inner-train proxy.",
+    "stage2": "Six additional two-epoch fresh-optimizer initializer fits over LR multipliers 0.1, 0.25, and 0.5; parents are qualified fixed-final direct label-only stage1 endpoints; source5b is pinned.",
+    "stage3": "Approved only for this wave's root-fixed GRU 256x2 base configuration (`recipes/r2/gru256x2-stage3.json`, SHA256 31424878cc230cb2b5ca3b46f25b305495a83b6975f8814927cebcff7b0e75f2) and six matched KD/control pairs with seed varied as declared. Do not sample student family or mix GRU/LSTM outcomes as a family-specific alpha search. Require actual teacher-cache fit-only ancestry validation before student profile admission.",
+    "stage4": "CPU-only inner-control blend search over at most 32 qualified candidates, up to 24 Optuna trials, nonnegative simplex weights, arithmetic blending before pooled clipping, and actual pooled clipped WP objective; no primary-valid selection."
+  },
+  "identity_and_budget_checks": {
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "auxiliary_fit_members": 8260,
+    "auxiliary_control_members": 2065,
+    "auxiliary_source": "train",
+    "auxiliary_chronology_claim": false,
+    "stage1_source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "stage2_stage3_source_sha256": "2661a89285bd528e1bca690a340e71a21816a7b54e3ba1635d14925f3a9c1e4e",
+    "gru_base_config_sha256": "5305c3cac14949b1a504c8020342e381c342ed935602d6488dcb6e85d44b43e5",
+    "lstm_base_config_sha256": "26bff44a42d95ab7be45477560824428c52a7c0280540bb0024e14d3e5d88dc6",
+    "stage3_fixed_student_base_config_sha256": "31424878cc230cb2b5ca3b46f25b305495a83b6975f8814927cebcff7b0e75f2",
+    "stage_fit_caps": {"1": 16, "2": 8, "3": 12, "4": 12},
+    "preexisting_fit_attempts": 10,
+    "remaining_stage1_fits": 8,
+    "max_total_fits": 48,
+    "profile_attempts_used": 22,
+    "max_total_profile_attempts": 56,
+    "campaign_wall_seconds": 21600,
+    "collection_reserve_seconds": 1200,
+    "maximum_individual_fit_wall_seconds": 7200,
+    "maximum_profile_wall_seconds": 180
+  },
+  "implementation_review": {
+    "reviewed_paths": [
+      "src/wnn/multistage_receiver.py",
+      "src/wnn/multistage_search_space.py",
+      "src/wnn/multistage_search_profile.py",
+      "src/wnn/multistage_search_prepare.py",
+      "src/wnn/multistage_search_successor_prepare.py",
+      "src/wnn/multistage_search_successor_parent.py",
+      "src/wnn/multistage_search_fit.py",
+      "src/wnn/multistage_search_ensemble.py",
+      "src/wnn/multistage_search_ensemble_math.py",
+      "src/wnn/multistage_search_ensemble_optuna.py",
+      "src/wnn/training/sequence_initializer.py",
+      "src/wnn/training/sequence_cache.py",
+      "src/wnn/training/sequence_cache_weighted_pool.py",
+      "src/wnn/training/sequence_cache_weighted_pool_lineage.py",
+      "research/experiment_drafts/multistage-optuna-b300-20261031/review_multistage_profile.py",
+      "research/experiment_drafts/multistage-optuna-b300-20261031/PROFILE_REVIEW_POLICY_AUTOMATED_R1.json"
+    ],
+    "confirmed": [
+      "Stage1 conditional dropout is sampled only when layers are 2 or 3; one-layer candidates set effective dropout to 0.0 and do not consume a dropout TPE draw.",
+      "Stage1 config generation starts from exact SHA-pinned R6 GRU/LSTM bases and changes only declared sampled fields; profile identity de-duplication covers preprofiled and prior TPE configs.",
+      "Stage2 uses weights-only initialization with a new optimizer/scheduler and keeps the parent as an unrefit skip control.",
+      "Stage3 teacher pool construction and training cache validation require the frozen auxiliary fit members; paired control omits the cache and KD weight.",
+      "Stage4 blends predictions arithmetically before the pooled scoring path and searches actual clipped pooled WP; the candidate pool is capped at 32 in the implementation.",
+      "The receiver records stage-specific training-source identities, exact split hashes, prior fit/profile ledgers, and the six-hour deadline with collection reserve."
+    ],
+    "required_operational_restrictions": [
+      "Use the exact reviewed continuation bytes and the root-fixed Stage3 GRU 256x2 configuration; do not run the file's broader listed family alternatives in this shared study.",
+      "Do not admit a Stage3 KD student until its exact weighted teacher-cache manifest and fit-only lineage pass the frozen independent profile checker.",
+      "No learned weights, teacher/initializer selection, or HPO objective may use primary validation. Freeze the inner-selected candidate and weights before primary evaluation.",
+      "Engineering profile approval is not scientific candidate promotion, and full-train TL3 remains a primary-reference comparison only."
+    ]
+  },
+  "review_limits": [
+    "This receipt is bound to the exact continuation JSON SHA above. No generated effective-recipe SHA is claimed; root requested that the receiver retain it for provenance without adding a separate approval gate.",
+    "The Stage3 architecture restriction is pinned in the revised continuation and current receiver projection; the fixed config must be used by the operator for every pair in the shared study.",
+    "Current `prepare_stage3_pair()` does not itself compare the supplied config path/SHA with the admitted fixed base. Before each Stage3 profile, verify the request uses the pinned GRU256x2 config and changes only epochs, pair seed, and KD weight.",
+    "No new GPU work, SSH, source download, fit, or primary-valid re-evaluation was performed by this reviewer.",
+    "This receipt approves the declared bounded experiment for execution, not any candidate result or performance claim."
+  ]
+}

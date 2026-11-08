@@ -1,0 +1,120 @@
+"""Collect configured-final fits, check the CPU ZIP, and publish owned artifacts."""
+from __future__ import annotations
+import atexit,hashlib,json,os,signal,subprocess,sys,time,urllib.request,zipfile
+from pathlib import Path
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1')
+S=F/'source'; C=F/'control/final-submit-chain'; R=F/'serving-r11'
+P12='/data/epanov_s/tabdata/.venv/bin/python';P11=str(F/'tools/build-env/bin/python')
+STATE=F/'receipts/final-artifact-delivery-r1.state.json'
+TOKEN=F/'private/final-artifact-publish-r1.token'
+DEADLINE=1793523959.0380824
+sys.path[:0]=[str(F/'control-code-r1/scripts'),str(S),str(S/'src'),str(S/'scripts')]
+import final_submit_chain_contract as contract
+import final_submit_chain_runtime as runtime
+from wnn.final_submit_manifest import load_final_fit_membership
+from galam_l4_quality8.publisher import read_token
+from scripts.publish_checkpoint_releases import GitHub,SafeRedirect,REPOSITORY
+def sha(path:Path)->str:
+ digest=hashlib.sha256()
+ with path.open('rb') as stream:
+  for block in iter(lambda:stream.read(1<<20),b''):digest.update(block)
+ return digest.hexdigest()
+def record(phase:str,**facts:object)->None:
+ value={'schema':'wnn.final-artifact-delivery-state.v1','phase':phase,'updated_epoch':time.time(),**facts}
+ tmp=STATE.with_suffix('.tmp');tmp.write_text(json.dumps(value,indent=2));os.replace(tmp,STATE)
+def alive()->bool:
+ p=F/'receipts/campaign-r8-driver.launch.json';v=json.loads(p.read_text())
+ try:
+  stat=Path('/proc/'+str(v['pid'])+'/stat').read_text().split()
+  return stat[21]==v['start_ticks'] and stat[2]!='Z'
+ except FileNotFoundError:return False
+def run(argv:list[str],key:str,stdout:Path|None=None,allowed:tuple[int,...]=(0,))->int:
+ env=dict(os.environ,PYTHONPATH=str(F/'control-code-r1/scripts')+':'+str(R)+':'+str(S)+':'+str(S/'src'),CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONUNBUFFERED='1')
+ out=stdout or F/'logs'/('delivery-'+key+'.stdout.log')
+ with out.open('xb') as a,(F/'logs'/('delivery-'+key+'.stderr.log')).open('xb') as b:
+  result=subprocess.run(argv,cwd=F,env=env,stdout=a,stderr=b,timeout=900)
+ if result.returncode not in allowed:raise RuntimeError(key+' failed, exit '+str(result.returncode))
+ return result.returncode
+def upload(api:GitHub,release_id:int,path:Path)->dict[str,object]:
+ asset=api.upload(release_id,path);dest=F/'reports/download-verified'/path.name
+ api.download(asset,dest,sha(path))
+ if path.suffix=='.zip':
+  with zipfile.ZipFile(dest) as z:assert z.testzip() is None
+ return {'name':path.name,'url':asset['browser_download_url'],'sha256':sha(path),'bytes':path.stat().st_size,'actual_download_verified':True}
+def main()->None:
+ expected={'control-finalizer-r2/scripts/create_final_model_receipt.py':'1ac0bc48804543954808f9d1566b25a2f79ae71391c8ee6768228145b0d15558','serving-r11/scripts/package_final_tl3.py':'4ff9d3975285e3c41fa8fa82ceeffa724258b6bbc069c2f540a4f65f7dfda101','serving-r11/submission/solution_final_tl3.py':'e194efa82a83d1ebf745ec0f8027a73344c5be6e7ed2e81e4594b4cf17501c23','control-package-check-r5/scripts/check_final_tl3_package.py':'ff5ea18f968fae6f122f77750e7d80d00fec88de966eab78444e41c2a70e5018','inputs/w18-final-quantization-admission-r1.json':'ec1ce8811ceb43249aca3c1c79295c4124a6a80f6cc8320aeaadb71075ff9a3f','native-libs-r11/v3/wnn_native.abi3.so':'a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d9561c947de9'}
+ assert all(sha(F/path)==digest for path,digest in expected.items())
+ assert json.loads((F/'receipts/quant-contract-preflight-r5.result.json').read_text())['exit_code']==0
+ record('waiting_for_terminal_fit_graph',scientific_fits_planned=18)
+ while True:
+  state=json.loads((C/'controller-state.json').read_text())
+  if state.get('phase')=='complete' and not state.get('active_workers'):break
+  if time.time()>=DEADLINE-900 or (not alive() and not state.get('active_workers')):break
+  time.sleep(30)
+ record('collecting_completed_checkpoints',scientific_fits_completed=state.get('scientific_fits_completed'))
+ plan=contract.read_json(F/'inputs/final-plan-r2.json');nodes=contract.verify_plan(plan,F/'inputs/final-plan-r2.json')
+ membership=load_final_fit_membership(F/'inputs/final-fit-membership-r1.json',F/'data',contract.SOURCE_AUDIT_SHA256)
+ items=[]
+ for name,node in list(nodes.items())+[('source4_lstm192x1',{'node_id':'source4_lstm192x1','run':'final-lstm192x1'})]:
+  native=name=='source4_lstm192x1';rp=C/'receipts/fits'/('source4_lstm192x1-external-r2.json' if native else name+'.json')
+  if not rp.exists():continue
+  v=json.loads(rp.read_text())
+  if v.get('status')!='completed' or v.get('exit_code')!=0 or v.get('timed_out'):continue
+  cp=runtime.validate_fit_checkpoint(node=dict(node,node_id=name),output_dir=F/'data/artifacts/runs'/node['run'],membership=membership)
+  items.append({'node_id':name,'run':node['run'],'checkpoint_path':str(cp),'checkpoint_sha256':sha(cp),'fit_process_receipt':str(rp),'fit_process_receipt_sha256':sha(rp),'configured_epochs':8 if native else node['epochs'],'fixed_epoch':7 if native else node['endpoint']})
+ assert items
+ complete=len(items)==18 and state.get('phase')=='complete' and not state.get('active_workers')
+ manifest={'schema':'wnn.final-fit-checkpoint-archive.v1','items':items,'completed_model_artifacts':len(items),'planned_scientific_fit_roles':18,'partial':not complete,'submission_zip':False,'fit_sequences':12480,'independent_evaluation_sequences':0,'independent_score_claim':'forbidden','membership_sha256':membership.manifest_sha256,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'plan_sha256':contract.PLAN_SHA256}
+ archive=F/'reports/tabdata-pr54-final-checkpoints-r1.zip'
+ with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=3) as z:
+  for item in items:
+   z.write(item['checkpoint_path'],'models/'+item['node_id']+'/model.pt');z.write(item['fit_process_receipt'],'receipts/'+item['node_id']+'.json')
+  z.writestr('MANIFEST.json',json.dumps(manifest,sort_keys=True,indent=2))
+ api=GitHub.__new__(GitHub);api.token,_=read_token(TOKEN);api.opener=urllib.request.build_opener(SafeRedirect());assert api.request('GET','/user')['login']=='SemyonEpanov'
+ release=api.request('POST','/repos/'+REPOSITORY+'/releases',{'tag_name':'tabdata-pr54-final-artifacts-20261031-r1','target_commitish':'experiment/final-submit-all-labeled-20261031','name':'PR54 full-corpus refit artifacts','prerelease':True,'draft':False,'body':str(len(items))+'/18 fixed-endpoint model checkpoints. All12480 train+valid sequences are fitting members; independent evaluation0. CPU ZIP eligibility is recorded separately. Human platform upload remains separate.'})
+ assets=[upload(api,release['id'],archive)];record('weights_published',models=len(items),assets=assets,release=release['html_url'])
+ api.request('POST','/repos/'+REPOSITORY+'/issues/54/comments',{'body':'Completed-model artifact delivery: **'+str(len(items))+'/18**. [Download weights]('+assets[0]['url']+'). Original downloadable bytes/CRC/SHA verified. All-corpus fit; zero independent validation. Submission CPU checks follow separately.'})
+ if not complete:record('partial_checkpoint_delivery',assets=assets,release=release['html_url']);return
+ final=F/'reports/final-model-set-r1.json'
+ run([P12,str(F/'control-finalizer-r2/scripts/create_final_model_receipt.py'),'--runtime-root',str(F),'--python',P12,'--output',str(final)],'final-receipt')
+ final_sha=sha(final);state=json.loads((C/'controller-state.json').read_text())
+ role_ids=['w18final_distilled_s5','fttall_tlead_s5','fttall_tlead_s6','source4_lstm192x1']
+ cps=[state['nodes'][n]['checkpoint_path'] for n in role_ids]
+ shared=['--w18',cps[0],'--tiedlead-s5',cps[1],'--tiedlead-s6',cps[2],'--lstm',cps[3],'--final-model-receipt',str(final),'--final-model-receipt-sha256',final_sha]
+ packages=[]
+ for policy,name in [('full_mix','tabdata-full-mix-q8-runtime-unadmitted.zip'),('w18_only','tabdata-w18-q8-final.zip')]:
+  target=F/'reports'/name;br=target.with_suffix('.build.json')
+  run([P12,str(R/'scripts/package_final_tl3.py'),*shared,'--native-from',str(F/'native-libs-r11'),'--output-zip',str(target),'--receipt',str(br),'--serving-policy',policy,'--precision','q8vnni','--fast-activations'],'build-'+policy)
+  packages.append((target,br))
+ target,br=packages[1];check=F/'reports/w18-final-package-check-r1.json'
+ run([P11,str(F/'control-package-check-r5/scripts/check_final_tl3_package.py'),*shared,'--zip',str(target),'--build-receipt',str(br),'--quantization-contract',str(F/'inputs/w18-final-quantization-admission-r1.json'),'--quantization-contract-sha256',expected['inputs/w18-final-quantization-admission-r1.json'],'--data',str(F/'data/datasets/train.parquet'),'--sequence-index','0'],'check-w18',stdout=check,allowed=(0,2))
+ result=json.loads(check.read_text());eligible=result.get('eligibility_gates_pass') is True
+ for target,br in packages:assets.extend([upload(api,release['id'],target),upload(api,release['id'],br)])
+ assets.extend([upload(api,release['id'],final),upload(api,release['id'],check)])
+ evidence=F/'reports/tabdata-final-serving-evidence-r1.zip'
+ with zipfile.ZipFile(evidence,'x',compression=zipfile.ZIP_DEFLATED) as z:
+  paths=['inputs/final-plan-r2.json','inputs/final-fit-membership-r1.json','inputs/SOURCE_VALIDATION_R1.json','inputs/w18-final-quantization-admission-r1.json','inputs/w18-final-quant-numeric-ceilings-r1.json','inputs/w18-old-reference-quantization-fidelity-contract-r1.json','reports/w18-only-old-reference-numeric-calibration-r11.json','reports/w18-old-reference-f32-exact-valid-r1.json','reports/w18-old-reference-q8vnni-fast-valid-r1.json','reports/final-model-set-r1.json','reports/w18-final-package-check-r1.json','ROOT_EXECUTION_ADMISSION_R1.json','ROOT_EXECUTION_ADMISSION_R2.json','control/final-submit-chain/controller-state.json','control/final-submit-chain/campaign-state.json']
+  for rel in paths:z.write(F/rel,rel)
+ assets.append(upload(api,release['id'],evidence))
+ summary={'schema':'wnn.final-artifact-delivery.v1','models':18,'assets':assets,'release':release['html_url'],'w18_cpu_package_eligible':eligible,'full_mix_runtime_admitted':False,'independent_score_claim':'forbidden','human_platform_upload_required':True,'created_epoch':time.time()}
+ delivery=F/'reports/FINAL_DELIVERY_R1.json'
+ with delivery.open('x') as out:json.dump(summary,out,indent=2)
+ assets.append(upload(api,release['id'],delivery))
+ api.request('POST','/repos/'+REPOSITORY+'/issues/54/comments',{'body':'Full-corpus refit complete: **18/18 fixed-endpoint fits**. [Weights, ZIPs and checked receipts]('+release['html_url']+'). W18 Q8 CPU package eligibility: **'+str(eligible)+'**, measured '+str(result.get('timed_callback_microseconds_per_row'))+' us/row; projected '+str(result.get('official_projected_seconds_1970_sequences'))+' s. New-weight RMS/p99/max, reset/prefix, Python3.11 ABI, ZIP and RSS checks are in the report. Full four-model ZIP remains runtime-unadmitted. No independent/public score is claimed. Platform upload is a human step.'})
+ record('complete_artifact_delivery',**summary)
+token_stat=TOKEN.stat()
+def cleanup()->None:
+ try:
+  current=TOKEN.stat()
+  if (current.st_dev,current.st_ino)==(token_stat.st_dev,token_stat.st_ino):TOKEN.unlink()
+ except FileNotFoundError:pass
+atexit.register(cleanup)
+def terminate(signum:int,frame:object)->None:
+ record('delivery_deadline_or_owned_termination',signal=signum)
+ raise SystemExit(143)
+signal.signal(signal.SIGTERM,terminate)
+try:main()
+except Exception as error:
+ record('delivery_failed',error_type=type(error).__name__,error=str(error))
+ raise
+

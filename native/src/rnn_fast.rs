@@ -483,7 +483,7 @@ fn dot(a: &[f32], b: &[f32]) -> f32 {
     target_feature = "fma"
 )))]
 #[inline(always)]
-fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+pub(crate) fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     for ((o, row), bias) in out.iter_mut().zip(w.chunks_exact(x.len())).zip(b) {
         *o = dot(row, x) + bias;
     }
@@ -495,7 +495,7 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     target_feature = "fma"
 ))]
 #[inline(always)]
-fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+pub(crate) fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     // SAFETY: this build targets AVX2 + FMA.
     unsafe { gemv_avx2(w, b, x, out) }
 }
@@ -1218,6 +1218,10 @@ impl FastRnn {
         self.n_out
     }
 
+    pub fn encoder_width(&self) -> usize {
+        self.encoder_width
+    }
+
     /// Input normalization used by the Python backbone, before its input projection.
     pub fn normalize_input(&self, input: &[f32], output: &mut [f32]) {
         assert_eq!(input.len(), self.n_in, "input width");
@@ -1228,6 +1232,19 @@ impl FastRnn {
             .zip(self.input_mean.iter().zip(&self.input_std))
         {
             *value = (*source - *mean) / *std;
+        }
+    }
+
+    /// Reproduce the tiedlead encoder's `(x - mean) / std * std + mean` reconstruction.
+    pub fn restore_normalized_input(&self, input: &[f32], output: &mut [f32]) {
+        assert_eq!(input.len(), self.n_in, "input width");
+        assert_eq!(output.len(), self.n_in, "restored input width");
+        for ((restored, source), (mean, std)) in output
+            .iter_mut()
+            .zip(input)
+            .zip(self.input_mean.iter().zip(&self.input_std))
+        {
+            *restored = ((*source - *mean) / *std) * *std + *mean;
         }
     }
 
@@ -1486,6 +1503,11 @@ impl FastRnn {
         self.cell
     }
 
+    /// Whether the model uses the independent-width/general dynamic step path.
+    pub fn uses_general_dimensions(&self) -> bool {
+        self.general_dims
+    }
+
     pub fn reset(&mut self) {
         let (h, c) = (self.h.clone(), self.c.clone());
         self.state.as_mut()[h].fill(0.0);
@@ -1505,6 +1527,89 @@ impl FastRnn {
     pub fn step(&mut self, x: &[f32], out: &mut [f32]) {
         let after = self.first_weights();
         self.step_then(x, out, after)
+    }
+
+    /// Run a supported model after adding a per-row residual to its encoder preactivation.
+    ///
+    /// This supports the causal tiedlead encoder while leaving ordinary model stepping and
+    /// every existing predictor unchanged. F32 and dynamic Q8VNNI use separate kernels, but
+    /// both add the residual after input projection and before the encoder activation.
+    pub fn step_with_encoder_residual(
+        &mut self,
+        x: &[f32],
+        residual: &[f32],
+        out: &mut [f32],
+    ) -> Result<(), ShapeError> {
+        if self.precision != Precision::F32 && self.precision.dyn8().is_none() {
+            return Err(ShapeError(
+                "encoder residual requires fp32 or dynamic q8vnni precision".into(),
+            ));
+        }
+        if x.len() != self.n_in {
+            return Err(ShapeError(format!(
+                "input width: expected {}, got {}",
+                self.n_in,
+                x.len()
+            )));
+        }
+        if residual.len() != self.encoder_width {
+            return Err(ShapeError(format!(
+                "encoder residual width: expected {}, got {}",
+                self.encoder_width,
+                residual.len()
+            )));
+        }
+        if out.len() != self.n_out {
+            return Err(ShapeError(format!(
+                "output width: expected {}, got {}",
+                self.n_out,
+                out.len()
+            )));
+        }
+        if self.precision == Precision::F32 && self.general_dims {
+            self.step_general_f32_with_residual(x, residual, out);
+        } else if self.precision == Precision::F32 {
+            // Equal-width models use the same optimized GEMV kernels as ordinary F32 stepping.
+            // The residual is added at the same point as in the general path: after input
+            // projection and before the encoder activation.
+            self.step_impl_with_encoder_residual::<MODE_F32>(x, residual, out);
+        } else if self.general_dims {
+            self.step_general_dyn8_with_residual(x, residual, out);
+        } else {
+            self.step_dyn_with_encoder_residual(x, residual, out);
+        }
+        Ok(())
+    }
+
+    fn step_dyn_with_encoder_residual(&mut self, x: &[f32], residual: &[f32], out: &mut [f32]) {
+        let after = self.first_weights();
+        #[cfg(target_arch = "x86_64")]
+        match self.precision {
+            Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after, residual) },
+            Precision::Q8Vnni256 => unsafe { self.step_dyn_vnni256(x, out, after, residual) },
+            Precision::Q8VnniBlocked => unsafe {
+                self.step_dyn_vnni_blocked(x, out, after, residual)
+            },
+            Precision::Q8VnniFused => unsafe { self.step_dyn_vnni_fused(x, out, after, residual) },
+            Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after, residual) },
+            Precision::Q8VnniPortable => self
+                .step_dyn_impl_with_encoder_residual::<false, false, false>(
+                    x,
+                    out,
+                    after,
+                    crate::vnni::Isa::Portable,
+                    residual,
+                ),
+            _ => unreachable!("dynamic precision checked before residual dispatch"),
+        }
+        #[cfg(not(target_arch = "x86_64"))]
+        self.step_dyn_impl_with_encoder_residual::<false, false, false>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Portable,
+            residual,
+        );
     }
 
     /// The weights a step reads first (the input projection): what `step_then` of the member
@@ -1549,22 +1654,17 @@ impl FastRnn {
             Precision::Q16xPortable => self.step_q_impl::<false>(x, out, after),
             // SAFETY: selected only when `vnni::supported` reported the instruction set.
             #[cfg(target_arch = "x86_64")]
-            Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after) },
+            Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after, &[]) },
             #[cfg(target_arch = "x86_64")]
-            Precision::Q8Vnni256 => unsafe { self.step_dyn_vnni256(x, out, after) },
+            Precision::Q8Vnni256 => unsafe { self.step_dyn_vnni256(x, out, after, &[]) },
             #[cfg(target_arch = "x86_64")]
-            Precision::Q8VnniBlocked => unsafe { self.step_dyn_vnni_blocked(x, out, after) },
+            Precision::Q8VnniBlocked => unsafe { self.step_dyn_vnni_blocked(x, out, after, &[]) },
             #[cfg(target_arch = "x86_64")]
-            Precision::Q8VnniFused => unsafe { self.step_dyn_vnni_fused(x, out, after) },
+            Precision::Q8VnniFused => unsafe { self.step_dyn_vnni_fused(x, out, after, &[]) },
             #[cfg(target_arch = "x86_64")]
-            Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after) },
+            Precision::Q8VnniAvx2 => unsafe { self.step_dyn_avx2(x, out, after, &[]) },
             Precision::Q8VnniPortable => {
-                self.step_dyn_impl::<false, false, false>(
-                    x,
-                    out,
-                    after,
-                    crate::vnni::Isa::Portable,
-                )
+                self.step_dyn_impl::<false, false, false>(x, out, after, crate::vnni::Isa::Portable)
             }
             #[cfg(target_arch = "x86_64")]
             Precision::Q8r | Precision::Q8x => unsafe { self.step_q16x(x, out, after) },
@@ -1666,11 +1766,20 @@ impl FastRnn {
     /// Portable matrix path for independent E/R/M widths and an optional second head layer.
     /// Equal-width one-head models stay on their existing specialized path.
     fn step_general_f32(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_general_f32_with_residual(x, &[], out);
+    }
+
+    fn step_general_f32_with_residual(&mut self, x: &[f32], residual: &[f32], out: &mut [f32]) {
         let weights = self.weights.as_ref();
         let state = self.state.as_mut();
         let e = self.encoder_width;
         let r = self.hidden;
         let m = self.readout_width;
+        // Equal-width models normally use the specialized path and leave this scratch empty.
+        // The tiedlead residual path deliberately enters the general kernel for those models.
+        if self.general_input.len() < e.max(r) {
+            self.general_input.resize(e.max(r), 0.0);
+        }
         {
             let z = &mut state[self.z.clone()];
             z.copy_from_slice(&weights[self.b_in.clone()][..e]);
@@ -1680,6 +1789,9 @@ impl FastRnn {
                         *output += weight * value;
                     }
                 }
+            }
+            for (value, addition) in z.iter_mut().zip(residual) {
+                *value += addition;
             }
             activate_slice(self.act, z);
         }
@@ -1757,6 +1869,10 @@ impl FastRnn {
     }
 
     fn step_general_dyn8(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_general_dyn8_with_residual(x, &[], out);
+    }
+
+    fn step_general_dyn8_with_residual(&mut self, x: &[f32], residual: &[f32], out: &mut [f32]) {
         use crate::vnni::{padded_cols, quantize};
 
         let isa = self.precision.dyn8().expect("general Q8 path");
@@ -1777,6 +1893,12 @@ impl FastRnn {
                 padded,
             );
             let z = &mut state[self.z.clone()];
+            if !residual.is_empty() {
+                debug_assert_eq!(residual.len(), z.len());
+                for (value, &addition) in z.iter_mut().zip(residual) {
+                    *value += addition;
+                }
+            }
             activate_slice(self.act, z);
         }
         let z_scale = quantize(&state[self.z.clone()], &mut self.general_q_z);
@@ -1968,37 +2090,80 @@ impl FastRnn {
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
-    unsafe fn step_dyn_vnni(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, true, false>(x, out, after, crate::vnni::Isa::Vnni512)
+    unsafe fn step_dyn_vnni(&mut self, x: &[f32], out: &mut [f32], after: Ahead, residual: &[f32]) {
+        self.step_dyn_impl_with_encoder_residual::<true, true, false>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Vnni512,
+            residual,
+        )
     }
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512vl,avx512vnni")]
-    unsafe fn step_dyn_vnni256(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, false, false>(x, out, after, crate::vnni::Isa::Vnni256)
-    }
-
-    #[cfg(target_arch = "x86_64")]
-    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
-    unsafe fn step_dyn_vnni_blocked(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, true, false>(
+    unsafe fn step_dyn_vnni256(
+        &mut self,
+        x: &[f32],
+        out: &mut [f32],
+        after: Ahead,
+        residual: &[f32],
+    ) {
+        self.step_dyn_impl_with_encoder_residual::<true, false, false>(
             x,
             out,
             after,
-            crate::vnni::Isa::Vnni512Blocked,
+            crate::vnni::Isa::Vnni256,
+            residual,
         )
     }
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
-    unsafe fn step_dyn_vnni_fused(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, true, true>(x, out, after, crate::vnni::Isa::Vnni512)
+    unsafe fn step_dyn_vnni_blocked(
+        &mut self,
+        x: &[f32],
+        out: &mut [f32],
+        after: Ahead,
+        residual: &[f32],
+    ) {
+        self.step_dyn_impl_with_encoder_residual::<true, true, false>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Vnni512Blocked,
+            residual,
+        )
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[target_feature(enable = "avx2,fma,f16c,avx512f,avx512bw,avx512vnni")]
+    unsafe fn step_dyn_vnni_fused(
+        &mut self,
+        x: &[f32],
+        out: &mut [f32],
+        after: Ahead,
+        residual: &[f32],
+    ) {
+        self.step_dyn_impl_with_encoder_residual::<true, true, true>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Vnni512,
+            residual,
+        )
     }
 
     #[cfg(target_arch = "x86_64")]
     #[target_feature(enable = "avx2,fma,f16c")]
-    unsafe fn step_dyn_avx2(&mut self, x: &[f32], out: &mut [f32], after: Ahead) {
-        self.step_dyn_impl::<true, false, false>(x, out, after, crate::vnni::Isa::Avx2)
+    unsafe fn step_dyn_avx2(&mut self, x: &[f32], out: &mut [f32], after: Ahead, residual: &[f32]) {
+        self.step_dyn_impl_with_encoder_residual::<true, false, false>(
+            x,
+            out,
+            after,
+            crate::vnni::Isa::Avx2,
+            residual,
+        )
     }
 
     /// The dynamic-int8 step. `SIMD` selects the AVX2 helpers (projection, activations,
@@ -2009,8 +2174,20 @@ impl FastRnn {
         &mut self,
         x: &[f32],
         out: &mut [f32],
+        after: Ahead,
+        isa: crate::vnni::Isa,
+    ) {
+        self.step_dyn_impl_with_encoder_residual::<SIMD, ZMM, FUSED>(x, out, after, isa, &[]);
+    }
+
+    #[inline(always)]
+    fn step_dyn_impl_with_encoder_residual<const SIMD: bool, const ZMM: bool, const FUSED: bool>(
+        &mut self,
+        x: &[f32],
+        out: &mut [f32],
         mut after: Ahead,
         isa: crate::vnni::Isa,
+        residual: &[f32],
     ) {
         use crate::vnni::{padded_cols, quantize};
         let n = self.hidden;
@@ -2070,7 +2247,17 @@ impl FastRnn {
             } else {
                 crate::half::project_q16_portable(cols, scales, b, x, padded);
             }
-            gelu_all(&mut st[self.z.clone()], &mut matrix_ahead(&self.layers[0].w_ih));
+            if !residual.is_empty() {
+                let z = &mut st[self.z.clone()];
+                debug_assert_eq!(residual.len(), z.len());
+                for (value, &addition) in z.iter_mut().zip(residual) {
+                    *value += addition;
+                }
+            }
+            gelu_all(
+                &mut st[self.z.clone()],
+                &mut matrix_ahead(&self.layers[0].w_ih),
+            );
         }
         crate::vnni::prof::lap(0, &mut clock);
         let (hq, zq) = self.dcodes.split_at_mut(n_layers * kp);
@@ -2310,6 +2497,16 @@ impl FastRnn {
 
     #[inline(always)]
     fn step_impl<const MODE: u8>(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_impl_with_encoder_residual::<MODE>(x, &[], out);
+    }
+
+    #[inline(always)]
+    fn step_impl_with_encoder_residual<const MODE: u8>(
+        &mut self,
+        x: &[f32],
+        residual: &[f32],
+        out: &mut [f32],
+    ) {
         let n = self.hidden;
         let fast = self.act == Activations::Fast;
         let wts = self.weights.as_ref();
@@ -2355,6 +2552,13 @@ impl FastRnn {
                 }
             }
             let z = &mut st[self.z.clone()];
+            if !residual.is_empty() {
+                debug_assert_eq!(MODE, MODE_F32);
+                debug_assert_eq!(residual.len(), z.len());
+                for (value, &addition) in z.iter_mut().zip(residual) {
+                    *value += addition;
+                }
+            }
             if fast {
                 z.iter_mut().for_each(|v| *v = gelu_fast(*v));
             } else {
@@ -3361,6 +3565,160 @@ mod tests {
         m.reset();
         m.step(&x[0], &mut out);
         assert_eq!(out, first);
+    }
+
+    #[test]
+    fn encoder_residual_uses_equal_width_fast_path_and_matches_general_reference() {
+        let residual = [0.07, -0.04, 0.03, -0.02, 0.05, -0.06, 0.01, -0.08];
+        let mut residual_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        let mut ordinary_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        let mut general_reference =
+            FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        assert!(residual_model.general_input.is_empty());
+
+        let mut actual = [0.0; 2];
+        let mut ordinary = [0.0; 2];
+        let mut reference = [0.0; 2];
+        let mut saved = Vec::new();
+        let mut largest_difference = 0.0f32;
+        let mut largest_residual_effect = 0.0f32;
+        for input in inputs(12, 80) {
+            residual_model
+                .step_with_encoder_residual(&input, &residual, &mut actual)
+                .unwrap();
+            ordinary_model.step(&input, &mut ordinary);
+            general_reference.step_general_f32_with_residual(&input, &residual, &mut reference);
+            assert!(actual.iter().chain(&reference).all(|value| value.is_finite()));
+            largest_difference = largest_difference
+                .max((actual[0] - reference[0]).abs())
+                .max((actual[1] - reference[1]).abs());
+            largest_residual_effect = largest_residual_effect
+                .max((actual[0] - ordinary[0]).abs())
+                .max((actual[1] - ordinary[1]).abs());
+            assert!(
+                (actual[0] - reference[0]).abs() < 2e-4
+                    && (actual[1] - reference[1]).abs() < 2e-4,
+                "optimized and general residual paths diverged: {actual:?} vs {reference:?}"
+            );
+            saved.push(actual.map(f32::to_bits));
+        }
+        assert!(largest_difference < 2e-4, "path difference: {largest_difference}");
+        assert!(largest_residual_effect > 1e-6, "residual was not applied");
+        assert!(residual_model.general_input.is_empty());
+        assert!(ordinary_model.general_input.is_empty());
+        assert_eq!(general_reference.general_input.len(), 8);
+
+        residual_model.reset();
+        for (input, expected) in inputs(12, 80).iter().zip(saved) {
+            residual_model
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            assert_eq!(actual.map(f32::to_bits), expected);
+        }
+    }
+
+    #[test]
+    fn q8vnni_encoder_residual_is_applied_and_replays_for_equal_width_gru() {
+        let residual: Vec<f32> = (0..8).map(|index| (index as f32 - 3.5) * 0.03).collect();
+        let mut with_residual = FastRnn::with_precision(
+            weights(12, 8, 2, 73),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        let mut ordinary = FastRnn::with_precision(
+            weights(12, 8, 2, 73),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        let inputs = inputs(12, 48);
+        let mut actual = [0.0; 2];
+        let mut baseline = [0.0; 2];
+        let mut replay = Vec::new();
+        let mut largest_effect = 0.0f32;
+        for input in &inputs {
+            with_residual
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            ordinary.step(input, &mut baseline);
+            assert!(actual.iter().all(|value| value.is_finite()));
+            largest_effect = largest_effect
+                .max((actual[0] - baseline[0]).abs())
+                .max((actual[1] - baseline[1]).abs());
+            replay.push(actual.map(f32::to_bits));
+        }
+        assert!(largest_effect > 1e-6, "Q8 residual was not applied");
+
+        with_residual.reset();
+        for (input, expected) in inputs.iter().zip(replay) {
+            with_residual
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            assert_eq!(actual.map(f32::to_bits), expected);
+        }
+    }
+
+    #[test]
+    fn q8vnni_general_lstm_residual_is_applied_and_replays() {
+        let hidden = 192;
+        let readout = hidden + 1;
+        let weight_value = |index: usize| ((index * 37 % 101) as f32 / 50.0 - 1.0) * 0.15;
+        let make_weights = || {
+            let mut weights = lstm_weights(112, hidden, 1, 79);
+            weights.w1 = (0..readout * 2 * hidden).map(weight_value).collect();
+            weights.b1 = (0..readout).map(|index| weight_value(index + 3)).collect();
+            weights.w2 = (0..2 * readout)
+                .map(|index| weight_value(index + 11))
+                .collect();
+            weights.b2 = vec![0.01, -0.02];
+            weights
+        };
+        let residual: Vec<f32> = (0..hidden)
+            .map(|index| (index as f32 % 13.0 - 6.0) * 0.02)
+            .collect();
+        let mut with_residual = FastRnn::with_precision(
+            make_weights(),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        let mut ordinary = FastRnn::with_precision(
+            make_weights(),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
+        assert!(with_residual.general_dims);
+        assert_eq!(with_residual.cell(), Cell::Lstm);
+        let inputs = inputs(112, 20);
+        let mut actual = [0.0; 2];
+        let mut baseline = [0.0; 2];
+        let mut replay = Vec::new();
+        let mut largest_effect = 0.0f32;
+        for input in &inputs {
+            with_residual
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            ordinary.step(input, &mut baseline);
+            assert!(actual.iter().all(|value| value.is_finite()));
+            largest_effect = largest_effect
+                .max((actual[0] - baseline[0]).abs())
+                .max((actual[1] - baseline[1]).abs());
+            replay.push(actual.map(f32::to_bits));
+        }
+        assert!(
+            largest_effect > 1e-6,
+            "general Q8 LSTM residual was not applied"
+        );
+
+        with_residual.reset();
+        for (input, expected) in inputs.iter().zip(replay) {
+            with_residual
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            assert_eq!(actual.map(f32::to_bits), expected);
+        }
     }
 
     #[test]

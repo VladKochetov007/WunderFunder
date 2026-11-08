@@ -13,7 +13,7 @@ from wnn.training.checkpoints import (
     serialized_args,
 )
 from wnn.training.epoch import fit_epoch_summary
-from wnn.training.evaluation import evaluate
+from wnn.training.evaluation import evaluate, evaluate_train_prefix
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
 from wnn.training_state import atomic_save_training_state, capture_training_state
@@ -41,6 +41,9 @@ def evaluate_epoch(run: TrainingRun) -> None:
     swa_model = run.optimization.swa_model
     swa_start = run.optimization.swa_start
     t0 = run.progress.t0
+    train_eval_loader = run.data.train_eval_loader
+    train_eval_members_sha256 = run.data.train_eval_members_sha256
+    train_eval_row_groups = run.data.train_eval_row_groups
     valid_loader = run.data.valid_loader
     update_counts = epoch_counter.finish(cumulative_updates)
     update_counts["sample_order_identity"] = epoch_order_identity
@@ -67,6 +70,32 @@ def evaluate_epoch(run: TrainingRun) -> None:
             eval_seconds=round(time.time() - t_eval, 1),
             split=f"{args.eval_source}{n_valid}",
         )
+        res["valid_wmse"] = res.pop("wmse")
+        res["valid_wmse_t0"] = res.pop("wmse_t0")
+        res["valid_wmse_t1"] = res.pop("wmse_t1")
+        if train_eval_loader is not None:
+            if train_eval_row_groups is None or train_eval_members_sha256 is None:
+                raise RuntimeError("train-eval loader lacks its fixed membership receipt")
+            train_eval_started = time.perf_counter()
+            train_eval = evaluate_train_prefix(
+                eval_model, train_eval_loader, 4000, device, environment=environment
+            )
+            res.update(
+                train_eval_seconds=round(time.perf_counter() - train_eval_started, 3),
+                train_eval_wp=train_eval["weighted_pearson"],
+                train_eval_wp_t0=train_eval["t0"],
+                train_eval_wp_t1=train_eval["t1"],
+                train_eval_wmse=train_eval["wmse"],
+                train_eval_wmse_t0=train_eval["wmse_t0"],
+                train_eval_wmse_t1=train_eval["wmse_t1"],
+                train_eval_selected_rows=train_eval["selected_rows"],
+                train_eval_blocks=train_eval["blocks"],
+                train_eval_sequences=len(train_eval_row_groups),
+                train_eval_source="train",
+                train_eval_mask="all_after_warmup",
+                train_eval_row_groups=train_eval_row_groups.copy(),
+                train_eval_members_sha256=train_eval_members_sha256,
+            )
         evaluation_score = res["weighted_pearson"]
     res["update_diagnostics"] = update_counts
     res["fit_summary"] = fit_epoch_summary(run, update_counts["epoch"])

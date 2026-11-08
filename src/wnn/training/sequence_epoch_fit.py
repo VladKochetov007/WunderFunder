@@ -31,6 +31,8 @@ def reconcile_epoch_snapshots(
     global_step: int,
     history: list[dict[str, object]],
     context: DistributedContext,
+    *,
+    reserve_atomic_checkpoint_state: bool = False,
 ) -> dict[str, object] | None:
     """Validate the safe index prefix and reconstruct only a missing final boundary."""
     latest: list[dict[str, object] | None] = [None]
@@ -56,7 +58,12 @@ def reconcile_epoch_snapshots(
     def preflight() -> bool:
         """Check remaining snapshot storage before advancing training."""
         if context.is_primary:
-            preflight_epoch_storage(output, base_model, remaining)
+            preflight_epoch_storage(
+                output,
+                base_model,
+                remaining,
+                reserve_atomic_checkpoint_state=reserve_atomic_checkpoint_state,
+            )
         return True
 
     coordinated_call(preflight, "all-epoch checkpoint storage preflight", context)

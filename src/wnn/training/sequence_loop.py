@@ -1,21 +1,20 @@
 from __future__ import annotations
 
+import math
 import time
 from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any
 
 import torch
-from torch.nn.attention import SDPBackend, sdpa_kernel
-from torch.nn.parallel import DistributedDataParallel
 
 from wnn.training.sequence_distributed import (
     DistributedContext,
-    all_ranks_true,
     coordinated_call,
     global_sum,
     local_sequence_indices,
 )
+from wnn.training.sequence_features import sequence_input_width
 from wnn.training.sequence_fit_utils import (
     SEQUENCE_ROWS,
     RankJsonlLog,
@@ -23,159 +22,27 @@ from wnn.training.sequence_fit_utils import (
     collate_sequences,
     move_and_validate_batch,
 )
-from wnn.training.sequence_models import detach_state
-from wnn.training.sequence_objectives import (
-    detached_sums,
-    objective_numerators,
-    scaled_objective,
-    window_denominators,
+from wnn.training.sequence_loop_window import (
+    backward_window,
+    window_denominators_global,
+    window_record,
 )
+from wnn.training.sequence_monitor import SequenceMonitor
+from wnn.training.sequence_monitor_diagnostics import DiagnosticProbe
+from wnn.training.sequence_monitor_progress import record_successful_update
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
-from wnn.training.sequence_precision import backward_context, forward_context
+from wnn.training.sequence_prefetch import SequenceBatchPrefetcher
 from wnn.training.sequence_update import finish_update
 
 
 @dataclass(frozen=True)
 class EpochResult:
-    """Completed or bounded sequence-pass metrics, including aggregate sufficient sums."""
+    """Completed or bounded sequence-pass metrics and aggregate sufficient sums."""
 
     updates: int
     complete: bool
     totals: torch.Tensor
     elapsed_seconds: float
-
-
-def _chunks(row_count: int, chunk_rows: int) -> list[tuple[int, int]]:
-    """Return nonoverlapping row intervals covering the entire fixed sequence."""
-    return [
-        (start, min(start + chunk_rows, row_count)) for start in range(0, row_count, chunk_rows)
-    ]
-
-
-def _check_finite_loss(loss: torch.Tensor, context: DistributedContext) -> None:
-    local_finite = bool(torch.isfinite(loss.detach()).all())
-    if not all_ranks_true(local_finite, context):
-        raise FloatingPointError("nonfinite objective detected consistently across torchrun ranks")
-
-
-def _backward_window(
-    model: torch.nn.Module,
-    optimizer: torch.optim.Optimizer,
-    target: torch.Tensor,
-    teacher: torch.Tensor,
-    hint_target: torch.Tensor,
-    mask: torch.Tensor,
-    x: torch.Tensor,
-    intervals: list[tuple[int, int]],
-    real_sequence_count: int,
-    denominators: torch.Tensor,
-    state: Any,  # Model-owned recurrent state has architecture-specific container structure.
-    config: dict[str, object],
-    context: DistributedContext,
-) -> tuple[Any, torch.Tensor]:
-    """Forward and backpropagate one pre-normalized TBPTT accumulation window."""
-    local_stats = torch.zeros(6, dtype=torch.float64, device=context.device)
-    for index, (start, stop) in enumerate(intervals):
-        final_microchunk = index == len(intervals) - 1
-        sync_context = (
-            model.no_sync()
-            if isinstance(model, DistributedDataParallel) and not final_microchunk
-            else nullcontext()
-        )
-        attention_backend = str(config["model"].get("attention_backend", "math"))
-        attention_context = (
-            sdpa_kernel(SDPBackend.MATH) if attention_backend == "math" else nullcontext()
-        )
-        mode = str(config.get("precision_mode", "fp32"))
-        with sync_context, attention_context:
-            with forward_context(mode, context.device.type):
-                prediction, hint_prediction, next_state = model(x[:, start:stop], state)
-            state = detach_state(next_state)
-            prediction = prediction.float()
-            hint_prediction = hint_prediction.float()
-            numerators = objective_numerators(
-                prediction,
-                hint_prediction,
-                target[:, start:stop],
-                teacher[:, start:stop],
-                hint_target[:, start:stop],
-                mask[:, start:stop],
-            )
-            loss = scaled_objective(
-                numerators,
-                denominators,
-                context.world_size,
-                float(config["kd_weight"]),
-                float(config["hint_weight"]),
-            )
-            _check_finite_loss(loss, context)
-            with backward_context(mode, context.device.type):
-                loss.backward()
-        local_stats[:5] += detached_sums(numerators, target[:, start:stop], mask[:, start:stop])
-        local_stats[5] += real_sequence_count * (stop - start)
-    return state, local_stats
-
-
-def _window_denominators(
-    target: torch.Tensor,
-    mask: torch.Tensor,
-    hints: torch.Tensor,
-    intervals: list[tuple[int, int]],
-    context: DistributedContext,
-) -> torch.Tensor:
-    """Reduce both objective denominators across every rank before any window backward."""
-    local = torch.zeros(2, dtype=torch.float32, device=context.device)
-    for start, stop in intervals:
-        local += window_denominators(
-            target[:, start:stop], mask[:, start:stop], hints[:, start:stop]
-        )
-    global_denominators = global_sum(local, context)
-    if not all_ranks_true(bool(torch.isfinite(global_denominators).all()), context):
-        raise FloatingPointError("nonfinite objective denominator detected across torchrun ranks")
-    return global_denominators
-
-
-def _window_record(
-    stats: torch.Tensor,
-    denominators: torch.Tensor,
-    rank: int,
-    epoch: int,
-    step: int,
-    learning_rate: float,
-    gradient_norm: torch.Tensor,
-    elapsed: float,
-    peak_memory: int,
-    gradient_clip: float,
-    kd_weight: float,
-    hint_weight: float,
-) -> dict[str, object]:
-    """Convert global sufficient sums and this rank's diagnostics into a JSON row."""
-    label_denom = float(denominators[0].item())
-    hint_denom = float(denominators[1].item())
-    label_loss = float(stats[0].item()) / label_denom if label_denom > 0 else 0.0
-    kd_loss = float(stats[1].item()) / label_denom if label_denom > 0 else 0.0
-    hint_loss = float(stats[2].item()) / hint_denom if hint_denom > 0 else 0.0
-    return {
-        "rank": rank,
-        "epoch": epoch,
-        "step": step,
-        "label_loss": label_loss,
-        "kd_loss": kd_loss,
-        "hint_loss": hint_loss,
-        "total_loss": label_loss + kd_weight * kd_loss + hint_weight * hint_loss,
-        "valid_rows": int(stats[3].item()),
-        "forwarded_rows": int(stats[4].item()),
-        "real_rows": int(stats[5].item()),
-        "label_weight": label_denom,
-        "hint_elements": hint_denom,
-        "learning_rate": learning_rate,
-        "gradient_norm_preclip": float(gradient_norm.item()),
-        "gradient_clipped": int(float(gradient_norm.item()) > gradient_clip),
-        "window_seconds": elapsed,
-        "valid_rows_per_second": float(stats[3].item()) / max(elapsed, 1e-12),
-        "forwarded_rows_per_second": float(stats[4].item()) / max(elapsed, 1e-12),
-        "peak_memory_bytes": peak_memory,
-    }
 
 
 def train_epoch(
@@ -189,87 +56,241 @@ def train_epoch(
     epoch: int,
     global_step: int,
     max_updates: int | None = None,
+    monitor: SequenceMonitor | None = None,
+    monitor_enabled: bool = False,
 ) -> EpochResult:
-    """Run complete sequences in padded distributed order with fixed-window DDP scaling."""
+    """Run complete sequences in padded order with fixed-window DDP scaling."""
     started = time.perf_counter()
     model.train()
     optimizer.zero_grad(set_to_none=True)
-    size = len(dataset)
-    indices = local_sequence_indices(size, context, int(config["seed"]), epoch)
+    indices = local_sequence_indices(len(dataset), context, int(config["seed"]), epoch)
     batch_size = int(config["batch_size"])
-    chunk_intervals = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
+    chunk_rows = int(config["chunk_rows"])
+    intervals = [
+        (start, min(start + chunk_rows, SEQUENCE_ROWS))
+        for start in range(0, SEQUENCE_ROWS, chunk_rows)
+    ]
     accumulation = int(config["accumulate_chunks"])
+    model_config = config["model"]
+    feature_count = sequence_input_width(str(model_config.get("input_feature_mode", "raw112")))
+    batches_per_rank = math.ceil(math.ceil(len(dataset) / context.world_size) / batch_size)
+    windows_per_batch = math.ceil(len(intervals) / accumulation)
+    updates_per_epoch = batches_per_rank * windows_per_batch
     total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
     updates = 0
-    for batch_start in range(0, len(indices), batch_size):
-        batch_ids = indices[batch_start : batch_start + batch_size]
-        batch = coordinated_call(
-            lambda batch_ids=batch_ids: move_and_validate_batch(
-                collate_sequences(dataset, batch_ids),
-                context.device,
-                int(config["model"]["hint_dim"]),
-            ),
-            "sequence batch load and validation",
-            context,
-        )
-        target, teacher, mask, hints, x = (
-            batch["y"],
-            batch["teacher"],
-            batch["mask"],
-            batch["hints"],
-            batch["x"],
-        )
-        real_sequence_count = sum(index >= 0 for index in batch_ids)
-        state: Any = None
-        for window_start in range(0, len(chunk_intervals), accumulation):
-            if max_updates is not None and updates >= max_updates:
-                return EpochResult(updates, False, total_count, time.perf_counter() - started)
-            window_started = time.perf_counter()
-            intervals = chunk_intervals[window_start : window_start + accumulation]
-            denominators = _window_denominators(target, mask, hints, intervals, context)
-            optimizer.zero_grad(set_to_none=True)
-            rates = optimizer_learning_rates(optimizer)
-            lr = float(optimizer.param_groups[0]["lr"])
-            state, local_stats = _backward_window(
-                model,
-                optimizer,
-                target,
-                teacher,
-                hints,
-                mask,
-                x,
-                intervals,
-                real_sequence_count,
-                denominators,
-                state,
-                config,
-                context,
+    prefetch_batches = config.get("input_prefetch_batches", 0)
+    if type(prefetch_batches) is not int or prefetch_batches not in (0, 1):
+        raise ValueError("input_prefetch_batches must be 0 or 1")
+    prefetcher = None
+    if prefetch_batches:
+        if context.world_size != 1:
+            raise ValueError("input batch prefetch is currently supported only for world_size=1")
+        if context.device.type != "cuda":
+            raise ValueError("pinned sequence prefetch requires a CUDA training device")
+        prefetcher = SequenceBatchPrefetcher(dataset, indices, batch_size, context.device)
+    try:
+        for batch_start in range(0, len(indices), batch_size):
+            if prefetcher is None:
+                batch_ids = indices[batch_start : batch_start + batch_size]
+                batch = coordinated_call(
+                    lambda current_batch_ids=batch_ids: move_and_validate_batch(
+                        collate_sequences(dataset, current_batch_ids),
+                        context.device,
+                        int(config["model"]["hint_dim"]),
+                        feature_count,
+                    ),
+                    "sequence batch load and validation",
+                    context,
+                )
+            else:
+                prefetched = next(prefetcher)
+                batch_ids = list(prefetched.indices)
+                prefetched.wait_on_current_stream()
+                batch = move_and_validate_batch(
+                    prefetched.batch,
+                    context.device,
+                    int(config["model"]["hint_dim"]),
+                    feature_count,
+                )
+            target, teacher, mask, hints, x = (
+                batch["y"],
+                batch["teacher"],
+                batch["mask"],
+                batch["hints"],
+                batch["x"],
             )
-            gradient_norm, optimizer_seconds = finish_update(
-                model, optimizer, scheduler, context, float(config["grad_clip"])
-            )
-            updates += 1
-            global_step += 1
-            global_stats = global_sum(local_stats, context)
-            total_count[:6] += global_stats
-            total_count[6:] += denominators
-            elapsed = time.perf_counter() - window_started
-            record = _window_record(
-                global_stats,
-                denominators,
-                context.rank,
-                epoch,
-                global_step,
-                lr,
-                gradient_norm,
-                elapsed,
-                torch.cuda.max_memory_allocated(context.device),
-                float(config["grad_clip"]),
-                float(config["kd_weight"]),
-                float(config["hint_weight"]),
-            )
-            record["learning_rates"] = rates
-            record["optimizer_seconds"] = optimizer_seconds
-            rank_log.write(record)
-        state = None
-    return EpochResult(updates, True, total_count, time.perf_counter() - started)
+            real_count = sum(index >= 0 for index in batch_ids)
+            state: Any = None
+            for window_start in range(0, len(intervals), accumulation):
+                if max_updates is not None and updates >= max_updates:
+                    return EpochResult(updates, False, total_count, time.perf_counter() - started)
+                window_started = time.perf_counter()
+                chunks = intervals[window_start : window_start + accumulation]
+                denominators = window_denominators_global(target, mask, hints, chunks, context)
+                optimizer.zero_grad(set_to_none=True)
+                rates = optimizer_learning_rates(optimizer)
+                current_lr = float(optimizer.param_groups[0]["lr"])
+                step = global_step + 1
+                interval = _diagnostic_interval(config, monitor_enabled)
+                hook_sample = interval > 0 and step % interval == 0
+                optimizer_interval = int(config.get("optimizer_update_diagnostics_every", 0))
+                optimizer_sample = optimizer_interval > 0 and (
+                    step == 1 or step % optimizer_interval == 0
+                )
+                probe = (
+                    monitor.diagnostic_probe(model)
+                    if monitor is not None and hook_sample
+                    else nullcontext(None)
+                )
+                with probe as diagnostics:
+                    state, local_stats = backward_window(
+                        model,
+                        optimizer,
+                        target,
+                        teacher,
+                        hints,
+                        mask,
+                        x,
+                        chunks,
+                        real_count,
+                        denominators,
+                        state,
+                        config,
+                        context,
+                        diagnostics,
+                    )
+                    if diagnostics is not None:
+                        diagnostics.capture_parameter_gradient_status()
+                gradient_norm, optimizer_seconds, optimizer_update = finish_update(
+                    model,
+                    optimizer,
+                    scheduler,
+                    context,
+                    float(config["grad_clip"]),
+                    update_step=step,
+                    diagnostics_interval=optimizer_interval,
+                )
+                updates += 1
+                global_step += 1
+                epoch_position = epoch + updates / updates_per_epoch
+                global_stats = global_sum(local_stats, context)
+                total_count[:6] += global_stats
+                total_count[6:] += denominators
+                elapsed = time.perf_counter() - window_started
+                record = window_record(
+                    global_stats,
+                    denominators,
+                    context.rank,
+                    epoch,
+                    global_step,
+                    current_lr,
+                    gradient_norm,
+                    elapsed,
+                    torch.cuda.max_memory_allocated(context.device),
+                    float(config["grad_clip"]),
+                    float(config["kd_weight"]),
+                    float(config["hint_weight"]),
+                )
+                record["learning_rates"] = rates
+                record["optimizer_seconds"] = optimizer_seconds
+                if optimizer_update is not None:
+                    record["optimizer_update_diagnostics"] = optimizer_update
+                if monitor is not None:
+                    record_successful_update(
+                        monitor,
+                        global_step,
+                        epoch_position,
+                        float(record["forwarded_rows_per_second"]),
+                    )
+                if monitor_enabled:
+                    monitor_config = config.get("monitoring")
+                    if not isinstance(monitor_config, dict):
+                        raise TypeError("enabled monitor configuration must be a mapping")
+                    telemetry_interval = int(
+                        monitor_config.get("training_telemetry_every_steps", 1)
+                    )
+                    telemetry_sample = _training_telemetry_due(
+                        global_step, updates, updates_per_epoch, telemetry_interval
+                    )
+                    if telemetry_sample or optimizer_sample:
+                        # The same opt-in cadence bounds rank-local diagnostic JSONL growth.
+                        rank_log.write(record)
+                else:
+                    telemetry_sample = True
+                    rank_log.write(record)
+                if monitor_enabled and (telemetry_sample or hook_sample or optimizer_sample):
+                    _append_monitor_events(
+                        record,
+                        epoch,
+                        epoch_position,
+                        global_step,
+                        telemetry_sample,
+                        hook_sample,
+                        optimizer_sample,
+                        diagnostics,
+                        monitor,
+                        context,
+                    )
+            state = None
+            if prefetcher is not None:
+                prefetched.release_pinned_source()
+        return EpochResult(updates, True, total_count, time.perf_counter() - started)
+    finally:
+        if prefetcher is not None:
+            prefetcher.close()
+
+
+def _training_telemetry_due(
+    step: int, updates_in_epoch: int, updates_per_epoch: int, cadence: int
+) -> bool:
+    """Retain sampled optimizer records and every epoch's final update."""
+    if min(step, updates_in_epoch, updates_per_epoch, cadence) < 1:
+        raise ValueError("telemetry counters and cadence must be positive")
+    return step % cadence == 0 or updates_in_epoch == updates_per_epoch
+
+
+def _diagnostic_interval(config: dict[str, object], enabled: bool) -> int:
+    monitor_config = config.get("monitoring")
+    if not enabled or not isinstance(monitor_config, dict):
+        return 0
+    return int(monitor_config["diagnostics_every_steps"])
+
+
+def _append_monitor_events(
+    record: dict[str, object],
+    epoch: int,
+    epoch_position: float,
+    step: int,
+    telemetry_sample: bool,
+    hook_sample: bool,
+    optimizer_sample: bool,
+    diagnostics: DiagnosticProbe | None,
+    monitor: SequenceMonitor | None,
+    context: DistributedContext,
+) -> None:
+    """Coordinate aggregate event appends so rank-zero I/O errors reach all ranks."""
+
+    def append() -> bool:
+        """Write the current optimizer event and optional sampled diagnostics."""
+        if context.is_primary:
+            if monitor is None:
+                raise RuntimeError("rank zero monitor was not initialized")
+            if telemetry_sample:
+                monitor.train_step(record, epoch, epoch_position, context.device)
+            if hook_sample or optimizer_sample:
+                if hook_sample and diagnostics is None:
+                    raise RuntimeError("rank zero diagnostic probe is missing")
+                hook_metrics = diagnostics.metrics() if diagnostics is not None else {}
+                optimizer_update = record.get("optimizer_update_diagnostics")
+                monitor.diagnostics(
+                    step,
+                    epoch,
+                    epoch_position,
+                    hook_metrics,
+                    optimizer_update if isinstance(optimizer_update, dict) else None,
+                )
+            if hook_sample:
+                monitor.resources(step, epoch, epoch_position, context.device)
+        return True
+
+    coordinated_call(append, "online monitor event append", context)

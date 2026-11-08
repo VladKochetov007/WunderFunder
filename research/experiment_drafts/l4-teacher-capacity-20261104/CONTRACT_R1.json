@@ -1,0 +1,92 @@
+{
+  "id": "E-L4-TEACHER-CAPACITY-20261104",
+  "status": "authorized_preparing",
+  "authority": "User explicitly accepted eight teacher fits followed by four student fits and instructed executing them on the existing 8xL4 cluster.",
+  "objective_mode": "competition",
+  "source_base": "a52d07d1d254f638d83e2ff4a6f590b07fd9e903",
+  "worktree": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-l4-teachers-20261104",
+  "ssh_session": 83229,
+  "runtime": "/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1",
+  "validation": {
+    "split_manifest": "/data2/lc-epanov_s/tabdata/runtime/launch-20261028/data-preparation-r1/chronological_primary.json",
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "primary_valid_sequences": 1873,
+    "primary_scored_rows": 3528273,
+    "metric": "global_wp_clip2_v1; official is_scored AND rows>=99",
+    "ancestry": "Only fitting train members may fit normalizers, teachers, initializers, priors or learned transformations.",
+    "exposure": "Previously inspected development valid; not fresh confirmation. No seq_ix chronology or replacement random folds."
+  },
+  "teachers": {
+    "new_fits": 8,
+    "configurations": [
+      "gru256x2_control",
+      "gru384x2",
+      "gru512x1",
+      "causal_transformer_d384_l8_h8_w1024"
+    ],
+    "seeds_per_configuration": [
+      1001,
+      1002
+    ],
+    "epochs": 4,
+    "primary_checkpoint_epoch_zero_based": 3,
+    "initialization": "Fresh fitting-only scratch for every teacher, not an all-corpus checkpoint or W18 warm continuation.",
+    "gru_prior_recipe": "Native211 causal inputs, WMSE, batch32/chunk1000, peak LR1e-3 OneCycle5%warmup, gate-wise FP32 Muon plus AdamW elsewhere; exact source/flags freeze before fit.",
+    "transformer_recipe": "Causal numerical Transformer dim384/layers8/heads8/context1024, AdamW, four epochs; adapt existing sequence/teacher runtime and freeze FFN/batch/LR before profile. No new trainer clone.",
+    "start_rule": "Ready audited GRU controls/arms may start while the independent Transformer adapter finishes; one unready family must not block ready fits."
+  },
+  "students": {
+    "new_fits": 4,
+    "design": "Two predeclared teacher families x two matched fitting seeds1001/1002. Freeze exact mixtures before teacher outcomes. Reuse eligible PR60 W18 controls if source/recipe identity matches.",
+    "family_candidates": [
+      "wide_GRU_family",
+      "small_causal_Transformer_family"
+    ],
+    "recipe": "Same train-only W18 GRU256x2/FBC initializer, FP32, AdamW1e-4, batch16/chunk2000,2epochs/fixedep1; change only declared teacher target relative to control.",
+    "teachers": "Require fixed epoch3 train-only teacher artifacts and causal predictions; no validation gradients or valid-fitted weights.",
+    "disk_rule": "Do not materialize every teacher's full train bank. Stream/reuse qualified caches and existing family arrays; no unrelated deletion or precision reduction.",
+    "exact_main_teacher_target": "T_new=0.8*T_old+0.2*0.8125*mean(clip(new_family_prediction,-2,2)); native training then retains alpha0.7 and its existing clipping/weighting. The0.8125 factor preserves the old preweighted target amplitude.",
+    "wide_family": "Equal mean of4 fixed-epoch3 teachers: GRU384x2 andGRU512x1 at seeds1001/1002",
+    "transformer_family": "Equal mean of2 fixed-epoch3 causalTransformer teachers at seeds1001/1002",
+    "retained_auxiliary_targets": "Existing qualified W18 four-family targets and family coefficient0.1 unchanged"
+  },
+  "budget": {
+    "new_scientific_fits_total": 12,
+    "max_profiles": 24,
+    "wave_wall_seconds_from_first_profile": 43200,
+    "collection_reserve_seconds": 2700,
+    "max_cpu_cores": 64,
+    "max_owned_memory_bytes": 429496729600,
+    "new_output_cap_bytes": 6500000000,
+    "minimum_free_data2_bytes": 3000000000,
+    "observed_free_data2_bytes": 10172567552,
+    "gpu_count": 8,
+    "gpu_memory_mib_each": 23034,
+    "foreign_gpu4_service_memory_mib": 1148,
+    "new_provider_billing": false
+  },
+  "invariants": [
+    "Strict FP32 with no AMP/TF32/quantization for fitting and evaluation",
+    "Retain checkpoints/history and full official validation each epoch; best-observed distinct from fixed endpoint",
+    "Reuse existing numerical components, prediction/scoring/ownership/dashboard helpers; do not create another framework",
+    "Source/config/environment/inputs/parent hashes recorded before each profile/fit",
+    "Detached finite execution survives SSH disconnect and stops only receipt-owned processes",
+    "Preserve previous fits, PR60 results and failed attempts; no hidden refits",
+    "Publish per-cell outcomes/checkpoints/curves and final fixed-combination results to GitHub as SemyonEpanov"
+  ],
+  "comparison": {
+    "teacher_capacity": "Matched fitting seeds and scratch controls; architecture/optimizer-family comparisons explicitly reflect unequal compute.",
+    "endpoint_anchors": {
+      "W18_PR60_control_mean_wp": 0.6913130701486718,
+      "historical_clean_W18_wp": 0.6914165059769162,
+      "fixed_TL3_wp": 0.6923774245652725
+    },
+    "fixed_blend": "Prespecified0.9TL3+0.1candidate, no validation-fitted coefficients",
+    "useful_singleton_delta": 0.001,
+    "useful_blend_delta": 0.0005,
+    "uncertainty": "Allocation targets, not promised gains/significance. Two seeds share exposed development validation."
+  },
+  "resources_note": "Initialfree10.172GB; budgetcountsallnewcheckpoints/predictions/cache. Prefer compact official-scored valid exports/streamed teacher targets if full banks cannot fit without violating3GB floor. Any changed input/output retention needs a pre-outcome receipt; never delete old PR60 artifacts."
+}

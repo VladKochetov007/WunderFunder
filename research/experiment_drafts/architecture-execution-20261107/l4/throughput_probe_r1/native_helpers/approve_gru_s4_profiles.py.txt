@@ -1,0 +1,88 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+
+import torch
+from transition_support_s4 import trainer_files, validate_transition
+from wnn.training.sequence_config import load_config
+
+R = Path('/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1')
+Q = R / 'control/gru-monitor-recovery-r2'
+S = R / 'source-gru-monitor-resume-r1'
+MANIFEST = '28ac81b46517f1923d4ffd9751bd0d615f2657c5721d2e3459726e8c05ef4182'
+SOURCE = '5bbbf68eccdc8c8773ff4b4eda2c4026d9c3f31b145dfc0d683b17d20a1987d0'
+CONFIG = {
+    101001: '46364a0f68eefea9464918e848bf2af5166af4e2d65fbfb78d16d7c71d969325',
+    101002: 'fccc9a5bd2bd10eac158c6a647a5feea5368e18e88c4d0ed62bf3d71188d875b',
+}
+PARENT = {
+    101001: '06a1bc3ce96a2033576dfc53085ebbfcff06663d390a9b5e3c39a0a7e978d93d',
+    101002: '909654a77629a17dd99c7a615d8d1997a115c7a7aad50f372ad3f22b61e5cc9a',
+}
+
+
+def sha(path: Path) -> str:
+    """Bind actual native evidence without loading a fitting worker."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main() -> None:
+    """Approve two actual S4 profiles; start no scientific fit or migration."""
+    manifest = R / 'source-gru-monitor-resume-r1-manifest.json'
+    assert sha(manifest) == MANIFEST
+    files = json.loads(manifest.read_bytes())['files']
+    assert len(files) == 620
+    for name, expected in files.items():
+        assert sha(S / name) == expected
+    review = {}
+    for seed in (101001, 101002):
+        profile = R / f'runs/gru-monitor-continuation-profiles-r4/gru_s{seed}'
+        native = json.loads((profile / 'profile_receipt.json').read_bytes())
+        identity = native['identity']
+        assert native['status'] == 'profile_complete' and native['updates'] == 20
+        assert native['errors'] == [] and native['scientific_checkpoint_written'] is False
+        assert identity['source_sha256'] == SOURCE
+        assert identity['source_files'] == trainer_files(files)
+        assert identity['config_sha256'] == CONFIG[seed]
+        assert identity['world_size'] == 1 and identity['optimizer']['total_updates'] == 77520
+        assert native['peak_reserved_bytes'] < .9 * min(native['device_total_memory_bytes'])
+        old = R / f'runs/gru_s{seed}/fit'
+        metadata = json.loads((old / 'run_metadata.json').read_bytes())
+        assert sha(old / 'training_state.pt') == PARENT[seed]
+        state = torch.load(old / 'training_state.pt', map_location='cpu', weights_only=False)
+        assert state['next_epoch'] == 8 and state['global_step'] == 51680
+        config = load_config(R / f'configs/gru-monitor-continuation-r3/gru_s{seed}.json')
+        validate_transition(metadata['config'], config, state['contract'], identity)
+        old_uuid = metadata['provenance']['runtime']['devices'][0]['uuid'].removeprefix('GPU-')
+        new_uuid = identity['runtime']['devices'][0]['uuid'].removeprefix('GPU-')
+        assert old_uuid == new_uuid
+        before = [json.loads(line) for line in (old.parent / 'profile/rank0.jsonl').read_text().splitlines()]
+        after = [json.loads(line) for line in (profile / 'rank0.jsonl').read_text().splitlines()]
+        assert [row['step'] for row in before] == [row['step'] for row in after] == [10, 20]
+        deltas = {}
+        for key in ('label_loss', 'gradient_norm_preclip'):
+            assert all(math.isfinite(float(row[key])) for row in before + after)
+            deltas[key] = max(abs(a[key] - b[key]) for a, b in zip(before, after, strict=True))
+            assert deltas[key] == 0.0
+        approved = native | {
+            'approved': True, 'reviewer': 'ROOT',
+            'root_review': 'Actual S4 20-update same-seed/physical-GPU profile; exact620-file/four-file amendment, normalized retention-only config, exact S1 steps10/20 loss and gradient agreement; original E8/51680 state SHA stable. Separate real canonical CPU and CUDA zero-update resume probes and live full-state archiver remain mandatory before original same-fit continuation. No scientific quality parity claim.',
+        }
+        destination = Q / f'gru_s{seed}-approved-profile.json'
+        with destination.open('x') as stream:
+            json.dump(approved, stream, indent=2, sort_keys=True, allow_nan=False)
+            stream.write('\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+        review[str(seed)] = {'profile_sha256': sha(destination), 'deltas': deltas, 'parent_state_sha256': PARENT[seed]}
+    with (Q / 'ROOT-profile-review-r2.json').open('x') as stream:
+        json.dump({'approved': True, 'reviewer': 'ROOT', 'source_sha256': SOURCE, 'manifest_sha256': MANIFEST, 'cells': review}, stream, indent=2)
+    print(json.dumps({'source_sha256': SOURCE, 'profiles': review}))
+
+
+if __name__ == '__main__':
+    main()

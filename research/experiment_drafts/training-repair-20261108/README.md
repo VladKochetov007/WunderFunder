@@ -1,0 +1,69 @@
+# Five-point training repair, 8 November 2026
+
+Status: all five points implemented and CPU checked; no new fits or GPU measurements.
+Objective mode: engineering. Tier A tests verify software contracts; empirical
+score benefit remains unmeasured (exposed official valid, no fresh holdout).
+
+## Scope and order
+
+1. Honest train/valid diagnostics: fitting-only representative monitoring
+   cohort, explicit source/mask/comparability; unchanged full official primary
+   validation. Train has no is_scored; never invent it or infer time from seq_ix.
+2. Observability: distinct activation/gradient RMS and named missing gradients;
+   preserve training gradients; expose objective components and native head,
+   reference and mixture distributions in the local dashboard.
+3. Checkpoints/plateau: retain recoverable epoch endpoints, separate fixed
+   endpoint from exploratory best/SWA, safe identity/RNG-aware resume. Existing
+   completed results remain historical; no automatic early stop/promotion.
+4. Objectives: standalone labels are the supported new-run baseline; make legacy
+   in-sample mixture/correlation assumptions explicit and prevent misleading
+   OOF claims. If window correlation is implemented it must be exact, bounded
+   and regression-tested, never mean-of-microchunk relabeled as global.
+5. Optimizer/context: actual per-group update-to-weight telemetry and separate
+   LR controls; explicit forward context, TBPTT gradient horizon and cache
+   approximation; future 512/A2 and 1024/A1 require actual memory/throughput gates.
+
+Finish and commit each point before starting code changes for the next.
+Two runtime branches preserve their established module layouts. One L4/UI actor
+and one B300 actor own disjoint worktrees; a bounded critic reviews independently.
+ROOT integrates, runs aggregate checks and commits; agents never publish or use
+SSH/GPU/auth. Native Luna/max, at most three subordinate roles, no child swarms.
+CPU budget: two aggregate threads, at most one per actor, no model fits. Use tiny
+synthetic correctness cases, no new packages/downloads unless actually required.
+
+## Validation invariants and baseline
+
+ADR0044: official train 10,325 whole sequences only -> full official valid 1,873
+sequences / 3,528,273 is_scored rows. Fit all preprocessors/initializers/teachers
+on fitting members only. IDs are shuffled, not timestamps. Valid is exposed.
+Historical clean TL3 WP=.6923774248169172. Recent label-transformer fixed 90/10
+mixture mean=.6924925011946058 across two seeds; no public improvement established.
+Fixing telemetry does not by itself improve predictions. No claim of top score
+or GPU speedup without new measured fits and reproducible serving evaluation.
+
+## Evidence
+
+Local independent audits: artifacts/training-diagnosis-20261108/recipe-audit.md,
+monitor-audit.md and DIAGNOSIS_AND_NEXT_STEPS.md under Documents/Codex.
+Historical bases: L4 96823b7aa; B300 14fe0bded. Never modify frozen source archives.
+Tests must cover unchanged primary masks/coverage, observational parity and new
+fail-closed contracts. Run Ruff and check_training_structure on changed modules.
+
+## Progress
+
+| Point | Status | Evidence and next-run interpretation |
+|---|---|---|
+| 1 | implemented; CPU checked | POINT1_L4.md; 21 tests passed, 1 dependency skip; 22 plot artifacts rendered separately, Ruff and structure 154/0; independent role regression passed. |
+| 2 | implemented; CPU checked | POINT2_L4.md; 37 tests passed, 1 dependency skip; independent JS guard 41 groups/21 keys, actual full B3280 journal rendered (12 files, no inference); Ruff and structure 156/0. |
+| 3 | implemented; CPU checked | POINT3_L4.md; 30 focused tests passed, plus 4 checkpoint/restore/resume tests; report-only plateau keeps the configured endpoint and retains epoch snapshots; Ruff and structure 156/0. Full CLI resume is unverified on Windows (`resource` import limitation). |
+| 4 | implemented; CPU checked | POINT4_L4.md; 68 focused tests passed; standalone WMSE mode matches legacy label-only value/gradient; legacy config SHA preserved; Ruff and structure 156/0. No fits or quality claims. |
+| 5 | implemented; CPU checked | POINT5_L4.md; 99 core tests plus 10 view/dashboard/mirror tests; actual-step observational parity, identity-bound GRU1000-row horizon, neutral LR controls, sampled updates 1 and every 50. Seven plot families rendered from a synthetic CPU producer fixture; hardware overhead remains unmeasured. |
+
+Each point adds a receipt with rationale, files, exact checks, limitations and
+operational thresholds. GPU memory/time/quality remain unmeasured until admitted
+profiles and paired fits; preserve failed checks with their correction.
+
+See [NEXT_RUN_AND_MONITORING.md](NEXT_RUN_AND_MONITORING.md) for the exact
+starting recipes, online interpretation, admission measurements and decision
+criteria. Each point has a separate commit on the L4/UI and B300 runtime branches.
+No new GitHub result or validation/public score is claimed by this repair.

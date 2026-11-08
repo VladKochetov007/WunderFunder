@@ -1,0 +1,72 @@
+{
+  "schema": "wnn.synthetic-clipping-mechanism.v1",
+  "evidence_scope": "CPU synthetic gradient replay, not a training or quality result",
+  "device": "cpu",
+  "torch": "2.14.0+cu130",
+  "steps": 24,
+  "seed": 1701,
+  "weight_decay": 0,
+  "source_sha256": "ed273498781c1065bec1dd7f786908cbeee4361ea0bbe22e5479dc9dc8663404",
+  "script_sha256": "6689fe88f336b6fe58f7a925c9b5ef69427a207215ff5791d2046df7ff9babed",
+  "comparisons": {
+    "constant_scale_0.1": {
+      "mean_raw_gradient_multiplier": 0.10000000000000002,
+      "muon_recurrent": {
+        "median_update_norm_ratio": 0.9999993443489075,
+        "mean_update_angle_degrees": 0.007618377450853586,
+        "maximum_update_angle_degrees": 0.02797645516693592,
+        "relative_trajectory_difference": 6.293381829891587e-06
+      },
+      "adamw_head": {
+        "median_update_norm_ratio": 0.9999998807907104,
+        "mean_update_angle_degrees": 0.008442642167210579,
+        "maximum_update_angle_degrees": 0.03956468030810356,
+        "relative_trajectory_difference": 4.5743129817310546e-07
+      }
+    },
+    "global_clip_1": {
+      "mean_raw_gradient_multiplier": 0.3249984967009919,
+      "muon_recurrent": {
+        "median_update_norm_ratio": 1.00184166431427,
+        "mean_update_angle_degrees": 39.07667922973633,
+        "maximum_update_angle_degrees": 63.18638229370117,
+        "relative_trajectory_difference": 0.7091854214668274
+      },
+      "adamw_head": {
+        "median_update_norm_ratio": 0.9370020031929016,
+        "mean_update_angle_degrees": 18.15306282043457,
+        "maximum_update_angle_degrees": 27.67977523803711,
+        "relative_trajectory_difference": 0.30520927906036377
+      }
+    },
+    "global_clip_5": {
+      "mean_raw_gradient_multiplier": 0.7683234185680704,
+      "muon_recurrent": {
+        "median_update_norm_ratio": 0.9865836501121521,
+        "mean_update_angle_degrees": 32.7889404296875,
+        "maximum_update_angle_degrees": 54.17414855957031,
+        "relative_trajectory_difference": 0.5979300737380981
+      },
+      "adamw_head": {
+        "median_update_norm_ratio": 0.9542571902275085,
+        "mean_update_angle_degrees": 8.476317405700684,
+        "maximum_update_angle_degrees": 14.489836692810059,
+        "relative_trajectory_difference": 0.14589591324329376
+      }
+    }
+  },
+  "sgd_bias_counterexample": {
+    "raw_batch_gradients": [
+      8,
+      -2
+    ],
+    "raw_mean": 3,
+    "clip1_mean": 0
+  },
+  "limitations": [
+    "Tiny matrices and prescribed gradients do not reproduce GRU training or data noise.",
+    "Fixed momentum and LR omit OneCycle momentum/LR variation.",
+    "Near scale-invariance depends on numerical epsilon, finite precision and optimizer state.",
+    "Repeated gradients are shared inputs, not independent training replications."
+  ]
+}

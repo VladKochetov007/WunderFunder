@@ -5,6 +5,22 @@ import math
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_compact_config import (
+    COMPACT_ARCHITECTURES,
+    compact_model_fields,
+)
+from wnn.training.sequence_config_finalize import finalize_loaded_config
+from wnn.training.sequence_config_validation import (
+    is_galam_lstm64_muon,
+    validate_input_prefetch_batches,
+    validate_monitoring_config,
+)
+from wnn.training.sequence_config_validation import (
+    validate_expected_fold as validate_expected_fold,
+)
+from wnn.training.sequence_config_validation import (
+    validate_runtime_requirements as validate_runtime_requirements,
+)
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -55,11 +71,51 @@ MODEL_DEFAULTS: dict[str, Any] = {
 }
 
 
+def _validate_input_feature_mode(model: dict[str, Any]) -> str:
+    """Keep expanded inputs limited to the existing causal GRU and Transformer adapters."""
+    mode = model.get("input_feature_mode", "raw112")
+    if mode not in ("raw112", "event211"):
+        raise ValueError("model.input_feature_mode must be raw112 or event211")
+    if mode == "event211":
+        architecture = model["architecture"]
+        if architecture == "gru" and (model["hidden"], model["layers"]) != (256, 2):
+            raise ValueError("event211 is scoped to the standalone GRU256x2 launch")
+        if architecture not in ("gru", "transformer"):
+            raise ValueError("event211 inputs are supported only by GRU and Transformer adapters")
+    return str(mode)
+
+
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    if not isinstance(raw, dict) or set(raw) - (
+        set(DEFAULTS)
+        | {
+            "model",
+            "checkpoint_retention",
+            "dropout_policy",
+            "monitoring",
+            "input_prefetch_batches",
+            "objective_mode",
+            "optimizer_update_diagnostics_every",
+            "lr_role_factors",
+            "lr_head_factor",
+            "lr_body_factor",
+            "gradient_horizon_rows",
+        }
+    ):
         raise ValueError("unknown sequence recipe field")
+    if "input_prefetch_batches" in raw:
+        validate_input_prefetch_batches(raw["input_prefetch_batches"])
+    if "monitoring" in raw:
+        validate_monitoring_config(
+            raw["monitoring"],
+            raw.get("model", {}),
+            raw.get("epochs", DEFAULTS["epochs"]),
+            raw.get("checkpoint_retention", "final_only"),
+        )
+    if "dropout_policy" in raw and raw["dropout_policy"] != "explicit_regularization_v1":
+        raise ValueError("unsupported explicit dropout policy")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
         "final_only",
@@ -70,8 +126,34 @@ def load_config(path: Path) -> dict[str, Any]:
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
-    model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    raw_model = raw.get("model", {})
+    if not isinstance(raw_model, dict):
+        raise ValueError("model must be a mapping")
+    allowed_model_fields = (
+        set(MODEL_DEFAULTS) | {"input_feature_mode"} | compact_model_fields(raw_model)
+    )
+    if raw_model.get("architecture") == "galam":
+        from wnn.training.galam_adapter import galam_model_settings
+
+        galam_input_mode = raw_model.get("input_feature_mode", "raw112")
+        model = galam_model_settings(
+            {name: value for name, value in raw_model.items() if name != "input_feature_mode"}
+        )
+        if "input_feature_mode" in raw_model:
+            model["input_feature_mode"] = galam_input_mode
+        allowed_model_fields.update(("galam", "precision_mode"))
+        galam_muon = is_galam_lstm64_muon(model)
+        if config["precision_mode"] != "fp32" or (
+            config["optimizer"] != "adamw" and not galam_muon
+        ):
+            raise ValueError(
+                "unprofiled GALAM requires fp32 and AdamW except for the LSTM64 hybrid"
+            )
+        if type(config["batch_size"]) is not int or config["batch_size"] < 2:
+            raise ValueError("GALAM per-time BatchNorm requires batch_size >= 2 per rank")
+    else:
+        model = MODEL_DEFAULTS | raw_model
+    if set(model) - allowed_model_fields:
         raise ValueError("unknown sequence model field")
     config["model"] = model
     for key in (
@@ -131,25 +213,50 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["schedule"] == "legacy_warmup_cosine" and ratio != 0:
         raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
     for key in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
+        if key == "ff_multiplier" and model["architecture"] == "galam":
+            continue  # Explicit positive integer feed_forward_width is checked in GALAMConfig.
         if type(model[key]) is not int or model[key] < 1:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru"):
-        raise ValueError("architecture must be transformer or gru")
+    if model["architecture"] not in ("transformer", "gru", "lstm", "galam", *COMPACT_ARCHITECTURES):
+        raise ValueError("unsupported sequence architecture")
+    input_feature_mode = _validate_input_feature_mode(model)
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
-    if model["architecture"] == "gru" and model["attention_backend"] != "math":
+    if model["architecture"] in ("gru", "lstm") and model["attention_backend"] != "math":
         raise ValueError("attention backends are supported only by Transformer models")
     if type(model["compile_blocks"]) is not bool:
         raise ValueError("model.compile_blocks must be boolean")
-    if model["architecture"] == "gru" and model["compile_blocks"]:
+    if model["architecture"] in ("gru", "lstm") and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
-    if config["optimizer"] == "muon" and model["architecture"] != "transformer":
-        raise ValueError("sequence Muon currently supports Transformer models only")
+    if config["optimizer"] == "muon":
+        supported_muon = (
+            model["architecture"] == "transformer"
+            or (
+                model["architecture"] == "gru"
+                and input_feature_mode == "event211"
+                and (model["hidden"], model["layers"]) == (256, 2)
+            )
+            or is_galam_lstm64_muon(model)
+        )
+        if not supported_muon:
+            raise ValueError(
+                "sequence Muon supports Transformer models only by default; "
+                "approved GRU/GALAM adapters are explicit exceptions"
+            )
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
-    if model["dropout"] != 0 or type(model["checkpoint_blocks"]) is not bool:
+    dropout = model["dropout"]
+    explicit_dropout = raw.get("dropout_policy") == "explicit_regularization_v1"
+    if explicit_dropout and (
+        isinstance(dropout, bool)
+        or not isinstance(dropout, (int, float))
+        or not math.isfinite(dropout)
+        or not 0 <= dropout < 1
+    ):
+        raise ValueError("explicit dropout must be finite numeric in [0, 1)")
+    if (not explicit_dropout and dropout != 0) or type(model["checkpoint_blocks"]) is not bool:
         raise ValueError("this paired runtime freezes dropout=0 and boolean checkpoint_blocks")
     if model["architecture"] == "transformer" and model["hidden"] % (2 * model["heads"]):
         raise ValueError("RoPE requires an even integral head dimension")
@@ -171,32 +278,9 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("required_world_size must be null or a positive integer")
     required_device = config["required_device"]
-    if required_device not in (None, "B300"):
-        raise ValueError("required_device must be null or B300")
+    if required_device not in (None, "B300", "L4"):
+        raise ValueError("required_device must be null, B300, or L4")
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
-    # This runtime-only field lets fit and inference build the same precision-aware model.
-    model["precision_mode"] = config["precision_mode"]
-    config["model"] = model
-    return config
-
-
-def validate_runtime_requirements(
-    config: dict[str, Any], world_size: int, device_name: str
-) -> bool:
-    """Check the recipe's optional world-size and device requirements on this rank."""
-    required_world_size = config["required_world_size"]
-    if required_world_size is not None and world_size != required_world_size:
-        raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
-    if config["required_device"] == "B300" and "B300" not in device_name.upper():
-        raise ValueError(f"recipe requires an NVIDIA B300 device, received {device_name!r}")
-    return True
-
-
-def validate_expected_fold(config: dict[str, Any], actual_fold: int) -> bool:
-    """Check the loaded split's fold against the recipe's optional fold requirement."""
-    expected_fold = config["expected_fold"]
-    if expected_fold is not None and actual_fold != expected_fold:
-        raise ValueError(f"recipe requires fold {expected_fold}, received fold {actual_fold}")
-    return True
+    return finalize_loaded_config(config, raw, model)

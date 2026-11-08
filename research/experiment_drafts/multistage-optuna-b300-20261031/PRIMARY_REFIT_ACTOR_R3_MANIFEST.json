@@ -1,0 +1,93 @@
+{
+  "actor_revision": "R3",
+  "cli": {
+    "common_required_arguments": [
+      "--action",
+      "--fit-id",
+      "--prepared-root",
+      "--runtime-root",
+      "--run-dir",
+      "--operator-root"
+    ],
+    "entrypoint": "run_primary_refit_actor_r3.py",
+    "fit_arguments": [
+      "--action fit",
+      "--native-approval <exact-root-approval.json>",
+      "--device-inventory <actual-inventory-path>"
+    ],
+    "profile_arguments": [
+      "--action profile",
+      "--gpu-key 0|1|2|3",
+      "--device-inventory <actual-inventory-path>"
+    ]
+  },
+  "execution_scope": "local only; no SSH/GPU/network/experiments/commits",
+  "files": {
+    "PRIMARY_REFIT_PROFILE_POLICY_R4.json": "36f99c3944e4e414528fe215fc6ae671226c5c9bbee6d826e429ce257ccdf44e",
+    "primary_refit_actor_common.py": "688ad34f55a99a5dbbf834b545f22dd7ce6ccd0de293079350fef28cef14679c",
+    "primary_refit_actor_fit.py": "70fe89a4ccd76908c906b3dfe2088fc76d68d3e38a41d79168d3f4fbede092e4",
+    "primary_refit_actor_profile.py": "1749842ec34c419935950130d06f97eefc380c6b92e845dafd55dc6e777d0584",
+    "primary_refit_actor_support.py": "1fe1a4d2cb7451536f1de662c90756db36fd9f4dac0284585a664d198ee4d09d",
+    "primary_refit_fit_guardian_r3.py": "6ae1ddf6c13bf1d006721e1ecb438d6a2dc18da4aa7be6974d85013597c56bde",
+    "primary_refit_profile_review_support.py": "c33bfca9c0b84c6958c4df9e3514d6a04f15e7838c904363146a5d324cb7b656",
+    "receiving/B300_DEVICE_INVENTORY_ACTUAL_R2.json": "feffa074b132b3bee01c4854ee4753ec4f555743137a572e7fcb3edf106ae405",
+    "review_primary_refit_profile_r4.py": "ae883b8cc61b882f2401b0478db7407da9bdc03546f1644997c242264b9d1ad2",
+    "run_primary_refit_actor_r3.py": "9abc78aa4d157cf4c8806360c6390fc470993d6af67d281df9ca5d4f50495962"
+  },
+  "independent_grader_revision": "R4",
+  "limits": {
+    "allowed_gpu_keys": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "fit_wall_seconds": 7200,
+    "fresh_source4_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "hard_deadline_epoch": 1793425269.6589406,
+    "hard_deadline_utc": "2026-10-31T05:41:09.6589406Z",
+    "max_global_fit_attempts": 48,
+    "max_global_profile_attempts": 56,
+    "max_stage4_fit_attempts": 4,
+    "max_stage4_profile_attempts": 4,
+    "primary_evaluation_sequences": 1873,
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "profile_updates": 50,
+    "profile_wall_seconds": 180,
+    "reserve_start_epoch": 1793424069.6589406,
+    "reserve_start_utc": "2026-10-31T05:21:09.6589406Z"
+  },
+  "root_approval_contract": {
+    "approved": true,
+    "approver_id": "root",
+    "native_fit_authorized": true,
+    "primary_valid_used_for_selection": false,
+    "required_exact_identity_fields": [
+      "fit_id",
+      "request_sha256",
+      "native_profile_sha256",
+      "engineering_review_sha256",
+      "config_sha256",
+      "source_sha256",
+      "primary_split_sha256",
+      "policy_sha256",
+      "reviewer_script_sha256",
+      "reviewer_support_sha256",
+      "device_inventory_sha256"
+    ],
+    "schema": "wnn.primary-refit-root-native-approval.v1",
+    "scientific_candidate_promotion": false,
+    "status": "approved"
+  },
+  "schema": "wnn.primary-refit-actor-delivery.v1",
+  "status": "local_cpu_verified_pending_independent_actor_review",
+  "verification": [
+    "Ruff check passed",
+    "Ruff format check passed",
+    "AST parse passed",
+    "R4 policy/checker/support immutable byte pins verified",
+    "Actual inventory SHA verified from raw bytes",
+    "Synthetic CPU contracts: GPU0..3 admission, profiles53..56 and reject57, Stage4fit4 and globalfit48, reject unpinned deadline, root identity/approval mismatch refusal"
+  ]
+}

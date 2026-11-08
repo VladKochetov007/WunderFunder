@@ -1,0 +1,134 @@
+from __future__ import annotations
+
+import importlib.util
+import json
+from pathlib import Path, PurePosixPath
+from types import SimpleNamespace
+
+import pytest
+
+SPEC = importlib.util.spec_from_file_location(
+    "s4_profiles", Path(__file__).with_name("gru_s4_profiles_r1.py")
+)
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+
+def test_actual_frozen_plan_configs_and_physical_devices(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Compare complete native argv/paths with actual metadata/config bytes, without host access."""
+    artifacts = Path(__file__).parent
+    worktree = (
+        artifacts.parents[1] / "reviews/WunderFunder-architecture-execution-20261107"
+    )
+    packet = (
+        worktree
+        / "research/experiment_drafts/architecture-execution-20261107/l4/throughput_probe_r1/continuation-s3-r3"
+    )
+    plan = json.loads((packet / "CONTINUATION_PROFILE_PLAN_R3.json").read_bytes())
+    assert MODULE.sha(packet / "CONTINUATION_PROFILE_PLAN_R3.json") == MODULE.PLAN_SHA
+    files, physical = {}, {}
+    runtime = PurePosixPath(
+        "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1"
+    )
+    for entry in plan["cells"]:
+        payload = (
+            artifacts
+            / "live-dashboard/native"
+            / f"l4-gru_s{entry['seed']}-fit/run_metadata.json"
+        ).read_bytes()
+        files[
+            str(runtime / "runs" / f"gru_s{entry['seed']}" / "fit/run_metadata.json")
+        ] = payload
+        files[
+            str(runtime / "configs/gru-monitor-continuation-r3" / entry["config_file"])
+        ] = (packet / "configs" / entry["config_file"]).read_bytes()
+        physical[entry["gpu_index"]] = (
+            "GPU-" + json.loads(payload)["provenance"]["runtime"]["devices"][0]["uuid"]
+        )
+
+    class NativePath(PurePosixPath):
+        def read_bytes(self) -> bytes:
+            return files[str(self)]
+
+        def exists(self) -> bool:
+            return str(self) in files
+
+        def is_file(self) -> bool:
+            return self.exists()
+
+        def is_symlink(self) -> bool:
+            return False
+
+    monkeypatch.setattr(MODULE, "R", NativePath(runtime))
+    monkeypatch.setattr(
+        MODULE, "P", NativePath(runtime / "configs/gru-monitor-continuation-r3")
+    )
+    monkeypatch.setattr(
+        MODULE, "S4", NativePath(runtime / "source-gru-monitor-resume-r1")
+    )
+    monkeypatch.setattr(MODULE, "PYTHON", PurePosixPath(plan["cells"][0]["argv"][0]))
+    for entry in plan["cells"]:
+        item = MODULE.profile_entry(entry, physical, set())
+        assert item["env"]["CUDA_VISIBLE_DEVICES"] == physical[entry["gpu_index"]]
+        assert item["argv"][1] == str(
+            runtime / "source-gru-monitor-resume-r1/scripts/train_sequence.py"
+        )
+        assert item["argv"][item["argv"].index("--output") + 1] == str(
+            runtime / f"runs/gru-monitor-continuation-profiles-r4/gru_s{entry['seed']}"
+        )
+        assert item["argv"][-2:] == ["--profile-updates", "20"]
+        for active, devices in [(set(physical.values()), physical), (set(), {})]:
+            with pytest.raises(ValueError, match="physical GPU"):
+                MODULE.profile_entry(entry, devices, active)
+
+
+@pytest.mark.parametrize("valid", [True, False])
+def test_owned_timeout_no_callback_and_native_identity_validation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, valid: bool
+) -> None:
+    """Mock the owned executor only; no signals, model code, CUDA or network is used."""
+    monkeypatch.setattr(MODULE, "C", tmp_path)
+    uuid = "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a"
+    output = tmp_path / "profile"
+    item = {
+        "seed": 101001,
+        "gpu": 0,
+        "uuid": uuid,
+        "output": output,
+        "env": {},
+        "argv": ["fixture-python", "fixture-trainer", "--profile-updates", "20"],
+        "config_sha256": "a" * 64,
+        "data_sha256": "b" * 64,
+    }
+
+    def run(command: list[str], **kwargs: object) -> tuple[int, bool, dict]:
+        assert kwargs["timeout_seconds"] == 200 and "progress" not in kwargs
+        assert "--profile-updates" in command and command[-1] == "20"
+        output.mkdir()
+        (output / "profile_receipt.json").write_text(
+            json.dumps(
+                {
+                    "status": "profile_complete",
+                    "updates": 20,
+                    "errors": [],
+                    "scientific_checkpoint_written": False,
+                    "identity": {
+                        "world_size": 1,
+                        "source_sha256": "c" * 64,
+                        "config_sha256": ("a" if valid else "d") * 64,
+                        "data_sha256": "b" * 64,
+                        "runtime": {"devices": [{"uuid": uuid.removeprefix("GPU-")}]},
+                    },
+                }
+            )
+        )
+        return 0, False, {}
+
+    helpers = SimpleNamespace(run=run, write=lambda *args, **kwargs: None)
+    if valid:
+        MODULE.run_profile(item, {"source_sha256": "c" * 64}, helpers, {})
+    else:
+        with pytest.raises(ValueError, match="receipt differs"):
+            MODULE.run_profile(item, {"source_sha256": "c" * 64}, helpers, {})

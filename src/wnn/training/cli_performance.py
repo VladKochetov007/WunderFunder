@@ -36,6 +36,12 @@ def add_performance_arguments(ap: argparse.ArgumentParser) -> None:
         help="autocast dtype; bf16 trains without GradScaler",
     )
     perf.add_argument(
+        "--train-eval-seqs",
+        type=int,
+        default=0,
+        help="report WMSE/WP for a fixed sorted training prefix (0 disables the diagnostic)",
+    )
+    perf.add_argument(
         "--amp-init-scale",
         type=float,
         default=65536.0,

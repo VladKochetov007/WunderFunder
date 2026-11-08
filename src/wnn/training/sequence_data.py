@@ -8,13 +8,22 @@ from typing import Any
 import numpy as np
 import torch
 from attrs import define
-from torch.utils.data import Dataset
 
-from wnn.data import N_FEATURES, SEQUENCE_LENGTH, WARMUP
-from wnn.splits import MAX_CAMPAIGN_SPLIT_BYTES, CampaignSplit, load_campaign_split
-from wnn.training.datasets import Sequences
-from wnn.training.environment import InputConfiguration, TrainingEnvironment
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    MAX_CAMPAIGN_SPLIT_BYTES,
+    MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
+    CampaignSplit,
+    load_campaign_split,
+)
 from wnn.training.sequence_cache import TeacherCache
+from wnn.training.sequence_features import (
+    RAW_INPUT_MODE,
+    RAW_INPUT_SCHEMA,
+    numpy_sequence_reader,
+    sequence_input_schema,
+    sequence_input_width,
+)
 from wnn.training.sequence_normalization import (
     NormalizationMoments,
     build_normalization_identity,
@@ -23,86 +32,9 @@ from wnn.training.sequence_normalization import (
     moments_sha256,
     normalization_identity_sha256,
 )
+from wnn.training.sequence_records import SequenceRecords
 
 # Heterogeneous JSON recipes/provenance are restricted to the public runtime boundary.
-
-
-class SequenceRecords(Dataset):
-    """Wrap canonical full sequences with explicit source keys and zero-weight DDP padding."""
-
-    def __init__(
-        self,
-        root: Path,
-        members: list[tuple[str, int]],
-        hint_dim: int,
-        cache: TeacherCache | None = None,
-        hint_members: list[tuple[str, int]] | None = None,
-        training_mask: str = "is_scored",
-    ) -> None:
-        self.members = members
-        self.hint_dim = hint_dim
-        self.cache = cache
-        self.hint_members = hint_members
-        if training_mask not in ("is_scored", "all_after_warmup"):
-            raise ValueError("unsupported sequence training mask")
-        self.training_mask = training_mask
-        env = TrainingEnvironment(root=root, inputs=InputConfiguration(raw_only=True))
-        self.sources = {
-            split: Sequences(
-                split, [group for source, group in members if source == split], environment=env
-            )
-            for split in ("train", "valid")
-        }
-        self.positions = {}
-        for split in ("train", "valid"):
-            for position, group in enumerate(self.sources[split].indices):
-                self.positions[(split, group)] = position
-
-    def __len__(self) -> int:
-        """Return the number of real source-qualified sequences."""
-        return len(self.members)
-
-    def validate_source_schema(self) -> None:
-        """Require targets and, for scored fitting, the explicit evaluation mask."""
-        for source in self.sources.values():
-            if not source.indices:
-                continue
-            if source._file is None:
-                source._file = source.environment.sequence_file(source.path)
-            if not source._file.has_targets:
-                raise ValueError("fitting sources require t0/t1 target columns")
-            if self.training_mask == "is_scored" and not source._file.has_mask:
-                raise ValueError("fitting sources require t0/t1 and is_scored columns")
-
-    def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
-        """Return raw inputs, labels, masks and optional cached teacher values."""
-        if index == -1:
-            return {
-                "x": torch.zeros(SEQUENCE_LENGTH, N_FEATURES),
-                "y": torch.zeros(SEQUENCE_LENGTH, 2),
-                "mask": torch.zeros(SEQUENCE_LENGTH, dtype=torch.bool),
-                "teacher": torch.zeros(SEQUENCE_LENGTH, 2),
-                "hints": torch.zeros(SEQUENCE_LENGTH, self.hint_dim),
-            }
-        split, group = self.members[index]
-        x, y, mask = self.sources[split][self.positions[(split, group)]]
-        if x.shape != (SEQUENCE_LENGTH, N_FEATURES) or y.shape != (SEQUENCE_LENGTH, 2):
-            raise ValueError("raw112/full-sequence training schema mismatch")
-        if not torch.isfinite(x).all() or not torch.isfinite(y).all():
-            raise ValueError(f"nonfinite source sequence: {split}/{group}")
-        if self.training_mask == "all_after_warmup":
-            mask = torch.ones_like(mask, dtype=torch.bool)
-        else:
-            mask = mask.clone()
-        mask[:WARMUP] = False
-        teacher = torch.zeros_like(y)
-        hints = torch.zeros(SEQUENCE_LENGTH, self.hint_dim)
-        if self.cache is not None:
-            teacher, hints = self.cache.read(split, group, self.hint_dim)
-            if self.hint_members is not None:
-                hint_source, hint_group = self.hint_members[index]
-                _, hints = self.cache.read(hint_source, hint_group, self.hint_dim)
-        return {"x": x.float(), "y": y.float(), "mask": mask, "teacher": teacher, "hints": hints}
 
 
 @define
@@ -123,6 +55,7 @@ class SequenceData:
         """
         normalization = self.provenance["normalization"]
         scope = normalization["scope"]
+        feature_count = sequence_input_width(self.fit.input_feature_mode)
         if scope == "all_fit":
             members = list(self.fit.members)
         elif scope == "prefix":
@@ -139,6 +72,8 @@ class SequenceData:
                 source._file = source.environment.sequence_file(source.path)
             return source._file.read(group, targets=False, mask=False).features
 
+        transformed_reader = numpy_sequence_reader(read_features, self.fit.input_feature_mode)
+
         source_root = self.fit.sources[members[0][0]].environment.root.resolve()
         source_fingerprints = normalization["source_fingerprints"]
         if scope == "all_fit":
@@ -147,8 +82,9 @@ class SequenceData:
                 source_fingerprints,
                 self.provenance["split_sha256"],
                 members,
-                read_features,
-                feature_count=N_FEATURES,
+                transformed_reader,
+                feature_count=feature_count,
+                input_schema=normalization.get("input_schema", RAW_INPUT_SCHEMA),
             )
         else:
             identity = build_normalization_identity(
@@ -156,9 +92,12 @@ class SequenceData:
                 self.provenance["split_sha256"],
                 members,
                 scope,
-                N_FEATURES,
+                feature_count,
+                input_schema=normalization.get("input_schema", RAW_INPUT_SCHEMA),
             )
-            mean, std = compute_population_moments(members, read_features, feature_count=N_FEATURES)
+            mean, std = compute_population_moments(
+                members, transformed_reader, feature_count=feature_count
+            )
             result = NormalizationMoments(
                 mean,
                 std,
@@ -198,11 +137,32 @@ def build_data(
     split_manifest: Path,
     teacher_cache: Path | None = None,
 ) -> SequenceData:
-    """Validate the canonical component split before opening any training stream."""
+    """Validate mandatory chronological membership before opening training streams."""
     split = load_campaign_split(split_manifest, data_root)
+    supported_schema = split.schema in (
+        CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+        MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
+    )
+    if not supported_schema or split.valid_groups:
+        raise ValueError(
+            "sequence fits require primary or multistage membership with no fit-valid rows"
+        )
+    if split.schema == MULTISTAGE_AUXILIARY_SPLIT_SCHEMA and (
+        split.evaluation_source != "train"
+        or split.evaluation_role != "control"
+        or split.evaluation_mask != "all_after_warmup"
+        or config.get("training_mask") != "all_after_warmup"
+    ):
+        raise ValueError("auxiliary fitting and control must use train-only all-after-warmup rows")
+    if (
+        split.evaluation_role == "control"
+        and isinstance(config.get("monitoring"), dict)
+        and config["monitoring"].get("early_stopping") is not None
+    ):
+        raise ValueError("auxiliary control supports fixed endpoints, not early-stop pointers")
     members = [("train", group) for group in split.train_groups]
-    members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]
+    input_feature_mode = config["model"].get("input_feature_mode", RAW_INPUT_MODE)
     needed = config["kd_weight"] > 0 or config["hint_weight"] > 0
     if needed and teacher_cache is None:
         raise ValueError("distillation requires a source-bound teacher cache")
@@ -236,29 +196,38 @@ def build_data(
         f"datasets/{source}.parquet": raw["sources"][f"datasets/{source}.parquet"]
         for source in sorted({source for source, _ in normalization_members})
     }
+    normalization_provenance = {
+        "scope": normalization_scope,
+        "sequence_count": len(normalization_members),
+        "source_fingerprints": normalization_sources,
+        **(
+            {"fit_prefix_sequences": len(normalization_members)}
+            if normalization_scope == "prefix"
+            else {}
+        ),
+    }
+    if input_feature_mode != RAW_INPUT_MODE:
+        normalization_provenance["input_schema"] = sequence_input_schema(input_feature_mode)
     provenance = {
         "split_sha256": split.sha256,
         "fold": split.fold,
         "sources": raw["sources"],
         "fit_members": [list(member) for member in members],
-        "evaluation_members": [["valid", group] for group in split.evaluation_groups],
-        "input_schema": "raw112-v1",
+        "evaluation_members": [
+            [split.evaluation_source, group] for group in split.evaluation_groups
+        ],
+        "evaluation_role": split.evaluation_role,
+        "evaluation_source": split.evaluation_source,
+        "evaluation_mask": split.evaluation_mask,
+        "primary_split_sha256": split.primary_split_sha256,
+        "input_schema": sequence_input_schema(input_feature_mode),
         "mask": (
             "all_after_warmup AND row_index>=99"
             if training_mask == "all_after_warmup"
             else "is_scored AND row_index>=99"
         ),
         "training_mask": training_mask,
-        "normalization": {
-            "scope": normalization_scope,
-            "sequence_count": len(normalization_members),
-            "source_fingerprints": normalization_sources,
-            **(
-                {"fit_prefix_sequences": len(normalization_members)}
-                if normalization_scope == "prefix"
-                else {}
-            ),
-        },
+        "normalization": normalization_provenance,
         "teacher": None if cache is None else cache.identity,
         "hint_mode": config["hint_mode"],
         "hint_members": None if hint_members is None else [list(member) for member in hint_members],
@@ -270,9 +239,16 @@ def build_data(
         cache,
         hint_members,
         training_mask=training_mask,
+        input_feature_mode=input_feature_mode,
     )
     fit.validate_source_schema()
-    evaluation = SequenceRecords(data_root, [("valid", g) for g in split.evaluation_groups], 0)
+    evaluation = SequenceRecords(
+        data_root,
+        [(split.evaluation_source, g) for g in split.evaluation_groups],
+        0,
+        training_mask=split.evaluation_mask,
+        input_feature_mode=input_feature_mode,
+    )
     evaluation.validate_source_schema()
     return SequenceData(
         fit,

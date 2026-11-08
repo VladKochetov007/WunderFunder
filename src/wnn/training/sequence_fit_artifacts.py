@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -53,8 +54,14 @@ def write_final_outputs(
     global_step: int,
     epoch_index_sha256: str | None = None,
 ) -> bool:
-    """Write a fixed-final model and its terminal hash, preserving any prior artifact."""
+    """Write the last completed model and terminal status, preserving prior artifacts."""
     epochs = int(config["epochs"])
+    completed_epochs = len(history)
+    if not 1 <= completed_epochs <= epochs:
+        raise ValueError("final outputs require a nonempty completed epoch prefix")
+    early_stopped = bool(history[-1].get("early_stopped", False))
+    if completed_epochs < epochs and not early_stopped:
+        raise ValueError("a shortened fit must end through the declared early-stop policy")
     retention = config.get("checkpoint_retention", "final_only")
     if retention == "all_epochs":
         if not _is_sha256(epoch_index_sha256):
@@ -68,14 +75,57 @@ def write_final_outputs(
         "normalization": normalization,
         "profile_receipt": {"path": str(profile_receipt), "sha256": profile_hash},
         "history": json_value(history),
-        "fixed_checkpoint_policy": "configured-final-epoch",
-        "completed_epochs": epochs,
+        "fixed_checkpoint_policy": (
+            "last-completed-epoch-after-declared-early-stop"
+            if early_stopped
+            else "configured-final-epoch"
+        ),
+        "completed_epochs": completed_epochs,
+        "requested_epochs": epochs,
         "global_updates": global_step,
         "precision": precision_identity(
             str(config.get("precision_mode", "fp32")),
             str(config["model"].get("attention_backend", "math")),
         ),
     }
+    best_epoch = history[-1].get("early_stop_best_epoch")
+    best_wp = history[-1].get("early_stop_best_raw_wp")
+    if (
+        type(best_epoch) is int
+        and best_epoch >= 1
+        and isinstance(best_wp, (int, float))
+        and not isinstance(best_wp, bool)
+        and math.isfinite(float(best_wp))
+    ):
+        role = str(data_provenance.get("evaluation_role", "valid"))
+        best_observed: dict[str, object] = {
+            "evaluation_role": role,
+            "metric": f"{role}/wp",
+            "epoch": best_epoch,
+            "wp": float(best_wp),
+            "interpretation": (
+                "best-observed and exposed evaluation; exploratory pointer only, not the "
+                "fixed inference endpoint or an independent estimate"
+            ),
+            "pointer": "checkpoint_pointers.json#best",
+        }
+        decline = history[-1].get("decline_from_observed_peak")
+        if (
+            isinstance(decline, (int, float))
+            and not isinstance(decline, bool)
+            and math.isfinite(float(decline))
+        ):
+            best_observed["decline_from_observed_peak"] = float(decline)
+        provenance["best_observed_evaluation"] = best_observed
+    monitoring_plan = data_provenance.get("monitoring_plan")
+    if isinstance(monitoring_plan, Mapping):
+        provenance["evaluation_annotation"] = {
+            "no_eval_during_fit": False,
+            "evaluation_reporting": monitoring_plan.get(
+                "evaluation_reporting", "full official valid after each epoch; exposed report"
+            ),
+            "monitoring_plan": json_value(monitoring_plan),
+        }
     if epoch_index_sha256 is not None:
         provenance["epoch_index_sha256"] = epoch_index_sha256
     if model_path.exists():
@@ -84,7 +134,7 @@ def write_final_outputs(
         if (
             not isinstance(saved, dict)
             or saved.get("checkpoint_schema") != "wnn.sequence-fit.v1"
-            or saved.get("completed_epochs") != epochs
+            or saved.get("completed_epochs") != completed_epochs
             or not isinstance(saved_provenance, dict)
             or saved_provenance.get("identity") != identity
             or saved_provenance.get("epoch_index_sha256") != epoch_index_sha256
@@ -95,15 +145,18 @@ def write_final_outputs(
             model_path,
             model.state_dict(),
             config,
-            epochs - 1,
-            epochs,
+            completed_epochs - 1,
+            completed_epochs,
             data_provenance,
             provenance,
+            allow_early_stop=early_stopped,
         )
     status_path = output / "terminal_status.json"
     status = {
-        "status": "completed",
-        "completed_epochs": epochs,
+        "status": "early_stopped" if early_stopped else "completed",
+        "completion_kind": "declared_early_stop" if early_stopped else "max_epochs",
+        "completed_epochs": completed_epochs,
+        "requested_epochs": epochs,
         "global_updates": global_step,
         "model_sha256": file_sha256(model_path),
         "identity": identity,

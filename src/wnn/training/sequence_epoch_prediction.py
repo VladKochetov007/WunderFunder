@@ -109,9 +109,13 @@ def validate_epoch_payload(payload: dict[str, Any], admission: dict[str, Any]) -
 
 
 def validate_epoch_producer(
-    producer: dict[str, Any], split_hash: str, members: list[tuple[str, int]]
+    producer: dict[str, Any],
+    split_hash: str,
+    members: list[tuple[str, int]],
+    *,
+    primary_report_only: bool = False,
 ) -> None:
-    """Admit retained-epoch metrics only; this does not authorize a KD teacher cache."""
+    """Validate retained-epoch provenance for inner metrics or explicit primary reports."""
     admission = producer.get("epoch_admission")
     if producer.get("kind") != EPOCH_KIND or not isinstance(admission, dict):
         raise ValueError("missing epoch prediction admission")
@@ -141,7 +145,7 @@ def validate_epoch_producer(
         or provenance.get("identity") != identity
     ):
         raise ValueError("epoch prediction source/config/split/weights identity mismatch")
-    if (
+    if not primary_report_only and (
         producer.get("teacher") is not None
         or data.get("teacher") is not None
         or config.get("kd_weight") != 0

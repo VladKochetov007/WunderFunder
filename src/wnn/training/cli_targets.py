@@ -168,5 +168,11 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
         default=0.0,
         help="weight of auxiliary cross-entropy heads for spread (ticks), branch and class",
     )
+    ap.add_argument(
+        "--aux-anneal",
+        choices=["none", "late_linear_to_zero"],
+        default="none",
+        help="hold --aux-struct and --aux-next through half of training, then linearly decay to zero",
+    )
     ap.add_argument("--aux", default="", help="future row shifts as auxiliary targets, e.g. 20,200")
     ap.add_argument("--aux-weight", type=float, default=0.5)
