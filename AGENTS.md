@@ -1,3 +1,20 @@
+## Latest 8 November: approved optimizer/horizon screen execution
+
+The user approved executing TOP1_NEXT_ALLOCATION_R1.json after all five repairs.
+Exactly six fresh B300 fits are authorized: Transformer768x24 standalone-label
+WMSE, Muon256/A4 control, AdamW256/A4, Muon512/A2; paired seeds203101/203102,
+fixed4E, global sequence batch256. Actual source/device/data/profile/restore
+receipts and a finite receiving deadline precede fits. No old fit is resumed.
+ROOT owns transport recovery, one persistent SSH/RPC stream per host and all
+GPU/process admission. Reuse a live owned stream; a dead stream may be replaced
+once after verifying it is dead, with no reconnect loop. Foreign jobs stay intact.
+L4 long-memory/local-attention work is preparation only at this stage, not a fit.
+BF16/BF16x9 forward with FP32 master/optimizer arithmetic follows the approved
+new plan and supersedes the old skill's strict-FP32 default for these exact arms.
+Use at most the existing three bounded actor/critic roles, Luna/max, no children.
+No new provider allocation, billing, data downloads or competition submission.
+Keep the completed repair commits and all frozen historical artifacts unchanged.
+
 ## Latest 8 November: five-point training repair (code only)
 
 The user requests sequential diagnosis, implementation, checks and a separate
