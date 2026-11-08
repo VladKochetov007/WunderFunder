@@ -6,6 +6,8 @@ by SemyonEpanov. Initial evidence/preparation commit: `9cf7ab550`.
 [Same-row residual diagnostics](RESIDUAL_DIAGNOSTICS_R1.md) are a separate
 read-only successor. They are completed alongside the live B300 fits, rather
 than claimed as completed before fit admission; no live training recipe changes.
+The pass is now complete; [results](RESIDUAL_RESULTS_R1.md) retain exact global
+reproduction, residual associations and all predeclared position/grid slices.
 
 Status: R4 score-only replay is complete; long-memory work remains preparation
 only. No model was loaded for inference and no fit or profile was run during

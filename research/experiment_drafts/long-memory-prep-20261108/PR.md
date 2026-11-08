@@ -72,3 +72,12 @@
     contiguous-membership and provenance-order adapter failures, respectively.
     This draft records evidence and conditional successors; it does not
     promote a new model, submit an archive or restart any historical fit.
+
+    The completed CPU residual pass in RESIDUAL_RESULTS_R1.md exactly reproduces
+    those four WP scores and rehashes all split/parquet/role inputs afterwards.
+    Raw residual correlations range0.98954–0.99664; shared target noise is a
+    confound, so this does not rule out useful combinations. WMSE ranks Tlead s5
+    best while WP ranks the fixed blend best. Sequence-position scores are not
+    monotonic; the512 positional grid has a near/interior contrast that cannot
+    be attributed to actual TL3 resets from cache data alone. No new fit or
+    adaptive grid/weight selection follows from this diagnostic.

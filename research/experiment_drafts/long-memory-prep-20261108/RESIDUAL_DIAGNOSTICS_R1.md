@@ -1,6 +1,6 @@
 # TL3 same-row residual diagnostics R1
 
-Status: approved score-only diagnostic, awaiting ROOT's native CPU run. It uses
+Status: completed score-only diagnostic; see [the native results](RESIDUAL_RESULTS_R1.md). It uses
 the pinned R4 role caches while the separately approved six-fit B300 campaign
 continues; it does not alter that campaign or admit any L4 fit. R1–R4 grader
 files remain frozen.
