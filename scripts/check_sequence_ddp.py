@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import tempfile
 from collections.abc import Sequence
@@ -88,6 +89,7 @@ def _reference_gradients(
     batches: list[list[ToyBatch]],
     indices: Sequence[int],
     denominators: Tensor,
+    alpha: float = 0.0,
 ) -> list[Tensor]:
     reference = nn.Linear(FEATURES, OUTPUTS).to(device=batches[0][0].x.device)
     reference.load_state_dict(model.module.state_dict())
@@ -105,8 +107,15 @@ def _reference_gradients(
                 batch.teacher,
                 batch.hint_target,
                 batch.mask,
+                blend_objective_alpha=alpha,
             )
-            term = scaled_objective(numerators, denominators, 1, KD_WEIGHT, HINT_WEIGHT)
+            term = scaled_objective(
+                numerators,
+                denominators,
+                1,
+                0.0 if alpha else KD_WEIGHT,
+                0.0 if alpha else HINT_WEIGHT,
+            )
             reference_loss = term if reference_loss is None else reference_loss + term
     if reference_loss is None:
         raise RuntimeError("reference objective unexpectedly had no microbatches")
@@ -124,6 +133,7 @@ def _run_window(
     all_batches: list[list[ToyBatch]],
     local_batches: Sequence[ToyBatch],
     indices: Sequence[int],
+    alpha: float = 0.0,
 ) -> dict[str, object]:
     local_denominators = _sum_denominators(local_batches, indices)
     global_denominators = local_denominators.clone()
@@ -148,18 +158,21 @@ def _run_window(
                 batch.teacher,
                 batch.hint_target,
                 batch.mask,
+                blend_objective_alpha=alpha,
             )
             loss = scaled_objective(
                 numerators,
                 global_denominators,
                 WORLD_SIZE,
-                KD_WEIGHT,
-                HINT_WEIGHT,
+                0.0 if alpha else KD_WEIGHT,
+                0.0 if alpha else HINT_WEIGHT,
             )
             loss.backward()
 
     actual_gradients = [parameter.grad.detach().clone() for parameter in model.module.parameters()]
-    expected_gradients = _reference_gradients(model, all_batches, indices, expected_denominators)
+    expected_gradients = _reference_gradients(
+        model, all_batches, indices, expected_denominators, alpha
+    )
     max_absolute = _max_absolute_error(actual_gradients, expected_gradients)
     denominators_match = bool(torch.allclose(global_denominators, expected_denominators))
     gradients_match = all(
@@ -180,7 +193,7 @@ def _run_window(
     }
 
 
-def _run_checks(device: torch.device, rank: int) -> list[dict[str, object]]:
+def _run_checks(device: torch.device, rank: int, alpha: float = 0.0) -> list[dict[str, object]]:
     torch.manual_seed(1_729)
     model = DistributedDataParallel(
         nn.Linear(FEATURES, OUTPUTS).to(device),
@@ -198,7 +211,7 @@ def _run_checks(device: torch.device, rank: int) -> list[dict[str, object]]:
             ]
             window_results = []
             for indices in windows:
-                local = _run_window(model, all_batches, all_batches[rank], indices)
+                local = _run_window(model, all_batches, all_batches[rank], indices, alpha)
                 gathered: list[dict[str, object] | None] = [None] * WORLD_SIZE
                 dist.all_gather_object(gathered, local)
                 rank_results = [value for value in gathered if value is not None]
@@ -234,7 +247,9 @@ def _write_receipt(path: Path, receipt: dict[str, object]) -> None:
         temporary.unlink(missing_ok=True)
 
 
-def _runtime_receipt(results: list[dict[str, object]], device: torch.device) -> dict[str, object]:
+def _runtime_receipt(
+    results: list[dict[str, object]], device: torch.device, alpha: float = 0.0
+) -> dict[str, object]:
     passed = all(bool(result["passed"]) for result in results)
     return {
         "receipt_schema": "wnn.sequence-ddp-check.v1",
@@ -245,7 +260,11 @@ def _runtime_receipt(results: list[dict[str, object]], device: torch.device) -> 
         "device": torch.cuda.get_device_name(device),
         "world_size": WORLD_SIZE,
         "precision": "strict_fp32_no_tf32_no_autocast",
-        "objective_weights": {"kd": KD_WEIGHT, "hints": HINT_WEIGHT},
+        "objective_weights": {
+            "kd": 0.0 if alpha else KD_WEIGHT,
+            "hints": 0.0 if alpha else HINT_WEIGHT,
+        },
+        **({"blend_objective_alpha": alpha, "curvature_multiplier": alpha**-2} if alpha else {}),
         "gradient_tolerance": {"atol": ATOL, "rtol": RTOL},
         "cases": results,
     }
@@ -267,7 +286,10 @@ def main() -> None:
     """Run the two-rank CUDA acceptance check and write its runtime receipt."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-receipt", "--outputreceipt", required=True, type=Path)
+    parser.add_argument("--blend-objective-alpha", type=float, default=0.0)
     args = parser.parse_args()
+    if not math.isfinite(args.blend_objective_alpha) or not 0 <= args.blend_objective_alpha <= 1:
+        parser.error("--blend-objective-alpha must be finite and in [0, 1]")
     world_size, rank, local_rank = (
         int(os.environ.get(name, default))
         for name, default in (("WORLD_SIZE", "1"), ("RANK", "0"), ("LOCAL_RANK", "0"))
@@ -284,8 +306,8 @@ def main() -> None:
     device = torch.device("cuda", local_rank)
     dist.init_process_group(backend="nccl", init_method="env://", rank=rank, world_size=world_size)
     try:
-        results = _run_checks(device, rank)
-        receipt = _runtime_receipt(results, device)
+        results = _run_checks(device, rank, args.blend_objective_alpha)
+        receipt = _runtime_receipt(results, device, args.blend_objective_alpha)
         _publish(args.output_receipt, receipt, rank, device)
         if not bool(receipt["passed"]):
             raise RuntimeError(f"DDP objective gradients failed: {args.output_receipt}")

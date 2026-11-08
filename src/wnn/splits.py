@@ -20,6 +20,7 @@ import pyarrow.parquet as pq
 HOLDOUT_MODULUS = 5
 MAX_CAMPAIGN_SPLIT_BYTES = 2_000_000
 SEQUENCE_INNER_SPLIT_SCHEMA = "wnn.sequence-inner-split.v1"
+CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA = "wnn.chronological-primary.v1"
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -92,6 +93,7 @@ class CampaignSplit(NamedTuple):
     valid_groups: tuple[int, ...]
     evaluation_groups: tuple[int, ...]
     components: tuple[tuple[str, int, int], ...]
+    schema: str = "wnn.campaign-split.v1"
 
     def assert_fit_groups(self, train: Iterable[int], valid: Iterable[int]) -> None:
         """Reject unknown, excluded or evaluation-linked fitting rows."""
@@ -130,6 +132,10 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
         from wnn.sequence_inner_splits import load_inner_campaign_split
 
         return load_inner_campaign_split(path, root, raw, manifest)
+    if manifest.get("schema") == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        from wnn.chronological_splits import load_chronological_primary_split
+
+        return load_chronological_primary_split(path, root, raw, manifest)
     return _load_canonical_campaign_split(path, root, raw, manifest)
 
 
