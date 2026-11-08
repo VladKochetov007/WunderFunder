@@ -1,5 +1,11 @@
 # Transformer optimizer and gradient-horizon screen
 
+[Current execution handoff](EXECUTION_STATUS_R2.json): the first fixed-E4 cell
+has an official full-valid grade0.6806253673, automatically published in PR72.
+Three first-wave cells continue and two cells remain queued. The native
+comparison repair and larger bounded local metadata collector are active;
+training source and the original cohort clock are unchanged.
+
 This packet executes exactly six new B300 fits authorized by the 8 November
 instruction: three recipes (`C0` Muon256/A4, `C1` AdamW256/A4, `C2`
 Muon512/A2) at paired seeds203101/203102, each fixed4E and global sequence
