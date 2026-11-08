@@ -12,7 +12,7 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class EarlyStopDecision:
-    """One full-validation checkpoint decision and its resumable patience state."""
+    """One full-validation plateau observation and its resumable patience state."""
 
     best_wp: float
     best_epoch: int
@@ -20,6 +20,9 @@ class EarlyStopDecision:
     reference_wp: float
     delta_improved: bool
     bad_checks: int
+    plateau_reached: bool
+    action: str
+    decline_from_observed_peak: float
     should_stop: bool
 
 
@@ -30,7 +33,7 @@ def advance_early_stop(
     policy: Mapping[str, object],
 ) -> EarlyStopDecision:
     """Update strict-best and min-delta patience from one completed full-valid check."""
-    min_epoch, patience, min_delta = _policy(policy)
+    min_epoch, patience, min_delta, action = _policy(policy)
     if completed_epochs != len(history) + 1 or completed_epochs < 1:
         raise ValueError("early-stop epoch must extend the complete validation history")
     if not math.isfinite(valid_wp):
@@ -53,7 +56,9 @@ def advance_early_stop(
     delta_improved = previous_reference is None or valid_wp > previous_reference + min_delta
     reference_wp = valid_wp if delta_improved else float(previous_reference)
     bad_checks = 0 if delta_improved else previous_bad_checks + 1
-    should_stop = completed_epochs >= min_epoch and bad_checks >= patience
+    plateau_reached = completed_epochs >= min_epoch and bad_checks >= patience
+    should_stop = plateau_reached and action == "stop"
+    decline_from_peak = max(0.0, best_wp - valid_wp)
     return EarlyStopDecision(
         best_wp=best_wp,
         best_epoch=best_epoch,
@@ -61,6 +66,9 @@ def advance_early_stop(
         reference_wp=reference_wp,
         delta_improved=delta_improved,
         bad_checks=bad_checks,
+        plateau_reached=plateau_reached,
+        action=action,
+        decline_from_observed_peak=decline_from_peak,
         should_stop=should_stop,
     )
 
@@ -94,26 +102,60 @@ def write_checkpoint_pointers(
         len(history),
         _history_number(last_history, "valid_wp"),
     )
-    min_epoch, patience, min_delta = _policy(policy)
+    min_epoch, patience, min_delta, action = _policy(policy)
+    plateau_reached = last_history.get("early_stop_plateau_reached")
+    if type(plateau_reached) is not bool:
+        plateau_reached = (
+            len(history) >= min_epoch
+            and _history_integer(last_history, "early_stop_bad_checks") >= patience
+        )
+    decline = last_history.get("decline_from_observed_peak")
+    if (
+        isinstance(decline, bool)
+        or not isinstance(decline, (int, float))
+        or not math.isfinite(decline)
+    ):
+        decline = max(
+            0.0,
+            _history_number(last_history, "early_stop_best_raw_wp")
+            - _history_number(last_history, "valid_wp"),
+        )
     document: dict[str, object] = {
         "schema": "wnn.sequence-monitor-checkpoints.v1",
         "run_identity_sha256": run_identity_sha256,
         "status": status,
         "completed_epochs": len(history),
         "monitor_metric": "full official-valid pooled WP",
-        "best_checkpoint_policy": "strict highest valid WP; report-only validation is exposed",
+        "best_checkpoint_policy": (
+            "best-observed strict highest full official-valid WP; exposed validation; "
+            "exploratory pointer only, not an independent or fixed endpoint"
+        ),
+        "last_checkpoint_policy": (
+            "latest completed immutable epoch; configured final epoch when the fixed schedule completes"
+        ),
         "early_stopping": {
+            "action": action,
             "min_epoch": min_epoch,
             "patience": patience,
             "min_delta": min_delta,
+            "plateau_reached": plateau_reached,
+            "decline_from_observed_peak": float(decline),
+            "stopping_effect": (
+                "report only; the configured epoch schedule is not shortened"
+                if action == "report_only"
+                else "stop after the declared patience threshold"
+            ),
             "bad_count": _history_integer(last_history, "early_stop_bad_checks"),
             "patience_reference_wp": _history_number(
                 last_history, "early_stop_patience_reference_wp"
             ),
+            "best_observed_wp": _history_number(last_history, "early_stop_best_raw_wp"),
+            "best_observed_epoch": best_epoch,
             "min_delta_applies_to": "patience reset only; best pointer uses strict raw WP",
             "patience_counting": (
-                "consecutive full-valid checks from the first check; stopping is eligible "
-                "after min_epoch"
+                "consecutive full-valid checks from the first check; plateau is reported after min_epoch"
+                if action == "report_only"
+                else "consecutive full-valid checks from the first check; stopping is eligible after min_epoch"
             ),
         },
         "best_raw_wp": _history_number(last_history, "early_stop_best_raw_wp"),
@@ -124,10 +166,11 @@ def write_checkpoint_pointers(
     return document
 
 
-def _policy(policy: Mapping[str, object]) -> tuple[int, int, float]:
+def _policy(policy: Mapping[str, object]) -> tuple[int, int, float, str]:
     min_epoch = policy.get("min_epoch")
     patience = policy.get("patience")
     min_delta = policy.get("min_delta")
+    action = policy.get("action", "stop")
     if type(min_epoch) is not int or min_epoch < 1:
         raise ValueError("early-stop min_epoch must be a positive integer")
     if type(patience) is not int or patience < 1:
@@ -139,7 +182,9 @@ def _policy(policy: Mapping[str, object]) -> tuple[int, int, float]:
         or min_delta < 0
     ):
         raise ValueError("early-stop min_delta must be finite and nonnegative")
-    return min_epoch, patience, float(min_delta)
+    if action not in ("stop", "report_only"):
+        raise ValueError("early-stop action must be stop or report_only")
+    return min_epoch, patience, float(min_delta), str(action)
 
 
 def _history_number(history: Mapping[str, object], key: str) -> float:

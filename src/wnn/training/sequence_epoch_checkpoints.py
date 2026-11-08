@@ -16,11 +16,17 @@ _SAFETY_BYTES = 64 << 20
 _SAFETY_FRACTION = 0.10
 
 
-def preflight_epoch_storage(output: Path, model: torch.nn.Module, snapshots: int) -> int:
-    """Require space for remaining immutable weights snapshots before fitting."""
+def preflight_epoch_storage(
+    output: Path,
+    model: torch.nn.Module,
+    snapshots: int,
+    *,
+    reserve_atomic_checkpoint_state: bool = False,
+) -> int:
+    """Require snapshot space and optionally the report-only resume replacement reserve."""
     if snapshots < 0:
         raise ValueError("remaining snapshot count must be nonnegative")
-    if snapshots == 0:
+    if snapshots == 0 and not reserve_atomic_checkpoint_state:
         return 0
     if not output.is_dir():
         raise FileNotFoundError(f"fit output directory does not exist: {output}")
@@ -30,6 +36,8 @@ def preflight_epoch_storage(output: Path, model: torch.nn.Module, snapshots: int
             raise TypeError(f"model state entry {name!r} is not a tensor")
         state_bytes += tensor.numel() * tensor.element_size()
     required = int(state_bytes * snapshots * (1.0 + _SAFETY_FRACTION)) + _SAFETY_BYTES
+    if reserve_atomic_checkpoint_state:
+        required += state_bytes * (6 if snapshots else 1)
     free = shutil.disk_usage(output).free
     if free < required:
         raise OSError(

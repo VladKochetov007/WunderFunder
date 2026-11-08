@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -87,6 +88,35 @@ def write_final_outputs(
             str(config["model"].get("attention_backend", "math")),
         ),
     }
+    best_epoch = history[-1].get("early_stop_best_epoch")
+    best_wp = history[-1].get("early_stop_best_raw_wp")
+    if (
+        type(best_epoch) is int
+        and best_epoch >= 1
+        and isinstance(best_wp, (int, float))
+        and not isinstance(best_wp, bool)
+        and math.isfinite(float(best_wp))
+    ):
+        role = str(data_provenance.get("evaluation_role", "valid"))
+        best_observed: dict[str, object] = {
+            "evaluation_role": role,
+            "metric": f"{role}/wp",
+            "epoch": best_epoch,
+            "wp": float(best_wp),
+            "interpretation": (
+                "best-observed and exposed evaluation; exploratory pointer only, not the "
+                "fixed inference endpoint or an independent estimate"
+            ),
+            "pointer": "checkpoint_pointers.json#best",
+        }
+        decline = history[-1].get("decline_from_observed_peak")
+        if (
+            isinstance(decline, (int, float))
+            and not isinstance(decline, bool)
+            and math.isfinite(float(decline))
+        ):
+            best_observed["decline_from_observed_peak"] = float(decline)
+        provenance["best_observed_evaluation"] = best_observed
     monitoring_plan = data_provenance.get("monitoring_plan")
     if isinstance(monitoring_plan, Mapping):
         provenance["evaluation_annotation"] = {

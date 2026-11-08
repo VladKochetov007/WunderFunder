@@ -11,7 +11,11 @@ import torch
 from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
 from wnn.training.sequence_config_validation import validate_monitoring_config
 from wnn.training.sequence_distributed import DistributedContext
-from wnn.training.sequence_fit_monitor_setup import initialize_monitor, select_train_eval_members
+from wnn.training.sequence_fit_monitor_setup import (
+    initialize_monitor,
+    record_monitoring_plan,
+    select_train_eval_members,
+)
 from wnn.training.sequence_monitor_identity import (
     TRAIN_EVAL_HASH_RANK_NAMESPACE,
     hash_rank_train_eval_members,
@@ -120,3 +124,44 @@ def test_hash_rank_rejects_duplicate_fit_members_and_config_is_explicit() -> Non
         4,
         "final_only",
     )
+
+
+def test_report_only_plan_labels_exposed_best_and_keeps_control_role_distinct() -> None:
+    config = {
+        "train_eval_sequences": 128,
+        "train_eval_selection": "hash_rank_v1",
+        "train_eval_mask": "all_after_warmup",
+        "early_stopping": {
+            "min_epoch": 2,
+            "patience": 2,
+            "min_delta": 0.0001,
+            "action": "report_only",
+        },
+    }
+    valid_data = SimpleNamespace(
+        split=SimpleNamespace(
+            evaluation_role="valid", evaluation_source="valid.parquet", evaluation_mask="is_scored"
+        ),
+        evaluation=SimpleNamespace(members=[("valid", 2)]),
+        provenance={},
+    )
+    record_monitoring_plan(valid_data, config, [("train", 1)], "raw112", None)
+    valid_plan = valid_data.provenance["monitoring_plan"]
+    assert "report-only" in valid_plan["early_stopping_semantics"]
+    assert "exposed" in valid_plan["checkpoint_selection"]
+    assert "not an independent or fixed inference endpoint" in valid_plan["checkpoint_selection"]
+
+    control_data = SimpleNamespace(
+        split=SimpleNamespace(
+            evaluation_role="control",
+            evaluation_source="train.parquet",
+            evaluation_mask="is_scored",
+        ),
+        evaluation=SimpleNamespace(members=[("train", 2)]),
+        provenance={},
+    )
+    record_monitoring_plan(control_data, config, [("train", 1)], "raw112", None)
+    control_plan = control_data.provenance["monitoring_plan"]
+    assert control_plan["evaluation_role"] == "control"
+    assert "inner control" in control_plan["checkpoint_selection"]
+    assert "official valid" not in control_plan["checkpoint_selection"]

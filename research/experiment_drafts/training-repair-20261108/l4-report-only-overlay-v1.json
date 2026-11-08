@@ -1,0 +1,17 @@
+{
+  "checkpoint_retention": "all_epochs",
+  "monitoring": {
+    "train_eval_sequences": 128,
+    "train_eval_selection": "hash_rank_v1",
+    "train_eval_mask": "all_after_warmup",
+    "diagnostics_every_steps": 20,
+    "eval_batch_size": 32,
+    "training_telemetry_every_steps": 10,
+    "early_stopping": {
+      "min_epoch": 2,
+      "patience": 2,
+      "min_delta": 0.0001,
+      "action": "report_only"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Five-point training repair, 8 November 2026
 
-Status: implementation in progress; no new fits or GPU measurements.
+Status: points 1–3 implemented; no new fits or GPU measurements.
 Objective mode: engineering. Tier A tests verify software contracts; empirical
 score benefit remains unmeasured (exposed official valid, no fresh holdout).
 
@@ -55,7 +55,7 @@ fail-closed contracts. Run Ruff and check_training_structure on changed modules.
 |---|---|---|
 | 1 | implemented; CPU checked | POINT1_L4.md; 21 tests passed, 1 dependency skip; 22 plot artifacts rendered separately, Ruff and structure 154/0; independent role regression passed. |
 | 2 | implemented; CPU checked | POINT2_L4.md; 37 tests passed, 1 dependency skip; independent JS guard 41 groups/21 keys, actual full B3280 journal rendered (12 files, no inference); Ruff and structure 156/0. |
-| 3 | pending | |
+| 3 | implemented; CPU checked | POINT3_L4.md; 30 focused tests passed, plus 4 checkpoint/restore/resume tests; report-only plateau keeps the configured endpoint and retains epoch snapshots; Ruff and structure 156/0. Full CLI resume is unverified on Windows (`resource` import limitation). |
 | 4 | pending | |
 | 5 | pending | |
 

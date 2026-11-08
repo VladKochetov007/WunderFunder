@@ -91,6 +91,26 @@ def record_monitoring_plan(
     event_budget: MonitorEventBudget | None,
 ) -> None:
     """Record mask, selection, and event-journal policy in fit provenance."""
+    early_policy = monitor_config.get("early_stopping")
+    early_action = (
+        str(early_policy.get("action", "stop")) if isinstance(early_policy, Mapping) else "disabled"
+    )
+    evaluation_label = (
+        "full official valid" if data.split.evaluation_role == "valid" else "inner control"
+    )
+    if early_action == "report_only":
+        early_semantics = (
+            "report-only action: min_delta resets the advisory patience counter only; the plateau "
+            "threshold is recorded without stopping, and all configured epochs/checkpoints are retained"
+        )
+    elif early_action == "stop":
+        early_semantics = (
+            "min_delta resets patience only; count consecutive evaluation checks from the first "
+            "check; stopping is eligible after min_epoch; scheduler horizon remains the configured "
+            "epoch cap"
+        )
+    else:
+        early_semantics = "no early-stopping or plateau policy configured"
     plan: dict[str, object] = {
         "evaluation_reporting": (
             "full official valid after each epoch; development-exposed report"
@@ -103,14 +123,11 @@ def record_monitoring_plan(
         "evaluation_mask": data.split.evaluation_mask,
         "input_feature_mode": input_feature_mode,
         "checkpoint_selection": (
-            "best pointer follows strict raw evaluation WP highs; role is source-bound in monitor events"
+            f"best-observed {evaluation_label} WP is exposed, role-bound and exploratory; "
+            "the best pointer is not an independent or fixed inference endpoint"
         ),
-        "early_stopping": monitor_config.get("early_stopping"),
-        "early_stopping_semantics": (
-            "min_delta resets patience only; count consecutive evaluation checks from the first "
-            "check; stop eligibility begins at min_epoch; scheduler horizon remains the configured "
-            "epoch cap"
-        ),
+        "early_stopping": early_policy,
+        "early_stopping_semantics": early_semantics,
         "train_eval_members": [list(member) for member in train_eval_members],
         "train_eval_selection": monitor_config.get("train_eval_selection", "prefix"),
         "train_eval_selection_algorithm": (

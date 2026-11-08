@@ -108,6 +108,11 @@ def run_full_fit_impl(
     if not 0 <= start_epoch <= int(config["epochs"]):
         raise ValueError("resume checkpoint next_epoch is outside the configured schedule")
     if retention == "all_epochs":
+        monitoring = config.get("monitoring")
+        early_policy = monitoring.get("early_stopping") if isinstance(monitoring, Mapping) else None
+        reserve_resume_state = (
+            isinstance(early_policy, Mapping) and early_policy.get("action") == "report_only"
+        )
         latest_index = reconcile_epoch_snapshots(
             output,
             base_model,
@@ -121,6 +126,7 @@ def run_full_fit_impl(
             global_step,
             history,
             context,
+            reserve_atomic_checkpoint_state=reserve_resume_state,
         )
     if monitoring_enabled:
         early_policy = config["monitoring"].get("early_stopping")

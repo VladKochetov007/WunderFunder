@@ -280,6 +280,9 @@ def _record_evaluation_history(
             "early_stop_delta_improved": decision.delta_improved,
             "early_stop_best_improved": decision.best_improved,
             "early_stop_bad_checks": decision.bad_checks,
+            "early_stop_plateau_reached": decision.plateau_reached,
+            "early_stopping_action": decision.action,
+            "decline_from_observed_peak": decision.decline_from_observed_peak,
             "early_stopped": decision.should_stop,
         }
     )

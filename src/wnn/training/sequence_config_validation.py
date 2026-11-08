@@ -67,12 +67,18 @@ def validate_monitoring_config(
     if "early_stopping" not in value:
         return
     early_stopping = value["early_stopping"]
-    if not isinstance(early_stopping, dict) or set(early_stopping) != {
-        "min_epoch",
-        "patience",
-        "min_delta",
-    }:
-        raise ValueError("monitoring.early_stopping requires min_epoch, patience, and min_delta")
+    required_policy = {"min_epoch", "patience", "min_delta"}
+    if (
+        not isinstance(early_stopping, dict)
+        or not required_policy.issubset(early_stopping)
+        or set(early_stopping) - (required_policy | {"action"})
+    ):
+        raise ValueError(
+            "monitoring.early_stopping requires min_epoch, patience, min_delta, and optional action"
+        )
+    action = early_stopping.get("action", "stop")
+    if action not in ("stop", "report_only"):
+        raise ValueError("monitoring.early_stopping.action must be stop or report_only")
     if (
         type(early_stopping["min_epoch"]) is not int
         or not 1 <= early_stopping["min_epoch"] <= epochs
@@ -88,8 +94,12 @@ def validate_monitoring_config(
         or min_delta < 0
     ):
         raise ValueError("monitoring.early_stopping.min_delta must be finite and nonnegative")
-    if (early_stopping["min_epoch"], early_stopping["patience"], min_delta) != (5, 4, 0.0005):
-        raise ValueError("extended monitoring uses the approved 5/4/0.0005 early-stop policy")
+    if action == "stop" and (
+        early_stopping["min_epoch"],
+        early_stopping["patience"],
+        min_delta,
+    ) != (5, 4, 0.0005):
+        raise ValueError("historical stop action uses the fixed 5/4/0.0005 policy")
 
 
 def is_galam_lstm64_muon(model: Mapping[str, object]) -> bool:
