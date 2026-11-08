@@ -54,7 +54,7 @@ fail-closed contracts. Run Ruff and check_training_structure on changed modules.
 | Point | Status | Evidence and next-run interpretation |
 |---|---|---|
 | 1 | implemented; CPU checked | POINT1_B300.md; 5 focused tests, Ruff, structure 114/0. Primary scorer unchanged; production coverage not rerun. |
-| 2 | pending | |
+| 2 | implemented; CPU checked | POINT2_B300.md; 13 focused tests plus 3-test masked-NaN rerun; exact legacy metric parity, zero extra forwards, component/target moments; Ruff and structure 115/0. |
 | 3 | pending | |
 | 4 | pending | |
 | 5 | pending | |
