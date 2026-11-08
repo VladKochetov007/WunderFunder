@@ -1,3 +1,14 @@
+## Completed follow-up,8 November2026 terminal audit
+
+All10 fresh fits completed:6L4 fixed6E and4B300 fixed4E, with24 L4 fixed grades
+and4 B mixture grades. See research/experiment_drafts/generalization-fix-20261108/RESULTS_20261108_R1.md.
+Transformer WMSE fixed90%TL3+10%z mean WP.692492501 versusTL3.692377425
+(+.000115076 across2seeds); mixture-correlation package and all GRU/SWA mixtures
+are negative. This is exposed-valid evidence, no public gain/serving promotion.
+Earlier running notes below are historical. Do not duplicate or resume any fit.
+Current physical node occupancy was not rechecked; completed cached producer
+receipts establish endpoint completion, not present free hardware.
+
 # Project agent instructions
 
 ## Actual follow-up execution,8 November
