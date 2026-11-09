@@ -208,3 +208,23 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [R4 fixed nonlinear follow-up](../../campaign_2026-10-19/idea_screens_r4/README.md) tests four matched identity/tanh random-feature cases on the existing R3 panel. Selected endpoints lose0.009039/0.023440WP; the predeclared history alpha1 contrast remains+0.002015 with32positive fixed-prediction drop-one contrasts. No outer retuning, generic nonlinear-family rejection, full-model/public or recurrent-state claim. Results, exact22pin source, tests/reviews, audit and operational evidence are indexed together.
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
+
+## Fixed-composition Transformer — 6 November 2026
+
+[Train a Transformer for its contribution to clean TL3](../../experiment_drafts/tl3-transformer-complement-20261106/README.md): four new fits, labels/complement × seeds 101001/101002, one exact source split and fixed 30-epoch endpoints. The treatment optimizes0.9 TL3 + 0.1 z with original-label weights and alpha-squared curvature normalization; control is scored through the same blend. Extends PR38/49/52/53, not an independent new boosting claim. B300 trainer/reference/receiver commands are implemented; no execution or quality claim. [Recipe](../../experiment_drafts/tl3-transformer-complement-20261106/recipe.json); H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106.
+
+## Causal Transformer input stem — 9 November 2026
+
+[Six-fit raw-input stem screen](../../experiment_drafts/transformer-causal-input-stem-20261109/README.md)
+compares a legacy no-stem input with zero-initialized depthwise residual
+kernels 1 and 16, two fresh seeds per arm, and the exact PR72 C0 fit recipe.
+K16−K1 is primary; K16−plain and K1−plain are secondary. The screen reuses no
+fit endpoints and adds no teachers or students. It is motivated by local
+causal-history access, not a novelty claim: the archived E-168 Conv16/GRU pilot
+was exposed and reset at each chunk, H-264's 10% TCN mixture was point-negative,
+PR35 already implemented numeric/event features, and the large-dynamics design
+already proposes local causal convolution. The PR49 validation fold is exposed;
+all six fits and twelve receiver profiles remain pending.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

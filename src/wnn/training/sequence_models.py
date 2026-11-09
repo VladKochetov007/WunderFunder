@@ -11,33 +11,20 @@ from torch.utils.checkpoint import checkpoint
 from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
 from wnn.training.sequence_compile import compile_transformer_blocks
+from wnn.training.sequence_input_stem import (
+    RAW_INPUT_WIDTH,
+    CausalInputStem,
+    validate_input_history,
+    validate_input_stem_kernel,
+)
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
+from wnn.training.sequence_model_helpers import check_sequence_input as _check_sequence_input
 from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
     configure_precision_mode,
-    validate_forward_state,
 )
-
-RAW_INPUT_WIDTH = 112
-
-
-def _check_fp32_environment(model: nn.Module, values: Tensor, precision_mode: str) -> None:
-    if values.dtype != torch.float32:
-        raise TypeError("sequence models require float32 inputs")
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("sequence models require float32 parameters")
-    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
-        raise TypeError("sequence models require float32 buffers")
-    validate_forward_state(precision_mode, values.device.type)
-
-
-def _check_input_shape(values: Tensor) -> None:
-    if values.ndim != 3 or values.shape[-1] != RAW_INPUT_WIDTH:
-        raise ValueError("sequence models accept only raw input shaped [batch, rows, 112]")
-    if values.shape[0] <= 0 or values.shape[1] <= 0:
-        raise ValueError("sequence batches and row chunks must be non-empty")
 
 
 class _GRUSequenceAdapter(RNNModel):
@@ -60,8 +47,7 @@ class _GRUSequenceAdapter(RNNModel):
 
     def forward(self, values: Tensor, state: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor]:
         """Return canonical GRU predictions, hidden-state hints, and recurrent state."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
+        _check_sequence_input(self, values, self.precision_mode)
         if state is not None and (
             state.shape != (self.gru.num_layers, values.shape[0], self.hidden)
             or state.device != values.device
@@ -94,6 +80,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        input_stem_kernel: int,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -114,13 +101,17 @@ class _TransformerSequenceAdapter(nn.Module):
         self.output_norm = nn.LayerNorm(hidden)
         self.output_head = nn.Linear(hidden, 2)
         self.hint_projector = _HintProjector(hidden, hint_dim, hint_mode)
+        self.input_stem_kernel = input_stem_kernel
+        self.input_stem = CausalInputStem(input_stem_kernel) if input_stem_kernel else None
 
     def _state_for_batch(self, values: Tensor, state: TransformerState | None) -> TransformerState:
         if state is None:
             empty = values.new_empty(values.shape[0], self.heads, 0, self.head_dim)
-            return TransformerState(
+            state = TransformerState(
                 tuple(empty for _ in self.blocks), tuple(empty for _ in self.blocks), 0
             )
+        if not isinstance(state, TransformerState):
+            raise TypeError("Transformer state must be a TransformerState value")
         if len(state.keys) != len(self.blocks) or len(state.values) != len(self.blocks):
             raise ValueError("Transformer state layer count differs from this model")
         if type(state.next_position) is not int or state.next_position < 0:
@@ -144,6 +135,9 @@ class _TransformerSequenceAdapter(nn.Module):
                 raise ValueError("Transformer layer caches must have the same row count")
         if (cache_length or 0) > min(self.context_rows - 1, state.next_position):
             raise ValueError("Transformer state exceeds the configured causal context")
+        validate_input_history(
+            state.input_history, values, state.next_position, self.input_stem_kernel
+        )
         return state
 
     def forward(
@@ -152,11 +146,14 @@ class _TransformerSequenceAdapter(nn.Module):
         state: TransformerState | None = None,
     ) -> tuple[Tensor, Tensor, TransformerState]:
         """Predict each raw row using only current and bounded past sequence rows."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
+        _check_sequence_input(self, values, self.precision_mode)
         previous = self._state_for_batch(values, state)
         position = previous.next_position
-        hidden = self.input_projection((values - self.mean) / self.std)
+        standardized = (values - self.mean) / self.std
+        input_history = previous.input_history
+        if self.input_stem is not None:
+            standardized, input_history = self.input_stem(standardized, input_history)
+        hidden = self.input_projection(standardized)
         dropout_p = self.dropout if self.training else 0.0
         next_keys: list[Tensor] = []
         next_values: list[Tensor] = []
@@ -192,7 +189,7 @@ class _TransformerSequenceAdapter(nn.Module):
         latent = self.output_norm(hidden)
         prediction = self.output_head(latent)
         next_state = TransformerState(
-            tuple(next_keys), tuple(next_values), position + values.shape[1]
+            tuple(next_keys), tuple(next_values), position + values.shape[1], input_history
         )
         return prediction, self.hint_projector(latent), next_state
 
@@ -239,6 +236,9 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     architecture = config.get("architecture")
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    input_stem_kernel = validate_input_stem_kernel(config.get("input_stem_kernel", 0))
+    if architecture == "gru" and input_stem_kernel:
+        raise ValueError("input_stem_kernel requires a Transformer model")
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -291,6 +291,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        input_stem_kernel,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model

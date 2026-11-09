@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "hypothesis_id": "H-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109",
+  "experiment_id": "E-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109",
+  "title": "B300 causal raw-input stem screen: kernel 16 versus kernel 1",
+  "status": "DRAFT_PUBLISHED_STATIC_ONLY",
+  "owner": "ROOT",
+  "branch": "codex/transformer-causal-input-stem-20261109",
+  "lineage": {
+    "parent_pr": 72,
+    "parent_head": "4021de8ec5130143c207319c73a102a453eb911e",
+    "source_baseline_sha": "4021de8ec5130143c207319c73a102a453eb911e",
+    "target_branch": "research-team",
+    "target_base_sha": "7e4074314a62d0907c9608f9220cf72958708a2d",
+    "stacked_on_parent_pr": true,
+    "incremental_review_base": "4021de8ec5130143c207319c73a102a453eb911e",
+    "target_pr_diff_includes_parent_runtime": true,
+    "execution_source_sha": null,
+    "draft_pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/74",
+    "merge_sha": null,
+    "implementation_source_sha": "8a8afec964985a6ba8b13d1c9af1ab00e14c6504",
+    "incremental_compare_url": "https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...8a8afec964985a6ba8b13d1c9af1ab00e14c6504"
+  },
+  "mechanism": {
+    "input": "u=(raw112-fitmean)/fitstd",
+    "candidate": "v=u+depthwiseConv1d(u)",
+    "groups": 112,
+    "bias": false,
+    "initial_conv_weights": "all zeros",
+    "same_backbone_initialization_per_seed_across_arms": true,
+    "kernels": {
+      "plain": {
+        "model.input_stem_kernel": "omitted",
+        "semantics": "legacy no-stem path"
+      },
+      "k1": {
+        "model.input_stem_kernel": 1,
+        "parameters": 112,
+        "semantics": "instantaneous per-channel factorization"
+      },
+      "k16": {
+        "model.input_stem_kernel": 16,
+        "parameters": 1792,
+        "semantics": "current row plus preceding 15 standardized rows"
+      }
+    },
+    "causality": {
+      "future_rows": false,
+      "padding": "only at sequence start",
+      "chunk_boundary": "carry preceding 15 standardized raw rows",
+      "sequence_boundary": "reset"
+    },
+    "stem_optimizer_group": "adamw_matrix",
+    "parameter_count_matched": false
+  },
+  "panel": {
+    "arms": [
+      "plain",
+      "k1",
+      "k16"
+    ],
+    "seeds": [
+      203201,
+      203202
+    ],
+    "fold": 0,
+    "cells": [
+      "plain_s203201",
+      "k1_s203201",
+      "k16_s203201",
+      "plain_s203202",
+      "k1_s203202",
+      "k16_s203202"
+    ],
+    "new_fits_total": 6,
+    "new_fits_per_arm": 2,
+    "reused_controls": 0,
+    "teacher_fits": 0,
+    "student_fits": 0,
+    "automatic_followup_fits": 0
+  },
+  "base_recipe": {
+    "source_config": "research/experiment_drafts/transformer-optimizer-horizon-20261108/configs/C0_muon256_a4_s203101.json",
+    "source_config_sha256": "5881e2facddc48a0023f588c7e47dfd02e065e823bc94d565faf36ec3d7594c9",
+    "only_changed_fields": [
+      "seed",
+      "model.input_stem_kernel"
+    ],
+    "architecture": "Transformer",
+    "hidden": 768,
+    "layers": 24,
+    "heads": 12,
+    "context_rows": 1024,
+    "ff_multiplier": 4,
+    "epochs": 4,
+    "updates_per_epoch": 820,
+    "updates_per_fit": 3280,
+    "total_scientific_updates": 19680,
+    "batch_size_per_rank": 128,
+    "world_size": 2,
+    "global_sequence_batch": 256,
+    "chunk_rows": 256,
+    "gradient_horizon_rows": 256,
+    "accumulate_chunks": 4,
+    "optimizer": "Muon256 with stem weights in AdamW matrix group",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "precision_mode": "bf16_bf16x9",
+    "objective_mode": "standalone_labels_wmse_v2",
+    "normalization_scope": "all_fit",
+    "training_mask": "all_after_warmup",
+    "checkpoint_endpoint_policy": "configured_final_epoch",
+    "checkpoint_retention": "all_epochs",
+    "primary_endpoint": "E4"
+  },
+  "checkpoint_policy": {
+    "all_four_epoch_weights_retained_on_host": true,
+    "configured_final_model_and_resume_state_in_standard_bundle": true,
+    "intermediate_epoch_weights_require_host_run_directory_or_companion_archive": true
+  },
+  "validation": {
+    "metric": "global_wp_clip2_v1",
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "split_protocol": "PR49 chronological fold 0",
+    "training_sequences": 10325,
+    "valid_fit_sequences": 0,
+    "validation_sequences": 1873,
+    "scored_rows": 3528273,
+    "exposure": "repeatedly exposed development validation",
+    "primary_contrast": "K16 minus K1",
+    "secondary_contrasts": [
+      "K16 minus plain",
+      "K1 minus plain"
+    ],
+    "bootstrap": {
+      "unit": "paired validation components",
+      "draws": 2000,
+      "seed": 271828,
+      "interpretation": "conditional evaluation-unit sensitivity; not fit variance or significance"
+    }
+  },
+  "decision_rule": {
+    "followup_requires_separate_review": true,
+    "mean_k16_minus_k1_wp_at_least": 0.0005,
+    "both_seed_k16_minus_k1_positive": true,
+    "both_seed_k16_minus_plain_nonnegative": true,
+    "automatic_launch": false
+  },
+  "engineering_profiles": {
+    "profile_runs_per_cell": 2,
+    "updates_per_profile": 50,
+    "profile_names": [
+      "profile",
+      "profile-peak"
+    ],
+    "profile_peak_warmup_updates": 0,
+    "total_profile_runs": 12,
+    "total_diagnostic_updates": 600,
+    "scientific_fit_count": 0
+  },
+  "receiver": {
+    "linux_only": true,
+    "gpu_count_per_run": 2,
+    "same_pair_order_runtime_per_seed": true,
+    "within_seed_arm_order": [
+      "plain",
+      "k1",
+      "k16"
+    ],
+    "proposed_gpu_mapping": {
+      "203201": [
+        "0",
+        "1"
+      ],
+      "203202": [
+        "2",
+        "3"
+      ],
+      "reservation_verified": false
+    },
+    "required_environment": [
+      "WNN_EXPECTED_COMMIT",
+      "WNN_DATA_ROOT",
+      "WNN_SPLIT",
+      "WNN_RUN_ROOT",
+      "CUDA_VISIBLE_DEVICES"
+    ],
+    "run_root": "fresh absolute persistent physical disk; not /tmp, /dev/shm, tmpfs, or ramfs",
+    "profile_approval": "ROOT manually reviews each cell and supplies approved_profile.json before fit",
+    "command_template": "bash research/experiment_drafts/transformer-causal-input-stem-20261109/run.sh PHASE CELL",
+    "optional_blend": "outside primary screen; exact PR49 cache and six blend grades required"
+  },
+  "cost_limits": {
+    "check_pytest_seconds_hard_limit": 1800,
+    "compiled_gpu_check_seconds_hard_limit": 1800,
+    "fit_seconds_per_cell_hard_limit": 28800,
+    "resume_seconds_per_cell_hard_limit": 28800,
+    "profile_seconds_per_phase_hard_limit": 1800,
+    "ddp_gate_seconds_hard_limit": 900,
+    "evaluation_seconds_per_cell_hard_limit": 7200,
+    "measured_wall_time": null,
+    "measured_disk_bytes": null,
+    "measured_peak_memory": null
+  },
+  "config_sha256": {
+    "k16_s203201.json": "24f34039cdaaf325fd547b56f49109e43b89e6b06715f5608a6ce355aff19d83",
+    "k16_s203202.json": "971a2f1a39d725d8f90f5a4268a1f3b2376f30b0c8fd528b1b726e4e1adaad1c",
+    "k1_s203201.json": "f8f653a4c60cfb6ec07be2dc017e570a727c34f22fd061acaf72ecc01c2c1057",
+    "k1_s203202.json": "be2b7bf18ef071221eb0a7b1834659dddaf4f2388f629418508be0fb52c795a0",
+    "plain_s203201.json": "714205888df841493fdd81f542a30abb0903f073a902dd9a127294d395ad9747",
+    "plain_s203202.json": "cc44f9835d52bda6e8b9e3c9034db1c1592aed82858439403de1f9a748764b27"
+  },
+  "sources": [
+    "https://arxiv.org/abs/1803.01271",
+    "https://arxiv.org/abs/2307.00461",
+    "research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md",
+    "research/unified/archive/2026-10-12/ledger-snapshot/experiments.asof-20261012.jsonl"
+  ],
+  "results": {
+    "actual_fits": 0,
+    "actual_profiles": 0,
+    "actual_receiver_gates": 0,
+    "actual_local_tests": 0,
+    "actual_inference_runs": 0,
+    "actual_grades": 0,
+    "public_gain_claimed": false
+  }
+}

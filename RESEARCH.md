@@ -67,3 +67,19 @@ for indexing and provenance requirements. The large
 [12 October handoff](research/RESEARCH_COMPLETE_HANDOFF_20261012.md) and the
 [current-state history archive](specs/current-state-history-20261017.md) are
 dated historical records, not current authority.
+
+## 6 November 2026: public frontier and a fixed-TL3 Transformer screen
+
+The [dated portal audit](research/experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) records public team best 0.66832 at rank 39 and leader 0.67596; it supersedes earlier snapshots only for this date. The [new four-fit packet](research/experiment_drafts/tl3-transformer-complement-20261106/README.md) tests whether direct training for a fixed 90% clean TL3 / 10% Transformer endpoint improves matched label-only training. Exact PR49 source split, two seeds, T768×24 / context 1024 / 30 epochs / Muon / BF16x9; source/reference/receiver code is prepared. All new GPU acceptance and fits remain unrun, in-sample reference and exposed-validation limits are explicit, and no CPU-ready submission follows from this preparation.
+
+## 9 November 2026: causal Transformer input-stem screen
+
+The [six-fit packet](research/experiment_drafts/transformer-causal-input-stem-20261109/README.md)
+proposes fresh PR72-C0-matched plain, kernel-1, and kernel-16 input-stem fits
+at seeds 203201/203202 on the repeatedly exposed PR49 fold-0 validation set.
+The primary comparison is K16−K1; no fit, profile, receiver gate, or quality
+result is claimed. ROOT owns the implementation and any later receiver
+admission. Static preparation is not publication or launch approval.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

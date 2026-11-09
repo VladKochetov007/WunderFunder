@@ -11,6 +11,9 @@ QUALITY_PATHS = \
 	scripts/check_sequence_ddp.py \
 	tests/test_b300_sequence_models.py \
 	tests/test_b300_sequence_contracts.py \
+	tests/test_sequence_input_stem.py \
+	tests/test_sequence_input_stem_gpu.py \
+	research/experiment_drafts/transformer-causal-input-stem-20261109 \
 	scripts/e540_cli_preflight.py \
 	scripts/check_training_structure.py \
 	tests/test_training_structure_checker.py \

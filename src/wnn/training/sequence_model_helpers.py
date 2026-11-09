@@ -9,8 +9,25 @@ from torch import Tensor, nn
 from torch.nn import functional as F
 
 from wnn.training.sequence_attention import TransformerState
+from wnn.training.sequence_input_stem import RAW_INPUT_WIDTH
+from wnn.training.sequence_precision import validate_forward_state
 
 SequenceState = Tensor | TransformerState | None
+
+
+def check_sequence_input(model: nn.Module, values: Tensor, precision_mode: str) -> None:
+    """Validate raw row shape, FP32 master state, and the selected forward scope."""
+    if values.ndim != 3 or values.shape[-1] != RAW_INPUT_WIDTH:
+        raise ValueError("sequence models accept only raw input shaped [batch, rows, 112]")
+    if values.shape[0] <= 0 or values.shape[1] <= 0:
+        raise ValueError("sequence batches and row chunks must be non-empty")
+    if values.dtype != torch.float32:
+        raise TypeError("sequence models require float32 inputs")
+    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
+        raise TypeError("sequence models require float32 parameters")
+    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
+        raise TypeError("sequence models require float32 buffers")
+    validate_forward_state(precision_mode, values.device.type)
 
 
 class HintProjector(nn.Module):
@@ -54,5 +71,6 @@ def detach_state(state: SequenceState) -> SequenceState:
             tuple(key.detach() for key in state.keys),
             tuple(value.detach() for value in state.values),
             state.next_position,
+            None if state.input_history is None else state.input_history.detach(),
         )
     raise TypeError(f"unsupported sequence state: {type(state).__name__}")
