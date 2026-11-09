@@ -1,3 +1,14 @@
+## Completed follow-up,8 November2026 terminal audit
+
+All10 fresh fits completed:6L4 fixed6E and4B300 fixed4E, with24 L4 fixed grades
+and4 B mixture grades. See research/experiment_drafts/ensemble-objective-fix-20261108/RESULTS_20261108_R1.md.
+Transformer WMSE fixed90%TL3+10%z mean WP.692492501 versusTL3.692377425
+(+.000115076 across2seeds); mixture-correlation package and all GRU/SWA mixtures
+are negative. This is exposed-valid evidence, no public gain/serving promotion.
+Earlier running notes below are historical. Do not duplicate or resume any fit.
+Current physical node occupancy was not rechecked; completed cached producer
+receipts establish endpoint completion, not present free hardware.
+
 **21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../research/campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
 
 ---

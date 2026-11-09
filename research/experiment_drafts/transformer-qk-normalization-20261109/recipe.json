@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT_PUBLISHED_STATIC_ONLY",
+  "objective_mode": "competition",
+  "hypothesis_id": "H-B300-TRANSFORMER-QK-RMS-20261109",
+  "experiment_id": "E-B300-TRANSFORMER-QK-RMS-20261109",
+  "branch": "codex/transformer-qk-normalization-20261109",
+  "target_branch": "research-team",
+  "parent_pr": 72,
+  "parent_head": "4021de8ec5130143c207319c73a102a453eb911e",
+  "target_base_sha": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "draft_pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/75",
+  "implementation_commit": "67c351ae70cacef11f4ad485b5b98192f0d5e81c",
+  "actual_execution_commit": null,
+  "merge_sha": null,
+  "mechanism": {
+    "model_option": "qk_norm",
+    "control": "omitted or none, legacy path",
+    "treatment": "rms",
+    "formula": "x * rsqrt(mean(x.float() ** 2, dim=-1, keepdim=True) + 1e-6), cast back to incoming dtype",
+    "axis": "head_dim only, independently per row/head",
+    "placement": "newly projected query and key, before RoPE",
+    "cache": "normalized and rotated keys cached exactly once; old keys never renormalized; values unchanged",
+    "extra_parameters": 0,
+    "extra_buffers": 0,
+    "new_rng_draws": 0,
+    "sdpa_scale": "unchanged 1/sqrt(head_dim)",
+    "paper_equivalence": "affine-free RMS variant, not an exact reproduction of learned-scale L2 QKNorm or ViT22B LayerNorm"
+  },
+  "panel": {
+    "arms": [
+      "plain",
+      "rms"
+    ],
+    "seeds": [
+      203301,
+      203302
+    ],
+    "fold": 0,
+    "new_fits_per_arm": 2,
+    "new_fits_total": 4,
+    "reused_controls": 0,
+    "teacher_fits": 4,
+    "student_fits": 0,
+    "cells": [
+      "plain_s203301",
+      "rms_s203301",
+      "plain_s203302",
+      "rms_s203302"
+    ]
+  },
+  "base_recipe": {
+    "path": "research/experiment_drafts/transformer-optimizer-horizon-20261108/configs/C0_muon256_a4_s203101.json",
+    "sha256": "5881e2facddc48a0023f588c7e47dfd02e065e823bc94d565faf36ec3d7594c9",
+    "only_changed_fields": [
+      "seed",
+      "model.qk_norm"
+    ],
+    "epochs": 4,
+    "updates_per_epoch": 820,
+    "updates_per_fit": 3280,
+    "total_scientific_updates": 13120,
+    "total_model_epochs": 16,
+    "architecture": "Transformer768x24 H12 FF4 context1024",
+    "global_batch": 256,
+    "batch_per_rank": 128,
+    "world_size": 2,
+    "chunk_rows": 256,
+    "gradient_horizon_rows": 256,
+    "accumulate_chunks": 4,
+    "optimizer": "Muon3e-4 momentum.95 NS5 WD.01; existing AdamW groups betas.9/.95",
+    "warmup_fraction": 0.05,
+    "warmup_updates": 164,
+    "schedule": "warmup_cosine_v2 floor.1",
+    "precision": "bf16_bf16x9 with FP32 master/loss/optimizer state",
+    "objective": "standalone_labels_wmse_v2",
+    "normalization_scope": "all_fit",
+    "training_mask": "all_after_warmup",
+    "primary_checkpoint": "configured_final_epoch E4",
+    "checkpoint_retention": "all_epochs; diagnostic only"
+  },
+  "validation": {
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "eval_sequences": 1873,
+    "scored_rows": 3528273,
+    "metric": "global_wp_clip2_v1",
+    "exposure": "repeatedly inspected official development split, not fresh holdout",
+    "primary_contrast": "rms minus plain at each paired seed",
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 271828,
+    "bootstrap_scope": "whole paired validation components conditional on fixed fitted predictors; not training variance"
+  },
+  "decision_rule": {
+    "followup_budget_trigger_only": "mean paired delta >= .0005 and both seed deltas >0",
+    "automatic_next_fit": false,
+    "interval_crossing_zero_does_not_close_direction": true,
+    "public_transfer_claim": false
+  },
+  "receiver": {
+    "profile_runs": 8,
+    "updates_per_profile": 50,
+    "diagnostic_updates": 400,
+    "stages": [
+      "data-check",
+      "check",
+      "profile",
+      "profile-peak",
+      "manual approval",
+      "fit",
+      "evaluate",
+      "bundle",
+      "compare",
+      "panel-bundle"
+    ],
+    "same_gpu_pair_order_per_seed": true,
+    "same_source_data_software_all_cells": true,
+    "profile_timeout_seconds": 1800,
+    "fit_timeout_seconds": 28800,
+    "ddp_timeout_seconds": 900,
+    "eval_timeout_seconds": 7200,
+    "output": "fresh persistent physical disk, not tmpfs/ramfs/tmp",
+    "optional_blend": "fixed .9 exact PR49 TL3 + .1 candidate, all four endpoints, no weight tuning",
+    "optional_reference_sha256": "f0660759e88c21268ecbbc1fe63a1f7534e5b2e9b221cb5bad26a77d7b4b86d3",
+    "optional_reference_evidence": "research/experiment_drafts/tl3-transformer-complement-execution-20261107/receiving-evidence/b300/baseline-score.json"
+  },
+  "config_sha256": {
+    "plain_s203301.json": "e74f404f1ea7eefea98b23e2a0150356239ae2537286602b59d43c54486937c5",
+    "plain_s203302.json": "8484782b6f71fee83fdf747b2698c25e48e3d7f7eaafded72ca549fbeec10dbb",
+    "rms_s203301.json": "5bdaaafe87836be2e723b4257bb119b1e48d95c3969244ceb971cf4623041654",
+    "rms_s203302.json": "70cc5d2df5a89894f5ea0fa3eabf96d1c8e8a0a9ec6c93d4f68fad01e1811bb9"
+  },
+  "sources": [
+    "https://arxiv.org/abs/2010.04245",
+    "https://arxiv.org/abs/2302.05442"
+  ],
+  "receiver_scaffolding_from": "PR74 implementation8a8afec964985a6ba8b13d1c9af1ab00e14c6504; adapted four-cell receipts, not inherited model code",
+  "results": {
+    "fits": 0,
+    "profiles": 0,
+    "local_tests": 0,
+    "inference": 0,
+    "receiver_acceptance": "UNRUN",
+    "quality": "UNMEASURED",
+    "new_submission": null
+  },
+  "incremental_compare_url": "https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...67c351ae70cacef11f4ad485b5b98192f0d5e81c"
+}

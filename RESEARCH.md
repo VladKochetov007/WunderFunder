@@ -67,3 +67,16 @@ for indexing and provenance requirements. The large
 [12 October handoff](research/RESEARCH_COMPLETE_HANDOFF_20261012.md) and the
 [current-state history archive](specs/current-state-history-20261017.md) are
 dated historical records, not current authority.
+
+## 6 November 2026: public frontier and a fixed-TL3 Transformer screen
+
+The [dated portal audit](research/experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) records public team best 0.66832 at rank 39 and leader 0.67596; it supersedes earlier snapshots only for this date. The [new four-fit packet](research/experiment_drafts/tl3-transformer-complement-20261106/README.md) tests whether direct training for a fixed 90% clean TL3 / 10% Transformer endpoint improves matched label-only training. Exact PR49 source split, two seeds, T768×24 / context 1024 / 30 epochs / Muon / BF16x9; source/reference/receiver code is prepared. All new GPU acceptance and fits remain unrun, in-sample reference and exposed-validation limits are explicit, and no CPU-ready submission follows from this preparation.
+
+## 9 November: affine-free QK normalization
+
+[Four-fit B300 packet](research/experiment_drafts/transformer-qk-normalization-20261109/README.md): plain versus fixed-RMS Q/K,
+paired seeds203301/203302 on PR72 C0. Code/recipes only; all numerical work UNRUN.
+Includes a fresh portal/release/HF submission audit.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.

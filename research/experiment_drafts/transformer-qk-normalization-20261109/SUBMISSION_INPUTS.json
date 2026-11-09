@@ -1,0 +1,62 @@
+{
+  "schema": "wnn.submission-input-audit.v1",
+  "date": "2026-11-09",
+  "status": "CHECKPOINTS_AVAILABLE_CPU_PACKAGE_UNVERIFIED",
+  "uploaded": false,
+  "current_public_best": {
+    "file": "tl3.zip",
+    "wp": 0.66832,
+    "already_submitted": true
+  },
+  "published_checkpoint_archives": [
+    {
+      "release_url": "https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr49-checkpoints-20261029-r1",
+      "asset": "tabdata-pr49-checkpoints-20261029-r1.zip",
+      "bytes": 80858660,
+      "sha256": "02899081e9576bd86a0197cb3eae5bd1ccc8a4b1c26e1669cd1e10a62efd31fa"
+    },
+    {
+      "release_url": "https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr52-heterogeneous-checkpoints-20261030-r1",
+      "asset": "tabdata-heterogeneous-checkpoints.zip",
+      "bytes": 117539311,
+      "sha256": "6d88541108f0b2ae1f8d1f5411386854da43d6bd10b424337b861d6a56ebcec2"
+    }
+  ],
+  "pr51_fixed_blend_inputs": [
+    {
+      "run": "tl3c_fbc1k_s5",
+      "checkpoint": "model_ep3.pt",
+      "bytes": 3996383,
+      "sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496"
+    },
+    {
+      "run": "tl3c_fttall_tlead_s5",
+      "checkpoint": "model_ep3.pt",
+      "bytes": 4339735,
+      "sha256": "cf944dffac66d674894e4c589d839c407b3d28cb01d35a26f58ff08c7743f65f"
+    },
+    {
+      "run": "tl3c_fttall_tlead_s6",
+      "checkpoint": "model_ep3.pt",
+      "bytes": 4339735,
+      "sha256": "24a565b03e35dc36679bf809f63f605f24f693404bd0cfda58bfc82177a33598"
+    }
+  ],
+  "canonical_w18_supplement": {
+    "run": "tl3c_w18final_distilled_s5",
+    "checkpoint": "checkpoints/model_ep1.pt",
+    "bytes": 4002407,
+    "sha256": "a1934af24bd1520b78be874c294532b1e2d62acdd8bd1dc3d6b5c220b2dad107"
+  },
+  "metadata_only_verified_this_turn": true,
+  "weights_downloaded_this_turn": false,
+  "blocks": [
+    "Match proposed recipe/checkpoint hashes against already-submitted tl3c_pr49_20261029/blend-dynamic_int8 (.66355); do not assume a new filename is a new predictor",
+    "Resolve consumed teacher-cache ancestry caveats or retain them explicitly",
+    "Use existing PR51 export/validator on isolated Linux x86-64 Python3.11 one CPU",
+    "Produce exact ZIP bytes with offline/reset/chunk/full-valid quality and runtime acceptance",
+    "Bind final ZIP size/hash to CPU receipt before considering upload"
+  ],
+  "new_submit_ready": false,
+  "new_submit_zip": null
+}

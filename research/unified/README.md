@@ -165,3 +165,12 @@ The dated archive preserves the October 12 handoff as it stood when all admitted
 [October13 strategy implementation and experiments](../campaign_2026-10-13/strategy_execution_r1/README.md) records the subsequent explicit user resume, every actionable review item, full Kaggle/local GPU authority, accepted private-risk preference, owners and evidence. The earlier stop/archive paragraphs describe historical scope; ADR0034 now governs new research. No new model result at admission.
 
 </details>
+
+## 8 November: optimizer and gradient-horizon screen running
+
+[Six fresh Transformer fits](../experiment_drafts/transformer-optimizer-horizon-20261108/README.md)
+compare Muon256/A4, AdamW256/A4 and Muon512/A2 at two paired seeds, fixed4E.
+All six exact50-update profiles passed; first four full fits use eight B300s.
+Primary evaluation remains complete official valid, with fitting-only ancestry.
+No new score or public gain is claimed before completed endpoints. See the
+packet native execution receipt for source, ownership, clocks and resources.

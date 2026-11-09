@@ -1,3 +1,41 @@
+[Actual B300 profile admission review](B300_ACTUAL_PROFILE_ADMISSION_REVIEW_20261107.md)
+independently parses all twelve native receipts, confirms exact source/config/
+member/normalizer/reference identities and update counts, and supports the
+unchanged four 30-epoch fits under ROOT's finite nine-day amendment. Warm timings
+imply about6.4days core fitting, not a24-hour job; this is no quality result.
+
+[Installed Triton IEEE correction review](MAMBA_TRITON_IEEE_ENVIRONMENT_REVIEW_20261107.md)
+uses ROOT's captured installed-source evidence to support the explicit
+`TRITON_F32_DEFAULT=ieee` environment correction with fresh cache and fresh
+actual-device oracle/PTX gates. It changes no pinned Mamba source and establishes
+no native result. Initial GRU profile admission remains independent.
+
+[Bounded L4 receiving runner review](L4_RECEIVING_RUNNER_INDEPENDENT_REVIEW_20261107.md)
+finds the six helper files statically ready after independently checking seven
+gate tests and two lifecycle/environment corrections. The note records actual
+reviewed file hashes and limits admission to source-bound, ROOT-approved cells;
+it does not approve Mamba, unmeasured profiles or completed scientific endpoints.
+
+[Two actual L4 GRU profile reviews](L4_GRU_RECEIVING_PROFILE_REVIEW_20261107.md)
+find no measured finite-work/resource blocker for the two GRU fits, independently
+of Mamba and other families. ROOT must verify complete native identities and
+preserve approved receipt copies. The note hashes actual captured summaries and
+ownership evidence; no scientific score or later-step stability is established.
+
+[PR67 feature-only train-index alias review](PR67_REFERENCE_TRAIN_INDEX_ALIAS_REVIEW_20261107.md)
+traces exact c42 predictor/helper/split Git blobs and confirms only `row_group`
+is read from the target-named compatibility path. A documented new receiver-owned
+alias to the preserved canonical index is compatible with that route while all
+source/order/ancestry guards remain unchanged; the original target cache is
+preserved and baseline replay remains pending.
+
+[Independent compact execution review, 7 November](COMPACT_EXECUTION_INDEPENDENT_REVIEW_20261107.md)
+checks the builder's R2 source/config inventory and independently passes 28 tiny
+CPU tests with one required real-Mamba CUDA test pending. No source blocker was
+found for receiving checks/profiles; exact split/row coverage, native backend,
+finite updates and real resource profiles remain admission gates. This is
+software evidence, with no data access, scientific fit or performance result.
+
 [Independent successful-score stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/ACTUAL_STOP_METADATA_REVIEW.json) passes local original raw/transport/source/acceptance joins and successful-only stop; no B action, imports, tests or model/data array reads.
 
 [Prior B300 validation audit](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/VALIDATION_AUDIT.md): source and receipt review at `f1beeb4c`; confirms the reported 0.3849/0.4140 epoch labels and stable heldout masks, identifies train/validation WP mask mismatch and exposed outer-fold selection limits. No replay or raw-array recomputation; supports the R5 inner-validation repeat.
@@ -533,3 +571,16 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Parent-fit terminal-verifier V1 failure metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json): one captured CPU-support unit failed at `_check_loader_and_rng` line863 because its combined CUDA RNG guard rejected the saved state. The specific type/shape/count predicate was not inspected; native exit0 metadata remains separate, with no CPU acceptance, retry, OOM, or quality conclusion.
 - [Parent RNG diagnostic V2 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V2.json): supersedes V1 after identifying its missed `terminal_success: false` fixture condition. The actual failed fixture passes the V2 gate; RNG shape remains unknown pending diagnostic output, with no fit acceptance or verifier retry claimed.
 - [Parent RNG diagnostic source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V1.json): conditional review of the separate metadata-only diagnostic and exact frozen inputs; actual RNG shape remains unknown until diagnostic output is inspected. No fit acceptance or retry is claimed.
+
+## Submission frontier and complement design — 6 November 2026
+
+[Official portal and team artifact audit](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md): all 108 displayed team history entries and public top ten reviewed; team TL3 remains 0.66832 at rank 39, latest W18 is 0.66453. Competitor ZIPs are not exposed. [New packet](../../experiment_drafts/tl3-transformer-complement-20261106/README.md) records independent static criticism of native reference ancestry, in-sample fitting targets, alpha-squared curvature versus optimizer effects and fail-closed composition. No receiver tests/profiles/fits or new predictive result; exposed-validation limits remain.
+
+## QK-normalization and submission audit — 9 November
+
+[Packet](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
+contains the independent static review and a dated live portal/HF audit.
+No new unsubmitted CPU-accepted ZIP found; model checks/profiles/fits unexecuted.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.

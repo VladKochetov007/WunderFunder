@@ -1,0 +1,42 @@
+{
+  "status": "native_preflight_passed_waiting_for_original_receiver_exit",
+  "observed_at_utc": "2026-11-08T21:56:47Z",
+  "native_root": "/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/postprocess-r2",
+  "source_commit": "986cbd054fd3afe7bc2277ac503bcfed3b9d4f8e",
+  "source_files": {
+    "compare.py": "29314bdac0cda0904737ca18c8e563d374c190c621e077735d119b46c9ce52b4",
+    "compare_r2.py": "7d84d2d982f7e5afdb8f8bad45ffc3bec66a8da1aba26ddcd4a54c49876ea280",
+    "wait_compare_r2.py": "d24b27fd295ab94f141472eda705f212fd342c4e40436a219f5411b1c901a20e"
+  },
+  "owner": {
+    "pid": 1836824,
+    "birth": "158483562",
+    "started_epoch": 1794174946.909124,
+    "command": [
+      "/usr/bin/timeout",
+      "--kill-after=10s",
+      "22618s",
+      "/data/epanov_s/tabdata/.venv/bin/python",
+      "/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/postprocess-r2/wait_compare_r2.py",
+      "--plan",
+      "/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/fit-operator-r1/plan.json",
+      "--authority",
+      "/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/authority-r2.json",
+      "--grader",
+      "/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/postprocess-r2/compare_r2.py",
+      "--grader-sha256",
+      "7d84d2d982f7e5afdb8f8bad45ffc3bec66a8da1aba26ddcd4a54c49876ea280",
+      "--python",
+      "/data/epanov_s/tabdata/.venv/bin/python"
+    ],
+    "source_commit": "986cbd054fd3afe7bc2277ac503bcfed3b9d4f8e",
+    "deadline_epoch": 1794197564.8507051,
+    "scope": "ROOT one-shot CPU postprocessing after original receiver exits; no fits/GPU/signals/network"
+  },
+  "preflight": "returncode0; exact actual native source/config/plan/authority/originalgrader passed",
+  "exit_proof_created": false,
+  "new_fits": 0,
+  "training_source_unchanged": "5d73bc2b10ae20e607e0d4b4533da85e76e27bca",
+  "evidence": "ROOT RPC035 launch/preflight;036 waiting status and absent premature exit proof",
+  "output_policy": "canonical comparison.json exclusive create; originalR1 receipts preserved"
+}

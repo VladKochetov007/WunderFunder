@@ -13,6 +13,7 @@ from wnn.training.sequence_checkpoint import (
     restore_rng_state,
     save_training_state,
 )
+from wnn.training.sequence_complement_monitor import ComplementMonitor
 from wnn.training.sequence_distributed import (
     DistributedContext,
     all_ranks_true,
@@ -29,6 +30,7 @@ from wnn.training.sequence_fit_artifacts import (
 from wnn.training.sequence_fit_artifacts import (
     metrics_offset as get_metrics_offset,
 )
+from wnn.training.sequence_fit_state import training_state as _training_state
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
     SequenceDataset,
@@ -48,6 +50,7 @@ def _load_resume(
     context: DistributedContext,
     rank_log: RankJsonlLog,
     output: Path,
+    monitor: ComplementMonitor | None = None,
 ) -> tuple[int, int, list[dict[str, object]]]:
     """Restore model, optimizer, schedule, safe epoch, and this rank's RNG state."""
     state = load_training_state(state_path, identity, context)
@@ -56,6 +59,15 @@ def _load_resume(
     rank_states = cast(list[dict[str, object]], state["rank_rng_states"])
     offsets = cast(list[int], state["rank_log_offsets"])
     metrics_offset = int(state["metrics_offset"])
+    if monitor is not None:
+        monitor_offsets = state.get("monitor_offsets")
+        if not isinstance(monitor_offsets, dict):
+            raise ValueError("monitored resume is missing safe-boundary report offsets")
+        coordinated_call(
+            lambda: monitor.restore_offsets(monitor_offsets, global_step),
+            "safe-boundary monitor restore",
+            context,
+        )
 
     def restore() -> bool:
         """Restore this rank from the already validated safe checkpoint."""
@@ -93,34 +105,6 @@ def _load_resume(
     return next_epoch, global_step, history
 
 
-def _training_state(
-    identity: dict[str, object],
-    world_size: int,
-    next_epoch: int,
-    global_step: int,
-    model: torch.nn.Module,
-    optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler.LambdaLR,
-    history: list[dict[str, object]],
-    rank_log_offsets: list[int],
-    metrics_offset: int,
-) -> dict[str, object]:
-    """Create resumable state only at a whole-epoch optimizer boundary."""
-    return {
-        "checkpoint_schema": "wnn.sequence-resume.v1",
-        "contract": identity,
-        "world_size": world_size,
-        "next_epoch": next_epoch,
-        "global_step": global_step,
-        "model": model.state_dict(),
-        "optimizer": optimizer.state_dict(),
-        "scheduler": scheduler.state_dict(),
-        "history": history,
-        "rank_log_offsets": rank_log_offsets,
-        "metrics_offset": metrics_offset,
-    }
-
-
 def run_full_fit(
     dataset: SequenceDataset,
     model: torch.nn.Module,
@@ -138,6 +122,8 @@ def run_full_fit(
     resume_path: Path | None,
     profile_receipt: Path,
     profile_hash: str,
+    *,
+    monitor: ComplementMonitor | None = None,
 ) -> None:
     """Resume or complete a fit, retaining inference snapshots only when requested."""
     history: list[dict[str, object]] = []
@@ -150,10 +136,20 @@ def run_full_fit(
     latest_index: dict[str, object] | None = None
     if resume_path is not None:
         start_epoch, global_step, history = _load_resume(
-            resume_path, identity, base_model, optimizer, scheduler, context, rank_log, output
+            resume_path,
+            identity,
+            base_model,
+            optimizer,
+            scheduler,
+            context,
+            rank_log,
+            output,
+            monitor,
         )
     else:
         rank_log_offsets = gather_rank_log_offsets(rank_log.position(), context)
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("checkpoint", 0, 0)
         save_training_state(
             output / "training_state.pt",
             _training_state(
@@ -167,6 +163,7 @@ def run_full_fit(
                 history,
                 rank_log_offsets,
                 0,
+                monitor.offsets() if monitor is not None else None,
             ),
             context,
         )
@@ -188,6 +185,8 @@ def run_full_fit(
             context,
         )
     for epoch in range(start_epoch, int(config["epochs"])):
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("training", global_step, epoch)
         torch.cuda.reset_peak_memory_stats(context.device)
         result = train_epoch(
             dataset,
@@ -199,6 +198,7 @@ def run_full_fit(
             rank_log,
             epoch,
             global_step,
+            progress=monitor.progress if monitor is not None else None,
         )
         if not result.complete:
             raise RuntimeError("full fit ended before the complete epoch boundary")
@@ -207,6 +207,14 @@ def run_full_fit(
         global_step += result.updates
         summary = epoch_summary(result, config)
         history.append({"epoch": epoch, **summary})
+        if monitor is not None:
+            coordinated_call(
+                lambda current_epoch=epoch, current_step=global_step: monitor.evaluate(
+                    base_model, config, context, current_epoch, current_step
+                ),
+                "report-only full official valid evaluation",
+                context,
+            )
         epoch_rates = optimizer_learning_rates(optimizer)
         coordinated_call(
             lambda current_summary=summary, current_epoch=epoch, current_step=global_step, current_rate=epoch_rates: (
@@ -227,6 +235,8 @@ def run_full_fit(
         metrics_offset = coordinated_call(
             lambda: get_metrics_offset(output, context), "aggregate metrics offset", context
         )
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("checkpoint", global_step, epoch + 1)
         save_training_state(
             output / "training_state.pt",
             _training_state(
@@ -240,6 +250,7 @@ def run_full_fit(
                 history,
                 rank_log_offsets,
                 metrics_offset,
+                monitor.offsets() if monitor is not None else None,
             ),
             context,
         )
@@ -260,6 +271,8 @@ def run_full_fit(
                 context,
                 "safe-epoch inference snapshot publication",
             )
+    if monitor is not None and monitor.progress is not None:
+        monitor.progress.phase("checkpoint", global_step, int(config["epochs"]))
     coordinated_call(
         lambda: (
             write_final_outputs(
@@ -282,3 +295,5 @@ def run_full_fit(
         context,
     )
     barrier(context)
+    if monitor is not None and monitor.progress is not None:
+        monitor.progress.phase("completed", global_step, int(config["epochs"]))

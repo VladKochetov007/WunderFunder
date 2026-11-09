@@ -10,6 +10,7 @@ from wnn.data import SEQUENCE_LENGTH, WARMUP, SequenceFile
 from wnn.evaluation import paired_component_moments
 from wnn.gmetric import GlobalAccumulator, _merge_moments
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.sequence_blend_prediction import BLEND_KIND, validate_blend_producer
 from wnn.training.sequence_cache import validate_export_schema, validate_producer
 from wnn.training.sequence_epoch_prediction import EPOCH_KIND, validate_epoch_producer
 
@@ -34,6 +35,8 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
         if json.loads(split_manifest.read_text()).get("schema") != "wnn.sequence-inner-split.v1":
             raise ValueError("retained epoch selection cannot consume outer evaluation")
         validate_epoch_producer(meta["producer"], split.sha256, fitting)
+    elif meta["producer"].get("kind") == BLEND_KIND:
+        validate_blend_producer(meta["producer"], split.sha256, fitting)
     else:
         validate_producer(meta["producer"], split.sha256, fitting)
     members = [(entry["split"], entry["row_group"]) for entry in meta["sequences"]]

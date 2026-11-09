@@ -12,25 +12,16 @@ from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
 from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
+from wnn.training.sequence_model_helpers import check_model_precision as _check_fp32_environment
 from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
     configure_precision_mode,
-    validate_forward_state,
 )
+from wnn.training.sequence_qk_norm import canonical_qk_norm
 
 RAW_INPUT_WIDTH = 112
-
-
-def _check_fp32_environment(model: nn.Module, values: Tensor, precision_mode: str) -> None:
-    if values.dtype != torch.float32:
-        raise TypeError("sequence models require float32 inputs")
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("sequence models require float32 parameters")
-    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
-        raise TypeError("sequence models require float32 buffers")
-    validate_forward_state(precision_mode, values.device.type)
 
 
 def _check_input_shape(values: Tensor) -> None:
@@ -94,6 +85,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        qk_norm: bool,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -108,7 +100,7 @@ class _TransformerSequenceAdapter(nn.Module):
         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
         self.blocks = nn.ModuleList(
-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
+            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend, qk_norm)
             for _ in range(layers)
         )
         self.output_norm = nn.LayerNorm(hidden)
@@ -251,6 +243,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     precision_mode = config.get("precision_mode", "fp32")
     attention_backend = config.get("attention_backend", "math")
     compile_blocks = config.get("compile_blocks", False)
+    qk_norm = canonical_qk_norm(config.get("qk_norm", "none"))
     if type(checkpoint_blocks) is not bool:
         raise TypeError("model config 'checkpoint_blocks' must be boolean")
     if hint_mode not in ("learned", "fixed"):
@@ -269,6 +262,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if qk_norm:
+            raise ValueError("model.qk_norm='rms' requires a Transformer model")
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
@@ -291,6 +286,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        qk_norm == "rms",
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model
