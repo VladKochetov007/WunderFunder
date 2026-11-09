@@ -74,9 +74,12 @@ The [dated portal audit](research/experiment_drafts/tl3-transformer-complement-2
 
 ## 9 November 2026: causal Transformer input-stem screen
 
-The [local six-fit packet](research/experiment_drafts/transformer-causal-input-stem-20261109/README.md)
+The [six-fit packet](research/experiment_drafts/transformer-causal-input-stem-20261109/README.md)
 proposes fresh PR72-C0-matched plain, kernel-1, and kernel-16 input-stem fits
 at seeds 203201/203202 on the repeatedly exposed PR49 fold-0 validation set.
 The primary comparison is K16−K1; no fit, profile, receiver gate, or quality
 result is claimed. ROOT owns the implementation and any later receiver
 admission. Static preparation is not publication or launch approval.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

@@ -225,3 +225,6 @@ was exposed and reset at each chunk, H-264's 10% TCN mixture was point-negative,
 PR35 already implemented numeric/event features, and the large-dynamics design
 already proposes local causal convolution. The PR49 validation fold is exposed;
 all six fits and twelve receiver profiles remain pending.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

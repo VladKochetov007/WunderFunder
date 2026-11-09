@@ -2,22 +2,22 @@
 
 ## Status and scope
 
-This is a local experiment draft based on PR72, not an execution result or a
-published PR. It proposes six fresh fixed-four-epoch fits on one repeatedly
+Published as [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74) targeting research-team, stacked on PR72.
+This is code and recipe preparation, not an execution result. It prepares six fresh fixed-four-epoch fits on one repeatedly
 exposed official fold: plain input, a kernel-1 stem, and a kernel-16 stem, each
 at seeds 203201 and 203202. No fit, profile, inference, local test, receiver
 gate, or remote job has been run for this packet. All gains remain unknown.
 
 The run-source baseline is PR72 head
 4021de8ec5130143c207319c73a102a453eb911e. The intended target is research-team
-at 7e4074314a62d0907c9608f9220cf72958708a2d. The eventual runtime source SHA
-is unset until the root-owned implementation is committed and reviewed;
+at 7e4074314a62d0907c9608f9220cf72958708a2d. The reviewed implementation commit is
+`8a8afec964985a6ba8b13d1c9af1ab00e14c6504`; actual receiver execution remains unstarted.
 run.sh requires an exact clean full commit before it can proceed.
 
-This branch is stacked on PR72. A future PR targeting research-team includes
+This branch is stacked on PR72. The PR targeting research-team includes
 the inherited PR72 runtime changes; review the incremental stem diff against
 4021de8ec5130143c207319c73a102a453eb911e and review the inherited PR72 diff
-separately. This packet does not authorize publishing or merging PR72.
+separately. [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...8a8afec964985a6ba8b13d1c9af1ab00e14c6504). PR72 remains unmerged.
 
 ## Mechanism
 
@@ -129,6 +129,7 @@ is not the fixed-E4 primary endpoint here; its peaks were at E5–E6.
 
 ## Packet map
 
+- [PUBLICATION.json](PUBLICATION.json): actual draft URL and implementation SHA.
 - PR.md: the eleven-section experiment contract and receiver handoff.
 - [RUNBOOK.md](RUNBOOK.md): environment variables and exact staged GPU commands.
 - [INDEPENDENT_REVIEW.md](INDEPENDENT_REVIEW.md): independent static findings

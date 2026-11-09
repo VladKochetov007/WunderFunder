@@ -3,7 +3,7 @@
   "hypothesis_id": "H-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109",
   "experiment_id": "E-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109",
   "title": "B300 causal raw-input stem screen: kernel 16 versus kernel 1",
-  "status": "LOCAL_DRAFT_NOT_PUBLISHED",
+  "status": "DRAFT_PUBLISHED_STATIC_ONLY",
   "owner": "ROOT",
   "branch": "codex/transformer-causal-input-stem-20261109",
   "lineage": {
@@ -16,8 +16,10 @@
     "incremental_review_base": "4021de8ec5130143c207319c73a102a453eb911e",
     "target_pr_diff_includes_parent_runtime": true,
     "execution_source_sha": null,
-    "draft_pr_url": null,
-    "merge_sha": null
+    "draft_pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/74",
+    "merge_sha": null,
+    "implementation_source_sha": "8a8afec964985a6ba8b13d1c9af1ab00e14c6504",
+    "incremental_compare_url": "https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...8a8afec964985a6ba8b13d1c9af1ab00e14c6504"
   },
   "mechanism": {
     "input": "u=(raw112-fitmean)/fitstd",
@@ -52,8 +54,15 @@
     "parameter_count_matched": false
   },
   "panel": {
-    "arms": ["plain", "k1", "k16"],
-    "seeds": [203201, 203202],
+    "arms": [
+      "plain",
+      "k1",
+      "k16"
+    ],
+    "seeds": [
+      203201,
+      203202
+    ],
     "fold": 0,
     "cells": [
       "plain_s203201",
@@ -73,7 +82,10 @@
   "base_recipe": {
     "source_config": "research/experiment_drafts/transformer-optimizer-horizon-20261108/configs/C0_muon256_a4_s203101.json",
     "source_config_sha256": "5881e2facddc48a0023f588c7e47dfd02e065e823bc94d565faf36ec3d7594c9",
-    "only_changed_fields": ["seed", "model.input_stem_kernel"],
+    "only_changed_fields": [
+      "seed",
+      "model.input_stem_kernel"
+    ],
     "architecture": "Transformer",
     "hidden": 768,
     "layers": 24,
@@ -116,7 +128,10 @@
     "scored_rows": 3528273,
     "exposure": "repeatedly exposed development validation",
     "primary_contrast": "K16 minus K1",
-    "secondary_contrasts": ["K16 minus plain", "K1 minus plain"],
+    "secondary_contrasts": [
+      "K16 minus plain",
+      "K1 minus plain"
+    ],
     "bootstrap": {
       "unit": "paired validation components",
       "draws": 2000,
@@ -134,7 +149,10 @@
   "engineering_profiles": {
     "profile_runs_per_cell": 2,
     "updates_per_profile": 50,
-    "profile_names": ["profile", "profile-peak"],
+    "profile_names": [
+      "profile",
+      "profile-peak"
+    ],
     "profile_peak_warmup_updates": 0,
     "total_profile_runs": 12,
     "total_diagnostic_updates": 600,
@@ -144,10 +162,20 @@
     "linux_only": true,
     "gpu_count_per_run": 2,
     "same_pair_order_runtime_per_seed": true,
-    "within_seed_arm_order": ["plain", "k1", "k16"],
+    "within_seed_arm_order": [
+      "plain",
+      "k1",
+      "k16"
+    ],
     "proposed_gpu_mapping": {
-      "203201": ["0", "1"],
-      "203202": ["2", "3"],
+      "203201": [
+        "0",
+        "1"
+      ],
+      "203202": [
+        "2",
+        "3"
+      ],
       "reservation_verified": false
     },
     "required_environment": [

@@ -109,3 +109,6 @@ stem, its B300 behavior, or a score gain. The local related-work check also
 links the earlier Conv16/GRU pilot (E-168), negative TCN-mixture result
 (H-264), the already implemented PR35 numeric/event features, and the
 large-dynamics design's causal-convolution proposal.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

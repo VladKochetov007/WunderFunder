@@ -9,7 +9,7 @@ From the isolated repository root, replace the path examples with the preserved
 canonical data, original split file and a fresh physical-disk output directory:
 
 ```bash
-export WNN_EXPECTED_COMMIT='<full implementation SHA from PUBLICATION.json>'
+export WNN_EXPECTED_COMMIT=8a8afec964985a6ba8b13d1c9af1ab00e14c6504
 export WNN_DATA_ROOT='/absolute/path/to/canonical/data'
 export WNN_SPLIT='/absolute/path/to/original/chronological-split.json'
 export WNN_RUN_ROOT='/absolute/path/on/persistent-disk/input-stem-r1'

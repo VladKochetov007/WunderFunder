@@ -1,18 +1,20 @@
 # [Experiment] B300 causal raw-input stem screen: kernel 16 versus kernel 1
 
-1. **Status, lineage and owner.** This is a local draft packet for six fresh
+1. **Status, lineage and owner.** This is [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74) for six fresh
    fixed-4E B300 fits. No fit, profile, receiver gate, local test, inference, or
    remote job has run. Hypothesis H-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109;
    experiment E-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109. ROOT owns the
    source, receiver gates, and any later execution. The docs/config layer is
-   prepared locally on branch codex/transformer-causal-input-stem-20261109.
-   Parent PR72 head is 4021de8ec5130143c207319c73a102a453eb911e; intended
+   published on branch codex/transformer-causal-input-stem-20261109.
+   Parent PR72 head is 4021de8ec5130143c207319c73a102a453eb911e;
    target is research-team at 7e4074314a62d0907c9608f9220cf72958708a2d.
-   This is stacked on PR72: a future PR to research-team includes inherited
+   This is stacked on PR72: this PR to research-team includes inherited
    PR72 runtime changes. Review the incremental stem diff against the parent
-   head separately from the inherited PR72 diff. This does not authorize
-   publishing or merging PR72. The eventual execution commit, PR number, and
-   merge SHA are unset.
+   head separately from the inherited PR72 diff. PR72 remains unmerged.
+   Implementation commit: `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+   [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...8a8afec964985a6ba8b13d1c9af1ab00e14c6504).
+   Actual execution and merge SHAs remain unset.
+   [Exact receiver commands](https://github.com/VladKochetov007/WunderFunder/blob/codex/transformer-causal-input-stem-20261109/research/experiment_drafts/transformer-causal-input-stem-20261109/RUNBOOK.md).
 
 2. **Why it should work.** A causal per-channel filter can expose short local
    changes to the temporal backbone while retaining the raw standardized row
@@ -166,9 +168,14 @@
 
 11. **Results and trace.** No result from this screen exists: actual fits,
     profiles, gates, tests, inference, and grades are all zero. The branch is
-    local, PR URL and merge SHA are null, and no public leaderboard change is
-    claimed. Related PR69–73 evidence and its limits are summarized in the
+    published as [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); merge SHA is null. No public leaderboard change is claimed. Related PR69–73 evidence and its limits are summarized in the
     packet README. The append-only H/E ledgers and the root research,
     experiment-draft, ideas, reviews, and sources indexes link this packet.
     Current config hashes are in recipe.json; future run/archive hashes and
     source commit belong in the result trace after actual receiver completion.
+
+Static preparation checks passed: Ruff 0.16.7 (144 files), training structure
+(121 files, zero errors), AST/JSON/Bash syntax, config hashes and exact six-cell
+recipe symmetry. Independent review found no remaining source-level blocker.
+These checks do not establish numerical correctness or quality; receiver checks
+and all six scientific fits remain UNRUN.

@@ -585,3 +585,6 @@ review returned GO after compare-panel hardening; the packet's
 [VALIDATION.json](../../experiment_drafts/transformer-causal-input-stem-20261109/VALIDATION.json)
 records ROOT's static checks. This is not scientific approval or receiver
 acceptance: no profile, fit, inference, or grade is asserted.
+
+Input-stem publication: [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74); implementation `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+Static preparation only; six fits and receiver acceptance remain UNRUN.

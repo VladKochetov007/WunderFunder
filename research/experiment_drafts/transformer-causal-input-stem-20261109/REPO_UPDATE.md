@@ -1,32 +1,23 @@
-# Repository update
+# Repository and publication update
 
-Recorded 2026-11-09 for local review.
+Recorded 2026-11-09. Published [draft PR #74](https://github.com/VladKochetov007/WunderFunder/pull/74) to `research-team`.
 
-| Field | Value |
-|---|---|
-| Branch | codex/transformer-causal-input-stem-20261109 |
-| Parent PR | #72, head 4021de8ec5130143c207319c73a102a453eb911e |
-| Current HEAD when packet work began | 4021de8ec5130143c207319c73a102a453eb911e |
-| Intended target | research-team |
-| Target base | 7e4074314a62d0907c9608f9220cf72958708a2d |
-| Hypothesis / experiment | H-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109 / E-B300-TRANSFORMER-CAUSAL-INPUT-STEM-20261109 |
-| Draft PR URL / merge SHA | null / null |
-| Execution source SHA | null until the root-owned implementation is committed and reviewed |
+- Implementation: `8a8afec964985a6ba8b13d1c9af1ab00e14c6504`.
+- Branch: `codex/transformer-causal-input-stem-20261109`.
+- Parent: PR72 at `4021de8ec5130143c207319c73a102a453eb911e`, still an open draft.
+- Target snapshot: `7e4074314a62d0907c9608f9220cf72958708a2d`.
+- [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...8a8afec964985a6ba8b13d1c9af1ab00e14c6504); the full PR includes inherited PR72 runtime.
+- Merge and actual execution SHAs remain null.
 
-The shared worktree contains ROOT-owned implementation and receiver-gate edits.
-This packet update records their intended experiment contract; it does not
-review or certify those code changes. ROOT owns those files and their receiving
-gates. The receiver requires a full source SHA and a clean tree, so no runtime
-source pin is claimed while the branch is uncommitted.
+`VALIDATION.json` records completed static checks and config-byte hashes.
+`INDEPENDENT_REVIEW.md` records the independent source review and fixes.
+`PUBLICATION.json` binds this publication to the implementation and review.
+`RUNBOOK.md` contains exact staged receiver commands and the implementation pin.
 
-The six JSON configs were generated from the exact PR72 C0 JSON using the
-standard-library JSON reader/writer. Structural differences are limited to
-seed and model.input_stem_kernel; plain omits the latter. Their SHA-256 values
-are recorded in recipe.json. The source PR72 config hash is
-5881e2facddc48a0023f588c7e47dfd02e065e823bc94d565faf36ec3d7594c9.
+No local tests, model imports, training, inference, profiles or remote jobs ran.
+No current training was changed. No quality, submission or public-score gain is
+claimed. Actual receiver admission, source/data/runtime matching, profile memory
+and reload proof, scientific fitting and final checkpoint audit remain pending.
 
-Static preparation only. No local tests, model imports, training, inference,
-profiles, remote jobs, commits, pushes, or PR creation were performed. No
-quality or public-score result is claimed. The actual receiver source identity,
-profile approvals, fit receipts, output mount capacity, fit wall time, peak
-memory, and artifact sizes remain pending.
+The six recipes are exact PR72 C0 copies except seed and optional input stem.
+All 12 engineering profiles and six 4E scientific fits are prepared, unexecuted.
