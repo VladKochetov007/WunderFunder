@@ -581,3 +581,6 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 [Packet](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
 contains the independent static review and a dated live portal/HF audit.
 No new unsubmitted CPU-accepted ZIP found; model checks/profiles/fits unexecuted.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.

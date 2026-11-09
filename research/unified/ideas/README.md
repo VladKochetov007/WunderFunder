@@ -219,3 +219,6 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 compares four fresh PR72-C0 fits. Fixed-temperature RMS is a distinct treatment
 from input stems, recency, output gates and SwiGLU; normalization/temperature
 effects are bundled. All model-quality evidence is UNRUN.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.

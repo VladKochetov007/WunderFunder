@@ -103,3 +103,6 @@ Keep provenance and source links with each imported item. Generated idea cards d
 [ViT-22B](https://arxiv.org/abs/2302.05442) uses Q/K LayerNorm in large vision
 models. The [B300 fixed-RMS packet](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
 is an affine-free variant, not a reproduction or proof of financial-task gains.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.

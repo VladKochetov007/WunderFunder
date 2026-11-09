@@ -1,6 +1,6 @@
 # Affine-free QK RMS normalization on B300
 
-Code/recipe preparation for a draft PR to `research-team`, stacked on PR72 head
+Published [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75) to `research-team`, stacked on PR72 head
 `4021de8ec5130143c207319c73a102a453eb911e`. Four scientific fits and eight
 engineering profiles are prepared, all **UNRUN**. No local tests, model imports,
 training, inference or GPU profiles are allowed for this preparation.
@@ -117,3 +117,7 @@ no trainer is copied. All numerical work uses canonical `train_sequence.py`,
 `research-team` includes the inherited PR72 runtime; review our incremental diff
 from4021de8 separately. Memory, disk and wall time remain unmeasured for this
 new treatment. Preserve all failures and the complete physical-disk run root.
+
+Implementation commit: `67c351ae70cacef11f4ad485b5b98192f0d5e81c`. [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...67c351ae70cacef11f4ad485b5b98192f0d5e81c).
+[PUBLICATION.json](PUBLICATION.json) records publication and initial CI success.
+No merge, model execution or new platform upload occurred.

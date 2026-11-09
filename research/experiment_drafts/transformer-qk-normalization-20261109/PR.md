@@ -1,6 +1,6 @@
 # [Experiment] Affine-free QK RMS normalization on B300
 
-1. **Status, lineage and owner.** Code/recipe preparation for four fresh fits,
+1. **Status, lineage and owner.** Published [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75) prepares four fresh fits,
    owned by ROOT, targeting `research-team`. Parent is PR72 head
    `4021de8ec5130143c207319c73a102a453eb911e`; target snapshot is
    `7e4074314a62d0907c9608f9220cf72958708a2d`. This is stacked on PR72, so the
@@ -96,11 +96,17 @@
     receiver acceptance are UNRUN. No new ZIP or public score is claimed.
     recipe.json freezes the panel; VALIDATION.json and INDEPENDENT_REVIEW.md
     record only static preparation. Append-only H/E ledgers and research/ideas
-    indexes identify the packet. The implementation SHA and actual draft URL
-    will be filled after publication; merge and actual-execution SHAs remain null.
+    indexes identify the packet. Implementation SHA: `67c351ae70cacef11f4ad485b5b98192f0d5e81c`.
+    [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...67c351ae70cacef11f4ad485b5b98192f0d5e81c); [GPU commands](https://github.com/VladKochetov007/WunderFunder/blob/codex/transformer-qk-normalization-20261109/research/experiment_drafts/transformer-qk-normalization-20261109/RUNBOOK.md).
+    Merge and actual-execution SHAs remain null.
 
 Static checks passed: Ruff0.16.7 lint/format over the full quality target,
 training structure121 files/zero errors, AST/JSON/config hashes and symmetry,
 Bash syntax and diff whitespace. Independent source review found no blocking
 issue. Model/receiver execution remains UNRUN. The panel-bundle command retains
 the aggregate paired comparison in addition to per-cell archives.
+
+GitHub Training code quality passed on the implementation commit. Current
+portal audit:108 team submissions,0/5 today,best.66832/rank45. No new
+unsubmitted CPU-accepted ZIP was found; released checkpoint inputs and the
+remaining export/CPU checks are pinned in SUBMISSION_INPUTS.json.

@@ -65,3 +65,6 @@ The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/exp
 [Implemented four-fit packet](tl3-transformer-complement-20261106/README.md): label-only versus fixed-composition Transformer training, two paired seeds on the exact PR49 train-only source split. Both endpoints are0.9 clean TL3 + 0.1 Transformer; T768×24, context 1024, 30 epochs, Muon, BF16/BF16x9, eight B300s. Native 17-role ancestry, explicit composed scoring and receiver-only acceptance/profiles are implemented; all four fits and real GPU acceptance remain unrun. [Current portal/result audit](tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) distinguishes public best 0.66832 from clean-development 0.692377425. H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106. No CPU-ready ZIP or compact-KD result.
 
 - [QK RMS normalization, 9 November](transformer-qk-normalization-20261109/README.md): four fresh fixed4E B300 fits, no new parameters; receiver and submit audit prepared only.
+
+QK normalization publication: [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75); code/recipes and submission audit only.
+Implementation `67c351ae70cacef11f4ad485b5b98192f0d5e81c`; all new model results and CPU-package acceptance remain UNRUN.
