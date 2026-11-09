@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.qk-norm-preparation-validation.v1",
+  "date": "2026-11-09",
+  "parent_head": "4021de8ec5130143c207319c73a102a453eb911e",
+  "scope": "Static source/recipe preparation only",
+  "static_checks": {
+    "ruff_version": "0.16.7",
+    "ruff_check": "PASS: Makefile QUALITY_PATHS",
+    "ruff_format_check": "PASS: final full QUALITY_PATHS (146 files reported)",
+    "training_structure": "PASS: 121 files, zero errors, 300 module/200 function caps",
+    "packet_ast": "PASS",
+    "json": "PASS",
+    "config_byte_hashes": "PASS",
+    "config_symmetry": "PASS: exact C0 except seed/qk_norm",
+    "bash_syntax": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "local_tests_run": false,
+  "model_imports_run": false,
+  "training_run": false,
+  "inference_run": false,
+  "profiles_run": false,
+  "remote_jobs_changed": false,
+  "receiver_acceptance": "UNRUN",
+  "new_model_quality": "UNMEASURED",
+  "new_submission_uploaded": false,
+  "source_files": {
+    "src/wnn/training/sequence_qk_norm.py": "65c2a806b613a2a3f3122693a7f175fabcb7b38e933170bf2f72d686fdc37530",
+    "src/wnn/training/sequence_attention.py": "4603f856a8cd8406866b596d2a230bf390f19ad09f33b189f92447e2bcab60fb",
+    "src/wnn/training/sequence_config.py": "fbcdf4ab9b9f2319a49942384bbfd5a5158871ba115b51436ce71c94478609f2",
+    "src/wnn/training/sequence_models.py": "9113c90af0a31b3b47ee4ab67e5a58f709951616ddedd2d32125e064512be84b",
+    "src/wnn/training/sequence_model_helpers.py": "09c62e44799b091500bb60c340a7d5cfae8dcb6f911cedf05dfa0f7e0267bf8c"
+  },
+  "compatibility_closeout": "Restored legacy hidden/attention_backend attributes; moved unchanged FP32 check to helper; models 292 lines"
+}

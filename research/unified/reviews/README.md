@@ -575,3 +575,9 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Submission frontier and complement design — 6 November 2026
 
 [Official portal and team artifact audit](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md): all 108 displayed team history entries and public top ten reviewed; team TL3 remains 0.66832 at rank 39, latest W18 is 0.66453. Competitor ZIPs are not exposed. [New packet](../../experiment_drafts/tl3-transformer-complement-20261106/README.md) records independent static criticism of native reference ancestry, in-sample fitting targets, alpha-squared curvature versus optimizer effects and fail-closed composition. No receiver tests/profiles/fits or new predictive result; exposed-validation limits remain.
+
+## QK-normalization and submission audit — 9 November
+
+[Packet](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
+contains the independent static review and a dated live portal/HF audit.
+No new unsubmitted CPU-accepted ZIP found; model checks/profiles/fits unexecuted.

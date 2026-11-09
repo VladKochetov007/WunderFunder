@@ -96,3 +96,10 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Clean-TL3 reference and additive correction — 6 November 2026
 
 [Published PR49/52 metadata mirrors and source pins](../../experiment_drafts/tl3-transformer-complement-20261106/reference_sources/README.md) identify17 original checkpoint/provenance roles and the exact c42 native replay. They preserve the missing historical consumed-cache reconstruction limit and distinguish original training-source inventories from replay source. [Submission audit/source synthesis](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) links actual team results and the primary Friedman gradient-boosting antecedent; architecture, fixed mixture and curvature scaling are experimental choices, not a paper-derived competition gain.
+
+## QK normalization antecedents — 9 November
+
+[Henry et al.](https://arxiv.org/abs/2010.04245) use L2 Q/K with learned scale;
+[ViT-22B](https://arxiv.org/abs/2302.05442) uses Q/K LayerNorm in large vision
+models. The [B300 fixed-RMS packet](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
+is an affine-free variant, not a reproduction or proof of financial-task gains.

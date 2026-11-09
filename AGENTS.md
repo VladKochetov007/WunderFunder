@@ -1,3 +1,14 @@
+## 9 November: QK normalization and submission audit preparation
+
+The current user requests another draft PR and a submission if a verified,
+unsubmitted artifact is available. This branch prepares four fresh Transformer
+QK-normalization fits from PR72, plus a current submission inventory. Local
+tests, model imports, training, inference and GPU profiles remain prohibited;
+static AST/Ruff/JSON/Bash checks are allowed. No historical execution authority
+below starts, resumes or changes any GPU job for this packet. Preserve existing
+submissions and live runs. Receiver acceptance and all new model scores remain
+UNRUN until measured on the receiving host.
+
 ## Latest 8 November: approved optimizer/horizon screen execution
 
 The user approved executing TOP1_NEXT_ALLOCATION_R1.json after all five repairs.

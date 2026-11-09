@@ -212,3 +212,10 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 ## Fixed-composition Transformer — 6 November 2026
 
 [Train a Transformer for its contribution to clean TL3](../../experiment_drafts/tl3-transformer-complement-20261106/README.md): four new fits, labels/complement × seeds 101001/101002, one exact source split and fixed 30-epoch endpoints. The treatment optimizes0.9 TL3 + 0.1 z with original-label weights and alpha-squared curvature normalization; control is scored through the same blend. Extends PR38/49/52/53, not an independent new boosting claim. B300 trainer/reference/receiver commands are implemented; no execution or quality claim. [Recipe](../../experiment_drafts/tl3-transformer-complement-20261106/recipe.json); H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106.
+
+## Fixed-RMS attention queries/keys — 9 November
+
+[QK normalization](../../experiment_drafts/transformer-qk-normalization-20261109/README.md)
+compares four fresh PR72-C0 fits. Fixed-temperature RMS is a distinct treatment
+from input stems, recency, output gates and SwiGLU; normalization/temperature
+effects are bundled. All model-quality evidence is UNRUN.

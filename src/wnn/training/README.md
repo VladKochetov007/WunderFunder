@@ -95,6 +95,9 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
 
 - `sequence_config`, `sequence_data`, `sequence_cache`: validated raw112 recipes,
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
+- `sequence_qk_norm`: optional affine-free per-head Q/K RMS normalization before
+  RoPE; legacy omission/none preserves configuration and model state. Cached keys
+  are already normalized and rotated; values are not normalized.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count

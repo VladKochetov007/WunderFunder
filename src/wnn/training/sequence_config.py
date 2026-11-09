@@ -11,6 +11,7 @@ from wnn.training.sequence_complement_monitor import validate_complement_monitor
 from wnn.training.sequence_ensemble_config import validate_ensemble_objective
 from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+from wnn.training.sequence_qk_norm import canonical_qk_norm
 from wnn.training.sequence_runtime_context import runtime_context_contract
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -92,9 +93,17 @@ def load_config(path: Path) -> dict[str, Any]:
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
-    model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    model_values = raw.get("model", {})
+    if set(model_values) - (set(MODEL_DEFAULTS) | {"qk_norm"}):
         raise ValueError("unknown sequence model field")
+    model_values = dict(model_values)
+    if "qk_norm" in model_values:
+        qk_norm = canonical_qk_norm(model_values["qk_norm"])
+        if qk_norm is None:
+            model_values.pop("qk_norm")
+        else:
+            model_values["qk_norm"] = qk_norm
+    model = MODEL_DEFAULTS | model_values
     config["model"] = model
     for key in (
         "schema_version",
@@ -168,6 +177,8 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    if model.get("qk_norm") == "rms" and model["architecture"] != "transformer":
+        raise ValueError("model.qk_norm='rms' requires a Transformer model")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":

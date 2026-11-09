@@ -9,6 +9,7 @@ from torch import Tensor, nn
 from torch.nn import functional as F
 
 from wnn.training.sequence_attention_backends import LocalCausalAttention
+from wnn.training.sequence_qk_norm import headwise_rms_normalize
 
 
 @dataclass(frozen=True)
@@ -35,7 +36,12 @@ def _rotate(values: Tensor, positions: Tensor, inverse_frequency: Tensor) -> Ten
 
 
 class CausalTransformerBlock(nn.Module):
-    """Pre-norm Transformer block with RoPE and a bounded rolling KV cache."""
+    """Pre-norm Transformer block with RoPE and a bounded rolling KV cache.
+
+    Optional affine-free Q/K RMS normalization keeps standard SDPA scaling, so
+    logits approximate ``sqrt(head_dim) * cosine_similarity`` rather than the
+    paper's learned or scaled-cosine attention variants.
+    """
 
     def __init__(
         self,
@@ -44,11 +50,15 @@ class CausalTransformerBlock(nn.Module):
         ff_width: int,
         dropout: float,
         attention_backend: str = "math",
+        qk_norm: bool = False,
     ) -> None:
         super().__init__()
+        if type(qk_norm) is not bool:
+            raise TypeError("qk_norm must be a bool")
         self.hidden = hidden
         self.heads = heads
         self.head_dim = hidden // heads
+        self.qk_norm = qk_norm
         self.norm_attention = nn.LayerNorm(hidden)
         self.qkv = nn.Linear(hidden, 3 * hidden)
         self.attention_output = nn.Linear(hidden, hidden)
@@ -78,6 +88,9 @@ class CausalTransformerBlock(nn.Module):
         query = query.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
         current_key = current_key.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
         current_value = current_value.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
+        if self.qk_norm:
+            query = headwise_rms_normalize(query)
+            current_key = headwise_rms_normalize(current_key)
         positions = torch.arange(start_position, start_position + rows, device=values.device)
         query = _rotate(query, positions, self.rotary_inverse_frequency)
         current_key = _rotate(current_key, positions, self.rotary_inverse_frequency)
