@@ -95,6 +95,9 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
 
 - `sequence_config`, `sequence_data`, `sequence_cache`: validated raw112 recipes,
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
+- `sequence_input_stem`: optional identity-initialized causal depthwise raw-input
+  filters (K1/K16); K16 carries a cloned 15-row standardized FP32 history across
+  chunks and resets per sequence. Omitted/zero kernel preserves the legacy path.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count

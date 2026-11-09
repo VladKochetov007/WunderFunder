@@ -96,3 +96,16 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Clean-TL3 reference and additive correction — 6 November 2026
 
 [Published PR49/52 metadata mirrors and source pins](../../experiment_drafts/tl3-transformer-complement-20261106/reference_sources/README.md) identify17 original checkpoint/provenance roles and the exact c42 native replay. They preserve the missing historical consumed-cache reconstruction limit and distinguish original training-source inventories from replay source. [Submission audit/source synthesis](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) links actual team results and the primary Friedman gradient-boosting antecedent; architecture, fixed mixture and curvature scaling are experimental choices, not a paper-derived competition gain.
+
+## Causal raw-input stem motivation — 9 November 2026
+
+The [input-stem draft](../../experiment_drafts/transformer-causal-input-stem-20261109/README.md)
+uses [Bai, Kolter, and Koltun (2018)](https://arxiv.org/abs/1803.01271)
+for generic causal convolutional sequence modeling and
+[Verma (2023), Conformer LLMs](https://arxiv.org/abs/2307.00461) for combining
+causal convolution with Transformer attention. These papers motivate testing
+local temporal filters only; they do not establish this raw-input residual
+stem, its B300 behavior, or a score gain. The local related-work check also
+links the earlier Conv16/GRU pilot (E-168), negative TCN-mixture result
+(H-264), the already implemented PR35 numeric/event features, and the
+large-dynamics design's causal-convolution proposal.

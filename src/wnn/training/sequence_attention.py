@@ -18,6 +18,7 @@ class TransformerState:
     keys: tuple[Tensor, ...]
     values: tuple[Tensor, ...]
     next_position: int
+    input_history: Tensor | None = None
 
 
 def _rotate(values: Tensor, positions: Tensor, inverse_frequency: Tensor) -> Tensor:

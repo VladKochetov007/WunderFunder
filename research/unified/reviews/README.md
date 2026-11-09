@@ -575,3 +575,13 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 ## Submission frontier and complement design — 6 November 2026
 
 [Official portal and team artifact audit](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md): all 108 displayed team history entries and public top ten reviewed; team TL3 remains 0.66832 at rank 39, latest W18 is 0.66453. Competitor ZIPs are not exposed. [New packet](../../experiment_drafts/tl3-transformer-complement-20261106/README.md) records independent static criticism of native reference ancestry, in-sample fitting targets, alpha-squared curvature versus optimizer effects and fail-closed composition. No receiver tests/profiles/fits or new predictive result; exposed-validation limits remain.
+
+## Causal Transformer input-stem draft — 9 November 2026
+
+[Input-stem packet](../../experiment_drafts/transformer-causal-input-stem-20261109/README.md)
+records the design audit, matched six-fit budget, exposed-validation limitation,
+and prior Conv16/TCN/numeric-feature evidence. The independent static source
+review returned GO after compare-panel hardening; the packet's
+[VALIDATION.json](../../experiment_drafts/transformer-causal-input-stem-20261109/VALIDATION.json)
+records ROOT's static checks. This is not scientific approval or receiver
+acceptance: no profile, fit, inference, or grade is asserted.

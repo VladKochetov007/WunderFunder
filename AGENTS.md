@@ -1,3 +1,13 @@
+## 9 November: causal Transformer input-stem preparation only
+
+This branch prepares six fresh input-stem comparisons as a draft targeting
+research-team, stacked on PR72 commit 4021de8ec5130143c207319c73a102a453eb911e.
+The current user requests code/commands/publication, with no local tests,
+training, inference or model execution. Static source/AST/Ruff checks are allowed.
+No historical execution authority below starts, resumes or changes jobs for this
+packet. Receiver checks, profiles and actual allocation remain unexecuted here.
+See research/experiment_drafts/transformer-causal-input-stem-20261109/README.md.
+
 ## Latest 8 November: approved optimizer/horizon screen execution
 
 The user approved executing TOP1_NEXT_ALLOCATION_R1.json after all five repairs.

@@ -1,5 +1,13 @@
 # Research-team experiment catalogue
 
+- [Causal raw-input stem screen, 9 November](transformer-causal-input-stem-20261109/README.md)
+  prepares six fresh fixed-4E Transformer fits: plain, depthwise kernel 1, and
+  depthwise kernel 16 at paired seeds 203201/203202. It copies the PR72 C0
+  recipe except for seed and the declared kernel setting. Twelve 50-update
+  engineering profiles, exact PR49 fold-0 binding, manual per-cell profile
+  approval, and persistent-disk capacity checks precede any fit. No local
+  tests, profiles, fits, grades, publication, or public gain are claimed.
+
 - [Ensemble-objective package, 8 November](ensemble-objective-fix-20261108/README.md)
   prepares four fresh fixed4E matched B300 teachers under the explicit new contract.
   Native NCCL gradient equivalence and four actual-shaped50-update/reload profiles
