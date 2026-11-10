@@ -8,6 +8,7 @@ from pathlib import Path
 
 import torch
 
+from wnn.training.sequence_checkpoint_policy import RETAINED_EPOCH_PURPOSE
 from wnn.training.sequence_epoch_index_io import file_sha256, fsync_directory
 from wnn.training.sequence_precision import precision_identity
 from wnn.training.sequence_provenance import json_value
@@ -16,11 +17,19 @@ _SAFETY_BYTES = 64 << 20
 _SAFETY_FRACTION = 0.10
 
 
-def preflight_epoch_storage(output: Path, model: torch.nn.Module, snapshots: int) -> int:
-    """Require space for remaining immutable weights snapshots before fitting."""
+def preflight_epoch_storage(
+    output: Path,
+    model: torch.nn.Module,
+    snapshots: int,
+    *,
+    reserve_atomic_checkpoint_state: bool = False,
+) -> int:
+    """Require space for snapshots and, by opt-in, atomic full-resume replacement."""
     if snapshots < 0:
         raise ValueError("remaining snapshot count must be nonnegative")
-    if snapshots == 0:
+    if type(reserve_atomic_checkpoint_state) is not bool:
+        raise TypeError("atomic-checkpoint storage reservation must be boolean")
+    if snapshots == 0 and not reserve_atomic_checkpoint_state:
         return 0
     if not output.is_dir():
         raise FileNotFoundError(f"fit output directory does not exist: {output}")
@@ -30,6 +39,9 @@ def preflight_epoch_storage(output: Path, model: torch.nn.Module, snapshots: int
             raise TypeError(f"model state entry {name!r} is not a tensor")
         state_bytes += tensor.numel() * tensor.element_size()
     required = int(state_bytes * snapshots * (1.0 + _SAFETY_FRACTION)) + _SAFETY_BYTES
+    if reserve_atomic_checkpoint_state:
+        # Atomic old/new resume files dominate while fitting; final save needs one copy.
+        required += state_bytes if snapshots == 0 else 6 * state_bytes
     free = shutil.disk_usage(output).free
     if free < required:
         raise OSError(
@@ -71,6 +83,7 @@ def save_epoch_checkpoint(
         "profile_receipt": {"path": str(profile_receipt), "sha256": profile_hash},
         "history": json_value(history),
         "checkpoint_policy": "all-safe-epochs-inference-only",
+        "checkpoint_purpose": RETAINED_EPOCH_PURPOSE,
         "completed_epochs": completed_epochs,
         "global_updates": global_step,
         "precision": precision_identity(
