@@ -37,3 +37,9 @@ The actual Torch2.14 launcher starts each rank in a distinct session. R1?s group
 Scientific quality endpoints are still pending. Diagnostic profile throughput and a running controller do not establish model improvement.
 
 For exact receiver replay, extract [the original test-fixture supplement](test-fixtures-r1.tar.gz) into the source capsule before its original tests; [its manifest](test-fixtures-r1-manifest.json) binds all three exact Git blobs. These JSON-only additions do not alter importable training source.
+
+## Live observations after launch
+
+At19:55UTC all four first fits had266?271/3280successful updates, last windows~1.21s and GPU Util95?100% acrossall8cards (114150?114268MiB/card). Last per-update losses1.47?1.57 and preclip gradient norms1.41?3.86 were finite; LR?2.992e-4 after164 warmup steps. These describe operation, not tensor-core FLOP efficiency or generalization. See [native update/GPU readings](execution-receipts/035-live-first-updates.json).
+
+The launch environment omitted WNN_MONITOR_HEARTBEAT_SECONDS; raw rank0.jsonl advances normally, while monitor_progress.json only flushes at phase boundaries. Scientific jobs/source/configs are kept unchanged. A separately reviewed [read-only observer](observe_six_fits_r1.py) attaches to all six admitted launcher PID/births as they appear and appends observational GPU/CPU/RAM/I/O events. Sampled step/epoch explicitly come from complete rank0 records, not an invented trainer heartbeat. At20:00UTC it observed500?506updates and~12.3?12.8GB worker-family RSS per pair. It stops appending at each native terminal marker; ROOT collects final observational hashes after close. [Attachment proof](execution-receipts/038-observer-and-live-resources.json).
