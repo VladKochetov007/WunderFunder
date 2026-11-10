@@ -8,7 +8,10 @@ from typing import Any
 from wnn.training.sequence_blend import validate_blend_config
 from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
 from wnn.training.sequence_complement_monitor import validate_complement_monitor
-from wnn.training.sequence_ensemble_config import validate_ensemble_objective
+from wnn.training.sequence_ensemble_config import (
+    STANDALONE_LABELS_MODE,
+    validate_ensemble_objective,
+)
 from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 from wnn.training.sequence_runtime_context import runtime_context_contract
@@ -78,6 +81,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "lr_role_factors",
         "lr_head_factor",
         "lr_body_factor",
+        "profile_reload",
+        "supervised_target",
     }
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
@@ -89,6 +94,13 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
     validate_checkpoint_endpoint_policy(raw)
     config = DEFAULTS | raw
+    if "profile_reload" in raw and type(raw["profile_reload"]) is not bool:
+        raise ValueError("profile_reload must be boolean")
+    supervised_target = raw.get("supervised_target")
+    if supervised_target is not None and (
+        type(supervised_target) is not int or supervised_target not in (0, 1)
+    ):
+        raise ValueError("supervised_target must be null, 0, or 1")
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
@@ -188,6 +200,17 @@ def load_config(path: Path) -> dict[str, Any]:
         model["hint_dim"] == 0 or model["hint_projection"] != "learned"
     ):
         raise ValueError("hint distillation requires a learned student projection")
+    if supervised_target is not None and (
+        config["kd_weight"] > 0
+        or config["hint_weight"] > 0
+        or model["hint_dim"] != 0
+        or config.get("blend_objective_alpha", 0) != 0
+        or config.get("objective_mode") != STANDALONE_LABELS_MODE
+        or "correlation_prediction_std_floor" in config
+    ):
+        raise ValueError(
+            "single-target supervision requires two-head label-only training without mix or auxiliaries"
+        )
     if config["hint_mode"] not in ("aligned", "component_permuted"):
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:
@@ -202,8 +225,8 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("required_world_size must be null or a positive integer")
     required_device = config["required_device"]
-    if required_device not in (None, "B300"):
-        raise ValueError("required_device must be null or B300")
+    if required_device not in (None, "B300", "L4"):
+        raise ValueError("required_device must be null, B300, or L4")
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
@@ -231,8 +254,9 @@ def validate_runtime_requirements(
     required_world_size = config["required_world_size"]
     if required_world_size is not None and world_size != required_world_size:
         raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
-    if config["required_device"] == "B300" and "B300" not in device_name.upper():
-        raise ValueError(f"recipe requires an NVIDIA B300 device, received {device_name!r}")
+    required_device = config["required_device"]
+    if required_device is not None and required_device not in device_name.upper():
+        raise ValueError(f"recipe requires a {required_device} device, received {device_name!r}")
     return True
 
 

@@ -86,7 +86,7 @@ def run_profile(
             break
     reload_check = (
         check_profile_reload(model, optimizer, scheduler, context, output)
-        if config.get("objective_mode")
+        if config.get("objective_mode") or config.get("profile_reload", False)
         else None
     )
     optimizer_finite = all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context)
@@ -166,6 +166,7 @@ def run_profile(
     if terms:
         receipt["objective_terms"] = terms
         receipt["losses"]["total"] = terms["total_loss"]
+    if reload_check is not None:
         receipt["engineering_reload"] = reload_check
     coordinated_call(
         lambda: (

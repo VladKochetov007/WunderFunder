@@ -6,7 +6,7 @@ import torch
 
 from wnn.training.sequence_blend import compose_prediction
 from wnn.training.sequence_distributed import DistributedContext, all_ranks_true
-from wnn.training.sequence_ensemble_config import MIXTURE_MODE
+from wnn.training.sequence_ensemble_config import MIXTURE_MODE, STANDALONE_LABELS_MODE
 from wnn.training.sequence_ensemble_correlation import weighted_microbatch_correlation
 
 
@@ -44,8 +44,14 @@ def objective_numerators(
     objective_mode: str | None = None,
     context: DistributedContext | None = None,
     correlation_prediction_std_floor: float = 0.01,
+    supervised_target: int | None = None,
 ) -> ObjectiveNumerators:
     """Return clipped weighted label/KD sums and a masked elementwise hint sum."""
+    if supervised_target is not None:
+        if type(supervised_target) is not int or supervised_target not in (0, 1):
+            raise ValueError("supervised_target must be null, 0, or 1")
+        if objective_mode != STANDALONE_LABELS_MODE or blend_objective_alpha != 0:
+            raise ValueError("single-target supervision requires the standalone label objective")
     raw_target = target
     if objective_mode is not None:
         selected = mask[..., None]
@@ -61,6 +67,10 @@ def objective_numerators(
         hint_target = torch.where(selected, hint_target, 0)
     clipped = target.float().clamp(-2.0, 2.0)
     weight = clipped.abs() * mask.to(dtype=torch.float32)[..., None]
+    if supervised_target is not None:
+        target_selector = torch.zeros_like(weight)
+        target_selector[..., supervised_target] = 1
+        weight = weight * target_selector
     label_error = prediction.float() - clipped
     correlation, correlation_loss = None, None
     if objective_mode == MIXTURE_MODE:

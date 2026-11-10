@@ -112,6 +112,7 @@ def _backward_window(
                 correlation_prediction_std_floor=float(
                     config.get("correlation_prediction_std_floor", 0.01)
                 ),
+                supervised_target=config.get("supervised_target"),
             )
             loss = scaled_objective(
                 numerators,

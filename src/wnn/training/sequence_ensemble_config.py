@@ -20,7 +20,7 @@ def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None
     """Describe the new standalone-label objective before it enters run identity."""
     if config.get("objective_mode") != STANDALONE_LABELS_MODE:
         return None
-    return {
+    contract: dict[str, object] = {
         "kind": "standalone_label_weighted_mse",
         "mode": STANDALONE_LABELS_MODE,
         "target_clip": [-2.0, 2.0],
@@ -29,6 +29,14 @@ def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None
         "pearson_term": "none",
         "reference_training_ancestry": "none",
     }
+    supervised_target = config.get("supervised_target")
+    if supervised_target is not None:
+        contract.update(
+            kind="single_target_numerator_two_target_denominator",
+            supervised_target=supervised_target,
+            denominator="sum_abs_clipped_t0_t1_over_mask",
+        )
+    return contract
 
 
 def validate_ensemble_objective(config: Mapping[str, object]) -> None:

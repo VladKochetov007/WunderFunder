@@ -29,6 +29,9 @@ def objective_metrics(
         "objective_aggregation": "mean of actual optimizer-window objectives",
         "label_loss_is_curvature_scaled": False,
     }
+    if config.get("supervised_target") is not None:
+        result["supervised_target"] = config["supervised_target"]
+        result["objective_wmse_scope"] = "selected target numerator / both-target denominator"
     if treatment:
         result.update(
             microbatch_correlation_surrogate_t0=rho0 / count,
