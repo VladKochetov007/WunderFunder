@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -52,11 +53,25 @@ def load_r2_helper(path: Path) -> dict[str, Any]:
     """Load the pinned R2 common executor/producer/scorer validators and bind this source."""
     if path.is_symlink() or not path.is_file() or _sha_file(path) != R2_SHA256:
         raise ValueError("shared R2 receiver is missing, linked or differs from its pinned SHA-256")
-    common = runpy.run_path(str(path))
+    spec = importlib.util.spec_from_file_location("frozen_stem_readout_helpers", path)
+    if spec is None or spec.loader is None:
+        raise ValueError("pinned R2 helper cannot be imported")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    # Function globals must be this exact dictionary; runpy returns a copy.
+    common = vars(module)
     required = (
-        "_absolute_executable", "_read_json", "_read_events", "sha256_file",
-        "canonical_sha256", "validate_fit_membership", "validate_prediction_manifest",
-        "validate_score_receipt", "validate_project_file_stats", "ReadoutGuard", "_command",
+        "_absolute_executable",
+        "_read_json",
+        "_read_events",
+        "sha256_file",
+        "canonical_sha256",
+        "validate_fit_membership",
+        "validate_prediction_manifest",
+        "validate_score_receipt",
+        "validate_project_file_stats",
+        "ReadoutGuard",
+        "_command",
         "directory_bytes",
     )
     if any(name not in common for name in required):
@@ -155,7 +170,9 @@ def validate_admission(
 
 
 def _is_sha(value: object) -> bool:
-    return isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+    return (
+        isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+    )
 
 
 def validate_fit_result_time(path: Path, result: JsonMap, fit_deadline: float) -> None:
@@ -172,7 +189,12 @@ def validate_fit_result_time(path: Path, result: JsonMap, fit_deadline: float) -
 
 
 def validate_fit(
-    common: dict[str, Any], root: Path, cell: str, admission: JsonMap, split: JsonMap, fit_deadline: float
+    common: dict[str, Any],
+    root: Path,
+    cell: str,
+    admission: JsonMap,
+    split: JsonMap,
+    fit_deadline: float,
 ) -> JsonMap:
     """Independently bind ROOT exit, model bytes, metadata, terminal and all E1..E6 events."""
     fit_result_path = root / "control" / "root-fits-r1" / f"{cell}-result.json"
@@ -197,7 +219,11 @@ def validate_fit(
     terminal = common["_read_json"](fit_dir / "terminal_status.json", 2_000_000)
     events = common["_read_events"](fit_dir / "monitor_evaluations.jsonl")
     profile = admission["profiles"][cell]
-    config, source_info, provenance = metadata.get("config"), metadata.get("source"), metadata.get("provenance")
+    config, source_info, provenance = (
+        metadata.get("config"),
+        metadata.get("source"),
+        metadata.get("provenance"),
+    )
     if not all(isinstance(x, dict) for x in (config, source_info, provenance)):
         raise ValueError("native run metadata lacks config/source/provenance")
     seed, kernel, gpu = SPEC[cell]
@@ -218,9 +244,15 @@ def validate_fit(
         or config.get("checkpoint_retention") != "all_epochs"
         or config.get("checkpoint_endpoint_policy") != "configured_final_epoch"
         or not isinstance(config.get("model"), dict)
-        or any(config["model"].get(k) != v for k, v in {
-            "architecture": "gru", "hidden": 256, "layers": 2, "input_stem_kernel": kernel
-        }.items())
+        or any(
+            config["model"].get(k) != v
+            for k, v in {
+                "architecture": "gru",
+                "hidden": 256,
+                "layers": 2,
+                "input_stem_kernel": kernel,
+            }.items()
+        )
     ):
         raise ValueError("run config/source differs from the admitted stem cell")
     data = provenance.get("data")
@@ -229,7 +261,11 @@ def validate_fit(
     fit_members, valid_members = data.get("fit_members"), data.get("evaluation_members")
     expected_fit = [["train", i] for i in range(FIT_SEQUENCES)]
     expected_valid = [["valid", i] for i in range(VALID_SEQUENCES)]
-    norm, objective, sources = data.get("normalization"), data.get("objective_contract"), data.get("sources")
+    norm, objective, sources = (
+        data.get("normalization"),
+        data.get("objective_contract"),
+        data.get("sources"),
+    )
     if (
         data.get("split_sha256") != SPLIT_SHA256
         or data.get("teacher") is not None
@@ -244,12 +280,20 @@ def validate_fit(
         or objective.get("reference_training_ancestry") != "none"
         or provenance.get("world_size") != 1
         or not isinstance(sources, dict)
-        or any(not isinstance(sources.get(name), dict) for name in ("datasets/train.parquet", "datasets/valid.parquet"))
+        or any(
+            not isinstance(sources.get(name), dict)
+            for name in ("datasets/train.parquet", "datasets/valid.parquet")
+        )
     ):
         raise ValueError("split, membership or training ancestry differs from approved recipe")
-    devices = provenance.get("runtime", {}).get("devices") if isinstance(provenance.get("runtime"), dict) else None
+    devices = (
+        provenance.get("runtime", {}).get("devices")
+        if isinstance(provenance.get("runtime"), dict)
+        else None
+    )
     if (
-        not isinstance(devices, list) or len(devices) != 1
+        not isinstance(devices, list)
+        or len(devices) != 1
         or devices[0].get("name") != "NVIDIA L4"
         or devices[0].get("uuid") != GPU_UUIDS[gpu]
     ):
@@ -270,17 +314,23 @@ def validate_fit(
         or identity.get("world_size") != 1
     ):
         raise ValueError("native terminal status is not bound to the admitted fixed endpoint")
-    valid_sha = hashlib.sha256(json.dumps(valid_members, separators=(",", ":")).encode()).hexdigest()
+    valid_sha = hashlib.sha256(
+        json.dumps(valid_members, separators=(",", ":")).encode()
+    ).hexdigest()
     if len(events) != 6:
         raise ValueError("fixed-E6 run does not contain six monitor events")
     finite = common["_finite"]
     for epoch, event in enumerate(events, 1):
         metrics, context = event.get("metrics"), event.get("context")
         if (
-            event.get("schema") != "wnn.monitor.v1" or event.get("kind") != "evaluation"
-            or type(event.get("epoch")) is not int or event.get("epoch") != epoch
-            or type(event.get("step")) is not int or event.get("step") != epoch * UPDATES_PER_EPOCH
-            or not isinstance(metrics, dict) or not all(finite(v) for v in metrics.values())
+            event.get("schema") != "wnn.monitor.v1"
+            or event.get("kind") != "evaluation"
+            or type(event.get("epoch")) is not int
+            or event.get("epoch") != epoch
+            or type(event.get("step")) is not int
+            or event.get("step") != epoch * UPDATES_PER_EPOCH
+            or not isinstance(metrics, dict)
+            or not all(finite(v) for v in metrics.values())
             or type(metrics.get("valid/sequence_count")) is not int
             or metrics.get("valid/sequence_count") != VALID_SEQUENCES
             or type(metrics.get("valid/selected_rows")) is not int
@@ -298,10 +348,17 @@ def validate_fit(
     if result.get("final_metrics") != final_metrics:
         raise ValueError("ROOT result final metrics differ from native E6 monitor event")
     fit = {
-        "cell": cell, "config_sha256": config_sha, "source_sha256": SOURCE_SHA256,
-        "split_sha256": SPLIT_SHA256, "data_sha256": provenance["data_sha256"],
-        "model_sha256": model_sha, "fit_members": fit_members, "evaluation_members": valid_members,
-        "data_source_fingerprints": {n: sources[n] for n in ("datasets/train.parquet", "datasets/valid.parquet")},
+        "cell": cell,
+        "config_sha256": config_sha,
+        "source_sha256": SOURCE_SHA256,
+        "split_sha256": SPLIT_SHA256,
+        "data_sha256": provenance["data_sha256"],
+        "model_sha256": model_sha,
+        "fit_members": fit_members,
+        "evaluation_members": valid_members,
+        "data_source_fingerprints": {
+            n: sources[n] for n in ("datasets/train.parquet", "datasets/valid.parquet")
+        },
         "final_metrics": final_metrics,
     }
     common["validate_fit_membership"](fit, split)
@@ -324,60 +381,124 @@ def _write(common: dict[str, Any], writer: Any, path: Path, value: JsonMap) -> N
 
 
 def run_cell(
-    common: dict[str, Any], root: Path, source: Path, python: Path, control: Path,
-    cell: str, admission: JsonMap, split: JsonMap, fit_deadline: float, wave_deadline: float,
-    owner: JsonMap, guard: Any, writer: Any, hold_gpu_slot: Any,
+    common: dict[str, Any],
+    root: Path,
+    source: Path,
+    python: Path,
+    control: Path,
+    cell: str,
+    admission: JsonMap,
+    split: JsonMap,
+    fit_deadline: float,
+    wave_deadline: float,
+    owner: JsonMap,
+    guard: Any,
+    writer: Any,
+    hold_gpu_slot: Any,
 ) -> JsonMap:
     """Export and score once after ROOT has published an on-time verified fit result."""
     gpu = SPEC[cell][2]
     result_path = control / f"{cell}-result.json"
     output = root / "runs" / cell / "final-readout-r1"
     try:
-        if result_path.exists() or result_path.is_symlink() or output.exists() or output.is_symlink():
+        if (
+            result_path.exists()
+            or result_path.is_symlink()
+            or output.exists()
+            or output.is_symlink()
+        ):
             raise FileExistsError("readout artifacts already exist; automatic retry is disabled")
         result = wait_for_fit(common, root, cell, fit_deadline)
         if result is None:
-            failure = {"schema": CELL_SCHEMA, "cell": cell, "status": "fit_deadline_no_result",
-                "failure_kind": "fit_deadline", "automatic_retry": False}
+            failure = {
+                "schema": CELL_SCHEMA,
+                "cell": cell,
+                "status": "fit_deadline_no_result",
+                "failure_kind": "fit_deadline",
+                "automatic_retry": False,
+            }
             _write(common, writer, result_path, failure)
             return failure
         fit = validate_fit(common, root, cell, admission, split, fit_deadline)
         if wave_deadline - time.time() < EXPORT_SECONDS + SCORE_SECONDS:
-            raise TimeoutError("fixed wave deadline leaves less than 1,800 seconds for export and score")
+            raise TimeoutError(
+                "fixed wave deadline leaves less than 1,800 seconds for export and score"
+            )
         gpu_uuid = GPU_UUIDS[gpu]
         claim = {
-            "schema": "wnn.l4-gru-causal-stem-readout-claim.r1", "cell": cell, "gpu": gpu,
-            "gpu_uuid": gpu_uuid, "source_sha256": SOURCE_SHA256,
-            "config_sha256": fit["config_sha256"], "model_sha256": fit["model_sha256"],
-            "admission_sha256": admission["admission_sha256"], "controller_owner": owner,
+            "schema": "wnn.l4-gru-causal-stem-readout-claim.r1",
+            "cell": cell,
+            "gpu": gpu,
+            "gpu_uuid": gpu_uuid,
+            "source_sha256": SOURCE_SHA256,
+            "config_sha256": fit["config_sha256"],
+            "model_sha256": fit["model_sha256"],
+            "admission_sha256": admission["admission_sha256"],
+            "controller_owner": owner,
             "created_at_epoch": time.time(),
         }
         _write(common, writer, control / f"claim-{cell}.json", claim)
         output.mkdir(parents=True, exist_ok=False)
         prediction_dir = output / "predictions"
         owner_cell = {
-            "controller": owner, "cell_id": cell, "source_sha256": SOURCE_SHA256,
-            "config_sha256": fit["config_sha256"], "model_sha256": fit["model_sha256"],
+            "controller": owner,
+            "cell_id": cell,
+            "source_sha256": SOURCE_SHA256,
+            "config_sha256": fit["config_sha256"],
+            "model_sha256": fit["model_sha256"],
         }
-        predict = [str(python), str(source / "scripts/predict_sequence.py"),
-            "--checkpoint", str(root / "runs" / cell / "fit" / "model.pt"),
-            "--data-root", str(root / "project"), "--split-manifest", str(root / "project/chronological_primary.json"),
-            "--output", str(prediction_dir), "--membership", "evaluation"]
+        predict = [
+            str(python),
+            str(source / "scripts/predict_sequence.py"),
+            "--checkpoint",
+            str(root / "runs" / cell / "fit" / "model.pt"),
+            "--data-root",
+            str(root / "project"),
+            "--split-manifest",
+            str(root / "project/chronological_primary.json"),
+            "--output",
+            str(prediction_dir),
+            "--membership",
+            "evaluation",
+        ]
         with hold_gpu_slot(control, str(gpu)):
             exported = common["_command"](
-                predict, source=source, control=control, output_dir=prediction_dir, cell=cell,
-                gpu=gpu, owner=owner_cell, stage="readout_export",
-                timeout=min(EXPORT_SECONDS, int(wave_deadline - time.time())), guard=guard,
+                predict,
+                source=source,
+                control=control,
+                output_dir=prediction_dir,
+                cell=cell,
+                gpu=gpu,
+                owner=owner_cell,
+                stage="readout_export",
+                timeout=min(EXPORT_SECONDS, int(wave_deadline - time.time())),
+                guard=guard,
                 gpu_uuid=gpu_uuid,
             )
         score_path = output / "score.json"
-        score_command = [str(python), str(source / "scripts/score_sequence.py"),
-            "--data-root", str(root / "project"), "--split-manifest", str(root / "project/chronological_primary.json"),
-            "--predictions", str(prediction_dir), "--output", str(score_path)]
+        score_command = [
+            str(python),
+            str(source / "scripts/score_sequence.py"),
+            "--data-root",
+            str(root / "project"),
+            "--split-manifest",
+            str(root / "project/chronological_primary.json"),
+            "--predictions",
+            str(prediction_dir),
+            "--output",
+            str(score_path),
+        ]
         scored = common["_command"](
-            score_command, source=source, control=control, output_dir=output, cell=cell,
-            gpu=gpu, owner=owner_cell, stage="readout_score_cpu",
-            timeout=min(SCORE_SECONDS, int(wave_deadline - time.time())), guard=guard,
+            score_command,
+            source=source,
+            control=control,
+            output_dir=output,
+            cell=cell,
+            gpu=gpu,
+            owner=owner_cell,
+            stage="readout_score_cpu",
+            timeout=min(SCORE_SECONDS, int(wave_deadline - time.time())),
+            guard=guard,
             gpu_uuid=None,
         )
         if common["sha256_file"](root / "runs" / cell / "fit" / "model.pt") != fit["model_sha256"]:
@@ -390,19 +511,37 @@ def run_cell(
         comparison = common["validate_score_receipt"](score_receipt, manifest, manifest_sha, fit)
         status = "readout_complete" if comparison["within_tolerance"] else "score_monitor_mismatch"
         receipt = {
-            "schema": CELL_SCHEMA, "cell": cell, "status": status,
-            "failure_kind": None if status == "readout_complete" else "export_or_metric_pipeline_mismatch",
-            "arm": cell.split("_s")[0], "seed": SPEC[cell][0], "kernel": SPEC[cell][1],
-            "gpu": gpu, "gpu_uuid": gpu_uuid, "source_sha256": SOURCE_SHA256,
-            "source_commit": SOURCE_COMMIT, "source_manifest_sha256": SOURCE_MANIFEST_SHA256,
-            "config_sha256": fit["config_sha256"], "split_sha256": SPLIT_SHA256,
-            "data_sha256": fit["data_sha256"], "model_sha256": fit["model_sha256"],
-            "fit_result_sha256": common["sha256_file"](root / "control" / "root-fits-r1" / f"{cell}-result.json"),
-            "prediction_manifest_sha256": manifest_sha, "score_receipt_sha256": common["sha256_file"](score_path),
-            "prediction_count": len(manifest["sequences"]), "prediction_shape": [SEQUENCE_LENGTH, 2],
-            "prediction_dtype": "float32", "scored_rows": comparison["selected_rows"],
-            "score": comparison, "monitor_final_metrics": fit["final_metrics"],
-            "owned_export": exported, "owned_score": scored,
+            "schema": CELL_SCHEMA,
+            "cell": cell,
+            "status": status,
+            "failure_kind": None
+            if status == "readout_complete"
+            else "export_or_metric_pipeline_mismatch",
+            "arm": cell.split("_s")[0],
+            "seed": SPEC[cell][0],
+            "kernel": SPEC[cell][1],
+            "gpu": gpu,
+            "gpu_uuid": gpu_uuid,
+            "source_sha256": SOURCE_SHA256,
+            "source_commit": SOURCE_COMMIT,
+            "source_manifest_sha256": SOURCE_MANIFEST_SHA256,
+            "config_sha256": fit["config_sha256"],
+            "split_sha256": SPLIT_SHA256,
+            "data_sha256": fit["data_sha256"],
+            "model_sha256": fit["model_sha256"],
+            "fit_result_sha256": common["sha256_file"](
+                root / "control" / "root-fits-r1" / f"{cell}-result.json"
+            ),
+            "prediction_manifest_sha256": manifest_sha,
+            "score_receipt_sha256": common["sha256_file"](score_path),
+            "prediction_count": len(manifest["sequences"]),
+            "prediction_shape": [SEQUENCE_LENGTH, 2],
+            "prediction_dtype": "float32",
+            "scored_rows": comparison["selected_rows"],
+            "score": comparison,
+            "monitor_final_metrics": fit["final_metrics"],
+            "owned_export": exported,
+            "owned_score": scored,
             "interpretation": "Same repeatedly exposed official-valid partition; this checks prediction/scorer agreement, not independent validation or fresh confirmation.",
         }
         _write(common, writer, output / "readout-receipt.json", receipt)
@@ -410,9 +549,12 @@ def run_cell(
         return receipt
     except Exception as error:
         failure = {
-            "schema": CELL_SCHEMA, "cell": cell, "status": "readout_failed",
+            "schema": CELL_SCHEMA,
+            "cell": cell,
+            "status": "readout_failed",
             "failure_kind": "infrastructure_or_provenance",
-            "error": f"{type(error).__name__}: {error}", "automatic_retry": False,
+            "error": f"{type(error).__name__}: {error}",
+            "automatic_retry": False,
         }
         if not result_path.exists():
             _write(common, writer, result_path, failure)
@@ -421,24 +563,37 @@ def run_cell(
 
 def derive_contrasts(scores: dict[str, JsonMap]) -> list[JsonMap]:
     """Return same-seed per-target K16-minus-K1 and K16-minus-plain descriptions."""
-    if set(scores) != set(CELLS) or any(scores[cell].get("within_tolerance") is not True for cell in CELLS):
+    if set(scores) != set(CELLS) or any(
+        scores[cell].get("within_tolerance") is not True for cell in CELLS
+    ):
         raise ValueError("all six full-valid score receipts must pass before paired contrasts")
     rows = []
     for seed in (203301, 203302):
         for comparator in ("k1", "plain"):
             left, right = f"k16_s{seed}", f"{comparator}_s{seed}"
-            rows.append({
-                "seed": seed, "contrast": f"K16 minus {comparator}",
-                "left_cell": left, "right_cell": right,
-                **{key: float(scores[left][key]) - float(scores[right][key]) for key in ("t0", "t1", "wp")},
-            })
+            rows.append(
+                {
+                    "seed": seed,
+                    "contrast": f"K16 minus {comparator}",
+                    "left_cell": left,
+                    "right_cell": right,
+                    **{
+                        key: float(scores[left][key]) - float(scores[right][key])
+                        for key in ("t0", "t1", "wp")
+                    },
+                }
+            )
     return rows
 
 
 def _clock(common: dict[str, Any], root: Path) -> tuple[float, float, float]:
     """Read and enforce the immutable first-profile+3h/+4h windows."""
     clock = common["_read_json"](root / "receipts" / "first-profile-r1.json", 16_000)
-    first, fit, wave = (clock.get("first_profile_epoch"), clock.get("fit_deadline_epoch"), clock.get("wave_deadline_epoch"))
+    first, fit, wave = (
+        clock.get("first_profile_epoch"),
+        clock.get("fit_deadline_epoch"),
+        clock.get("wave_deadline_epoch"),
+    )
     finite = common["_finite"]
     if (
         not all(finite(v) for v in (first, fit, wave))
@@ -453,7 +608,11 @@ def _clock(common: dict[str, Any], root: Path) -> tuple[float, float, float]:
 def run(args: argparse.Namespace) -> JsonMap:
     """Verify the frozen source and six-cell admission, then collect once in parallel."""
     common = load_r2_helper(args.r2_helper)
-    root, source, old_source = args.root.resolve(), args.source.resolve(strict=True), args.old_src.resolve(strict=True)
+    root, source, old_source = (
+        args.root.resolve(),
+        args.source.resolve(strict=True),
+        args.old_src.resolve(strict=True),
+    )
     python = lexical_executable(common, args.python)
     admission = validate_admission(common, root, source, args.admission_sha256)
     first, fit_deadline, wave_deadline = _clock(common, root)
@@ -461,7 +620,9 @@ def run(args: argparse.Namespace) -> JsonMap:
     if common["sha256_file"](split_path) != SPLIT_SHA256:
         raise ValueError("prepared chronological primary split bytes differ from the frozen SHA")
     split = common["_read_json"](split_path, 8_000_000)
-    verifier = runpy.run_path(str(source / "src/wnn/training/sequence_source_capsule.py"))["verify_source_capsule"]
+    verifier = runpy.run_path(str(source / "src/wnn/training/sequence_source_capsule.py"))[
+        "verify_source_capsule"
+    ]
     verifier(source, source / "source-manifest.json", SOURCE_MANIFEST_SHA256, SOURCE_COMMIT)
     expected_output = SEQUENCE_LENGTH * 2 * 4 * VALID_SEQUENCES
     if common["directory_bytes"](root) + len(CELLS) * (expected_output + 10_000_000) > OUTPUT_CAP:
@@ -479,38 +640,87 @@ def run(args: argparse.Namespace) -> JsonMap:
         if summary_path.exists() or (control / "owner.json").exists():
             raise FileExistsError("readout controller already ran; no automatic rerun is allowed")
         owner = current_process_owner()
-        _write(common, atomic_write_json, control / "owner.json", {
-            "schema": "wnn.l4-gru-causal-stem-readout-owner.r1", "owner": owner,
-            "interpreter_path_lexical": str(python), "source_sha256": SOURCE_SHA256,
-            "split_sha256": SPLIT_SHA256, "admission_sha256": admission["admission_sha256"],
-            "first_profile_epoch": first, "fit_deadline_epoch": fit_deadline, "wave_deadline_epoch": wave_deadline,
-        })
+        _write(
+            common,
+            atomic_write_json,
+            control / "owner.json",
+            {
+                "schema": "wnn.l4-gru-causal-stem-readout-owner.r1",
+                "owner": owner,
+                "interpreter_path_lexical": str(python),
+                "source_sha256": SOURCE_SHA256,
+                "split_sha256": SPLIT_SHA256,
+                "admission_sha256": admission["admission_sha256"],
+                "first_profile_epoch": first,
+                "fit_deadline_epoch": fit_deadline,
+                "wave_deadline_epoch": wave_deadline,
+            },
+        )
         guard = common["ReadoutGuard"](root)
         outcomes: dict[str, JsonMap] = {}
         with ThreadPoolExecutor(max_workers=6, thread_name_prefix="l4-stem-readout") as pool:
-            futures = {pool.submit(run_cell, common, root, source, python, control, cell,
-                admission, split, fit_deadline, wave_deadline, owner, guard, atomic_write_json,
-                hold_gpu_slot): cell for cell in CELLS}
+            futures = {
+                pool.submit(
+                    run_cell,
+                    common,
+                    root,
+                    source,
+                    python,
+                    control,
+                    cell,
+                    admission,
+                    split,
+                    fit_deadline,
+                    wave_deadline,
+                    owner,
+                    guard,
+                    atomic_write_json,
+                    hold_gpu_slot,
+                ): cell
+                for cell in CELLS
+            }
             for future in as_completed(futures):
                 cell = futures[future]
                 try:
                     outcomes[cell] = future.result()
                 except Exception as error:
-                    outcomes[cell] = {"schema": CELL_SCHEMA, "cell": cell, "status": "readout_failed",
-                        "failure_kind": "controller_infrastructure", "error": f"{type(error).__name__}: {error}",
-                        "automatic_retry": False}
-        scores = {cell: outcome["score"] for cell, outcome in outcomes.items()
-            if outcome.get("status") == "readout_complete"}
+                    outcomes[cell] = {
+                        "schema": CELL_SCHEMA,
+                        "cell": cell,
+                        "status": "readout_failed",
+                        "failure_kind": "controller_infrastructure",
+                        "error": f"{type(error).__name__}: {error}",
+                        "automatic_retry": False,
+                    }
+        scores = {
+            cell: outcome["score"]
+            for cell, outcome in outcomes.items()
+            if outcome.get("status") == "readout_complete"
+        }
         complete = len(scores) == 6
-        models = {cell: {"seed": SPEC[cell][0], "arm": cell.split("_s")[0], "kernel": SPEC[cell][1], **scores[cell]}
-            for cell in CELLS if cell in scores}
+        models = {
+            cell: {
+                "seed": SPEC[cell][0],
+                "arm": cell.split("_s")[0],
+                "kernel": SPEC[cell][1],
+                **scores[cell],
+            }
+            for cell in CELLS
+            if cell in scores
+        }
         summary = {
-            "schema": SUMMARY_SCHEMA, "status": "complete" if complete else "partial_or_failed",
-            "source_sha256": SOURCE_SHA256, "source_commit": SOURCE_COMMIT,
-            "source_manifest_sha256": SOURCE_MANIFEST_SHA256, "split_sha256": SPLIT_SHA256,
-            "admission_sha256": admission["admission_sha256"], "first_profile_epoch": first,
-            "fit_deadline_epoch": fit_deadline, "wave_deadline_epoch": wave_deadline,
-            "cells": outcomes, "model_scores": models,
+            "schema": SUMMARY_SCHEMA,
+            "status": "complete" if complete else "partial_or_failed",
+            "source_sha256": SOURCE_SHA256,
+            "source_commit": SOURCE_COMMIT,
+            "source_manifest_sha256": SOURCE_MANIFEST_SHA256,
+            "split_sha256": SPLIT_SHA256,
+            "admission_sha256": admission["admission_sha256"],
+            "first_profile_epoch": first,
+            "fit_deadline_epoch": fit_deadline,
+            "wave_deadline_epoch": wave_deadline,
+            "cells": outcomes,
+            "model_scores": models,
             "paired_contrasts": derive_contrasts(scores) if complete else None,
             "interpretation": "Fixed exposed official-valid re-export and scorer agreement; descriptive paired screen only, not independent validation or public-score evidence.",
         }
@@ -522,13 +732,39 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--source", type=Path, default=NATIVE_ROOT / "source-r1")
-    parser.add_argument("--python", type=Path, default=Path("/tmp/tabdata-lc-epanov_s-architecture-20261107-env/bin/python"))
-    parser.add_argument("--old-src", type=Path, default=Path("/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-resume-r1/src"))
-    parser.add_argument("--r2-helper", type=Path, default=Path("/data/lc-epanov_s/tabdata-next70-20261110-r1/readout-receiver-r2/readout_r2.py"))
-    parser.add_argument("--admission-sha256", required=True, help="ROOT-provided exact admission file SHA-256")
+    parser.add_argument(
+        "--python",
+        type=Path,
+        default=Path("/tmp/tabdata-lc-epanov_s-architecture-20261107-env/bin/python"),
+    )
+    parser.add_argument(
+        "--old-src",
+        type=Path,
+        default=Path(
+            "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-resume-r1/src"
+        ),
+    )
+    parser.add_argument(
+        "--r2-helper",
+        type=Path,
+        default=Path(
+            "/data/lc-epanov_s/tabdata-next70-20261110-r1/readout-receiver-r2/readout_r2.py"
+        ),
+    )
+    parser.add_argument(
+        "--admission-sha256", required=True, help="ROOT-provided exact admission file SHA-256"
+    )
     result = run(parser.parse_args())
-    print(json.dumps({"status": result["status"], "model_scores": result["model_scores"],
-        "paired_contrasts": result["paired_contrasts"]}, allow_nan=False))
+    print(
+        json.dumps(
+            {
+                "status": result["status"],
+                "model_scores": result["model_scores"],
+                "paired_contrasts": result["paired_contrasts"],
+            },
+            allow_nan=False,
+        )
+    )
     return 0 if result["status"] == "complete" else 2
 
 

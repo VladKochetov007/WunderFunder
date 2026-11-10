@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import os
 import sys
@@ -18,13 +19,47 @@ sys.modules[SPEC.name] = receiver
 SPEC.loader.exec_module(receiver)
 
 
+def test_rebound_helper_functions_use_the_actual_module_namespace(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Reject the runpy-copy failure where validators still see the old source pin."""
+    names = (
+        "_absolute_executable",
+        "_read_json",
+        "_read_events",
+        "sha256_file",
+        "canonical_sha256",
+        "validate_fit_membership",
+        "validate_prediction_manifest",
+        "validate_score_receipt",
+        "validate_project_file_stats",
+        "ReadoutGuard",
+        "_command",
+        "directory_bytes",
+    )
+    source = "SOURCE_SHA256 = 'old-source'\n" + "\n".join(
+        f"def {name}(*args, **kwargs):\n    return SOURCE_SHA256\n" for name in names
+    )
+    helper = tmp_path / "frozen_helper.py"
+    helper.write_text(source, encoding="utf-8")
+    monkeypatch.setattr(receiver, "R2_SHA256", hashlib.sha256(helper.read_bytes()).hexdigest())
+    namespace = receiver.load_r2_helper(helper)
+    for name in ("validate_prediction_manifest", "validate_score_receipt", "_command"):
+        assert namespace[name].__globals__ is namespace
+        assert namespace[name]() == receiver.SOURCE_SHA256
+
+
 def test_interpreter_path_keeps_venv_spelling(tmp_path: Path) -> None:
     """The command path stays lexical even when its filesystem entry is a symlink."""
     venv = tmp_path / "venv" / "bin"
     venv.mkdir(parents=True)
     candidate = venv / "python"
-    with patch.object(Path, "is_file", return_value=True), patch("os.access", return_value=True), patch.object(
-        Path, "resolve", side_effect=AssertionError("must not dereference venv executable")
+    with (
+        patch.object(Path, "is_file", return_value=True),
+        patch("os.access", return_value=True),
+        patch.object(
+            Path, "resolve", side_effect=AssertionError("must not dereference venv executable")
+        ),
     ):
         actual = receiver.lexical_executable({}, candidate)
     assert str(actual) == os.path.abspath(os.fspath(candidate))
@@ -74,7 +109,10 @@ def test_contrasts_pair_only_matching_seeds_and_expected_directions() -> None:
 
 
 def test_contrasts_withhold_incomplete_or_mismatched_scores() -> None:
-    scores = {cell: {"within_tolerance": True, "t0": 0.1, "t1": 0.2, "wp": 0.15} for cell in receiver.CELLS}
+    scores = {
+        cell: {"within_tolerance": True, "t0": 0.1, "t1": 0.2, "wp": 0.15}
+        for cell in receiver.CELLS
+    }
     scores["k16_s203302"]["within_tolerance"] = False
     with pytest.raises(ValueError, match="all six"):
         receiver.derive_contrasts(scores)
