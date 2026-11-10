@@ -15,6 +15,7 @@ from wnn.training.sequence_ensemble_config import (
 )
 from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+from wnn.training.sequence_pretraining_contract import validate_future_training_config
 from wnn.training.sequence_runtime_context import runtime_context_contract
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -84,6 +85,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "lr_body_factor",
         "profile_reload",
         "supervised_target",
+        "pretraining",
+        "parent_initializer",
     }
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
@@ -238,6 +241,7 @@ def load_config(path: Path) -> dict[str, Any]:
     validate_complement_monitor(config)
     validate_lr_factor_config(config)
     validate_ensemble_objective(config)
+    validate_future_training_config(config)
     runtime_context_contract(config)
     if "muon_batch_by_shape" in config and (
         type(config["muon_batch_by_shape"]) is not bool

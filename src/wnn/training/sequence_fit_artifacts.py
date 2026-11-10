@@ -31,7 +31,7 @@ def epoch_summary(
     label_loss = float(totals[0].item()) / label_denom if label_denom > 0 else 0.0
     kd_loss = float(totals[1].item()) / label_denom if label_denom > 0 else 0.0
     hint_loss = float(totals[2].item()) / hint_denom if hint_denom > 0 else 0.0
-    return {
+    summary: dict[str, int | float | bool] = {
         "updates": result.updates,
         "complete": result.complete,
         "label_loss": label_loss,
@@ -47,6 +47,10 @@ def epoch_summary(
         **blend_loss_metrics(config, label_loss),
         **objective_metrics(config, result.objective_totals),
     }
+    if config.get("pretraining") is not None:
+        summary["pretext_loss"] = hint_loss
+        summary["pretext_training_target_rows"] = int(totals[3].item())
+    return summary
 
 
 def write_final_outputs(

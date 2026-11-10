@@ -209,7 +209,8 @@ def build_data(
     members = [("train", group) for group in split.train_groups]
     members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]
-    needed = config["kd_weight"] > 0 or config["hint_weight"] > 0
+    pretraining = config.get("pretraining") is not None
+    needed = (config["kd_weight"] > 0 or config["hint_weight"] > 0) and not pretraining
     if needed and teacher_cache is None:
         raise ValueError("distillation requires a source-bound teacher cache")
     if teacher_cache is not None and not needed:

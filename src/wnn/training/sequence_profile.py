@@ -163,6 +163,14 @@ def run_profile(
         "scientific_checkpoint_written": False,
         "approval_note": "Review the engineering evidence and set approved=true before a full fit.",
     }
+    if config.get("pretraining") is not None:
+        receipt["pretext"] = {
+            "kind": config["pretraining"]["kind"],
+            "loss": hint_loss,
+            "training_target_rows": valid_rows,
+            "metric_scope": "training_only",
+            "validation_quality_evaluated": False,
+        }
     if terms:
         receipt["objective_terms"] = terms
         receipt["losses"]["total"] = terms["total_loss"]

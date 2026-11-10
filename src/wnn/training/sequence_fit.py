@@ -8,12 +8,9 @@ import torch
 from wnn.training.sequence_complement_monitor import ComplementMonitor
 from wnn.training.sequence_config import (
     load_config,
-    validate_expected_fold,
     validate_runtime_requirements,
 )
-from wnn.training.sequence_data import SequenceData, build_data
 from wnn.training.sequence_distributed import (
-    DistributedContext,
     collective_output_setup,
     coordinated_call,
     initialize_distributed,
@@ -21,6 +18,8 @@ from wnn.training.sequence_distributed import (
     wrap_distributed,
 )
 from wnn.training.sequence_fit_admission import validate_fit_reference_inputs
+from wnn.training.sequence_fit_data import prepare_sequence_fit_data
+from wnn.training.sequence_fit_model import prepare_fit_model
 from wnn.training.sequence_fit_modes import run_full_fit
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
@@ -29,9 +28,14 @@ from wnn.training.sequence_fit_utils import (
     seed_worker,
     total_updates,
 )
-from wnn.training.sequence_models import build_sequence_model
-from wnn.training.sequence_monitor_progress import close_monitor_progress
+from wnn.training.sequence_initialization import (
+    initialize_from_parent_receipt,
+)
+from wnn.training.sequence_monitor_progress import MonitorProgress, close_monitor_progress
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
+from wnn.training.sequence_pretraining_receipt import (
+    write_pretraining_parent_receipt,
+)
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
     assert_same_identity,
@@ -50,43 +54,6 @@ def _mapping(value: object, name: str) -> dict[str, Any]:
     return value
 
 
-def _prepare_model(
-    config: dict[str, Any], data: SequenceData, context: DistributedContext
-) -> tuple[torch.nn.Module, dict[str, list[float]]]:
-    """Build strict-FP32 weights and install fitting-only normalization buffers."""
-    model = build_sequence_model(config["model"])
-    if not isinstance(model, torch.nn.Module):
-        raise TypeError("sequence model builder must return a torch.nn.Module")
-    model = model.to(device=context.device, dtype=torch.float32)
-    mean, std = data.normalization()
-    mean = mean.to(device=context.device, dtype=torch.float32).reshape(-1)
-    std = std.to(device=context.device, dtype=torch.float32).reshape(-1)
-    valid_normalization = (
-        mean.shape == (112,)
-        and std.shape == (112,)
-        and bool(torch.isfinite(mean).all())
-        and bool(torch.isfinite(std).all())
-        and bool((std > 0).all())
-    )
-    if not valid_normalization:
-        raise ValueError("normalization must contain 112 finite means and positive FP32 scales")
-    model_mean = getattr(model, "mean", None)
-    model_std = getattr(model, "std", None)
-    if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
-        raise TypeError("sequence model must expose mean and std normalization buffers")
-    with torch.no_grad():
-        model_mean.copy_(mean)
-        model_std.copy_(std)
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("all trainable and frozen model parameters must use strict FP32")
-    if any(
-        buffer.is_floating_point() and buffer.dtype != torch.float32 for buffer in model.buffers()
-    ):
-        raise TypeError("floating sequence-model buffers must use strict FP32")
-    normalization = {"mean": mean.detach().cpu().tolist(), "std": std.detach().cpu().tolist()}
-    return model, normalization
-
-
 def run_sequence_fit(
     config_path: Path,
     data_root: Path,
@@ -99,6 +66,7 @@ def run_sequence_fit(
     profile_receipt: Path | None = None,
     reference_cache: Path | None = None,
     monitor_reference_root: Path | None = None,
+    initializer_receipt: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
@@ -106,6 +74,17 @@ def run_sequence_fit(
     output = output.resolve()
     resume_path = resume.resolve() if resume is not None else None
     receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
+    if initializer_receipt is not None and initializer_receipt.is_symlink():
+        raise ValueError("--initializer-receipt must name a regular, non-symlink file")
+    initializer_path = initializer_receipt.resolve() if initializer_receipt is not None else None
+    if (config.get("parent_initializer") is not None) != (initializer_path is not None):
+        raise ValueError("--initializer-receipt must match the declared parent_initializer config")
+    if config.get("pretraining") is not None and initializer_path is not None:
+        raise ValueError("future-input pretraining cannot consume a parent initializer")
+    if config.get("pretraining") is not None and any(
+        value is not None for value in (teacher_cache, reference_cache, monitor_reference_root)
+    ):
+        raise ValueError("future-input pretraining rejects teacher and validation-reference inputs")
     if resume_path is not None and resume_path != output / "training_state.pt":
         raise ValueError("--resume must name <output>/training_state.pt")
     if profile_updates < 0 or (profile_updates and (resume_path or receipt_path)):
@@ -114,6 +93,7 @@ def run_sequence_fit(
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
     monitor: ComplementMonitor | None = None
+    pretraining_progress: MonitorProgress | None = None
     try:
         coordinated_call(
             lambda: validate_runtime_requirements(
@@ -125,38 +105,42 @@ def run_sequence_fit(
             context,
         )
         collective_output_setup(output, resume_path is not None, context)
+        if config.get("pretraining") is not None and context.is_primary:
+            pretraining_progress = MonitorProgress(output)
+            pretraining_progress.phase("pretraining_setup", 0, 0)
         seed_worker(int(config["seed"]), 0)
-        data = coordinated_call(
-            lambda: build_data(config, data_root, split_manifest, teacher_cache, reference_cache),
-            "sequence data construction",
+        data, monitor = prepare_sequence_fit_data(
+            config,
+            data_root,
+            split_manifest,
+            output,
             context,
-        )
-        coordinated_call(
-            lambda: validate_expected_fold(config, data.split.fold),
-            "split fold validation",
-            context,
-        )
-        monitor = (
-            coordinated_call(
-                lambda: ComplementMonitor(
-                    data,
-                    monitor_reference_root,
-                    config,
-                    output,
-                    resume=resume_path is not None,
-                    primary=context.is_primary,
-                    report_epochs=not profile_updates,
-                ),
-                "report-only monitor setup",
-                context,
-            )
-            if "monitoring" in config
-            else None
+            teacher_cache=teacher_cache,
+            reference_cache=reference_cache,
+            monitor_reference_root=monitor_reference_root,
+            resume=resume_path is not None,
+            profile_updates=profile_updates,
         )
         seed_worker(int(config["seed"]), 0)
         base_model, normalization = coordinated_call(
-            lambda: _prepare_model(config, data, context), "model construction", context
+            lambda: prepare_fit_model(config, data, context), "model construction", context
         )
+        root = Path(__file__).resolve().parents[3]
+        source = source_identity(root, entrypoint)
+        if initializer_path is not None:
+            parent_identity = coordinated_call(
+                lambda: initialize_from_parent_receipt(
+                    base_model,
+                    initializer_path,
+                    config,
+                    data.provenance,
+                    normalization,
+                    cast(dict[str, str], source["files"]),
+                ),
+                "future-innovation parent validation and backbone initialization",
+                context,
+            )
+            data.provenance["initializer"] = parent_identity
         model = wrap_distributed(base_model, context)
         seed_worker(int(config["seed"]), context.rank)
         fit_dataset = cast(SequenceDataset, data.fit)
@@ -164,8 +148,6 @@ def run_sequence_fit(
         if schedule_updates < 1:
             raise ValueError("configured fit has no optimizer updates")
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
-        root = Path(__file__).resolve().parents[3]
-        source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)
         identity["model_parameters"] = {
@@ -214,10 +196,12 @@ def run_sequence_fit(
                     output,
                     profile_updates,
                     schedule_updates,
-                    progress=monitor.progress if monitor is not None else None,
+                    progress=(monitor.progress if monitor is not None else pretraining_progress),
                 )
                 if monitor is not None and monitor.progress is not None:
                     monitor.progress.phase("profile_completed", profile_updates, 0)
+                if pretraining_progress is not None:
+                    pretraining_progress.phase("profile_completed", profile_updates, 0)
                 return
             if receipt_path is None or profile_hash is None:
                 raise ValueError("full fit profile admission was not validated")
@@ -239,9 +223,24 @@ def run_sequence_fit(
                 receipt_path,
                 profile_hash,
                 monitor=monitor,
+                progress=pretraining_progress,
             )
+            if config.get("pretraining") is not None:
+                coordinated_call(
+                    lambda: (
+                        write_pretraining_parent_receipt(
+                            output, identity, config, data.provenance, normalization
+                        )
+                        if context.is_primary
+                        else True
+                    ),
+                    "future-innovation parent receipt publication",
+                    context,
+                )
         finally:
             rank_log.close()
     finally:
         close_monitor_progress(monitor)
+        if pretraining_progress is not None:
+            pretraining_progress.close()
         shutdown_distributed(context)

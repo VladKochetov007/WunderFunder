@@ -66,6 +66,23 @@ class MonitorProgress:
                 forwarded_rows_per_second=forwarded_rows_per_second,
             )
 
+    def pretraining_epoch(self, epoch: int, step: int, loss: float) -> None:
+        """Record training-only future-input loss without creating validation metrics."""
+        if epoch < 1 or step < 0 or not 0 <= loss < float("inf"):
+            raise ValueError("pretraining progress requires a finite loss and completed epoch")
+        with self._lock:
+            self._state.update(
+                phase="pretraining_epoch_completed",
+                step=step,
+                epoch=epoch,
+                pretext_loss=loss,
+                pretext_task="future_input_innovations_v1",
+                metric_scope="training_only",
+                last_successful_epoch=epoch,
+                last_successful_epoch_at=time.time(),
+            )
+        self.flush()
+
     def flush(self) -> None:
         """Atomically replace a small observational snapshot, separate from fit logs."""
         with self._lock:

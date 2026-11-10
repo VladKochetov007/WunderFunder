@@ -21,6 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--profile-updates", type=int, default=0)
     parser.add_argument("--profile-receipt", type=Path)
+    parser.add_argument("--initializer-receipt", type=Path)
     return parser
 
 
@@ -46,6 +47,7 @@ def main() -> None:
         profile_updates=args.profile_updates,
         profile_receipt=args.profile_receipt,
         monitor_reference_root=args.monitor_reference_root,
+        initializer_receipt=args.initializer_receipt,
     )
 
 
