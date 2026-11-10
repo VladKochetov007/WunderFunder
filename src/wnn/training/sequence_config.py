@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
@@ -255,7 +256,8 @@ def validate_runtime_requirements(
     if required_world_size is not None and world_size != required_world_size:
         raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
     required_device = config["required_device"]
-    if required_device is not None and required_device not in device_name.upper():
+    device_tokens = set(re.findall(r"[A-Z0-9]+", device_name.upper()))
+    if required_device is not None and required_device not in device_tokens:
         raise ValueError(f"recipe requires a {required_device} device, received {device_name!r}")
     return True
 

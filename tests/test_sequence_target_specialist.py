@@ -127,6 +127,8 @@ def test_sequence_runtime_can_require_l4_and_rejects_other_devices(tmp_path: Pat
     assert validate_runtime_requirements(config, 1, "NVIDIA L4")
     with pytest.raises(ValueError, match="requires a L4 device"):
         validate_runtime_requirements(config, 1, "NVIDIA B300")
+    with pytest.raises(ValueError, match="requires a L4 device"):
+        validate_runtime_requirements(config, 1, "NVIDIA L40")
 
 
 @pytest.mark.parametrize(
