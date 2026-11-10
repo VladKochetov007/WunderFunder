@@ -12,6 +12,16 @@ sys.path.insert(0, str(Path(__file__).parent))
 import readout_r1 as readout
 
 
+def test_wait_does_not_admit_existing_result_after_fit_cutoff(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    result = tmp_path / "control/root-fits-r1/shared_control_s203201-result.json"
+    result.parent.mkdir(parents=True)
+    result.write_text(json.dumps({"status": "fit_complete"}), encoding="utf-8")
+    monkeypatch.setattr(readout.time, "time", lambda: 100.001)
+    assert readout._wait_for_fit(tmp_path, "shared_control_s203201", 100.0) is None
+
+
 def _fit_fixture(cell: str = "shared_control_s203201") -> tuple[dict[str, object], ...]:
     gpu, uuid = readout.GPU_BINDINGS[cell]
     target = 0 if cell.startswith("t0_specialist_") else 1 if cell.startswith("t1_specialist_") else None

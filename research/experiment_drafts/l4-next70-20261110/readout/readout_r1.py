@@ -733,7 +733,7 @@ def _wait_for_fit(
         if path.exists():
             return _read_json(path, 128_000)
         time.sleep(min(poll_seconds, max(0.0, fit_deadline - time.time())))
-    return _read_json(path, 128_000) if path.exists() else None
+    return None
 
 
 def _run_cell(
