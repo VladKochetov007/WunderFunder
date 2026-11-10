@@ -50,3 +50,20 @@ The PR76 build receipt identifies `kotiki-tl3-w18-lstm10-cpu-20261110.zip`, 14,0
 `INPUTS.json` pins the official split SHA `0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c`, valid Parquet length5,615,509,128 bytes and footer SHA `4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b`; it has1,873 sequences/37,460,000 total rows/3,528,273 scored rows. `PR53_MANIFEST.json` content SHA is `ed15cde830f5cf543e0b84bc986c703351ac55f273c8769f6de1d5ea6d92c7a9`; PR76 inputs content SHA is `2b751fa835e0c895631a6f167eda6a10880c956bae17d79f581f65f15e5fe190`, and recipe SHA is `881c125a78ecf97e8b59986401309b0bd9b2f0b955ee1dcdcb7ae38e82d85ac2`.
 
 The pinned runbook's sequence is: verify the staged handoff `sha256sum --check SHA256SUMS`; bind a single CPU and an existing exact Docker image; run `bash launch_server.sh profile` and inspect `outputs/profile/profile.json` (`profile_passed` must be true); then run `bash launch_server.sh full` and inspect `outputs/full/full.json`. The full stage pairs the candidate callback with the served TL3 base over all official valid rows. The runbook's Docker build downloads dependencies, so ROOT must use an already approved handoff/image or obtain separate authorization before that step. No CPU command, model execution, upload or network action was performed as part of this packet.
+
+## Local progress publisher
+
+[`reporting/publish_l4_stem.py`](reporting/publish_l4_stem.py) reads the six shared-dashboard mirrors, verifies each cell against ROOT's exact profile-admission SHA, and reports phase/update/loss/preclip-gradient/latest full-valid target WP every30 minutes and at each terminal receipt. It emits paired K16−K1, K16−K0, and K1−K0 target deltas only after all six fixed-E6 terminals and exact full-valid events pass. It reuses PR77's local evidence readers, idempotent marker state, and the allowlisted `ProgressGitHub` client, binding the client to ROOT's CLI-selected PR. The reporter uses the new root's `live-dashboard/bridge-state.json` for mirror age and the existing next70 `live-dashboard/native` mirror for cell files; if bridge time is in the future after a host clock adjustment, age is reported as unknown.
+
+ROOT supplies the actual fit-admission path/SHA and PR number at launch. The command shape is:
+
+```powershell
+python research/experiment_drafts/l4-gru-causal-stem-20261110/reporting/publish_l4_stem.py `
+  --root C:\Users\admin\Documents\Codex\artifacts\l4-causal-stem-20261110 `
+  --monitor-root C:\Users\admin\Documents\Codex\artifacts\l4-next70-20261110 `
+  --profile-admission <ROOT-local-admission.json> `
+  --admission-sha256 <ROOT-admission-sha256> --pr <ROOT-selected-pr> `
+  --maxseconds 14400 --state-file C:\Users\admin\Documents\Codex\artifacts\l4-causal-stem-20261110\reporting\publisher-state-pr<ROOT-selected-pr>.json
+```
+
+ROOT provides GitHub credentials only in the publisher child environment. No live publisher run or GitHub post was performed here; CLI help and Ruff passed. A local-mirror dry-run remains pending the exact ROOT fit admission and PR number.
