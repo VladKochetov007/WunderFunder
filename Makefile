@@ -3,6 +3,7 @@ RUFF = $(UV) run --no-project --with ruff==0.16.7 ruff
 PYTHON = $(UV) run --no-project python
 TEST_PYTHON ?= .venv/bin/python
 QUALITY_PATHS = \
+	research/submission_candidates/tl3-lstm-complement-20261110 \
 	src/wnn/training \
 	scripts/train_rnn.py \
 	scripts/train_sequence.py \

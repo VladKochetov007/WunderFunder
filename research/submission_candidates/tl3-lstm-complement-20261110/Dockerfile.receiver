@@ -1,0 +1,36 @@
+FROM --platform=linux/amd64 python:3.11-slim-bookworm
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONNOUSERSITE=1 \
+    OMP_NUM_THREADS=1 \
+    MKL_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1 \
+    BLIS_NUM_THREADS=1 \
+    NUMEXPR_NUM_THREADS=1 \
+    OMP_WAIT_POLICY=PASSIVE \
+    WNN_CODE_ROOT=/work \
+    WNN_PACKET_ROOT=/packet
+
+WORKDIR /work
+
+RUN apt-get update
+RUN apt-get install --no-install-recommends -y bash coreutils
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+# Package creation may use the pinned wheels; receiver execution is run with
+# --network=none. Torch exists only for server-side numerical reference checks.
+RUN python -m pip install --no-cache-dir --disable-pip-version-check \
+    --index-url https://download.pytorch.org/whl/cpu \
+    --extra-index-url https://pypi.org/simple \
+    "numpy==2.2.6" "scipy==1.15.3" "pyarrow==18.1.0" \
+    "threadpoolctl==3.6.0" "torch==2.9.1+cpu"
+
+COPY utils.py /work/utils.py
+COPY research/submission_candidates/tl3-lstm-complement-20261110/receiver.sh /work/research/submission_candidates/tl3-lstm-complement-20261110/receiver.sh
+COPY research/submission_candidates/tl3-lstm-complement-20261110/receiver_io.py /work/research/submission_candidates/tl3-lstm-complement-20261110/receiver_io.py
+COPY research/submission_candidates/tl3-lstm-complement-20261110/receiver_parity.py /work/research/submission_candidates/tl3-lstm-complement-20261110/receiver_parity.py
+COPY research/submission_candidates/tl3-lstm-complement-20261110/validate_cpu.py /work/research/submission_candidates/tl3-lstm-complement-20261110/validate_cpu.py
+
+ENTRYPOINT ["bash", "/work/research/submission_candidates/tl3-lstm-complement-20261110/receiver.sh"]
