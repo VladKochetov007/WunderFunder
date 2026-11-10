@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wnn.l4-gru-causal-stem-readout-r3",
+  "title": "L4 causal-stem final-readout receipts R3",
+  "$defs": {
+    "score": {
+      "type": "object",
+      "required": [
+        "metric_id",
+        "selected_rows",
+        "t0",
+        "t1",
+        "wp",
+        "monitor_t0",
+        "monitor_t1",
+        "monitor_wp",
+        "abs_differences",
+        "tolerance",
+        "within_tolerance"
+      ],
+      "properties": {
+        "metric_id": { "const": "global_wp_clip2_v1" },
+        "selected_rows": { "const": 3528273 },
+        "t0": { "type": "number" },
+        "t1": { "type": "number" },
+        "wp": { "type": "number" },
+        "monitor_t0": { "type": "number" },
+        "monitor_t1": { "type": "number" },
+        "monitor_wp": { "type": "number" },
+        "abs_differences": {
+          "type": "object",
+          "required": ["t0", "t1", "wp"],
+          "properties": {
+            "t0": { "type": "number", "minimum": 0 },
+            "t1": { "type": "number", "minimum": 0 },
+            "wp": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "tolerance": { "const": 0.00001 },
+        "within_tolerance": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "model_score": {
+      "type": "object",
+      "required": [
+        "seed", "arm", "kernel", "metric_id", "selected_rows", "t0", "t1", "wp",
+        "monitor_t0", "monitor_t1", "monitor_wp", "abs_differences", "tolerance", "within_tolerance"
+      ],
+      "properties": {
+        "seed": { "enum": [203301, 203302] },
+        "arm": { "enum": ["plain", "k1", "k16"] },
+        "kernel": { "enum": [0, 1, 16] },
+        "metric_id": { "const": "global_wp_clip2_v1" },
+        "selected_rows": { "const": 3528273 },
+        "t0": { "type": "number" },
+        "t1": { "type": "number" },
+        "wp": { "type": "number" },
+        "monitor_t0": { "type": "number" },
+        "monitor_t1": { "type": "number" },
+        "monitor_wp": { "type": "number" },
+        "abs_differences": { "$ref": "#/$defs/score/properties/abs_differences" },
+        "tolerance": { "const": 0.00001 },
+        "within_tolerance": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "cell": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "schema", "cell", "status", "failure_kind", "arm", "seed", "kernel", "gpu", "gpu_uuid",
+            "source_sha256", "source_commit", "source_manifest_sha256", "config_sha256", "split_sha256",
+            "data_sha256", "model_sha256", "fit_result_sha256", "prediction_manifest_sha256",
+            "score_receipt_sha256", "prediction_count", "prediction_shape", "prediction_dtype", "scored_rows",
+            "score", "monitor_final_metrics", "owned_export", "owned_score", "interpretation"
+          ],
+          "properties": {
+            "schema": { "const": "wnn.l4-gru-causal-stem-readout-cell.r3" },
+            "cell": { "enum": ["plain_s203301", "plain_s203302", "k1_s203301", "k1_s203302", "k16_s203301", "k16_s203302"] },
+            "status": { "enum": ["readout_complete", "score_monitor_mismatch"] },
+            "failure_kind": { "type": ["string", "null"] },
+            "arm": { "enum": ["plain", "k1", "k16"] },
+            "seed": { "enum": [203301, 203302] },
+            "kernel": { "enum": [0, 1, 16] },
+            "gpu": { "type": "integer", "minimum": 0, "maximum": 5 },
+            "gpu_uuid": { "type": "string", "minLength": 36, "maxLength": 36 },
+            "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "source_commit": { "const": "336b1c436cf9f7a7d2196fb29eb0f55ca50e5da2" },
+            "source_manifest_sha256": { "const": "482d13529e8c65386e6f74e7e81f607eeb3b0ed0795beff44902bf703e7d342e" },
+            "config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "split_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "data_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "model_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "fit_result_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "prediction_manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "score_receipt_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "prediction_count": { "const": 1873 },
+            "prediction_shape": { "const": [20000, 2] },
+            "prediction_dtype": { "const": "float32" },
+            "scored_rows": { "const": 3528273 },
+            "score": { "$ref": "#/$defs/score" },
+            "monitor_final_metrics": { "type": "object" },
+            "owned_export": { "type": "object" },
+            "owned_score": { "type": "object" },
+            "interpretation": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["schema", "cell", "status", "failure_kind", "automatic_retry"],
+          "properties": {
+            "schema": { "const": "wnn.l4-gru-causal-stem-readout-cell.r3" },
+            "cell": { "enum": ["plain_s203301", "plain_s203302", "k1_s203301", "k1_s203302", "k16_s203301", "k16_s203302"] },
+            "status": { "enum": ["fit_deadline_no_result", "readout_failed"] },
+            "failure_kind": { "type": "string" },
+            "automatic_retry": { "const": false },
+            "error": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema", "status", "source_sha256", "source_commit", "source_manifest_sha256", "split_sha256",
+    "admission_sha256", "first_profile_epoch", "fit_deadline_epoch", "wave_deadline_epoch",
+    "cells", "model_scores", "paired_contrasts", "interpretation"
+  ],
+  "properties": {
+    "schema": { "const": "wnn.l4-gru-causal-stem-readout-summary.r3" },
+    "status": { "enum": ["complete", "partial_or_failed"] },
+    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "source_commit": { "const": "336b1c436cf9f7a7d2196fb29eb0f55ca50e5da2" },
+    "source_manifest_sha256": { "const": "482d13529e8c65386e6f74e7e81f607eeb3b0ed0795beff44902bf703e7d342e" },
+    "split_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "admission_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "first_profile_epoch": { "type": "number" },
+    "fit_deadline_epoch": { "type": "number" },
+    "wave_deadline_epoch": { "type": "number" },
+    "cells": {
+      "type": "object",
+      "required": ["plain_s203301", "plain_s203302", "k1_s203301", "k1_s203302", "k16_s203301", "k16_s203302"],
+      "properties": {
+        "plain_s203301": { "$ref": "#/$defs/cell" },
+        "plain_s203302": { "$ref": "#/$defs/cell" },
+        "k1_s203301": { "$ref": "#/$defs/cell" },
+        "k1_s203302": { "$ref": "#/$defs/cell" },
+        "k16_s203301": { "$ref": "#/$defs/cell" },
+        "k16_s203302": { "$ref": "#/$defs/cell" }
+      },
+      "additionalProperties": false
+    },
+    "model_scores": {
+      "type": "object",
+      "propertyNames": { "enum": ["plain_s203301", "plain_s203302", "k1_s203301", "k1_s203302", "k16_s203301", "k16_s203302"] },
+      "additionalProperties": { "$ref": "#/$defs/model_score" }
+    },
+    "paired_contrasts": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["seed", "contrast", "left_cell", "right_cell", "t0", "t1", "wp"],
+        "properties": {
+          "seed": { "enum": [203301, 203302] },
+          "contrast": { "enum": ["K16 minus k1", "K16 minus plain"] },
+          "left_cell": { "pattern": "^k16_s20330[12]$" },
+          "right_cell": { "pattern": "^(k1|plain)_s20330[12]$" },
+          "t0": { "type": "number" }, "t1": { "type": "number" }, "wp": { "type": "number" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "interpretation": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "complete" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "model_scores": { "minProperties": 6, "maxProperties": 6 },
+          "paired_contrasts": { "minItems": 4, "maxItems": 4 }
+        }
+      },
+      "else": { "properties": { "paired_contrasts": { "const": null } } }
+    }
+  ],
+  "additionalProperties": false
+}
