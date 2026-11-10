@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wnn.b300-pr74-fourpairs-readout-summary.r2",
+  "title": "B300 PR74 fixed-endpoint readout R2",
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "cell": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "schema", "cell", "status", "source_sha256", "source_commit",
+            "source_manifest_sha256", "fit_admission_sha256", "split_sha256",
+            "fit_model_sha256", "config_sha256", "fit_result_sha256",
+            "prediction_manifest_sha256", "score_sha256", "gpu_uuids",
+            "prediction_world_size", "sequences", "scored_rows", "score",
+            "monitor_match_abs_tolerance", "automatic_retry"
+          ],
+          "properties": {
+            "schema": { "const": "wnn.b300-pr74-fourpairs-readout-cell.r2" },
+            "cell": { "$ref": "#/$defs/cell_name" },
+            "status": { "const": "readout_complete" },
+            "source_sha256": { "$ref": "#/$defs/sha256" },
+            "source_commit": { "const": "8a8afec964985a6ba8b13d1c9af1ab00e14c6504" },
+            "source_manifest_sha256": { "const": "1cb6bf60c668f34ea3c49e6f4c3b0c774ea6cdc7e8f8c5f29e5d9f04322f1936" },
+            "fit_admission_sha256": { "$ref": "#/$defs/sha256" },
+            "split_sha256": { "$ref": "#/$defs/sha256" },
+            "fit_model_sha256": { "$ref": "#/$defs/sha256" },
+            "config_sha256": { "$ref": "#/$defs/sha256" },
+            "fit_result_sha256": { "$ref": "#/$defs/sha256" },
+            "prediction_manifest_sha256": { "$ref": "#/$defs/sha256" },
+            "score_sha256": { "$ref": "#/$defs/sha256" },
+            "gpu_uuids": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" } },
+            "prediction_world_size": { "const": 2 },
+            "sequences": { "const": 1873 },
+            "scored_rows": { "const": 3528273 },
+            "score": { "$ref": "#/$defs/score" },
+            "monitor_match_abs_tolerance": { "const": 0.00001 },
+            "automatic_retry": { "const": false }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["schema", "cell", "pair_stream", "status", "error", "automatic_retry"],
+          "properties": {
+            "schema": { "const": "wnn.b300-pr74-fourpairs-readout-cell.r2" },
+            "cell": { "$ref": "#/$defs/cell_name" },
+            "pair_stream": { "type": "string" },
+            "status": { "const": "readout_failed" },
+            "error": { "type": "string" },
+            "automatic_retry": { "const": false }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "cell_name": {
+      "enum": ["plain_s203201", "k1_s203201", "k16_s203201", "plain_s203202", "k1_s203202", "k16_s203202"]
+    },
+    "score": {
+      "type": "object",
+      "required": ["wp", "t0", "t1", "selected_rows", "metric_id"],
+      "properties": {
+        "wp": { "type": "number" },
+        "t0": { "type": "number" },
+        "t1": { "type": "number" },
+        "selected_rows": { "const": 3528273 },
+        "metric_id": { "const": "global_wp_clip2_v1" }
+      },
+      "additionalProperties": false
+    },
+    "panel": {
+      "type": "object",
+      "required": ["comparison_sha256", "comparison_path", "status", "exposed_validation", "world_size_prediction"],
+      "properties": {
+        "comparison_sha256": { "$ref": "#/$defs/sha256" },
+        "comparison_path": { "type": "string" },
+        "status": { "const": "complete_exposed_fixed4E_screen" },
+        "exposed_validation": { "const": true },
+        "world_size_prediction": { "const": 2 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema", "status", "source_sha256", "source_commit", "source_manifest_sha256",
+    "authority_sha256", "fit_admission_sha256", "split_sha256", "first_profile_epoch",
+    "fit_deadline_epoch", "wave_deadline_epoch", "prediction_world_size", "pair_streams",
+    "cells", "panel", "automatic_retry", "interpretation"
+  ],
+  "properties": {
+    "schema": { "const": "wnn.b300-pr74-fourpairs-readout-summary.r2" },
+    "status": { "enum": ["complete_exposed_fixed4E_screen", "partial_or_failed"] },
+    "source_sha256": { "$ref": "#/$defs/sha256" },
+    "source_commit": { "const": "8a8afec964985a6ba8b13d1c9af1ab00e14c6504" },
+    "source_manifest_sha256": { "const": "1cb6bf60c668f34ea3c49e6f4c3b0c774ea6cdc7e8f8c5f29e5d9f04322f1936" },
+    "authority_sha256": { "$ref": "#/$defs/sha256" },
+    "fit_admission_sha256": { "$ref": "#/$defs/sha256" },
+    "split_sha256": { "const": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c" },
+    "first_profile_epoch": { "type": "number" },
+    "fit_deadline_epoch": { "type": "number" },
+    "wave_deadline_epoch": { "type": "number" },
+    "prediction_world_size": { "const": 2 },
+    "pair_streams": {
+      "type": "object",
+      "required": ["0,1", "2,3", "4,5", "6,7"],
+      "properties": {
+        "0,1": { "type": "array", "items": { "$ref": "#/$defs/cell_name" } },
+        "2,3": { "type": "array", "items": { "$ref": "#/$defs/cell_name" } },
+        "4,5": { "type": "array", "items": { "$ref": "#/$defs/cell_name" } },
+        "6,7": { "type": "array", "items": { "$ref": "#/$defs/cell_name" } }
+      },
+      "additionalProperties": false
+    },
+    "cells": {
+      "type": "object",
+      "required": ["plain_s203201", "k1_s203201", "k16_s203201", "plain_s203202", "k1_s203202", "k16_s203202"],
+      "properties": {
+        "plain_s203201": { "$ref": "#/$defs/cell" },
+        "k1_s203201": { "$ref": "#/$defs/cell" },
+        "k16_s203201": { "$ref": "#/$defs/cell" },
+        "plain_s203202": { "$ref": "#/$defs/cell" },
+        "k1_s203202": { "$ref": "#/$defs/cell" },
+        "k16_s203202": { "$ref": "#/$defs/cell" }
+      },
+      "additionalProperties": false
+    },
+    "panel": { "oneOf": [{ "$ref": "#/$defs/panel" }, { "type": "null" }] },
+    "automatic_retry": { "const": false },
+    "interpretation": { "const": "Official validation was exposed in prior screens; readout is not fresh confirmation or a public score." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "complete_exposed_fixed4E_screen" } }, "required": ["status"] },
+      "then": { "properties": { "panel": { "$ref": "#/$defs/panel" } } },
+      "else": { "properties": { "panel": { "type": "null" } } }
+    }
+  ],
+  "additionalProperties": false
+}
