@@ -1,3 +1,38 @@
+## Latest 10 November: actual next70 execution on existing eight L4 GPUs
+
+The user's "давай делай на 8чД4" authorizes the bounded next70 panel on the
+existing eight L4 GPUs. PR77's six fresh fixed6E fits have completed38760updates
+each; source9a5d2e7ca / capsuleb05a73fc is frozen. Fixed-E6 results are indexed in
+research/experiment_drafts/l4-next70-20261110/results/README.md. The t0 specialist
+loses both paired comparisons; the t1 replacement has opposite signs and a tiny
+mean delta. No strong gain or public0.70 claim is supported by this screen.
+
+PR78 runs two train-only input-innovation2E -> fresh-optimizer shared4E chains
+on GPUs6/7, sourcec157877d / capsuleb917b83e. Four new stages reuse the exact two
+PR77 shared6E controls: ten unique stages across the two studies. The R1 CPU
+preparation timeout preceded all SSL profiles/fits. R2 completed preparation in
+66.310s and passed actual parent profiles/reload; its conditional child gates,
+receiving source/admission and native evidence are preserved in the PR78 packet's
+receiving/ directory. The original12h first-profile window (11hfit+1hcollection)
+and output/RSS/disk caps remain. Children are already conditionally authorized;
+no extra seeds, resumes or scientific fits are authorized by this note.
+
+ROOT owns the single existing SSH/RPC at artifacts/l4-next70-20261110/l4-rpc;
+never create a parallel SSH stream. Native root is
+/data/lc-epanov_s/tabdata-next70-20261110-r1. Native detached controllers survive
+SSH loss. Readout R1 failed due to virtualenv Python symlink dereferencing;
+separate R2 only re-exports/re-scores the six completed final checkpoints on
+freed GPUs0-5. It never repeats training. Preserve R1 and all earlier outcomes.
+
+Official train10325, zero valid fitting/initializer ancestry, and full
+valid1873/3528273 scored rows are mandatory. Validation remains exposed. Local
+dashboard is loopback8770; the mirror uses the same SSH queue. A recovered local
+mirror R2 extends atomic-replace sharing-lock retry to10s with the original
+observation deadline. All36 supervised epoch graph sets were saved. Native clock
+is approximately2h behind local; do not rewrite source events or host clocks.
+Existing three bounded actor/critic roles only; ROOT owns GPU/signals. No new
+provider allocation, billing, downloads, foreign stops or competition submission.
+
 ## Latest 8 November: approved optimizer/horizon screen execution
 
 The user approved executing TOP1_NEXT_ALLOCATION_R1.json after all five repairs.

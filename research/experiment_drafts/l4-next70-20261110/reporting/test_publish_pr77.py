@@ -93,10 +93,21 @@ def _admitted_root(root: Path, *, complete: bool = False) -> Path:
         }
         remote = f"/data/lc-epanov_s/tabdata-next70-20261110-r1/runs/{cell}/fit"
         _json(directory / ".sequence_mirror_owner.json", {"host": "l4", "source_directory": remote})
-        _json(directory / "collection_receipt.json", {"host": "l4", "source_directory": remote, "files": {}})
+        _json(
+            directory / "collection_receipt.json",
+            {"host": "l4", "source_directory": remote, "files": {}},
+        )
         _json(directory / "run_metadata.json", metadata)
-        _json(directory / "monitor_progress.json", {"phase": "training", "step": 38_760, "epoch": 6.0})
-        rank = {"step": 38_760, "total_loss": 0.5, "learning_rate": 1e-5, "gradient_norm_preclip": 0.5, "gradient_clipped": 0}
+        _json(
+            directory / "monitor_progress.json", {"phase": "training", "step": 38_760, "epoch": 6.0}
+        )
+        rank = {
+            "step": 38_760,
+            "total_loss": 0.5,
+            "learning_rate": 1e-5,
+            "gradient_norm_preclip": 0.5,
+            "gradient_clipped": 0,
+        }
         (directory / "rank0.jsonl").write_text(json.dumps(rank) + "\n", encoding="utf-8")
         events: list[dict[str, object]] = []
         if complete:
@@ -155,7 +166,13 @@ def test_fixed_e6_grades_require_all_six_complete_valid_events(tmp_path: Path) -
     assert rows[0]["recipe"] == "baseline shared control"
     assert rows[0]["wp"] == pytest.approx((0.606 + 0.706) / 2)
 
-    one_eval = root / "live-dashboard" / "native" / f"l4-{reporter.CELLS[0]}-fit" / "monitor_evaluations.jsonl"
+    one_eval = (
+        root
+        / "live-dashboard"
+        / "native"
+        / f"l4-{reporter.CELLS[0]}-fit"
+        / "monitor_evaluations.jsonl"
+    )
     events = [json.loads(line) for line in one_eval.read_text(encoding="utf-8").splitlines()]
     events[-1]["metrics"]["valid/selected_rows"] -= 1
     one_eval.write_text("".join(json.dumps(event) + "\n" for event in events), encoding="utf-8")
@@ -171,6 +188,19 @@ def test_wrong_source_or_gpu_admission_is_rejected(tmp_path: Path) -> None:
     _json(path, admission)
     with pytest.raises(ValueError, match="ROOT admission"):
         reporter.inspect_snapshot(root)
+
+
+def test_full_size_terminal_provenance_is_accepted_but_remains_bounded(tmp_path: Path) -> None:
+    root = _admitted_root(tmp_path, complete=True)
+    paths = list((root / "live-dashboard" / "native").glob("*/terminal_status.json"))
+    for path in paths:
+        value = json.loads(path.read_bytes())
+        value["provenance_payload"] = "x" * 703_000
+        _json(path, value)
+    assert reporter.grade_rows(reporter.inspect_snapshot(root)["cells"]) is not None
+    value["provenance_payload"] = "x" * 2_000_000
+    _json(paths[0], value)
+    assert reporter.grade_rows(reporter.inspect_snapshot(root)["cells"]) is None
 
 
 def test_pending_marker_is_reconciled_without_duplicate_post(tmp_path: Path) -> None:
@@ -196,7 +226,10 @@ def test_pending_marker_is_reconciled_without_duplicate_post(tmp_path: Path) -> 
         reporter.publish_once(client, path, marker, f"report\n{marker}", 1000.0)
     state = json.loads(path.read_text(encoding="utf-8"))
     assert state["reports"][marker]["status"] == "pending"
-    assert reporter.publish_once(client, path, marker, "changed body ignored", 9999.0) == "reconciled-existing"
+    assert (
+        reporter.publish_once(client, path, marker, "changed body ignored", 9999.0)
+        == "reconciled-existing"
+    )
     assert client.post_calls == 1
 
 

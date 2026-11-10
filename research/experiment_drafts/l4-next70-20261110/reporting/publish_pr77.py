@@ -168,8 +168,16 @@ def _verify_metadata(cell: str, directory: Path, admission: dict[str, object]) -
     metadata = _read_json(directory / "run_metadata.json", 1_000_000)
     profile = admission["profiles"][cell]
     assert isinstance(profile, dict)
-    config, source, provenance = metadata.get("config"), metadata.get("source"), metadata.get("provenance")
-    if not isinstance(config, dict) or not isinstance(source, dict) or not isinstance(provenance, dict):
+    config, source, provenance = (
+        metadata.get("config"),
+        metadata.get("source"),
+        metadata.get("provenance"),
+    )
+    if (
+        not isinstance(config, dict)
+        or not isinstance(source, dict)
+        or not isinstance(provenance, dict)
+    ):
         raise ValueError("run metadata lacks config, source or provenance")
     if canonical_sha256(config) != profile["config_sha256"]:
         raise ValueError("normalized config hash differs from ROOT admission")
@@ -188,7 +196,9 @@ def _verify_metadata(cell: str, directory: Path, admission: dict[str, object]) -
         or config["model"].get("layers") != 2
     ):
         raise ValueError("run config differs from the frozen standalone six-epoch recipe")
-    expected_target = 0 if cell.startswith("t0_specialist_") else 1 if cell.startswith("t1_specialist_") else None
+    expected_target = (
+        0 if cell.startswith("t0_specialist_") else 1 if cell.startswith("t1_specialist_") else None
+    )
     expected_seed = 203201 if cell.endswith("203201") else 203202
     if (
         config.get("supervised_target") != expected_target
@@ -198,7 +208,9 @@ def _verify_metadata(cell: str, directory: Path, admission: dict[str, object]) -
         or config.get("normalization_sequences") != 10_325
         or config.get("training_mask") != "all_after_warmup"
     ):
-        raise ValueError("cell target, seed, normalization or endpoint differs from its frozen plan")
+        raise ValueError(
+            "cell target, seed, normalization or endpoint differs from its frozen plan"
+        )
     data = provenance.get("data")
     if not isinstance(data, dict):
         raise ValueError("run metadata lacks data provenance")
@@ -222,8 +234,18 @@ def _verify_metadata(cell: str, directory: Path, admission: dict[str, object]) -
     if (
         not isinstance(fit_members, list)
         or len(fit_members) != 10_325
-        or any(not isinstance(item, list) or len(item) != 2 or item[0] != "train" for item in fit_members)
-        or len({(item[0], item[1]) for item in fit_members if isinstance(item, list) and len(item) == 2}) != 10_325
+        or any(
+            not isinstance(item, list) or len(item) != 2 or item[0] != "train"
+            for item in fit_members
+        )
+        or len(
+            {
+                (item[0], item[1])
+                for item in fit_members
+                if isinstance(item, list) and len(item) == 2
+            }
+        )
+        != 10_325
         or evaluation_members != [["valid", index] for index in range(VALID_SEQUENCES)]
     ):
         raise ValueError("fit or full-validation membership differs from the official split")
@@ -293,9 +315,7 @@ def _validate_eval_event(
     return True, None
 
 
-def inspect_cell(
-    artifact_root: Path, cell: str, admission: dict[str, object]
-) -> Cell:
+def inspect_cell(artifact_root: Path, cell: str, admission: dict[str, object]) -> Cell:
     """Build one bounded cell view; invalid identity evidence is quarantined."""
     directory = artifact_root / "live-dashboard" / "native" / f"l4-{cell}-fit"
     result: Cell = {
@@ -352,12 +372,15 @@ def inspect_cell(
                 continue
             seen_epochs.add(epoch)
             ok, error = _validate_eval_event(event, bound["data"], epoch)
-            checked.append({"ok": ok, "epoch": epoch, "event": event if ok else None, "error": error})
+            checked.append(
+                {"ok": ok, "epoch": epoch, "event": event if ok else None, "error": error}
+            )
         result["evaluations"] = checked
         terminal_path = directory / "terminal_status.json"
         terminal: dict[str, object] | None = None
         if terminal_path.exists():
-            value = _read_json(terminal_path, 64_000)
+            # Actual terminal receipts embed full membership provenance (~703 KB).
+            value = _read_json(terminal_path, 2_000_000)
             identity = value.get("identity")
             if not isinstance(identity, dict):
                 raise ValueError("terminal status lacks its run identity")
@@ -392,7 +415,9 @@ def inspect_cell(
             returncode = context.get("worker_returncode") if isinstance(context, dict) else None
             if type(returncode) is int:
                 terminal = {
-                    "status": "worker-exit-0-unverified" if returncode == 0 else f"worker-exit-{returncode}",
+                    "status": "worker-exit-0-unverified"
+                    if returncode == 0
+                    else f"worker-exit-{returncode}",
                     "returncode": returncode,
                     "record_sha256": hashlib.sha256(
                         json.dumps(observer, sort_keys=True, separators=(",", ":")).encode()
@@ -412,7 +437,14 @@ def inspect_cell(
         )
         result["endpoint_ok"] = endpoint_ok
         return result
-    except (OSError, ValueError, KeyError, TypeError, AttributeError, json.JSONDecodeError) as error:
+    except (
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        AttributeError,
+        json.JSONDecodeError,
+    ) as error:
         result["error"] = str(error)
         return result
 
@@ -427,7 +459,11 @@ def inspect_snapshot(artifact_root: Path) -> Snapshot:
 def _source_clock(artifact_root: Path) -> dict[str, object]:
     """Measure mirror transport freshness in the local clock domain used by its bridge."""
     live = artifact_root / "live-dashboard"
-    result: dict[str, object] = {"local_now": time.time(), "last_applied": None, "age_seconds": None}
+    result: dict[str, object] = {
+        "local_now": time.time(),
+        "last_applied": None,
+        "age_seconds": None,
+    }
     try:
         bridge = _read_json(live / "bridge-state.json", 8_000_000)
         host = bridge["hosts"]["l4"]
@@ -454,7 +490,9 @@ def _valid_metric(cell: Cell, target: int) -> object:
     events = cell.get("evaluations")
     if not isinstance(events, list):
         return None
-    valid = [item for item in events if item.get("ok") is True and isinstance(item.get("event"), dict)]
+    valid = [
+        item for item in events if item.get("ok") is True and isinstance(item.get("event"), dict)
+    ]
     if not valid:
         return None
     return valid[-1]["event"]["metrics"].get(f"valid/wp/t{target}")
@@ -533,7 +571,11 @@ def render_report(snapshot: Snapshot, heading: str, source_now: float | None) ->
     admission = snapshot["admission"]
     cells = snapshot["cells"]
     clock = snapshot["clock"]
-    timestamp = datetime.fromtimestamp(source_now, UTC).isoformat(timespec="seconds").replace("+00:00", "Z") if source_now is not None else "local clock time unknown"
+    timestamp = (
+        datetime.fromtimestamp(source_now, UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+        if source_now is not None
+        else "local clock time unknown"
+    )
     age = clock.get("age_seconds")
     freshness = f"{float(age):.0f}s" if _finite_number(age) else "unknown"
     lines = [
@@ -545,7 +587,10 @@ def render_report(snapshot: Snapshot, heading: str, source_now: float | None) ->
     ]
     errors = clock.get("last_errors")
     if isinstance(errors, list) and errors:
-        lines.insert(2, f"Mirror collector reports {len(errors)} recent error(s); freshness is not a proof of complete per-file application.")
+        lines.insert(
+            2,
+            f"Mirror collector reports {len(errors)} recent error(s); freshness is not a proof of complete per-file application.",
+        )
     lines.extend(_cell_line(cell) for cell in cells)
     all_terminal = all(cell.get("terminal") is not None for cell in cells)
     rows = grade_rows(cells)
@@ -555,15 +600,21 @@ def render_report(snapshot: Snapshot, heading: str, source_now: float | None) ->
             "All six fixed-E6 endpoints and six full-valid events pass the local identity and coverage gates. "
             "The trainer-reported model SHA values have not been byte-verified by this local reporter."
         )
-        lines.append("Scores are `0.5 * (left model valid/wp/t0 + right model valid/wp/t1)`; rows are per seed.")
+        lines.append(
+            "Scores are `0.5 * (left model valid/wp/t0 + right model valid/wp/t1)`; rows are per seed."
+        )
         lines.extend(
             f"- Seed {row['seed']}, {row['recipe']}: t0={row['t0']:.6f}, t1={row['t1']:.6f}, complete-output WP={row['wp']:.6f}."
             for row in rows
         )
     elif all_terminal:
-        lines.append("All six workers have terminal evidence, but fixed-E6/full-valid coverage is incomplete or a worker did not complete; no complete-output scores are computed.")
+        lines.append(
+            "All six workers have terminal evidence, but fixed-E6/full-valid coverage is incomplete or a worker did not complete; no complete-output scores are computed."
+        )
     else:
-        lines.append("Endpoint scores are pending fixed-E6 terminal artifacts and all six exact-coverage full-valid events.")
+        lines.append(
+            "Endpoint scores are pending fixed-E6 terminal artifacts and all six exact-coverage full-valid events."
+        )
     lines.extend(
         [
             "",
@@ -618,7 +669,12 @@ def publish_once(
         prepared_at = float(saved["prepared_at"])
     found = client.find_report(77, marker, prepared_at)  # type: ignore[attr-defined]
     if found is not None:
-        reports[marker] = {"status": "posted", "body": body, "prepared_at": prepared_at, "comment_id": found.get("id")}
+        reports[marker] = {
+            "status": "posted",
+            "body": body,
+            "prepared_at": prepared_at,
+            "comment_id": found.get("id"),
+        }
         _save_state(state_path, state)
         return "reconciled-existing"
 
@@ -662,10 +718,7 @@ def _terminal_markers(cells: list[Cell]) -> list[tuple[str, Cell]]:
 
 def _output_recipes_marker(cells: list[Cell]) -> str:
     digest = canonical_sha256(
-        [
-            (cell.get("cell"), cell.get("terminal", {}).get("record_sha256"))
-            for cell in cells
-        ]
+        [(cell.get("cell"), cell.get("terminal", {}).get("record_sha256")) for cell in cells]
     )[:16]
     return f"<!-- wnn-l4-next70-pr77-cohort-endpoints-{digest} -->"
 
@@ -694,33 +747,52 @@ def run(
         interval_bucket = datetime.fromtimestamp(interval_epoch, UTC).strftime("%Y%m%dT%H%M")
         hour_marker = f"<!-- wnn-l4-next70-pr77-30m-{interval_bucket}Z -->"
         due: list[tuple[str, str, float]] = []
-        report = render_report(snapshot, "30-minute progress", float(source_now) if _finite_number(source_now) else None)
+        report = render_report(
+            snapshot,
+            "30-minute progress",
+            float(source_now) if _finite_number(source_now) else None,
+        )
         due.append((hour_marker, report, prepared_at))
         for marker, cell in _terminal_markers(cells):
-            body = render_report(snapshot, f"terminal event: {cell['cell']} ({cell['terminal']['status']})", float(source_now) if _finite_number(source_now) else None)
+            body = render_report(
+                snapshot,
+                f"terminal event: {cell['cell']} ({cell['terminal']['status']})",
+                float(source_now) if _finite_number(source_now) else None,
+            )
             body += f"\n\n{marker}"
             due.append((marker, body, prepared_at))
         rows = grade_rows(cells)
         all_terminal = all(cell.get("terminal") is not None for cell in cells)
-        if rows is not None or (all_terminal and any(cell.get("terminal", {}).get("status") != "completed" for cell in cells)):
+        if rows is not None or (
+            all_terminal
+            and any(cell.get("terminal", {}).get("status") != "completed" for cell in cells)
+        ):
             marker = _output_recipes_marker(cells)
             body = render_report(
                 snapshot,
-                "fixed-E6 cohort endpoints" if rows is not None else "cohort terminal status; endpoint grading incomplete",
+                "fixed-E6 cohort endpoints"
+                if rows is not None
+                else "cohort terminal status; endpoint grading incomplete",
                 float(source_now) if _finite_number(source_now) else None,
             )
             body += f"\n\n{marker}"
             due.append((marker, body, prepared_at))
 
         for marker, body, created in due:
-            body = body + ("\n\n" if not body.endswith("\n") else "") + marker if marker not in body else body
+            body = (
+                body + ("\n\n" if not body.endswith("\n") else "") + marker
+                if marker not in body
+                else body
+            )
             if dryrun:
                 print(body)
                 continue
             try:
                 outcome = publish_once(client, state_path, marker, body, created)
                 print(f"{outcome}: {marker}")
-            except Exception as error:  # network/response uncertainty is retried via persistent marker
+            except (
+                Exception
+            ) as error:  # network/response uncertainty is retried via persistent marker
                 message = f"{marker}: {type(error).__name__}: {error}"
                 if message not in seen_errors:
                     print(message, file=sys.stderr)
@@ -744,9 +816,15 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--pr77", action="store_true", required=True, help="allow only PR 77")
     parser.add_argument("--maxseconds", type=int, default=MAX_WALL_SECONDS)
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--dryrun", action="store_true", help="read local evidence and print reports without writing or network")
+    mode.add_argument(
+        "--dryrun",
+        action="store_true",
+        help="read local evidence and print reports without writing or network",
+    )
     mode.add_argument("--once", action="store_true", help="publish one local snapshot and exit")
-    parser.add_argument("--state-file", type=Path, default=Path(__file__).with_name("publisher_state_pr77.json"))
+    parser.add_argument(
+        "--state-file", type=Path, default=Path(__file__).with_name("publisher_state_pr77.json")
+    )
     return parser
 
 
