@@ -1,3 +1,17 @@
+## 10 November: ROOT-owned B300 receiving execution explicitly authorized
+
+The user requests loading all8 existing B300 in addition to the L4 wave. Execute
+exactly the six fresh PR74 plain/K1/K16 Transformer cells (two seeds), fixed4E,
+world2 and unchanged recipes, after native correctness gates,12production/peak
+profiles, both-rank full-state reload and ROOT receipt approval. Four pair streams
+and the actual capsule-representation qualification are explicit receiving
+amendments. See research/experiment_drafts/b300-causal-stem-execution-20261110/README.md
+and its AUTHORITY_R2.json. Six-hour native envelope starts at first engineering
+GPU work; five-hour fit cutoff plus one-hour collection. ROOT alone owns existing
+SSH/GPU/signals. No historical resume, extra scientific fits, foreign signals,
+provider/billing changes or competition upload. Use the existing three bounded
+Luna/max roles without children; native execution belongs to ROOT.
+
 ## 9 November: causal Transformer input-stem preparation only
 
 This branch prepares six fresh input-stem comparisons as a draft targeting

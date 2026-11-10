@@ -1,3 +1,7 @@
+## Current scoped execution,10 November2026
+
+PR74 causal-stem B300 six-cell screen is admitted after all12 actual profiles, source/data qualification, both-rank restore and independent R2 receiver review. Four fixed4E fits launched19:48:14UTC across8B300; two same-recipe successors queued. See [receiving evidence](../research/experiment_drafts/b300-causal-stem-execution-20261110/README.md). First-GPU clock19:12:10UTC, five-hour fit/six-hour collection envelope; no resumes, foreign stops, new instances or uploads. Official chronological primary validation unchanged. Quality remains unmeasured for this wave.
+
 ## Completed follow-up,8 November2026 terminal audit
 
 All10 fresh fits completed:6L4 fixed6E and4B300 fixed4E, with24 L4 fixed grades

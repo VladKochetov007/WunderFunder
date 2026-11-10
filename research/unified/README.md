@@ -1,3 +1,7 @@
+## 10 November: PR74 B300 causal-stem receiving execution
+
+[Receiving packet](../experiment_drafts/b300-causal-stem-execution-20261110/README.md): all12 native engineering profiles and ROOT receipt review passed; six fresh fixed4E fits admitted, four parallel world2 pair streams on8B300. R2 ownership handles detached torchrun ranks. Exact source8a8afec, official train10325?valid1873; full quality endpoints pending. The companion L4 GRU stem wave is [PR79](https://github.com/VladKochetov007/WunderFunder/pull/79).
+
 # Unified research library
 
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
