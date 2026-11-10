@@ -373,6 +373,10 @@ def wait_for_fit(common: dict[str, Any], root: Path, cell: str, deadline: float)
         if path.exists():
             return common["_read_json"](path, 128_000)
         time.sleep(min(15.0, max(0.0, deadline - time.time())))
+    # An atomic on-time receipt can arrive during the final sleep. The caller
+    # still checks both its producer timestamp and mtime against the cutoff.
+    if path.exists():
+        return common["_read_json"](path, 128_000)
     return None
 
 

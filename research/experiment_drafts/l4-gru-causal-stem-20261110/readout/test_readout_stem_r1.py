@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import json
 import os
 import sys
 from pathlib import Path
@@ -17,6 +18,35 @@ assert SPEC is not None and SPEC.loader is not None
 receiver = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = receiver
 SPEC.loader.exec_module(receiver)
+
+
+@pytest.mark.parametrize("published_at", [99.9, 100.1])
+def test_final_poll_recovers_an_atomic_receipt_but_does_not_admit_late_evidence(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, published_at: float
+) -> None:
+    path = tmp_path / "control/root-fits-r1/plain_s203301-result.json"
+    path.parent.mkdir(parents=True)
+    clock = [99.0]
+
+    def final_sleep(duration: float) -> None:
+        path.write_text(json.dumps({"at": published_at}), encoding="utf-8")
+        os.utime(path, (published_at, published_at))
+        clock[0] = 100.2
+
+    monkeypatch.setattr(receiver.time, "time", lambda: clock[0])
+    monkeypatch.setattr(receiver.time, "sleep", final_sleep)
+    result = receiver.wait_for_fit(
+        {"_read_json": lambda file, limit: json.loads(file.read_bytes())},
+        tmp_path,
+        "plain_s203301",
+        100.0,
+    )
+    assert result == {"at": published_at}
+    if published_at <= 100.0:
+        receiver.validate_fit_result_time(path, result, 100.0)
+    else:
+        with pytest.raises(TimeoutError):
+            receiver.validate_fit_result_time(path, result, 100.0)
 
 
 def test_rebound_helper_functions_use_the_actual_module_namespace(
