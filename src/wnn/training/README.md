@@ -97,6 +97,8 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
+- `sequence_gru`, `sequence_input_stem`: canonical GRU with optional causal
+  per-channel FIR filtering and bounded normalized-input carry across TBPTT chunks.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count
   DDP partitioning with zero-weight padding, global accumulation denominators,
   strict-FP32 TBPTT and update telemetry.

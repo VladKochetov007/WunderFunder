@@ -13,6 +13,7 @@ from wnn.training.sequence_ensemble_config import (
     STANDALONE_LABELS_MODE,
     validate_ensemble_objective,
 )
+from wnn.training.sequence_input_stem import validate_input_stem_kernel
 from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 from wnn.training.sequence_pretraining_contract import validate_future_training_config
@@ -109,8 +110,11 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
     model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    if set(model) - (set(MODEL_DEFAULTS) | {"input_stem_kernel"}):
         raise ValueError("unknown sequence model field")
+    input_stem_kernel = validate_input_stem_kernel(model.get("input_stem_kernel", 0))
+    if input_stem_kernel == 0:
+        model.pop("input_stem_kernel", None)
     config["model"] = model
     for key in (
         "schema_version",
@@ -184,6 +188,8 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    if input_stem_kernel and model["architecture"] != "gru":
+        raise ValueError("input_stem_kernel is currently supported only for GRU models")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":
