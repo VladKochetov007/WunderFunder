@@ -276,15 +276,16 @@ def test_membership_uses_exact_manifest_ids_including_sparse_train_groups() -> N
         "evaluation": {"valid": [0, 3]},
     }
 
-    def exact_manifest_validator(
-        fit: dict[str, object], manifest: dict[str, object]
-    ) -> None:
+    def exact_manifest_validator(fit: dict[str, object], manifest: dict[str, object]) -> None:
         fit_section = manifest["fit"]
         evaluation_section = manifest["evaluation"]
         assert isinstance(fit_section, dict) and isinstance(evaluation_section, dict)
         expected_fit = [["train", group] for group in fit_section["train"]]
         expected_valid = [["valid", group] for group in evaluation_section["valid"]]
-        if fit.get("fit_members") != expected_fit or fit.get("evaluation_members") != expected_valid:
+        if (
+            fit.get("fit_members") != expected_fit
+            or fit.get("evaluation_members") != expected_valid
+        ):
             raise ValueError("native run membership differs from the exact official primary split")
 
     common = {"validate_fit_membership": exact_manifest_validator}
