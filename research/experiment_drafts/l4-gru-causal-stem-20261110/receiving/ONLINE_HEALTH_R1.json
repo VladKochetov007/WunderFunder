@@ -1,0 +1,126 @@
+{
+  "schema": "wnn.next70-online-health-observation.v1",
+  "observed_rpc": "045-online-training-diagnostics",
+  "at_local_epoch": 1794340757.7897203,
+  "cells": [
+    {
+      "cell": "ssl_finetune_s203201",
+      "progress": {
+        "epoch": 2.554798761609907,
+        "forwarded_rows_per_second": 538516.9901523363,
+        "heartbeat_at": "2026-11-10T17:59:15.324519+00:00",
+        "last_successful_update": 16504,
+        "last_successful_update_at": 1794333555.2984018,
+        "phase": "training",
+        "phase_started_at": 1794333226.942056,
+        "pid": 3716559,
+        "schema": "wnn.monitor-progress.v1",
+        "step": 16504
+      },
+      "recent_gradient_window": {
+        "min": 0.5748693346977234,
+        "max": 2.500121831893921,
+        "mean": 1.282714105622713,
+        "clipped_fraction": 0.7558139534883721
+      },
+      "recent_window_rows": 258,
+      "latest_sampled_update": {
+        "step": 16540,
+        "learning_rate": 0.00011485594881634615,
+        "total_loss": 1.4044883857426211,
+        "gradient_norm_preclip": 0.8274665474891663,
+        "gradient_clipped": 0
+      },
+      "sampled_groups": {
+        "group_0": {
+          "preclip_gradient_norm": 0.8274665532315933,
+          "postclip_gradient_norm": 0.8274665532315933,
+          "delta_weight_over_pre_weight_norm": 0.0003787462938374176
+        }
+      },
+      "evaluations": [
+        {
+          "epoch": 1,
+          "train_diag_wp": 0.4953733332799417,
+          "train_diag_wmse": 1.289304400318356,
+          "valid_wp": 0.6730504956441293,
+          "valid_wmse": 0.9900509358496288,
+          "valid_t0": 0.6695748072472225,
+          "valid_t1": 0.6765261840410361
+        },
+        {
+          "epoch": 2,
+          "train_diag_wp": 0.5076582695832236,
+          "train_diag_wmse": 1.266600279459097,
+          "valid_wp": 0.6772094987593342,
+          "valid_wmse": 0.9820877615972118,
+          "valid_t0": 0.6717797553951361,
+          "valid_t1": 0.6826392421235322
+        }
+      ]
+    },
+    {
+      "cell": "ssl_finetune_s203202",
+      "progress": {
+        "epoch": 2.9077399380804954,
+        "forwarded_rows_per_second": 541814.4268304006,
+        "heartbeat_at": "2026-11-10T17:59:16.374922+00:00",
+        "last_successful_update": 18784,
+        "last_successful_update_at": 1794333556.3716834,
+        "phase": "training",
+        "phase_started_at": 1794333040.3125305,
+        "pid": 3716322,
+        "schema": "wnn.monitor-progress.v1",
+        "step": 18784
+      },
+      "recent_gradient_window": {
+        "min": 0.5451262593269348,
+        "max": 2.8616349697113037,
+        "mean": 1.3495902179751156,
+        "clipped_fraction": 0.749034749034749
+      },
+      "recent_window_rows": 259,
+      "latest_sampled_update": {
+        "step": 18809,
+        "learning_rate": 8.106644824575944e-05,
+        "total_loss": 1.4291820903020611,
+        "gradient_norm_preclip": 2.0534021854400635,
+        "gradient_clipped": 1
+      },
+      "sampled_groups": {
+        "group_0": {
+          "preclip_gradient_norm": 1.205570553148373,
+          "postclip_gradient_norm": 0.9999991681436253,
+          "delta_weight_over_pre_weight_norm": 0.0002636065846570379
+        }
+      },
+      "evaluations": [
+        {
+          "epoch": 1,
+          "train_diag_wp": 0.4907170791566616,
+          "train_diag_wmse": 1.2980228142045998,
+          "valid_wp": 0.6704718645773742,
+          "valid_wmse": 0.9991709544284152,
+          "valid_t0": 0.6640353588749932,
+          "valid_t1": 0.6769083702797553
+        },
+        {
+          "epoch": 2,
+          "train_diag_wp": 0.48993101282156604,
+          "train_diag_wmse": 1.3114059877339634,
+          "valid_wp": 0.678510253732195,
+          "valid_wmse": 0.9751034026040717,
+          "valid_t0": 0.673695052247186,
+          "valid_t1": 0.683325455217204
+        }
+      ]
+    }
+  ],
+  "interpretation": [
+    "Both full-valid WP curves and losses improved from E1 to E2; fixed4E endpoint remainspending.",
+    "Frequent gradient clipping is observed; threshold1 is frozen for this recipe. Finite moderate norms and nonzero update/weight ratios do not establish trapping in a minimum.",
+    "Train diagnostic32members uses all_after_warmup, valid uses is_scored on1873members; absolute train/valid gap is confounded by masks and cohort.",
+    "SMI is an instantaneoussample, not whole-run computeutilization. GPU6 sample0% andGPU7sample94% do not establish meanoccupancy.",
+    "OldSSH reset didnotstopdetachedchildren; later051 showed steps21671/24200 and E3WP.681466/.682532."
+  ]
+}

@@ -1,3 +1,29 @@
+## Latest 10 November: user authorizes the next GRU causal-input screen
+
+The user accepted the preceding plan and asked to inspect online training metrics.
+This admits six new fixed6E GRU256x2/raw112 fits: plain, causal residual K1 and K16,
+paired seeds203301/203302. All other settings follow the PR77 shared control.
+This is a descendant of PR74/E168, with correct normalized raw-input history
+across chunks, sequence reset and same-backbone/RNG identity initialization.
+It is a new GRU adaptation, not the exact Transformer PR74 experiment.
+Qualified train10325 only; full official valid1873/3528273 every epoch remains
+exposed development evidence. Freeze E6 primary K16-K1, then K16-plain; K1/K16
+are not parameter-count matched. No other scientific fits or old resumes.
+
+Authority: C:/Users/admin/Documents/Codex/artifacts/l4-causal-stem-20261110/AUTHORITY_R1.json.
+Native root /data/lc-epanov_s/tabdata-stem-20261110-r1. Use the existing next70
+SSH/RPC only. ROOT owns GPU/process admission, profiles and signals. Six actual
+30-update exact-source profiles precede fits. New wave maximum4h from first new
+profile:3h fitting plus1h collection. GPU0-5, one new fit per card; existing SSL
+children on6/7 stay unchanged. Native owned RSS128GiB,2.5GB outputs,4GB free
+disk reserve, local2aggregate CPU cores. No downloads, rentals, billing,
+foreign stops, B300 launch or competition upload. The accepted separate tasks
+are two export-only timeout repairs and exact PR76 CPU callback/base checks.
+
+Use only the existing three bounded Luna/max actor/critic roles, no children.
+Implementation and independent review precede ROOT's source freeze/admission.
+Preserve every prior source capsule, recipe, checkpoint, readout and negative.
+
 ## Latest 10 November: actual next70 execution on existing eight L4 GPUs
 
 The user's "давай делай на 8чД4" authorizes the bounded next70 panel on the
