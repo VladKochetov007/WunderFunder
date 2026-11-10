@@ -36,6 +36,7 @@ def optimizer_contract(
         "rms",
         "ns_eps",
         "strict_fp32",
+        "muon_batch_by_shape",
     )
     for index, group in enumerate(optimizer.param_groups):
         record = {field: json_value(group[field]) for field in fields if field in group}

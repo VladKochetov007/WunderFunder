@@ -1,0 +1,14 @@
+C:\Users\admin\Documents\Codex\reviews\WunderFunder-objective-fix-20261108\src\wnn\training\sequence_ensemble_correlation.py:14: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  return all_reduce(values, op=dist.ReduceOp.SUM) if context.process_group else values
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "C:\Users\admin\Documents\Codex\reviews\WunderFunder-objective-fix-20261108\scripts\check_ensemble_objective_ddp.py", line 180, in <module>
+[rank1]:     main()
+[rank1]:   File "C:\Users\admin\Documents\Codex\reviews\WunderFunder-objective-fix-20261108\scripts\check_ensemble_objective_ddp.py", line 150, in main
+[rank1]:     torch.testing.assert_close(got, want, atol=3e-6, rtol=8e-5,
+[rank1]:   File "C:\Users\admin\Documents\Codex\reviews\galam-test-env-20261027\Lib\site-packages\torch\testing\_comparison.py", line 1689, in assert_close
+[rank1]:     raise error_metas[0].to_error(msg)
+[rank1]: AssertionError: near_constant: Tensor-likes are not close!
+
+[rank1]: Mismatched elements: 2 / 2 (100.0%)
+[rank1]: Greatest absolute difference: 0.00185394287109375 at index (0,) (up to 3e-06 allowed)
+[rank1]: Greatest relative difference: 0.48697394132614136 at index (0,) (up to 8e-05 allowed)

@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.l4-gru-causal-stem-authority.v1",
+  "authority": "User 2026-11-10: dawai pogna[l] plus inspect online training metrics; accepts immediately preceding 6-fit K1/K16 GRU plan and export/CPU package checks",
+  "at_local_epoch": 1794340661.42319,
+  "objective_mode": "competition",
+  "verification_tier": "C for public transfer; exact deterministic implementation tests and exposed official-valid recipe screen",
+  "worktree": "C:\\Users\\admin\\Documents\\Codex\\reviews\\WunderFunder-l4-causal-stem-20261110",
+  "native_host": "lc-epanov_s@10.61.10.209",
+  "native_root": "/data/lc-epanov_s/tabdata-stem-20261110-r1",
+  "existing_rpc": "C:/Users/admin/Documents/Codex/artifacts/l4-next70-20261110/l4-rpc",
+  "new_ssh_connections": 0,
+  "training": {
+    "new_scientific_fits": 6,
+    "arms": [
+      "plain",
+      "k1",
+      "k16"
+    ],
+    "seeds": [
+      203301,
+      203302
+    ],
+    "epochs": 6,
+    "updates_per_epoch": 6460,
+    "updates_per_fit": 38760,
+    "gru_hidden": 256,
+    "gru_layers": 2,
+    "input": "raw112",
+    "precision": "strict fp32",
+    "optimizer": "same AdamW3e-4 wd.01 clip1 cosine-v2 floor.1 warmup5% as PR77 sharedcontrol",
+    "batch_sequences": 32,
+    "chunk": 1000,
+    "initializer": "fresh paired same-backbone/RNG perseed; identity-zero FIR residual",
+    "stem": "per-channel causal residual FIR; K16 carries preceding15 normalized inputrows acrosschunks; reset onlyatsequenceboundary; nofuture",
+    "primary_contrast": "fixedE6 K16 minus K1 paired perseed; K16/plain secondary",
+    "parameter_count_confound": "K1/K16 are not parameter-count matched; quality package not pure lag attribution"
+  },
+  "validation": {
+    "fit_sequences": 10325,
+    "fit_source": "officialtrainonly",
+    "valid_sequences": 1873,
+    "scored_rows": 3528273,
+    "metric_id": "global_wp_clip2_v1",
+    "validation_every_supervised_epoch": true,
+    "train_diagnostic": "same deterministic32fitcohort, labels/masks explicitly distinct fromprimary",
+    "full_valid_exposed": true,
+    "no_valid_ancestry": true
+  },
+  "budget": {
+    "wave_wall_hours": 4,
+    "fit_hours": 3,
+    "collection_hours": 1,
+    "clock_start": "first actual new device profile",
+    "max_engineering_profiles": 6,
+    "profile_updates": 30,
+    "max_fit_gpu_lanes": 6,
+    "max_concurrent_new_fits_per_gpu": 1,
+    "physical_gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "other_two_gpus": "existing SSL children on6/7 unchanged; no B300",
+    "native_aggregate_owned_rss_gib": 128,
+    "local_cpu_cores": 2,
+    "output_bytes": 2500000000,
+    "min_free_disk_bytes": 4000000000,
+    "new_downloads_rentals_billing": false
+  },
+  "deliverables": [
+    "six fixed endpoints+perseed target contrasts",
+    "all checkpoints,fullval/train curves,gradpre/post/clip/LR/update metrics,resource traces",
+    "canonical prediction/scorer verification with measured collection time",
+    "draftPR and durable updates as SemyonEpanov",
+    "separate repair of two old exporttime-outs withoutretrains",
+    "exactPR76 CPUcallback/base check with ancestry limitations"
+  ],
+  "guards": [
+    "ROOT alone SSH/GPU/processsignals/admission",
+    "critic independent before costlyfits",
+    "pinned source/config/data/physicalGPU/restore profiles",
+    "preserve oldfit/export/receiving artifacts",
+    "no new fitting on valid",
+    "no public0.70 forecast from proxies",
+    "no foreignjobstops"
+  ],
+  "old_fit_resumes": false,
+  "competition_upload": false
+}

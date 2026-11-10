@@ -1,4 +1,166 @@
+## Latest 10 November: user authorizes the next GRU causal-input screen
+
+The user accepted the preceding plan and asked to inspect online training metrics.
+This admits six new fixed6E GRU256x2/raw112 fits: plain, causal residual K1 and K16,
+paired seeds203301/203302. All other settings follow the PR77 shared control.
+This is a descendant of PR74/E168, with correct normalized raw-input history
+across chunks, sequence reset and same-backbone/RNG identity initialization.
+It is a new GRU adaptation, not the exact Transformer PR74 experiment.
+Qualified train10325 only; full official valid1873/3528273 every epoch remains
+exposed development evidence. Freeze E6 primary K16-K1, then K16-plain; K1/K16
+are not parameter-count matched. No other scientific fits or old resumes.
+
+Authority: C:/Users/admin/Documents/Codex/artifacts/l4-causal-stem-20261110/AUTHORITY_R1.json.
+Native root /data/lc-epanov_s/tabdata-stem-20261110-r1. Use the existing next70
+SSH/RPC only. ROOT owns GPU/process admission, profiles and signals. Six actual
+30-update exact-source profiles precede fits. New wave maximum4h from first new
+profile:3h fitting plus1h collection. GPU0-5, one new fit per card; existing SSL
+children on6/7 stay unchanged. Native owned RSS128GiB,2.5GB outputs,4GB free
+disk reserve, local2aggregate CPU cores. No downloads, rentals, billing,
+foreign stops, B300 launch or competition upload. The accepted separate tasks
+are two export-only timeout repairs and exact PR76 CPU callback/base checks.
+
+Use only the existing three bounded Luna/max actor/critic roles, no children.
+Implementation and independent review precede ROOT's source freeze/admission.
+Preserve every prior source capsule, recipe, checkpoint, readout and negative.
+
+## Latest 10 November: actual next70 execution on existing eight L4 GPUs
+
+The user's "давай делай на 8чД4" authorizes the bounded next70 panel on the
+existing eight L4 GPUs. PR77's six fresh fixed6E fits have completed38760updates
+each; source9a5d2e7ca / capsuleb05a73fc is frozen. Fixed-E6 results are indexed in
+research/experiment_drafts/l4-next70-20261110/results/README.md. The t0 specialist
+loses both paired comparisons; the t1 replacement has opposite signs and a tiny
+mean delta. No strong gain or public0.70 claim is supported by this screen.
+
+PR78 runs two train-only input-innovation2E -> fresh-optimizer shared4E chains
+on GPUs6/7, sourcec157877d / capsuleb917b83e. Four new stages reuse the exact two
+PR77 shared6E controls: ten unique stages across the two studies. The R1 CPU
+preparation timeout preceded all SSL profiles/fits. R2 completed preparation in
+66.310s and passed actual parent profiles/reload; its conditional child gates,
+receiving source/admission and native evidence are preserved in the PR78 packet's
+receiving/ directory. The original12h first-profile window (11hfit+1hcollection)
+and output/RSS/disk caps remain. Children are already conditionally authorized;
+no extra seeds, resumes or scientific fits are authorized by this note.
+
+ROOT owns the single existing SSH/RPC at artifacts/l4-next70-20261110/l4-rpc;
+never create a parallel SSH stream. Native root is
+/data/lc-epanov_s/tabdata-next70-20261110-r1. Native detached controllers survive
+SSH loss. Readout R1 failed due to virtualenv Python symlink dereferencing;
+separate R2 only re-exports/re-scores the six completed final checkpoints on
+freed GPUs0-5. It never repeats training. Preserve R1 and all earlier outcomes.
+
+Official train10325, zero valid fitting/initializer ancestry, and full
+valid1873/3528273 scored rows are mandatory. Validation remains exposed. Local
+dashboard is loopback8770; the mirror uses the same SSH queue. A recovered local
+mirror R2 extends atomic-replace sharing-lock retry to10s with the original
+observation deadline. All36 supervised epoch graph sets were saved. Native clock
+is approximately2h behind local; do not rewrite source events or host clocks.
+Existing three bounded actor/critic roles only; ROOT owns GPU/signals. No new
+provider allocation, billing, downloads, foreign stops or competition submission.
+
+## Latest 8 November: approved optimizer/horizon screen execution
+
+The user approved executing TOP1_NEXT_ALLOCATION_R1.json after all five repairs.
+Exactly six fresh B300 fits are authorized: Transformer768x24 standalone-label
+WMSE, Muon256/A4 control, AdamW256/A4, Muon512/A2; paired seeds203101/203102,
+fixed4E, global sequence batch256. Actual source/device/data/profile/restore
+receipts and a finite receiving deadline precede fits. No old fit is resumed.
+ROOT owns transport recovery, one persistent SSH/RPC stream per host and all
+GPU/process admission. Reuse a live owned stream; a dead stream may be replaced
+once after verifying it is dead, with no reconnect loop. Foreign jobs stay intact.
+L4 long-memory/local-attention work is preparation only at this stage, not a fit.
+BF16/BF16x9 forward with FP32 master/optimizer arithmetic follows the approved
+new plan and supersedes the old skill's strict-FP32 default for these exact arms.
+Use at most the existing three bounded actor/critic roles, Luna/max, no children.
+No new provider allocation, billing, data downloads or competition submission.
+Keep the completed repair commits and all frozen historical artifacts unchanged.
+
+## Latest 8 November: five-point training repair (code only)
+
+The user requests sequential diagnosis, implementation, checks and a separate
+commit for each of five training problems. This authorizes source changes,
+bounded CPU correctness tests and concrete future-run handoffs only. No SSH,
+GPU profiling, fit, resume, provider allocation or competition upload is part
+of this repair. Historical recipes/results remain immutable. See
+research/experiment_drafts/training-repair-20261108/README.md.
+
+## Completed follow-up,8 November2026 terminal audit
+
+All10 fresh fits completed:6L4 fixed6E and4B300 fixed4E, with24 L4 fixed grades
+and4 B mixture grades. See research/experiment_drafts/ensemble-objective-fix-20261108/RESULTS_20261108_R1.md.
+Transformer WMSE fixed90%TL3+10%z mean WP.692492501 versusTL3.692377425
+(+.000115076 across2seeds); mixture-correlation package and all GRU/SWA mixtures
+are negative. This is exposed-valid evidence, no public gain/serving promotion.
+Earlier running notes below are historical. Do not duplicate or resume any fit.
+Current physical node occupancy was not rechecked; completed cached producer
+receipts establish endpoint completion, not present free hardware.
+
 # Project agent instructions
+
+## Actual objective follow-up execution,8 November
+
+Four new fixed4E/3280 teachers are running on all8 B300 GPUs, not pending setup.
+PR70 reports them; new L4 follow-up is PR71. Old PR69 fixed30E attempts were
+retired as partial9E/7380 with complete safe checkpoints/full-valid/RNG retained
+and all8 exact old trainers proved absent; never resume them from this note.
+Native controller1580653/birth150271506, immutable training source88ad6a8637390f39906b7ada30792a822f2172298770d9f27476d10028cc0a28,
+receiver91e605e93, plan02ce50018009b093a03564be4e02c3cf4ca027655bc8c2297923c064354767e5.
+All actual NCCL/50-update/both-rank full-state reload gates passed before ROOT
+release. First timed-out engineering attempts remain historical. Existing ROOT
+RPC streams only; no duplicate fits/new SSH. See EXECUTION_R1.md and artifact
+C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107/ACTIVE_FOLLOWUP_20261108.json.
+Full4E quality endpoints remain pending; no public-score gain is claimed.
+
+## Latest8 November: ensemble-objective repair explicitly authorized
+
+The user explicitly requests implementing and launching fixes on the existing
+L4/B300 clusters. Shared authority is the generalization-fix-20261108 CONTRACT_R1
+in the companion generalization-fix worktree. This B300 packet admits exactly
+four new4E teachers (labels control versus unscaled mixture WMSE/correlation
+package, pairedseeds101101/101102), max4h wall from first new profile including
+1h collection reserve. Six L4 fits belong to the separate matched packet.
+ROOT alone owns existing SSH streams/GPU/signal authority. Old B300 jobs may
+only be retired through an explicit safe-checkpoint/owned-identity receipt once
+successors are qualified; partial30E outcomes remain historical. ADR0044 and
+qualified train-only reference ancestry are unchanged. No automatic extra fits,
+foreign stops, rentals, billing or competition upload.
+
+## Latest7 November: measured B128 optimization supersedes the B4 allocation
+
+The user explicitly requested training optimization on B300 and L4. Four B4
+attempts were retired as partial at1263–1291updates; preserve their old source,
+journals and receipts. The current B300 panel uses matched B128/A4/world2,
+fixed30E/24600updates, with source6ab2f679e unchanged. Thirteen new engineering
+profiles passed; each exact production seed/config/pair passed50updates and
+ROOT approval. New control: runtime/architecture-execution-20261107-r1/control/
+b300-optimized-r1. Its24h/1hreserve allocation replaces the old nine-day B4
+execution; no old B4 continuation or extra seeds are admitted. See
+research/experiment_drafts/tl3-transformer-complement-execution-20261107/OPTIMIZATION_R1.md.
+Only batch and the resulting canonical update/warmup counts changed. Official
+train10325/zero valid fitting/full valid1873/3528273 and all source/ancestry,
+precision, objective, fixed blend and ownership constraints remain. Optional
+Muon batching source is prepared, not used by these workers. Root owns one
+persistent SSH stream per host. No quality gain is inferred from throughput.
+
+## Latest7 November: PR67 receiving execution explicitly authorized
+
+The user explicitly requested setup and launch on the existing B300/L4 hosts.
+Four fresh30-epoch PR67 fits now run on four two-B300 pairs, two seeds each for
+labels and fixed90%cleanTL3+10%Transformer objective. See
+research/experiment_drafts/tl3-transformer-complement-execution-20261107/EXECUTION_R1.md.
+Frozen source6ab2f679e remains unchanged; twelve actual profiles/native acceptance
+and exact clean-TL3 baseline replay passed before ROOT approval. No automatic
+extra seeds/teachers/students or historical stopped-fit resumption is authorized.
+Official train10325 only, zero valid fitting, full valid1873/3528273 scored rows;
+ADR0044 overrides historical random-fold defaults. BF16/BF16x9 mode is explicit.
+Measured~.71s/update ×774600 requires~6.4days core fitting before full-valid
+overhead. ROOT explicitly amended the initial24h maximum to finite9days before
+first fit, with unchanged four-fit/twelve-profile caps and1h collection reserve.
+Native observer has a7-day per-worker cap; a source-identical same-fit continuation
+requires actual expiry/ownership/checkpoint review within the9-day maximum.
+ROOT alone owns persistent SSH file-RPC and GPU admission; preserve foreign jobs.
+Old resource/preparation notes below are historical where this scope supersedes.
 
 ## B300 precision amendment — user correction, 2026-10-24
 
