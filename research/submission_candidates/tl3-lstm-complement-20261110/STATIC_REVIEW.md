@@ -48,3 +48,14 @@ PR53's +0.0001246378 is an exposed research-predictor difference, not a score fo
 this ZIP. Quantized native GRUs and continuous tiedlead feature state may change
 that difference. Historical consumed teacher-cache ancestry is not completely
 recorded. The packet remains **PACKAGED_NOT_EXECUTED**, `ready_to_submit:false`.
+
+## Receiver R2 review
+
+The scored-row retention change was independently reviewed by
+`submission_dedup_audit`. Full replay still advances every raw row; target,
+base, candidate and seq/step arrays use the same ordered official mask and
+check the exact selected-row count. A diagnostic mask-independence regression
+was caught statically and fixed before publication: diagnostics retain raw
+mixture values on unrequested rows, while full scoring uses actual returned
+outputs. Ruff/AST/shell/source-hash checks pass; no numerical equivalence or
+throughput result is claimed. See [RECEIVER_R2.md](RECEIVER_R2.md).

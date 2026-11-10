@@ -20,7 +20,7 @@ inference, training, server job or competition upload was performed.
    Native dynamic INT8/fast-activation GRUs; FP32 NumPy LSTM; FP64 mixture then
    one FP32 cast. No weight search or retraining. All recurrent states reset by
    seq_ix and advance on every row, including warm-up.
-5. **Budget.** Zero new fits. Server profile uses eight complete sequences plus
+5. **Budget.** Zero new fits. Server profile defaults to two complete sequences (eight optional) plus
    state/reference checks, timeout30minutes; full validation uses all1873
    sequences, timeout2hours. One logical CPU,16GB, no swap/GPU/network. Existing
    GPU jobs are unchanged. Full validation is explicitly separate from profile.
@@ -42,7 +42,8 @@ inference, training, server job or competition upload was performed.
    commands. The exact image ID, ZIP, recipe, INPUTS and passing profile receipt
    are bound before full validation. GPU host/access is not needed for CPU checks.
 10. **Return.** profile.json/full.json, console logs, package/prediction hashes,
-    both prediction arrays, CPU model/affinity/quota, peak memory, process CPU
+    scored-row candidate/base/target arrays with sequence/step alignment,
+    CPU model/affinity/quota, peak memory, process CPU
     time, Python/library versions, score and conditional whole-test projection.
 11. **Trace.** DEDUP.json records108 visible submissions and byte/member checks
     against downloaded archives. The prior PR49 blend used fbc1k, and November4
@@ -53,3 +54,9 @@ Code/manifests only are committed. The actual ZIP and portable receiver handoff
 are delivered as local artifacts, with their hashes recorded here; no weights
 are added to Git. Local verification is Ruff, AST/JSON/shell syntax and byte/CRC
 inspection only. No model construction, forward pass or native load occurred.
+
+Receiver R2 reduces expected prediction-output payload from599MB to120MB and
+removes repeated blend recomputation from the full-validation loop. Every raw
+row still advances the exact original ZIP; every requested output remains
+validated. Speedup is unmeasured. Server execution is now explicitly requested
+but has not started: no usable SSH/RPC connection or data mount is available.

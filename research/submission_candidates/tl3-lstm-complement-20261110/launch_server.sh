@@ -7,6 +7,8 @@ delivery="${WNN_DELIVERY_ROOT:?Set absolute directory containing the delivered Z
 data="${WNN_VALID_DATA:?Set absolute path to the canonical valid.parquet}"
 cpu="${WNN_CPU_ID:?Set one currently available logical CPU id}"
 image="${WNN_IMAGE_ID:?Set sha256 image id returned by docker image inspect}"
+profile_sequences="${WNN_PROFILE_SEQUENCES:-2}"
+[[ "${profile_sequences}" == 2 || "${profile_sequences}" == 8 ]] || exit 2
 [[ "${image}" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo 'Pin a built image id, not a mutable tag' >&2; exit 2; }
 [[ "${delivery}" = /* && "${data}" = /* && "${cpu}" =~ ^[0-9]+$ ]] || exit 2
 [[ -f "${data}" && -d "${delivery}" ]] || exit 2
@@ -23,7 +25,7 @@ args=(
   --mount "type=bind,src=${delivery},dst=/packet,readonly"
   --mount "type=bind,src=${data},dst=/inputs/valid.parquet,readonly"
   --mount "type=bind,src=${out},dst=/outputs"
-  --env "WNN_STAGE=${stage}" --env 'WNN_PROFILE_SEQUENCES=8'
+  --env "WNN_STAGE=${stage}" --env "WNN_PROFILE_SEQUENCES=${profile_sequences}"
   --env 'WNN_SUBMISSION_ZIP=/packet/kotiki-tl3-w18-lstm10-cpu-20261110.zip'
   --env 'WNN_ZIP_SHA256=766bab1f3205697819af994acbb54cfe60682651977f393d76bec69608a75e3e'
   --env 'WNN_INPUTS_SHA256=2b751fa835e0c895631a6f167eda6a10880c956bae17d79f581f65f15e5fe190'

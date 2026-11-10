@@ -499,14 +499,32 @@ def _full_stage(
 
     if profile_receipt.get("environment") != env:
         raise ValueError("profile and full stage must use the same Python/CPU/resource envelope")
-    blend_path = args.output.parent / "full-valid-blend.npy"
-    base_path = args.output.parent / "full-valid-base.npy"
-    for path in (blend_path, base_path):
+    output_paths = {
+        "candidate": args.output.parent / "full-valid-candidate.npy",
+        "base": args.output.parent / "full-valid-base.npy",
+        "targets": args.output.parent / "full-valid-targets.npy",
+        "seq_ix": args.output.parent / "full-valid-seq-ix.npy",
+        "step_in_seq": args.output.parent / "full-valid-step-in-seq.npy",
+    }
+    for path in output_paths.values():
         if path.exists():
             raise FileExistsError(f"refusing to overwrite full-valid predictions: {path}")
-    shape = (VALID_SEQUENCES, SEQUENCE_LENGTH, 2)
-    blended = np.lib.format.open_memmap(blend_path, mode="w+", dtype=np.float32, shape=shape)
-    baseline = np.lib.format.open_memmap(base_path, mode="w+", dtype=np.float32, shape=shape)
+    pair_shape = (VALID_SCORED_ROWS, 2)
+    candidate_predictions = np.lib.format.open_memmap(
+        output_paths["candidate"], mode="w+", dtype=np.float32, shape=pair_shape
+    )
+    baseline_predictions = np.lib.format.open_memmap(
+        output_paths["base"], mode="w+", dtype=np.float32, shape=pair_shape
+    )
+    selected_targets = np.lib.format.open_memmap(
+        output_paths["targets"], mode="w+", dtype=np.float32, shape=pair_shape
+    )
+    sequence_ids = np.lib.format.open_memmap(
+        output_paths["seq_ix"], mode="w+", dtype=np.int64, shape=(VALID_SCORED_ROWS,)
+    )
+    steps = np.lib.format.open_memmap(
+        output_paths["step_in_seq"], mode="w+", dtype=np.uint16, shape=(VALID_SCORED_ROWS,)
+    )
     blend_accumulator, base_accumulator = GlobalAccumulator(), GlobalAccumulator()
     model = model_type()
     model.reset()
@@ -524,21 +542,41 @@ def _full_stage(
         if data.sequence_id in seen_sequence_ids:
             raise ValueError(f"duplicate seq_ix {data.sequence_id} in full valid.parquet")
         seen_sequence_ids.add(data.sequence_id)
-        replay = replay_sequence(model, data, DataPoint, *blend_weights)
+        replay = replay_sequence(
+            model,
+            data,
+            DataPoint,
+            *blend_weights,
+            retain_unscored_components=False,
+            verify_blend=False,
+        )
         callback_ns += replay.callback_ns
         if group in profile_indices:
             group_callback_ns[group] = replay.callback_ns
-        mask = data.is_scored & data.need_prediction
+        selected_count = len(replay.scored_steps)
+        selected_slice = slice(scored_rows, scored_rows + selected_count)
+        group_targets = data.targets[replay.scored_steps]
+        all_selected = np.ones(selected_count, dtype=bool)
         score_start = time.perf_counter_ns()
-        blend_accumulator.add(data.targets, replay.blended, mask)
-        base_accumulator.add(data.targets, replay.base, mask)
+        blend_accumulator.add(group_targets, replay.blended, all_selected)
+        base_accumulator.add(group_targets, replay.base, all_selected)
         score_ns += time.perf_counter_ns() - score_start
-        blended[group], baseline[group] = replay.blended, replay.base
+        candidate_predictions[selected_slice] = replay.blended
+        baseline_predictions[selected_slice] = replay.base
+        selected_targets[selected_slice] = group_targets
+        sequence_ids[selected_slice] = data.sequence_id
+        steps[selected_slice] = replay.scored_steps.astype(np.uint16, copy=False)
         rows_seen += SEQUENCE_LENGTH
         predictions_required += int(data.need_prediction.sum())
-        scored_rows += int(mask.sum())
-    blended.flush()
-    baseline.flush()
+        scored_rows += selected_count
+    for array in (
+        candidate_predictions,
+        baseline_predictions,
+        selected_targets,
+        sequence_ids,
+        steps,
+    ):
+        array.flush()
     total_seconds = time.perf_counter() - total_started
     if rows_seen != VALID_ROWS or predictions_required != VALID_SEQUENCES * (SEQUENCE_LENGTH - 99):
         raise ValueError("full-valid replay did not cover the complete required callback grid")
@@ -575,10 +613,10 @@ def _full_stage(
             "scope": "receiver projection proxy; not a portal runtime guarantee",
         }
         runtime_gate = "PASS" if projected_seconds <= 3_600 else "FAIL"
-    del blended, baseline
+    del candidate_predictions, baseline_predictions, selected_targets, sequence_ids, steps
     output_hashes = {
         path.name: {"bytes": path.stat().st_size, "sha256": sha256_file(path)}
-        for path in (blend_path, base_path)
+        for path in output_paths.values()
     }
     quality_gate = quality_delta > 0.0
     if not quality_gate or runtime_gate == "FAIL":
@@ -604,6 +642,18 @@ def _full_stage(
         "sequences_seen": VALID_SEQUENCES,
         "predictions_required": predictions_required,
         "scored_rows": scored_rows,
+        "paired_prediction_rows_stored": scored_rows,
+        "paired_uncertainty_inputs": {
+            "available": True,
+            "arrays": [
+                "full-valid-targets.npy",
+                "full-valid-base.npy",
+                "full-valid-candidate.npy",
+                "full-valid-seq-ix.npy",
+                "full-valid-step-in-seq.npy",
+            ],
+            "alignment": ["seq_ix", "step_in_seq"],
+        },
         "metric_id": blend_score["metric_id"],
         "metric_clip": blend_score["metric_clip"],
         "candidate_global_wp": blend_score["weighted_pearson"],

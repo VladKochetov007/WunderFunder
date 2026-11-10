@@ -10,6 +10,7 @@ import platform
 import re
 import stat
 import sys
+import time
 import zipfile
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -47,11 +48,12 @@ class SequenceData:
 
 @dataclass(frozen=True)
 class SequenceReplay:
-    """Per-row outputs and measured official callback time for one sequence."""
+    """Retained outputs and measured official callback time for one sequence."""
 
     base: np.ndarray
     lstm: np.ndarray
     blended: np.ndarray
+    scored_steps: np.ndarray
     callback_ns: int
 
 
@@ -97,36 +99,59 @@ def replay_sequence(
     datapoint_type: type,
     baseline_weight: float,
     lstm_weight: float,
+    *,
+    retain_unscored_components: bool = True,
+    verify_blend: bool = True,
 ) -> SequenceReplay:
-    """Call the actual ABI once per row and verify both exposed components."""
-    base = np.empty((SEQUENCE_LENGTH, 2), dtype=np.float32)
+    """Call every raw row, retaining full diagnostics or only selected scored rows.
+
+    Profile/state gates retain every component and verify exact blend arithmetic.
+    Full validation retains only scored outputs while checking the actual callback
+    on every requested row and finite components across all requested rows.
+    """
+    scored_steps = np.flatnonzero(data.is_scored & data.need_prediction)
+    retained_rows = SEQUENCE_LENGTH if retain_unscored_components else len(scored_steps)
+    base = np.empty((retained_rows, 2), dtype=np.float32)
     lstm = np.empty_like(base)
     blended = np.zeros_like(base)
+    requested_rows = int(data.need_prediction.sum())
+    base_requested = None
+    lstm_requested = None
+    if not retain_unscored_components:
+        base_requested = np.empty((requested_rows, 2), dtype=np.float32)
+        lstm_requested = np.empty_like(base_requested)
     callback_ns = 0
+    scored_position = 0
+    requested_position = 0
     for step, features in enumerate(data.features):
-        started = __import__("time").perf_counter_ns()
+        started = time.perf_counter_ns()
         value = model.predict(
             datapoint_type(data.sequence_id, step, bool(data.need_prediction[step]), features)
         )
-        callback_ns += __import__("time").perf_counter_ns() - started
+        callback_ns += time.perf_counter_ns() - started
         components = getattr(model, "last_components", None)
         if not isinstance(components, tuple) or len(components) != 2:
             raise TypeError("PredictionModel.last_components must be a (base, lstm) tuple")
-        base_value, lstm_value = (np.asarray(component) for component in components)
-        if any(
-            value.dtype != np.float32 or value.shape != (2,) for value in (base_value, lstm_value)
+        base_value, lstm_value = components
+        if not isinstance(base_value, np.ndarray) or not isinstance(lstm_value, np.ndarray):
+            raise TypeError("components must be NumPy arrays")
+        if (
+            base_value.dtype != np.float32
+            or base_value.shape != (2,)
+            or lstm_value.dtype != np.float32
+            or lstm_value.shape != (2,)
         ):
             raise TypeError(
                 f"components must be float32 vectors, got {base_value.dtype}/{lstm_value.dtype}"
             )
-        if not np.isfinite(base_value).all() or not np.isfinite(lstm_value).all():
-            raise ValueError(f"non-finite model component at sequence row {step}")
-        base[step], lstm[step] = base_value, lstm_value
-        mixed = (
-            baseline_weight * base_value.astype(np.float64)
-            + lstm_weight * lstm_value.astype(np.float64)
-        ).astype(np.float32)
-        blended[step] = mixed
+        mixed = None
+        if retain_unscored_components or verify_blend:
+            mixed = (
+                baseline_weight * base_value.astype(np.float64)
+                + lstm_weight * lstm_value.astype(np.float64)
+            ).astype(np.float32)
+            if retain_unscored_components:
+                blended[step] = mixed
         if data.need_prediction[step]:
             if (
                 not isinstance(value, np.ndarray)
@@ -136,11 +161,41 @@ def replay_sequence(
                 raise TypeError(
                     "predict must return a float32 ndarray with shape (2,) on requested rows"
                 )
-            if not np.isfinite(value).all() or not np.array_equal(value, mixed):
+            if not np.isfinite(value).all():
+                raise ValueError(f"non-finite callback output at requested row {step}")
+            if retain_unscored_components:
+                base[step], lstm[step] = base_value, lstm_value
+            else:
+                assert base_requested is not None and lstm_requested is not None
+                base_requested[requested_position] = base_value
+                lstm_requested[requested_position] = lstm_value
+                requested_position += 1
+                if data.is_scored[step]:
+                    base[scored_position] = base_value
+                    lstm[scored_position] = lstm_value
+                    blended[scored_position] = value
+                    scored_position += 1
+            if verify_blend and mixed is not None and not np.array_equal(value, mixed):
                 raise ValueError(f"callback output does not reproduce its components at row {step}")
         elif value is not None:
             raise ValueError("predict must return None when need_prediction is false")
-    return SequenceReplay(base, lstm, blended, callback_ns)
+        elif retain_unscored_components:
+            base[step], lstm[step] = base_value, lstm_value
+    if retain_unscored_components:
+        if (
+            not np.isfinite(base).all()
+            or not np.isfinite(lstm).all()
+            or not np.isfinite(blended).all()
+        ):
+            raise ValueError("non-finite component during full-sequence diagnostics")
+    elif (
+        requested_position != requested_rows
+        or scored_position != len(scored_steps)
+        or not np.isfinite(base_requested).all()
+        or not np.isfinite(lstm_requested).all()
+    ):
+        raise ValueError("invalid or non-finite requested component in compact replay")
+    return SequenceReplay(base, lstm, blended, scored_steps, callback_ns)
 
 
 def sha256_file(path: Path) -> str:

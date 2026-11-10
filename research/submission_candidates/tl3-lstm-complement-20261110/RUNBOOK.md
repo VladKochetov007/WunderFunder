@@ -6,20 +6,22 @@ not a validated submission. Do not upload before reviewing the receiver outputs.
 
 ## Transfer
 
-Copy `cpu-receiver-handoff-20261110.tar.gz` to the server using your SSH alias:
+Copy `cpu-receiver-handoff-20261110-r2.tar.gz` to the server using your SSH alias:
 
 ```bash
-scp cpu-receiver-handoff-20261110.tar.gz USER@SERVER:/physical-disk/wunder/
+scp cpu-receiver-handoff-20261110-r2.tar.gz USER@SERVER:/physical-disk/wunder/
 ```
 
-On the server, choose a physical-disk directory with at least 10 GB free in
-addition to the existing 5.62 GB validation file and Docker image. Do not use
+On the server, choose a physical-disk directory with at least2GB free for
+receiver outputs/scratch in
+addition to the existing5.62GB validation file and Docker image storage.
+Keep Docker image space separate from the output allowance. Do not use
 `/tmp`, `/dev/shm` or a RAM-backed volume. A cgroup-v2 Docker host is required.
 
 ```bash
 cd /physical-disk/wunder
-tar -xzf cpu-receiver-handoff-20261110.tar.gz
-cd cpu-receiver-handoff-20261110
+tar -xzf cpu-receiver-handoff-20261110-r2.tar.gz
+cd cpu-receiver-handoff-20261110-r2
 sha256sum --check SHA256SUMS
 export WNN_DELIVERY_ROOT="$PWD"
 export WNN_VALID_DATA=/absolute/path/to/valid.parquet
@@ -60,15 +62,18 @@ bash launch_server.sh profile
 cat outputs/profile/profile.json
 ```
 
-This processes eight predetermined evenly spaced complete sequences and bounded
-state/parity diagnostics. The timeout is 30 minutes. It checks native ABI,
+By default this processes two predetermined complete sequences (first/last groups) and bounded
+state/parity diagnostics. Set `WNN_PROFILE_SEQUENCES=8` before both commands for
+a wider timing sample. The timeout is 30 minutes. It checks native ABI,
 finite2-vector outputs, hidden-state updates on warm-up/unrequested rows,
 A-B-A and explicit resets, suffix causality, exact blend arithmetic and the
 LSTM against one-step/chunked Torch references at absolute tolerance1e-4.
 The recipe, source manifest and ZIP are externally hash-bound; dependency and
 native member bytes are checked. CPU, memory, versions and timing are recorded.
 
-Proceed only if the command succeeds and `profile_passed` is true. Review the
+Proceed only if the command succeeds and `profile_passed` is true.
+Before the full run, inspect callback time and estimated full-validation cost;
+if it is incompatible with the two-hour bound, investigate that bottleneck first. Review the
 per-row time before spending time on full validation. A profile receipt does
 not approve quality or the 60-minute whole-test limit. It always says
 `ready_to_submit:false`. Failures preserve logs in outputs/profile; diagnose
@@ -84,8 +89,13 @@ cat outputs/full/full.json
 The launcher requires the passing profile receipt for the exact same ZIP,
 recipe and source inputs. Full validation uses every row in all1,873 sequences,
 the official callback/mask and global clipped weighted Pearson accumulator.
-It saves predictions for the served base and candidate, their WP and paired
-point difference, resource readings and receipt hashes. Timeout is two hours;
+It saves only the3,528,273 scored rows: served-base and actual callback
+predictions, targets, seq_ix and step_in_seq. These five aligned NPY arrays
+retain inputs for paired sequence-level uncertainty analysis. Their raw payload
+is119,961,282 bytes (about120MB), versus599,360,000 bytes for the previous
+two full-row prediction arrays (about80% less; headers excluded). Every raw row
+still advances both recurrent models. WP, paired point difference, resource
+readings and receipt hashes are returned. Timeout is two hours;
 this is a validation allowance, not the competition's one-hour inference limit.
 
 `WNN_TEST_ROWS` is deliberately unset: the official data overview does not
@@ -99,7 +109,7 @@ full validation:
 
 Without that bound the runtime gate stays `PENDING_TEST_ROWS`. With it the
 receiver gives a conditional extrapolation with25% margin and a3,600-second
-limit; it still does not guarantee portal runtime. Initialization overhead and
+limit; it still does not guarantee portal runtime. Model loading is included in the projection; other initialization overhead and
 CPU differences need review. Positive point delta is a screening gate, not a
 significance claim; inspect per-sequence results/uncertainty before release.
 Neither stage uploads the ZIP or starts a subsequent fit automatically.

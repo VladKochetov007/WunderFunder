@@ -2,6 +2,11 @@
 
 Published as [draft PR76](https://github.com/VladKochetov007/WunderFunder/pull/76) into `research-team`.
 
+Receiver revision2 removes redundant per-row blend recomputation during full
+validation and stores scored rows only; the initial profile defaults to two
+complete sequences. See [the receiver revision](RECEIVER_R2.md).
+The ZIP itself is unchanged.
+
 One fixed candidate, zero new fits, no local tests or inference. Final ZIP:
 **14,011,657 bytes**, SHA-256
 `766bab1f3205697819af994acbb54cfe60682651977f393d76bec69608a75e3e`. The user asks
