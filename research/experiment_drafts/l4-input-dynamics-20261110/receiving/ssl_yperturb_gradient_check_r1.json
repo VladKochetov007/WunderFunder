@@ -1,0 +1,137 @@
+{
+  "cache_or_dataset_writes": 0,
+  "command": {
+    "argv": [
+      "C:\\Users\\admin\\Documents\\Codex\\reviews\\galam-test-env-20261027\\Scripts\\python.exe",
+      "C:\\Users\\admin\\Documents\\Codex\\artifacts\\l4-next70-20261110\\ssl_yperturb_gradient_check_r1.py"
+    ],
+    "environment_thread_bounds": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "working_directory": "C:\\Users\\admin\\Documents\\Codex\\reviews\\WunderFunder-l4-next70-20261110"
+  },
+  "cpu_thread_counts": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "torch_interop": 1,
+    "torch_intraop": 1
+  },
+  "created_at_utc": "2026-11-10T18:55:44.923713+00:00",
+  "features": {
+    "identical_across_runs": true,
+    "sha256": "6a3355777808090f89707f59e81cfa9405def6e8d654c909fa2fd0ca653d4765",
+    "shape": [
+      20000,
+      112
+    ]
+  },
+  "interpreter": "C:\\Users\\admin\\Documents\\Codex\\reviews\\galam-test-env-20261027\\Scripts\\python.exe",
+  "label_perturbation": {
+    "adapter_zeroed_y": true,
+    "case_a": "all 1e30 finite float32 labels; all-true source score mask",
+    "case_b": "all NaN float32 labels; all-false source score mask",
+    "labels_a_sha256": "52936fb55ca368acf081ab594fd121e10ca10371f5e122b9ca5504f4b427d50d",
+    "labels_b_sha256": "ea9a2fa4c3760423f3269f4e60e1277085f249de53f04c55316c470b37eac6e9",
+    "labels_changed": true,
+    "source_mask_a_true_rows": 20000,
+    "source_mask_b_true_rows": 0,
+    "source_read_calls": [
+      [
+        {
+          "group": 0,
+          "mask": false,
+          "targets": false
+        }
+      ],
+      [
+        {
+          "group": 0,
+          "mask": false,
+          "targets": false
+        }
+      ]
+    ],
+    "source_reads_requested_labels_or_mask": false
+  },
+  "model": {
+    "architecture": "gru",
+    "hidden": 256,
+    "hint_width": 336,
+    "initial_model_states_bitwise_equal": true,
+    "input_rows_used": 300,
+    "layers": 2,
+    "optimizer_steps": 0,
+    "seed_each_model": 203201
+  },
+  "numpy_version": "2.5.4",
+  "objective": "canonical window_denominators + objective_numerators + scaled_objective",
+  "plot_watcher_idle_before_fixture": {
+    "active_pid": null,
+    "jobs": 30,
+    "model_evaluations": 0,
+    "model_loads": 0,
+    "plot_threads": 1,
+    "status_age_seconds_at_check": 12.366371,
+    "updated_at": "2026-11-10T18:55:26.818176+00:00"
+  },
+  "python_version": "3.12.14 (main, Aug 14 2026, 15:40:22) [MSC v.1944 64 bit (AMD64)]",
+  "results": [
+    {
+      "gradient_elements": 1036626,
+      "gradient_l2": 0.16310980916023254,
+      "gradient_nonzero_elements": 904784,
+      "gradient_parameters": 16,
+      "gradient_sha256": "cbe01ff30951b56aa6189a92b7886a5b6064513a6b0a85631c2b8c4b36f73dfd",
+      "head_gradient_nonzero_elements": 0,
+      "head_gradient_tensors": 4,
+      "hint_denominator": 67536.0,
+      "label_denominator": 0.0,
+      "loss": 0.10674924403429031,
+      "selected_rows_in_first_300": 201
+    },
+    {
+      "gradient_elements": 1036626,
+      "gradient_l2": 0.16310980916023254,
+      "gradient_nonzero_elements": 904784,
+      "gradient_parameters": 16,
+      "gradient_sha256": "cbe01ff30951b56aa6189a92b7886a5b6064513a6b0a85631c2b8c4b36f73dfd",
+      "head_gradient_nonzero_elements": 0,
+      "head_gradient_tensors": 4,
+      "hint_denominator": 67536.0,
+      "label_denominator": 0.0,
+      "loss": 0.10674924403429031,
+      "selected_rows_in_first_300": 201
+    }
+  ],
+  "schema": "wnn.l4-next70-y-perturb-gradient-check.v1",
+  "source_archive_sha256": "2abe698390b722307cedcb5c2879003aa59f388dcece23c88f3c41eb3529c0ce",
+  "source_commit": "c157877d261efaa0a58cd1ae8ba5fc61c914b72d",
+  "source_file_sha256": {
+    "src/wnn/data.py": "79ecafca732902f5d8fb9ac0122852d058b957c0f79c317d7f4a4c920481468b",
+    "src/wnn/nn.py": "1f5b71fa0ad08e75e4ac7cb8312c3dbfdf37493bd5b2734f3519ee7845be76f2",
+    "src/wnn/training/sequence_data.py": "096ed754bbb862e52d6aaf1d28efb423846b0fe7dd68dad167215a03a27c7369",
+    "src/wnn/training/sequence_model_helpers.py": "35d51b54d13342f69dfcc685f707fc71294b07d9838578af78d0d3b2f8304f71",
+    "src/wnn/training/sequence_models.py": "4438da89a128008b4f82a0c348041022338ca19979ae91c5459f69396d5cc178",
+    "src/wnn/training/sequence_objectives.py": "bcdb582f0195056053cfd363fc468fed66b08a237b4978e8786e7b4e3f38263e",
+    "src/wnn/training/sequence_pretraining.py": "53aee7952e43a006309ead3735d52cec77e124d5a3fc5c3c36fc515f48dd23c9",
+    "src/wnn/training/sequence_pretraining_contract.py": "8fb5a042a831e637261ed358c65303bfd309be72323267f9ea573cf4bbb6533c",
+    "src/wnn/training/sequence_provenance.py": "5bfbe5737040b23805bab601d8e2bfa272927394f605e126496a9a0f72197abb"
+  },
+  "source_identity_verified": "b917b83edd463760d83829e44f87b57af5473507302e558d36fad3d1034cd01b",
+  "source_sha256": "b917b83edd463760d83829e44f87b57af5473507302e558d36fad3d1034cd01b",
+  "status": "passed",
+  "strict_gradient_comparison": {
+    "head_gradients_exactly_zero": true,
+    "max_abs_difference": 0.0,
+    "method": "torch.equal for every named parameter gradient",
+    "passed": true
+  },
+  "torch_version": "2.14.1+cpu"
+}
