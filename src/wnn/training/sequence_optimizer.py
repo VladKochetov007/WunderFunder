@@ -11,6 +11,7 @@ import torch
 from torch import nn
 
 from wnn.optim import MuonAdamW
+from wnn.training.sequence_optimizer_controls import apply_optimizer_lr_factors
 
 _QKV_PATTERN = re.compile(r"^blocks\.(\d+)\.qkv\.weight$")
 _MUON_ROLES: dict[str, int] = {
@@ -160,6 +161,7 @@ def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]
             rms=0.2,
             optimizer_role=role,
         )
+    groups = apply_optimizer_lr_factors(groups, model, config)
     return MuonAdamW(
         groups,
         lr=learning_rate,
@@ -170,6 +172,7 @@ def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]
         rms=0.2,
         strict_fp32=True,
         ns_eps=ns_eps,
+        muon_batch_by_shape=bool(config.get("muon_batch_by_shape", False)),
     )
 
 
