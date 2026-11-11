@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [[Experiment] Leave-regime-out inner CV: select on shifted folds, confirm on valid](leave-regime-out-cv-20261111/README.md) — Valid is a regime-shifted block (adversarial AUC 0.984); zero-fit regime folds plus a 4-fit agreement check against valid deltas.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
