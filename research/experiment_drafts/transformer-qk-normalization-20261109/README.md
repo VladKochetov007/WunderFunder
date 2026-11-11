@@ -2,8 +2,15 @@
 
 Published [draft PR #75](https://github.com/VladKochetov007/WunderFunder/pull/75) to `research-team`, stacked on PR72 head
 `4021de8ec5130143c207319c73a102a453eb911e`. Four scientific fits and eight
-engineering profiles are prepared, all **UNRUN**. No local tests, model imports,
-training, inference or GPU profiles are allowed for this preparation.
+engineering profiles were prepared. The exact frozen-source receiver completed
+all eight profile gates, ROOT admitted four fresh fits, and the four two-rank
+fits were launched. The last transferred native mirror snapshot is from
+2026-11-11 02:10:51 UTC: steps 883, 890, 912 and 919 of 3,280. A later SSH/VPN
+stream interruption made current liveness and resources unverified. A bounded
+no-new-fits canonical readout waiter was launched; no fit completion, score or
+quality result is claimed. See the [receiving record](receiving/README.md) for
+source, profile, admission, launch and freshness evidence. `PR.md` preserves the
+original submitted draft body; this execution update is recorded separately.
 
 ## Question and mechanism
 
@@ -110,6 +117,9 @@ not turn these research Transformer weights into a CPU submission.
 - `SUBMISSION_STATUS.md`, `SUBMISSION_INPUTS.json`: live portal/HF and released
   checkpoint audit with exact available archive/endpoint hashes.
 - `VALIDATION.json`, `INDEPENDENT_REVIEW.md`: static preparation evidence only.
+- [receiving/README.md](receiving/README.md): immutable source/profile/admission
+  pins, actual controller receipts, last verified fit snapshot and canonical
+  post-fit readout handoff.
 
 Receiver scaffolding is adapted from PR74 implementation8a8afec964985a6ba8b13d1c9af1ab00e14c6504;
 no trainer is copied. All numerical work uses canonical `train_sequence.py`,
@@ -120,4 +130,5 @@ new treatment. Preserve all failures and the complete physical-disk run root.
 
 Implementation commit: `67c351ae70cacef11f4ad485b5b98192f0d5e81c`. [Incremental code diff](https://github.com/VladKochetov007/WunderFunder/compare/4021de8ec5130143c207319c73a102a453eb911e...67c351ae70cacef11f4ad485b5b98192f0d5e81c).
 [PUBLICATION.json](PUBLICATION.json) records publication and initial CI success.
-No merge, model execution or new platform upload occurred.
+No merge or new platform upload occurred. The later native execution and its
+current-liveness limitation are recorded in `receiving/README.md`.
