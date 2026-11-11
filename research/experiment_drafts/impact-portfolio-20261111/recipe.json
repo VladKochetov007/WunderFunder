@@ -474,7 +474,7 @@
       "lineage": "Adjacent to PR62 auxiliary/target-clipping experiments and PR63 robust losses; keeps WMSE, sample weights and clipping unchanged, adding a distinct event label instead of a new primary clipping threshold.",
       "mechanism": "Explicitly recognizing signed high-magnitude events may improve representation of the rows receiving the largest official weights.",
       "control": "K16 GRU primary WMSE with the unchanged official training recipe.",
-      "treatment": "From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 train rows across>=32 fitting sequences. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.",
+      "treatment": "From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 eligible train rows across>=32 fitting sequences, counting only finite target rows under the same all_after_warmup loss mask. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.",
       "parameters": {
         "thresholds": [
           -2,
@@ -483,7 +483,8 @@
         "aux_weight": 0.05,
         "min_tail_rows_per_target": 100,
         "min_tail_sequences_per_target": 32,
-        "class_weights": "none"
+        "class_weights": "none",
+        "feasibility_mask": "all_after_warmup_and_finite_target"
       },
       "prediction": "Event discrimination improves and translates into better full pooled WP without offsetting center-row damage.",
       "falsifier": "CE improves but official WP does not, classes are too rare, or center performance regresses. Easy class separation alone is not evidence of useful regression.",

@@ -12,7 +12,7 @@ Explicitly recognizing signed high-magnitude events may improve representation o
 
 **Control:** K16 GRU primary WMSE with the unchanged official training recipe.
 
-**Treatment:** From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 train rows across>=32 fitting sequences. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.
+**Treatment:** From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 eligible train rows across>=32 fitting sequences, counting only finite target rows under the same all_after_warmup loss mask. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.
 
 The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
 

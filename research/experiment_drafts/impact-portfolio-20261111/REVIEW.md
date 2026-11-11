@@ -26,3 +26,8 @@ data/lineage binding, remote correctness and profile receipts, fit admission and
 numerical evidence. Equal-parameter nonlinear controls for cards01–03, alternate
 group maps for02, and per-horizon ablations for07 require separate allocation if
 the initial package result makes those questions useful.
+
+Final read-only artifact review found no publication blocker and confirmed scope,
+config hashes and fit accounting. It identified one feasibility-mask mismatch:
+card10 now counts tail support only on finite targets under the same
+`all_after_warmup` loss mask, not warmup rows. No numerical validation followed.
