@@ -1,0 +1,106 @@
+{
+  "schema": "l4-stem-successors-config-packet.v1",
+  "base_source_commit": "336b1c436cf9f7a7d2196fb29eb0f55ca50e5da2",
+  "successor_source_commit": "6b10dfe71fb0ebec9b0fc76788e2de0fd13d1dba",
+  "successor_source_branch": "experiment/l4-stem-successors-20261111",
+  "official_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "base_control_source_identity_sha256": "b9eddeb9a0733b8efa5a11bed24d03de53f94b83b03d72b5db09ab1adcd63188",
+  "successor_source_identity_sha256": "38d6dd71ec29fb8d23b9df801a448f23fb8b78c1e0832883dda1d6f25095643d",
+  "successor_source_archive_sha256": "a48b6eccbd68b8eaf2a1fc67338861301185f2ff72df6dd3c8256c3e8263af9c",
+  "successor_source_manifest_sha256": "e2220d547dc92f791509e48762f164f70a3c064d01a4136156f8cc541dfb43d0",
+  "configs": [
+    {
+      "path": "configs/k64_s203301.json",
+      "sha256": "d5ba1ff1c59a202939787e9f3a1e11f49d936e15468f8edc5fdc9c892948d3cb",
+      "seed": 203301,
+      "arm": "k64",
+      "changed_model_field": "input_stem_kernel",
+      "base_normalized_value": 16,
+      "candidate_value": 64,
+      "source_control_raw_sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534"
+    },
+    {
+      "path": "configs/gru512_k16_s203301.json",
+      "sha256": "04a57321f2c776cc037d880dd0e4735fac7342e85df349d362568543f33da1c2",
+      "seed": 203301,
+      "arm": "gru512_k16",
+      "changed_model_field": "hidden",
+      "base_normalized_value": 256,
+      "candidate_value": 512,
+      "source_control_raw_sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534"
+    },
+    {
+      "path": "configs/gru_dropout01_k16_s203301.json",
+      "sha256": "da50d0db699dce5646eede7337fe41f13578a52f4295af73d6db05a0c64a613d",
+      "seed": 203301,
+      "arm": "gru_dropout01_k16",
+      "changed_model_field": "dropout",
+      "base_normalized_value": 0.0,
+      "candidate_value": 0.1,
+      "source_control_raw_sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534"
+    },
+    {
+      "path": "configs/k64_s203302.json",
+      "sha256": "3f96d100cbec7452867bcf7201d3c456b00191c73b554555de92a8bcc6523827",
+      "seed": 203302,
+      "arm": "k64",
+      "changed_model_field": "input_stem_kernel",
+      "base_normalized_value": 16,
+      "candidate_value": 64,
+      "source_control_raw_sha256": "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0"
+    },
+    {
+      "path": "configs/gru512_k16_s203302.json",
+      "sha256": "47a0104f7e98bc6462b9972b38e3873ca003aee1dc059e6032477b31329a950b",
+      "seed": 203302,
+      "arm": "gru512_k16",
+      "changed_model_field": "hidden",
+      "base_normalized_value": 256,
+      "candidate_value": 512,
+      "source_control_raw_sha256": "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0"
+    },
+    {
+      "path": "configs/gru_dropout01_k16_s203302.json",
+      "sha256": "08cf5e52ab05f23f9413c937343f28f335ffd90b424061219661c715d0ec0202",
+      "seed": 203302,
+      "arm": "gru_dropout01_k16",
+      "changed_model_field": "dropout",
+      "base_normalized_value": 0.0,
+      "candidate_value": 0.1,
+      "source_control_raw_sha256": "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0"
+    }
+  ],
+  "reused_controls": [
+    {
+      "path": "controls-reused/k16_s203301.json",
+      "sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534",
+      "seed": 203301,
+      "role": "reuse exact completed K16 control; do not refit"
+    },
+    {
+      "path": "controls-reused/k16_s203302.json",
+      "sha256": "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0",
+      "seed": 203302,
+      "role": "reuse exact completed K16 control; do not refit"
+    }
+  ],
+  "fit_contract": {
+    "epochs": 6,
+    "batch_size": 32,
+    "accumulate_chunks": 1,
+    "chunk_rows": 1000,
+    "precision_mode": "fp32",
+    "optimizer": "adamw",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0,
+    "warmup_fraction": 0.05,
+    "schedule": "warmup_cosine_v2",
+    "min_lr_ratio": 0.1,
+    "normalization_scope": "all_fit",
+    "normalization_sequences": 10325,
+    "training_mask": "all_after_warmup",
+    "required_world_size": 1,
+    "required_device": "L4"
+  }
+}

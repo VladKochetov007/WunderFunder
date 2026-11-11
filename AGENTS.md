@@ -1,3 +1,15 @@
+## 11 November overnight successor execution
+
+The user explicitly authorizes fresh experiments on existing B300/L4 and then
+sets a4-5hour total timer. This branch launches exactly six L4 successor fits
+under the recorded shared five-hour deadline. Actual frozen training source is
+6b10dfe71fb0ebec9b0fc76788e2de0fd13d1dba. Later documentation and the
+configuration-loader helper extraction preserve that source capsule and live jobs.
+See research/experiment_drafts/l4-stem-successors-20261111/README.md.
+Primary ADR0044 validation, whole sequences and train-only ancestry are binding.
+ROOT alone owns existing SSH/GPU/process signals. New rentals, billing and
+competition upload remain outside this allocation.
+
 ## Latest 10 November: actual next70 execution on existing eight L4 GPUs
 
 The user's "давай делай на 8чД4" authorizes the bounded next70 panel on the
