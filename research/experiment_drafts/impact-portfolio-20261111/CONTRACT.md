@@ -1,10 +1,12 @@
 # Shared experiment contract
 
-Status: **proposal-only portfolio**. Owner of preparation: Ivan / Codex. Receiving
-operator: unassigned (the team may claim a selected experiment). No fit, profile,
-test, inference, model construction, submission or running-job mutation accompanies
-this PR. The user asked for more ideas and review of recent PRs. The quoted team
-request informs the handoff; it does not authorize us to operate their servers.
+Status: **cards01–03 implemented; receiver acceptance pending; cards04–10 remain
+proposals**. Owner of preparation: Ivan / Codex. Receiving operator and B300
+allocation: unassigned. The current plan contains 12 fresh fits (four per
+implemented card), with zero executed and no reused controls. No receiver check,
+profile, test, inference, model construction, submission or running-job mutation
+has been recorded. Publication does not automatically launch jobs. The exact
+server-side sequence is documented in [B300_COMMANDS.md](B300_COMMANDS.md).
 
 Objective mode: competition. Development evaluation is deterministic but repeatedly
 exposed; it is not an untouched test of competition transfer. No predicted LB gain.
@@ -12,8 +14,13 @@ exposed; it is not an untouched test of competition transfer. No predicted LB ga
 ## 1. Source and data
 
 - Integration base: `research-team` at
-  `7e4074314a62d0907c9608f9220cf72958708a2d`. Most recent experiment code is in
-  separate draft branches; this old integration base does not contain it all.
+  `7e4074314a62d0907c9608f9220cf72958708a2d`.
+- The three implemented cards use the exact canonical plain Transformer runtime
+  from PR75, commit `8626000a4b965763a70011a0291a891aa6535d7e`, loaded on the
+  receiver through a separate clean, detached read-only worktree. PR81's runtime
+  admission rejects a wrong or dirty checkout and computes source identity from
+  both runtime and packet Python files. The existing `src/`, `scripts/`, training
+  configs, optimizer, training loop, validation and checkpoint code are unchanged.
 - Read-only reference configs are copied byte-for-byte under `sources/`, with
   origin URLs and SHA256 in `recipe.json`. They are **historical source examples**,
   not executable configs for these new experiments.
@@ -26,9 +33,17 @@ exposed; it is not an untouched test of competition transfer. No predicted LB ga
   `0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c`.
   The receiving host must bind actual data hashes, feature order and membership to
   this receipt; this document does not certify local dataset bytes.
-- Keep all 112 ordered raw features. Fit normalizers, quantiles, auxiliary class
-  counts and all trainable preprocessing on eligible train sequences only.
-  `normalization_scope=all_fit` takes precedence over a legacy sampling-count key.
+- Keep all 112 ordered raw features. Fit normalizers and trainable preprocessing
+  on eligible train sequences only. `normalization_scope=all_fit` takes
+  precedence over a legacy sampling-count key. The canonical normalizer still
+  uses every fit row.
+- Card01's estimator amendment: select 64 evenly spaced row positions from each
+  of all 10,325 train sequences (660,800 rows total), normalize these values
+  using the canonical all-fit-row moments, and calculate 16 linear empirical
+  quantiles per feature. The sample is fixed and label-independent; the knots
+  are not exact quantiles over every training row. Valid/test data do not enter
+  preprocessing. The receiving host creates one shared artifact bound to train
+  membership, split, source and canonical moments. All arms consume that artifact.
 - IDs are shuffled identifiers, not timestamps. Audit source/component overlap
   and duplicates using the canonical data contract. Whole-sequence separation
   alone does not prove absence of related components or chronological shift.
@@ -52,11 +67,16 @@ inputs or teacher forcing. No parameter updates on valid/test streams are propos
 Here “online” refers to streaming state and live reporting, not permission for
 test-time supervised learning.
 
-Receiver-only checks before fits: input/split and ancestry identity, causal-prefix
-invariance, sequence reset, chunk/callback equivalence, loss masks, finite gradients,
-resume state and fixed-model metric replay. Restore optimizer/scheduler/RNG/sampler
-and stream position together, or restart a safe documented sequence boundary.
-Local execution of these checks remains prohibited.
+Preparation and fit admission bind inputs, split and preprocessing ancestry.
+[receiver_checks.py](runtime/impact81/receiver_checks.py) checks initial-function
+agreement, finite new-parameter gradients, causal-prefix invariance with active
+residual branches, fresh-sequence reset, chunk carry and strict model-state reload.
+It runs through [worker.py](runtime/worker.py) after runtime admission. The separate
+canonical full-size profile checks model/optimizer/scheduler/RNG reload; final
+export and scoring establish complete endpoint coverage and WP. Loss masks are
+inherited unchanged. These stages do not certify CPU callback equivalence or
+submission readiness. Restore the complete canonical resume state at its documented
+safe boundary. Receiver acceptance is pending; local model execution remains prohibited.
 
 ## 3. Matched templates and precision
 
@@ -91,19 +111,20 @@ extra operations and parameters honestly: equal epochs do not imply equal FLOPs.
 
 ## 4. Fit accounting and endpoint selection
 
-Each card: seeds **204101 and 204102**, same official file split, two controls +
-two treatments = **4 new fits**. No seed/worker reservation or launch is made here.
-The proposed ten-screen inventory is **40 new fits**, not a dispatched queue or
-an authorized compute budget. No new teacher fits or teacher caches are required.
-Select one mechanism first. Reuse is zero by default; exact control reuse needs a
-separate source/config/runtime/ancestry/seed receipt and revised accounting.
+Each implemented card uses seeds **204101 and 204102**, the same official file
+split, two fresh controls and two fresh treatments: **4 new fits per card**.
+Cards01–03 therefore have **12 planned fresh fits**, zero executed and zero reused
+old controls. There are no teacher fits or teacher caches. Cards04–10 are still
+proposals; their seven four-fit panels account for the remaining 28 fits in the
+40-fit inventory only if they are later selected. This is not a dispatched queue
+or an automatic compute allocation.
 
-The selected experiment gets its own implementation draft PR, exact final source
-and config hashes, per-arm run IDs, owner, numeric timeout/resource budget and
-artifact destination **before launch**. Those values are intentionally unassigned
-here; this catalog cannot itself be submitted to a trainer. Four fits are an
-initial scientific panel, not four automatic retries. Failed attempts remain in
-the ledger; retry only after diagnosis under a new attempt ID and bounded budget.
+The implementations are in this PR. Before each cell's launch, the receiving
+owner must bind actual PR81 source/config/data/runtime identities, run IDs, owner,
+GPU allocation, numeric timeout/resource bounds and artifact destination. No
+profile or fit is authorized automatically by the packet. Four fits per card are
+an initial scientific panel, not four retries. Failed attempts remain in the
+ledger; retry only after diagnosis under a new attempt ID and bounded budget.
 
 Use full train and full valid; fixed E4/E6 is primary. Best-valid checkpoints and
 intermediate curves are diagnostics, not replacements for the endpoint. If an
@@ -152,10 +173,16 @@ endpoint readouts only after both models, exact row coverage and source identiti
 pass the canonical receiver. Keep failed exports separately from failed fits.
 
 Return immutable evidence and weights archives separately with SHA256, file sizes
-and storage locations: config/source/environment; progress and terminal receipts;
-data/split/ancestry manifests; exact scored predictions, metric and all contrasts;
-fixed final weights plus reproducible resume state under a declared retention
-budget. Large weights/datasets stay out of Git. No deletion of old user artifacts.
+and storage locations: config/source/environment; receiver check and approved
+profile receipts; progress and terminal receipts; data/split/ancestry manifests;
+exact scored predictions, metric and all contrasts; fixed final weights plus
+reproducible resume state under a declared retention budget. See
+[MIDAS handoff instructions](midas/README.md) and the packet's
+[evidence exporter](midas_evidence.py). MIDAS route registration is metadata, not
+execution; the current [route preview](midas/route-preview.json) reports no
+remotely launchable worker. The evidence archive may omit weight bytes, in which
+case producer hashes are not byte verification. Large weights/datasets stay out
+of Git. No deletion of old user artifacts.
 
 ## 7. Submission boundary
 

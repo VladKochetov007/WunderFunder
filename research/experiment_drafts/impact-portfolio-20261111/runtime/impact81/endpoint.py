@@ -1,0 +1,150 @@
+"""Source-qualified fixed-final checkpoint admission for Impact81 modules."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from collections.abc import Mapping
+from pathlib import Path
+from typing import Any
+
+
+def _mapping(value: object, name: str) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise TypeError(f"{name} must be an object")
+    return value
+
+
+def _sha256(value: object, name: str) -> str:
+    if (
+        not isinstance(value, str)
+        or len(value) != 64
+        or any(char not in "0123456789abcdef" for char in value)
+    ):
+        raise ValueError(f"{name} must be a lowercase SHA-256 digest")
+    return value
+
+
+def _validate_preprocessing(
+    impact: Mapping[str, Any],
+    *,
+    split_sha256: str,
+    fit_members: list[list[str | int]],
+    data: Mapping[str, Any],
+    provenance: Mapping[str, Any],
+) -> None:
+    from wnn.data import FEATURE_COLUMNS
+
+    from .bindings import RUNTIME_COMMIT, canonical
+
+    preprocessing = _mapping(impact.get("preprocessing"), "impact81.preprocessing")
+    encoded = json.dumps(preprocessing, indent=2, sort_keys=True, allow_nan=False).encode("utf-8")
+    digest = hashlib.sha256(encoded + b"\n").hexdigest()
+    knots = preprocessing.get("knots")
+    if (
+        preprocessing.get("schema") != "impact81.preprocessing.v1"
+        or preprocessing.get("runtime_commit") != RUNTIME_COMMIT
+        or digest != _sha256(impact.get("preprocessing_sha256"), "preprocessing_sha256")
+        or not isinstance(knots, list)
+        or len(knots) != 112
+        or any(not isinstance(row, list) or len(row) != 16 for row in knots)
+    ):
+        raise ValueError("unsupported or malformed embedded preprocessing artifact")
+    fit_identity = _mapping(preprocessing.get("fit_identity"), "preprocessing.fit_identity")
+    expected_members_sha256 = canonical(fit_members)
+    if (
+        fit_identity.get("split_sha256") != split_sha256
+        or fit_identity.get("fit_members_sha256") != expected_members_sha256
+        or fit_identity.get("normalization") != data.get("normalization")
+        or fit_identity.get("feature_columns") != list(FEATURE_COLUMNS)
+    ):
+        raise ValueError("preprocessing ancestry differs from this checkpoint's official fit")
+    saved_normalization = _mapping(provenance.get("normalization"), "provenance.normalization")
+    if preprocessing.get("mean") != saved_normalization.get("mean") or preprocessing.get(
+        "std"
+    ) != saved_normalization.get("std"):
+        raise ValueError("preprocessing moments differ from the checkpoint normalization")
+
+
+def load_endpoint(
+    checkpoint: Path,
+    runtime_root: Path,
+    split_sha256: str,
+    fit_members: list[list[str | int]],
+    device: Any,
+) -> tuple[Any, dict[str, Any]]:
+    """Reconstruct a fixed-final endpoint only after exact source, split and artifact admission."""
+    import torch
+
+    from .bindings import canonical, source_identity
+    from .modeling import build_model
+
+    if checkpoint.is_symlink() or not checkpoint.is_file():
+        raise ValueError("checkpoint must be a regular non-symlink file")
+    payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    payload = _mapping(payload, "checkpoint")
+    if payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
+        raise ValueError("unsupported checkpoint schema")
+    config = _mapping(payload.get("config"), "checkpoint.config")
+    if (
+        config.get("epochs") != 4
+        or payload.get("completed_epochs") != 4
+        or payload.get("epoch") != 3
+    ):
+        raise ValueError("export requires the configured four-epoch fixed-final endpoint")
+    impact = _mapping(config.get("impact81"), "checkpoint.config.impact81")
+    if set(impact) != {"schema", "cell", "preprocessing", "preprocessing_sha256"}:
+        raise ValueError("Impact81 checkpoint metadata fields are incomplete or unexpected")
+    if impact.get("schema") != "impact81.model.v1":
+        raise ValueError("unsupported Impact81 model metadata")
+    cell = _mapping(impact.get("cell"), "impact81.cell")
+    if cell.get("schema") != "impact81.cell.v1":
+        raise ValueError("unsupported Impact81 cell descriptor")
+    card, arm, variant, seed = (cell.get(key) for key in ("card", "arm", "variant", "seed"))
+    expected_variants = {"01": "ple", "02": "groups", "03": "target_adapters"}
+    if (
+        card not in expected_variants
+        or arm not in ("control", "treatment")
+        or variant != ("plain" if arm == "control" else expected_variants.get(card))
+        or seed not in (204101, 204102)
+        or cell.get("id") != f"ip{card}_{arm}_s{seed}"
+    ):
+        raise ValueError("checkpoint cell is outside the first-three-card paired panel")
+    provenance = _mapping(payload.get("provenance"), "checkpoint.provenance")
+    identity = _mapping(provenance.get("identity"), "provenance.identity")
+    current_source = source_identity(runtime_root)
+    if (
+        identity.get("source_sha256") != current_source["sha256"]
+        or identity.get("source_files") != current_source["files"]
+    ):
+        raise ValueError(
+            "checkpoint source identity differs from the current runtime/Impact81 files"
+        )
+    if identity.get("config_sha256") != canonical(config):
+        raise ValueError("checkpoint config differs from its recorded run identity")
+    saved_data = _mapping(payload.get("data"), "checkpoint.data")
+    if (
+        identity.get("data_sha256") != canonical(saved_data)
+        or identity.get("data") != saved_data
+        or saved_data.get("split_sha256") != split_sha256
+        or saved_data.get("fit_members") != fit_members
+        or saved_data.get("impact81_preprocessing_sha256") != impact.get("preprocessing_sha256")
+    ):
+        raise ValueError("checkpoint data ancestry differs from the requested split/membership")
+    _validate_preprocessing(
+        impact,
+        split_sha256=split_sha256,
+        fit_members=fit_members,
+        data=saved_data,
+        provenance=provenance,
+    )
+    state = _mapping(payload.get("model"), "checkpoint.model")
+    for name, tensor in state.items():
+        if not isinstance(tensor, torch.Tensor) or (
+            tensor.is_floating_point()
+            and (tensor.dtype != torch.float32 or not bool(torch.isfinite(tensor).all()))
+        ):
+            raise ValueError(f"invalid checkpoint model tensor: {name}")
+    model = build_model(config, device)
+    model.load_state_dict(state, strict=True)
+    return model.eval(), payload

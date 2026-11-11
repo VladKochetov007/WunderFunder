@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[Ten next-impact screens and PR60–80 audit](../../experiment_drafts/impact-portfolio-20261111/README.md): seven Transformer and three K16 GRU comparisons, explicit old-idea continuations, fixed data/metric/online logging contract, no local execution or launched fits.
+[Ten next-impact screens and PR60–80 audit](../../experiment_drafts/impact-portfolio-20261111/README.md): the first three Transformer comparisons are implemented for B300, with [commands](../../experiment_drafts/impact-portfolio-20261111/B300_COMMANDS.md) and MIDAS evidence handoff; the other seven remain proposals. Existing data/metric/online logging contracts are preserved. No local model execution or launched fits.
 
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 

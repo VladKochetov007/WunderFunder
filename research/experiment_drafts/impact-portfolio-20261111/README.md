@@ -1,12 +1,20 @@
-# Next-impact portfolio: ten research screens
+# Next-impact portfolio: three implemented screens, seven proposals
 
 Published as [draft PR81](https://github.com/VladKochetov007/WunderFunder/pull/81) targeting `research-team`.
 
-**Prepared designs, not runnable experiments or measured improvements.** This
-portfolio reviews all 21 recent PRs **#60–80**, checks older overlaps, and proposes
-ten separately selectable comparisons: seven on the current Transformer recipe
-and three on K16 GRU. It carries the team's validation, streaming, metrics and
-logging contract forward. Hardware optimization remains with the receiver.
+**Current status:** cards 01–03 have implementation in this packet and await
+receiver acceptance. Cards 04–10 remain proposals. The first three cards have
+12 fresh fits planned in total (four per card: two seeds, control and treatment),
+with zero fits executed and no old controls reused. No profile, grade, or result
+is available. The packet does not automatically launch jobs.
+
+The three implementations use the exact plain Transformer runtime from PR75,
+commit `8626000a4b965763a70011a0291a891aa6535d7e`, staged as a separate clean,
+read-only worktree on the receiving host. New experiment adapters live under
+`runtime/`; the repository's existing `src/`, `scripts/`, training configs,
+optimizer, training loop, validation, and checkpoint code are unchanged.
+Runtime admission and source identity are checked on the receiver. Static packet
+preparation is not receiver acceptance or scientific evidence.
 
 ## What changed our priorities
 
@@ -25,61 +33,96 @@ logging contract forward. Hardware optimization remains with the receiver.
 - [PR78](https://github.com/VladKochetov007/WunderFunder/pull/78#issuecomment-6775969810)
   input pretraining is mixed (+0.003053/−0.000748); PR77 specialists are mixed or
   negative. Follow-ups must change the mechanism, not just rename those arms.
-- At the 05:35 UTC review cutoff, PR75/80's latest 05:30 wrapper events still
-  mirror producer logs from about02:10. Current execution status is unknown;
-  there are no accepted final comparisons yet. PR80 already covers K64, width512
-  and dropout0.1: no duplicate launches are proposed here.
+- The [PR60–80 review](PR_REVIEW.md) records that the then-current PR75/80
+  wrapper events mirrored older producer logs. That cutoff did not establish
+  execution status or accepted final comparisons. PR80 already covers K64,
+  width512 and dropout0.1; this portfolio does not duplicate those launches.
 
-All numbers are team-reported, repeatedly exposed development results; no scoring
-or weight-byte verification was performed here. Full status, sources and limitations
-are in [the PR audit](PR_REVIEW.md).
+All cited figures are team-reported, repeatedly exposed development results;
+they are not fresh measurements from this packet. No scoring or weight-byte
+verification was performed here. See the [PR audit](PR_REVIEW.md) for sources
+and limitations.
 
 ## Ten comparisons
 
-| Card | Backbone | Question | Priority / history |
+| Card | Backbone | Question | Current status / history |
 |---|---|---|---|
-| [01 Numerical PLE](cards/01-numerical-ple.md) | Transformer | Do continuous nonlinear scalar embeddings help? | 1; continuation of level encoding |
-| [02 Same-row group tokens](cards/02-same-row-group-tokens.md) | Transformer | Does nonlinear mixing of schema groups help before temporal attention? | 2; modern successor to PR8, not a new duplicate PR |
-| [03 Target-private adapters](cards/03-target-private-adapters.md) | Transformer | Can both targets share time modeling but use different nonlinear readouts? | 3; differs from independently fitted specialists |
-| [04 Intermediate supervision](cards/04-deep-supervision.md) | Transformer | Does direct supervision at depths6/12/18 help the final head? | 4 |
-| [05 Shared-depth blocks](cards/05-tied-depth.md) | Transformer | Does sharing12 parameter sets over24 logical layers improve generalization? | 9; separate24 KV caches |
-| [06 Pairwise ordering](cards/06-pairwise-ranking.md) | Transformer | Does a small ranking auxiliary improve official WP? | 5; ranking is not Pearson |
-| [07 Future-label heads](cards/07-future-label-heads.md) | Transformer | Do row-offset targets1/16/64 improve the current prediction? | 6; old backlog continuation, no future inputs |
-| [08 State perturbation](cards/08-state-perturbation.md) | K16 GRU | Can less brittle state improve clean prediction? | 8; training-only noisy branch |
-| [09 Variance-head auxiliary](cards/09-nll-transfer.md) | K16 GRU | Does the earlier NLL idea help this stronger recipe? | 7; from scratch, no checkpoint transfer |
-| [10 Clip-event head](cards/10-clip-event-head.md) | K16 GRU | Does classifying signed tail events improve the unchanged regression head? | 10; train-only prevalence gate first |
+| [01 Numerical PLE](cards/01-numerical-ple.md) | Transformer | Do continuous nonlinear scalar embeddings help? | Implemented; receiver acceptance pending; continuation of level encoding |
+| [02 Same-row group tokens](cards/02-same-row-group-tokens.md) | Transformer | Does nonlinear mixing of schema groups help before temporal attention? | Implemented; receiver acceptance pending; PR8 continuation in this same PR |
+| [03 Target-private adapters](cards/03-target-private-adapters.md) | Transformer | Can both targets share time modeling but use different nonlinear readouts? | Implemented; receiver acceptance pending; differs from independent specialists |
+| [04 Intermediate supervision](cards/04-deep-supervision.md) | Transformer | Does direct supervision at depths6/12/18 help the final head? | Proposal only |
+| [05 Shared-depth blocks](cards/05-tied-depth.md) | Transformer | Does sharing12 parameter sets over24 logical layers improve generalization? | Proposal only; separate24 KV caches |
+| [06 Pairwise ordering](cards/06-pairwise-ranking.md) | Transformer | Does a small ranking auxiliary improve official WP? | Proposal only; ranking is not Pearson |
+| [07 Future-label heads](cards/07-future-label-heads.md) | Transformer | Do row-offset targets1/16/64 improve the current prediction? | Proposal only; labels are not future inputs |
+| [08 State perturbation](cards/08-state-perturbation.md) | K16 GRU | Can less brittle state improve clean prediction? | Proposal only; training-only noisy branch |
+| [09 Variance-head auxiliary](cards/09-nll-transfer.md) | K16 GRU | Does the earlier NLL idea help this stronger recipe? | Proposal only; from scratch, no checkpoint transfer |
+| [10 Clip-event head](cards/10-clip-event-head.md) | K16 GRU | Does classifying signed tail events help the unchanged regression head? | Proposal only; train-only prevalence gate first |
 
-Start with **01**, then **02/03** according to receiver capacity. This ranking is
-an information-value judgment, not a measured quality ordering. Card02 should
-continue the existing [PR8](https://github.com/VladKochetov007/WunderFunder/pull/8)
-lineage with an explicit modern recipe amendment. No ten-way joint launch is
-requested. Each selected card needs a mechanism-specific implementation PR and
-receiver admission; avoid another draft of an already identical experiment.
+The three implemented cards retain their separate controls and treatments. The
+other seven are not part of the current 12-fit plan. If every card were later
+selected, the complete inventory would total 40 fits; that is not a launch
+request or an executed queue. Card02's earlier note proposing a separate PR is
+superseded: its implementation is included in PR81 alongside cards01 and03.
 
-Each screen inventories four fresh fits (two controls + two treatments), **40 if
-all ten were selected**. No teacher fitting is hidden, no controls are assumed
-reusable, and no fits are currently selected or dispatched. Profiles and artifact
-export are additional engineering work. Same epochs do not mean equal FLOPs.
+## Frozen implementation and preprocessing
 
-## Files and use
+The common Transformer is the pinned PR75 plain recipe: H768, 24 layers,
+12 heads, FF multiplier4, context1024, gradient horizon256, four epochs and
+fixed E4 primary endpoint. Optimizer, schedule, BF16/BF16x9 behavior, streaming,
+validation and checkpoint semantics remain those of the canonical runtime.
+The runtime is read from the separate PR75 worktree; this packet does not copy
+or patch the existing training pipeline.
 
-- [CONTRACT.md](CONTRACT.md): frozen scientific baseline, data/mask/state,
-  precision, fixed endpoints, fit accounting, uncertainty and receiver artifacts.
-- [recipe.json](recipe.json): machine-readable **proposal** inventory, per-card
-  parameters, exact historical config origins, empty execution/result fields.
-- [cards/](cards/): mechanisms, controls, falsifiers, leakage checks, missing adapters
-  and deployment implications. No card provides a fake trainer command.
-- [PR_REVIEW.md](PR_REVIEW.md): all recent PRs, positive/negative/partial results,
-  stale telemetry and primary source links.
-- [SOURCES.md](SOURCES.md): primary papers and limits of transfer from them.
-- [REVIEW.md](REVIEW.md): independent criticism and concrete design corrections.
-- [STATIC_REVIEW.json](STATIC_REVIEW.json): JSON, link and source-hash inspection;
-  no runtime or scientific acceptance.
-- [sources/](sources/): two byte-preserved reference configs and PR-head metadata;
-  these configs still contain historical seed/device settings and must not be run
-  as new experiments.
-- [PR.md](PR.md): eleven-section publication contract.
+Card01's PLE knot estimator uses 64 evenly spaced row positions from each of all
+10,325 fitting sequences (660,800 rows total), then computes 16 linear empirical
+quantiles per normalized feature. This is a deterministic, label-independent
+sample of every train sequence, not an exact quantile over every row. Canonical
+normalization still uses all fit rows. Valid and test data do not contribute to
+knots. The receiving host creates one shared preprocessing artifact for all
+arms.
 
-Local work was limited to reading sources, editing docs/JSON and static metadata
-inspection. No model imports, tests, inference, training, profiling or existing-job
-changes. PR76's existing CPU ZIP remains separate and not receiver-validated here.
+## Receiver commands and evidence
+
+- [Implementation record](IMPLEMENTATION.md): exact adapter design, runtime
+  boundary, preprocessing estimator, checks and evidence limits.
+- [B300 command guide](B300_COMMANDS.md): prepare, receiver checks, per-cell
+  profile and explicit approval, fit, endpoint export/score and comparison.
+  Commands are prepared, not executed; use a provisioned Linux host and actual
+  owner, data, free B300s and resource bounds.
+- [Runtime launcher](runtime/launch.py), [worker](runtime/worker.py),
+  [canonical-runtime bindings](runtime/impact81/bindings.py),
+  [PLE and group adapters](runtime/impact81/representations.py), and
+  [target adapter](runtime/impact81/target_head.py).
+- [MIDAS handoff instructions](midas/README.md),
+  [metadata-only route preview](midas/route-preview.json), and
+  [fit-evidence exporter](midas_evidence.py). The route preview is not a worker
+  claim or execution receipt; the exporter packages evidence from completed
+  runs and does not copy model weights.
+
+The receiver must accept the pinned runtime, preprocessing, causal/reset/chunk
+behavior, reconstruction, and new-parameter gradients before any profile.
+Every full-size cell needs its own 50-update profile and operator-approved
+receipt before fitting. Profiles are engineering checks, not quality results.
+The MIDAS registration/route is metadata only; it does not launch remote work.
+
+## Files and limits
+
+- [CONTRACT.md](CONTRACT.md): shared data, metric, source, recipe, fit and
+  acceptance contract.
+- [recipe.json](recipe.json): mixed implementation/proposal inventory, exact
+  pins, per-card design and separate planned/executed counts.
+- [cards/](cards/): mechanism, control, treatment, falsifier, leakage and
+  card-specific diagnostics.
+- [PR_REVIEW.md](PR_REVIEW.md), [SOURCES.md](SOURCES.md), and [REVIEW.md](REVIEW.md):
+  prior results, literature and independent design criticism.
+- [STATIC_REVIEW.json](STATIC_REVIEW.json): static metadata inspection only; it
+  is not runtime, numerical or receiver acceptance.
+- [sources/](sources/): byte-preserved historical configs. They are not
+  launch configs; per-cell descriptors bind seed-only copies for this screen.
+- [PR.md](PR.md): the English 11-section publication body.
+- [research hypotheses](../../hypotheses.jsonl) and
+  [experiment ledger](../../experiments.jsonl): append-only status history.
+
+No local model imports, construction, tests, inference, training, profiling or
+job changes were performed. Receiver acceptance is pending, all 12 planned fits
+remain unrun, and no quality or leaderboard claim follows from this packet.

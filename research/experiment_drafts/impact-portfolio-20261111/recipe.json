@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "kind": "proposal_portfolio_not_trainer_config",
-  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "kind": "implementation_and_proposal_inventory",
+  "status": "FIRST_THREE_IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
   "created_utc": "2026-11-11",
   "objective": "competition",
   "integration_base": "research-team",
@@ -13,7 +13,7 @@
   "local_model_execution": false,
   "optimization_scope": "receiving_team_only",
   "inventory_new_fits": 40,
-  "selected_new_fits": 0,
+  "selected_new_fits": 12,
   "new_teacher_fits": 0,
   "profile_count": 0,
   "measured_results": [],
@@ -65,7 +65,7 @@
       "falsifier": "The branch remains unused, improves training only, or produces mixed/negative primary WP. Extra nonlinear capacity is an alternative explanation; a capacity-matched MLP branch is a separately budgeted follow-up, not an inferred mechanism result.",
       "leakage": "Fit and hash knots using train membership only. Never recompute from a whole valid sequence or current test batch. Transformation reads x[t] only.",
       "serving": "Adds current-row interpolation/projection; no extra sequence state. Large teacher still needs separate serving/transfer work.",
-      "adapter": "Train-only quantile artifact, scalar interpolation module and checkpoint/export integration.",
+      "adapter": "runtime/impact81/representations.py:PLEInputProjection; runtime/impact81/preprocessing.py; runtime/impact81/fitting.py",
       "diagnostics": [
         "knot occupancy and duplicate counts",
         "PLE/raw projection norm ratio",
@@ -76,7 +76,7 @@
       ],
       "hypothesis_id": "H-IMPACT-20261111-01",
       "experiment_id": "E-IMPACT-20261111-01",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -88,7 +88,22 @@
       ],
       "measured_gain": null,
       "run_command": null,
-      "card": "cards/01-numerical-ple.md"
+      "card": "cards/01-numerical-ple.md",
+      "receiver_acceptance": "pending",
+      "new_fits_planned": 4,
+      "new_fits_executed": 0,
+      "profile_count": 0,
+      "commands_doc": "B300_COMMANDS.md",
+      "ple_estimator": {
+        "rows_per_sequence": 64,
+        "train_sequences": 10325,
+        "sample_rows": 660800,
+        "knots_per_feature": 16,
+        "method": "linear_empirical_quantiles",
+        "exact_all_row_quantiles": false,
+        "normalization_scope": "all_fit_rows_unchanged",
+        "validation_or_test_used": false
+      }
     },
     {
       "n": 2,
@@ -96,7 +111,7 @@
       "title": "Same-row feature-group tokens before the temporal Transformer",
       "base": "T",
       "priority": 2,
-      "lineage": "Explicit modern successor to PR8 grouped input encoding and adjacent NF19-24. Continue PR8 with a recipe amendment; do not create a duplicate mechanism PR. Nonlinear current-row token mixing is the proposed specific package.",
+      "lineage": "Implemented in this PR as the modern PR8 continuation and explicit recipe amendment; the earlier separate-PR note is superseded. Adjacent NF19-24 remains a distinct historical reference.",
       "mechanism": "Flattening all channels may hide structured cross-group interactions. Encode schema groups separately and mix them within the same observed row before temporal modeling.",
       "control": "Raw112 linear projection into the unchanged causal Transformer.",
       "treatment": "Use exactly 16 schema groups: i0/i1 times p22,v22,dp4,dv4 (eight groups), plus a0..a7 separately (eight). Linear+GELU maps each group to width64; add learned group IDs; one current-row self-attention block (4 heads, FF128, pre-LayerNorm), then mean pool, project to H768 and add to the unchanged raw projection. Zero-init the added output projection. Never turn an entire future window into a token.",
@@ -113,7 +128,7 @@
       "falsifier": "No paired improvement, group collapse, or an effect explained only by added capacity. A flat equal-parameter nonlinear stem is the discriminating follow-up; not counted in the initial four fits.",
       "leakage": "Freeze explicit ordered feature indices from the canonical schema. Group names do not establish physical meanings or exchangeability. Attention here sees only groups at t, followed by unchanged causal temporal attention.",
       "serving": "Adds per-row work without extending temporal state. No latency or CPU envelope claim.",
-      "adapter": "Pinned group-index artifact, within-row encoder, reset-free input/export adapter.",
+      "adapter": "runtime/impact81/representations.py:GroupInputProjection; runtime/impact81/fitting.py",
       "diagnostics": [
         "per-group representation norms",
         "group attention entropy",
@@ -122,7 +137,7 @@
       "references": [],
       "hypothesis_id": "H-IMPACT-20261111-02",
       "experiment_id": "E-IMPACT-20261111-02",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -135,7 +150,12 @@
       "measured_gain": null,
       "run_command": null,
       "card": "cards/02-same-row-group-tokens.md",
-      "continue_existing_pr": 8
+      "continue_existing_pr": 8,
+      "receiver_acceptance": "pending",
+      "new_fits_planned": 4,
+      "new_fits_executed": 0,
+      "profile_count": 0,
+      "commands_doc": "B300_COMMANDS.md"
     },
     {
       "n": 3,
@@ -157,7 +177,7 @@
       "falsifier": "Adapters collapse, one target worsens enough to erase the other gain, or effects vary by seed. Extra capacity remains an alternative; an equal-parameter shared nonlinear head is a separate follow-up.",
       "leakage": "No target values, validity flags, validation-derived gates or future inputs enter adapters.",
       "serving": "One shared stream, two small nonlinear readouts. Added operations and bytes require eventual CPU measurement.",
-      "adapter": "Target-private adapter factory, exact per-target output mapping and export/reload support.",
+      "adapter": "runtime/impact81/target_head.py:TargetPrivateHead; runtime/impact81/fitting.py",
       "diagnostics": [
         "adapter contribution norms by target",
         "shared and private gradient norms",
@@ -166,7 +186,7 @@
       "references": [],
       "hypothesis_id": "H-IMPACT-20261111-03",
       "experiment_id": "E-IMPACT-20261111-03",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -178,7 +198,12 @@
       ],
       "measured_gain": null,
       "run_command": null,
-      "card": "cards/03-target-private-adapters.md"
+      "card": "cards/03-target-private-adapters.md",
+      "receiver_acceptance": "pending",
+      "new_fits_planned": 4,
+      "new_fits_executed": 0,
+      "profile_count": 0,
+      "commands_doc": "B300_COMMANDS.md"
     },
     {
       "n": 4,
@@ -513,5 +538,65 @@
       "run_command": null,
       "card": "cards/10-clip-event-head.md"
     }
-  ]
+  ],
+  "executed_new_fits": 0,
+  "implementation_status": {
+    "cards_01_03": "implemented_receiver_acceptance_pending",
+    "cards_04_10": "proposal_only",
+    "receiver_checks_executed": 0,
+    "profile_count": 0,
+    "local_model_execution": false
+  },
+  "fit_plan": {
+    "cards": [
+      "01",
+      "02",
+      "03"
+    ],
+    "fresh_control_fits_per_card": 2,
+    "fresh_treatment_fits_per_card": 2,
+    "seeds": [
+      204101,
+      204102
+    ],
+    "planned_new_fits": 12,
+    "executed_new_fits": 0,
+    "reused_controls": 0,
+    "teacher_or_pretraining_fits": 0,
+    "automatic_launch": false,
+    "proposal_only_cards": [
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10"
+    ],
+    "full_inventory_if_all_cards_selected": 40
+  },
+  "runtime_binding": {
+    "canonical_parent_pr": 75,
+    "runtime_commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+    "runtime_checkout": "separate_clean_read_only_detached_worktree",
+    "source_identity": "computed_on_receiver_from_runtime_and_packet_python_files",
+    "existing_pipeline_modified": false
+  },
+  "ple_estimator_amendment": {
+    "feature_count": 112,
+    "knots_per_feature": 16,
+    "rows_per_train_sequence": 64,
+    "train_sequences": 10325,
+    "sample_rows": 660800,
+    "method": "linear_empirical_quantiles",
+    "exact_all_row_quantiles": false,
+    "sample_label_independent": true,
+    "normalization_scope": "all_fit_rows_unchanged",
+    "validation_or_test_used": false
+  },
+  "commands_doc": "B300_COMMANDS.md",
+  "implementation_doc": "IMPLEMENTATION.md",
+  "midas_handoff_doc": "midas/README.md",
+  "midas_route_preview": "midas/route-preview.json",
+  "midas_evidence_exporter": "midas_evidence.py"
 }
