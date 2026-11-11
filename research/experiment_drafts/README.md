@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [[Results] TabM-GRU, NorMuon and view-mask screens fail; zero-fit blend-value law](oct29-negative-screens-20261111/README.md) — Closed negative screens and the pair gain 0.168(1-rho) law with its break-even rule for choosing diversity fits.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
