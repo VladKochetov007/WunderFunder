@@ -135,6 +135,11 @@ attachment, readout receiver transfer, and waiter launch. `SOURCE_R1.json`
 identifies the immutable source capsule; the working-tree documentation commit
 is not part of the scientific source identity.
 
+The scoped [PR #75 receiving update](https://github.com/VladKochetov007/WunderFunder/pull/75#issuecomment-6785549627)
+was posted as `SemyonEpanov` at 2026-11-11 02:51:35 UTC. Its API response is
+preserved in [pr75-comment-receipt.json](pr75-comment-receipt.json), SHA256
+`31c88ba4bf5194ff41e47f4e6876068867c018d0896de7d8d2b996361f4cb325`.
+
 No result is complete until the native fit/readout terminal receipts and their
 model/config/source/data hashes are collected and checked. Keep every partial
 checkpoint and journal if a transport timeout or deadline leaves any cell
