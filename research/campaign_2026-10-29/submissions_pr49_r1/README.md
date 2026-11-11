@@ -50,3 +50,20 @@ Aborted attempts preserved under `submissions/tl3c_pr49_20261029/aborted_*`.
 
 Evidence here: manifest `inputs.json`, build receipts, full-valid reports, the check wrapper.
 ZIPs and weights are git-ignored under `submissions/`.
+
+## Public results (portal, uploaded by the user 2026-10-29; recorded 2026-11-11)
+
+| ZIP | Served full valid | Public | Portal duration | Memory |
+|---|---|---|---|---|
+| blend-dynamic_int8 (`8f939726…`) | 0.692336 | **0.66355** | 41m57s | 656 MB |
+| tiedlead-s5-dynamic_int8 (`c69055c2…`) | 0.691434 | **0.66246** | 18m6s | 629 MB |
+| tiedlead-s5-f32 | (Torch 0.691415) | **SCORE:TIMEOUT** | 61m56s | 627 MB |
+
+- Valid ordering transferred: blend − single = +0.0009 valid, +0.0011 public.
+- Local→public offset −0.029 (train-only models; valid is a shifted block, see validation_r1).
+- Both are **below** the full-corpus team TL3 ZIPs (tl3 0.66832, tl3_h390_s3_s4 0.66806), whose
+  members also saw valid in fitting: train-only selection evidence does not survive without the
+  final train+valid refit. Simon's full-corpus w18-final scored 0.66453 (Nov 4).
+- The F32 single exceeded the portal time limit even though the INT8 blend of three members fit
+  in 42 min: FP32 CPU GRU serving of this encoder family is not viable; use dynamic_int8.
+- Blend-runtime projection (≈45 min) matched the portal (42 min).
