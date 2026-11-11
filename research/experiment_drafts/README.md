@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+[Ten next-impact screens and PR60–80 audit](impact-portfolio-20261111/README.md): seven Transformer and three K16 GRU designs, source-pinned team contract, independent critique, 40-fit inventory with zero selected/running. Proposal-only; old overlaps explicit.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

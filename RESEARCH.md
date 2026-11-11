@@ -1,5 +1,7 @@
 # Research evidence index
 
+[11 November: PR60–80 audit and ten next-impact screens](research/experiment_drafts/impact-portfolio-20261111/README.md). Proposal-only portfolio; result sources, negatives and stale producer telemetry are explicit. No new fits or model execution.
+
 Use [current project state](specs/current-state.md) for the latest status and
 effective scope. The [unified research library](research/unified/README.md) is
 the maintained topic index for ideas, methods, reviews, sources, models,

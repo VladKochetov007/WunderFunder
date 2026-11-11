@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "kind": "proposal_portfolio_not_trainer_config",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "created_utc": "2026-11-11",
+  "objective": "competition",
+  "integration_base": "research-team",
+  "integration_base_sha": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "publication_url": null,
+  "owner": "Ivan / Codex preparation",
+  "receiver_owner": null,
+  "launch_authorized": false,
+  "local_model_execution": false,
+  "optimization_scope": "receiving_team_only",
+  "inventory_new_fits": 40,
+  "selected_new_fits": 0,
+  "new_teacher_fits": 0,
+  "profile_count": 0,
+  "measured_results": [],
+  "shared_contract": "CONTRACT.md",
+  "references": [
+    {
+      "id": "gru_k16_control",
+      "pr": 79,
+      "commit": "67c3bd818ea243177eeb1dc789cd3d145eba0e81",
+      "source_path": "research/experiment_drafts/l4-gru-causal-stem-20261110/configs/k16_s203301.json",
+      "url": "https://github.com/VladKochetov007/WunderFunder/blob/67c3bd818ea243177eeb1dc789cd3d145eba0e81/research/experiment_drafts/l4-gru-causal-stem-20261110/configs/k16_s203301.json",
+      "local_copy": "sources/gru_k16_control.json",
+      "sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534",
+      "role": "read_only_historical_example_not_launch_config"
+    },
+    {
+      "id": "transformer_plain_control",
+      "pr": 75,
+      "commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+      "source_path": "research/experiment_drafts/transformer-qk-normalization-20261109/configs/plain_s203301.json",
+      "url": "https://github.com/VladKochetov007/WunderFunder/blob/8626000a4b965763a70011a0291a891aa6535d7e/research/experiment_drafts/transformer-qk-normalization-20261109/configs/plain_s203301.json",
+      "local_copy": "sources/transformer_plain_control.json",
+      "sha256": "e74f404f1ea7eefea98b23e2a0150356239ae2537286602b59d43c54486937c5",
+      "role": "read_only_historical_example_not_launch_config"
+    }
+  ],
+  "cards": [
+    {
+      "n": 1,
+      "slug": "numerical-ple",
+      "title": "Continuous numerical embeddings before temporal attention",
+      "base": "T",
+      "priority": 1,
+      "lineage": "Representation continuation of H-RR17-07 discrete-level encoding; continuous interpolation, not categorical level indicators. Not a repeat of PR74 FIR filters.",
+      "mechanism": "A flat linear input map may force temporal blocks to learn scalar thresholds. Add continuous train-quantile numerical embeddings so the same temporal backbone can use nonlinear scalar structure.",
+      "control": "Unchanged raw112 linear projection and Transformer.",
+      "treatment": "Keep the same raw projection. Add 16 train-only quantile knots per scalar, a learned 4-dimensional embedding at each knot, continuous linear interpolation, concatenate 112 embeddings and project to H768. Initialize this final added projection to zero. Clamp the added branch outside the outer knots; preserve raw values through the unchanged bypass. Deduplicate coincident knots; a constant feature contributes zero.",
+      "parameters": {
+        "knots": 16,
+        "embedding_dim": 4,
+        "quantile_range": [
+          0,
+          1
+        ],
+        "output_projection_init": "zero",
+        "raw_bypass": true
+      },
+      "prediction": "Useful gains across both seeds with nonzero branch contribution, especially in fixed train-defined scalar regions, would support nonlinear value encoding.",
+      "falsifier": "The branch remains unused, improves training only, or produces mixed/negative primary WP. Extra nonlinear capacity is an alternative explanation; a capacity-matched MLP branch is a separately budgeted follow-up, not an inferred mechanism result.",
+      "leakage": "Fit and hash knots using train membership only. Never recompute from a whole valid sequence or current test batch. Transformation reads x[t] only.",
+      "serving": "Adds current-row interpolation/projection; no extra sequence state. Large teacher still needs separate serving/transfer work.",
+      "adapter": "Train-only quantile artifact, scalar interpolation module and checkpoint/export integration.",
+      "diagnostics": [
+        "knot occupancy and duplicate counts",
+        "PLE/raw projection norm ratio",
+        "per-target endpoint WP"
+      ],
+      "references": [
+        "https://arxiv.org/abs/2203.05556"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-01",
+      "experiment_id": "E-IMPACT-20261111-01",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/01-numerical-ple.md"
+    },
+    {
+      "n": 2,
+      "slug": "same-row-group-tokens",
+      "title": "Same-row feature-group tokens before the temporal Transformer",
+      "base": "T",
+      "priority": 2,
+      "lineage": "Explicit modern successor to PR8 grouped input encoding and adjacent NF19-24. Continue PR8 with a recipe amendment; do not create a duplicate mechanism PR. Nonlinear current-row token mixing is the proposed specific package.",
+      "mechanism": "Flattening all channels may hide structured cross-group interactions. Encode schema groups separately and mix them within the same observed row before temporal modeling.",
+      "control": "Raw112 linear projection into the unchanged causal Transformer.",
+      "treatment": "Use exactly 16 schema groups: i0/i1 times p22,v22,dp4,dv4 (eight groups), plus a0..a7 separately (eight). Linear+GELU maps each group to width64; add learned group IDs; one current-row self-attention block (4 heads, FF128, pre-LayerNorm), then mean pool, project to H768 and add to the unchanged raw projection. Zero-init the added output projection. Never turn an entire future window into a token.",
+      "parameters": {
+        "groups": 16,
+        "group_width": 64,
+        "within_row_heads": 4,
+        "within_row_ff": 128,
+        "within_row_blocks": 1,
+        "pooling": "mean",
+        "raw_bypass": true
+      },
+      "prediction": "Stable WP improvement with several groups contributing would support a better current-row interaction representation.",
+      "falsifier": "No paired improvement, group collapse, or an effect explained only by added capacity. A flat equal-parameter nonlinear stem is the discriminating follow-up; not counted in the initial four fits.",
+      "leakage": "Freeze explicit ordered feature indices from the canonical schema. Group names do not establish physical meanings or exchangeability. Attention here sees only groups at t, followed by unchanged causal temporal attention.",
+      "serving": "Adds per-row work without extending temporal state. No latency or CPU envelope claim.",
+      "adapter": "Pinned group-index artifact, within-row encoder, reset-free input/export adapter.",
+      "diagnostics": [
+        "per-group representation norms",
+        "group attention entropy",
+        "per-target endpoint WP"
+      ],
+      "references": [],
+      "hypothesis_id": "H-IMPACT-20261111-02",
+      "experiment_id": "E-IMPACT-20261111-02",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/02-same-row-group-tokens.md",
+      "continue_existing_pr": 8
+    },
+    {
+      "n": 3,
+      "slug": "target-private-adapters",
+      "title": "Joint Transformer with nonlinear target-private late adapters",
+      "base": "T",
+      "priority": 3,
+      "lineage": "Adjacent to PR77 specialists and PR55 multi-head mixtures. This retains joint supervision and one shared trunk; there are no independent teacher fits, gates or target-selective trunk losses.",
+      "mechanism": "The two targets may need different nonlinear readout features even when temporal representation should remain shared.",
+      "control": "Shared final hidden state and existing two-output head.",
+      "treatment": "For target k, use h_k=h+U_k GELU(V_k h), rank8; keep that target's original output row. Initialize U_k=0 and V_k with its own RNG. Both losses update the common backbone. A linear-linear adapter is forbidden because it can collapse into the existing linear head.",
+      "parameters": {
+        "rank": 8,
+        "activation": "GELU",
+        "up_projection_init": "zero",
+        "joint_training": true
+      },
+      "prediction": "Nonzero target-private corrections and stable paired WP without sacrificing one target support limited late specialization.",
+      "falsifier": "Adapters collapse, one target worsens enough to erase the other gain, or effects vary by seed. Extra capacity remains an alternative; an equal-parameter shared nonlinear head is a separate follow-up.",
+      "leakage": "No target values, validity flags, validation-derived gates or future inputs enter adapters.",
+      "serving": "One shared stream, two small nonlinear readouts. Added operations and bytes require eventual CPU measurement.",
+      "adapter": "Target-private adapter factory, exact per-target output mapping and export/reload support.",
+      "diagnostics": [
+        "adapter contribution norms by target",
+        "shared and private gradient norms",
+        "t0/t1 and pooled WP"
+      ],
+      "references": [],
+      "hypothesis_id": "H-IMPACT-20261111-03",
+      "experiment_id": "E-IMPACT-20261111-03",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/03-target-private-adapters.md"
+    },
+    {
+      "n": 4,
+      "slug": "deep-supervision",
+      "title": "Direct label supervision at intermediate Transformer depths",
+      "base": "T",
+      "priority": 4,
+      "lineage": "Different from PR58 filtered residual targets: same labels and mask, attached to layers6/12/18. Conceptual precedent is Deeply-Supervised Nets; its vision results are not evidence here.",
+      "mechanism": "A final-only objective may provide a weak or conflicting learning signal to early temporal blocks. Small intermediate heads could make useful signal accessible at several depths.",
+      "control": "Current final-head WMSE only; common backbone initialization unchanged.",
+      "treatment": "Add independent two-output linear heads after blocks6,12,18. L=L_primary+0.1*mean(L_WMSE_6,L_WMSE_12,L_WMSE_18), each using the exact primary training mask/weight reduction. Final-head loss weight stays1. Discard intermediate heads at serving.",
+      "parameters": {
+        "layers": [
+          6,
+          12,
+          18
+        ],
+        "aux_weight_total": 0.1,
+        "primary_weight": 1.0
+      },
+      "prediction": "Stronger early-block gradients and better final fixed-E4 WP, rather than only better intermediate heads.",
+      "falsifier": "Intermediate heads improve but final WP does not, or the added objectives constrain deeper features. Increased total gradient scale is an alternative explanation and must be logged, not hidden by LR retuning.",
+      "leakage": "Train labels only; intermediate valid metrics are diagnostics and cannot select the serving head or coefficient.",
+      "serving": "No additional inference branch after export; final predictor parity still needs receiver verification.",
+      "adapter": "Intermediate-output hook/return interface, auxiliary objective normalization and export exclusion.",
+      "diagnostics": [
+        "per-depth preclip gradient norms",
+        "each auxiliary loss and head WP diagnostic",
+        "final-only primary WP"
+      ],
+      "references": [
+        "https://arxiv.org/abs/1409.5185"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-04",
+      "experiment_id": "E-IMPACT-20261111-04",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/04-deep-supervision.md"
+    },
+    {
+      "n": 5,
+      "slug": "tied-depth",
+      "title": "Twenty-four Transformer applications with twelve shared blocks",
+      "base": "T",
+      "priority": 9,
+      "lineage": "Weight sharing is distinct from PR48 width/context scaling and PR72 gradient horizon. ALBERT motivates sharing, not a claimed market-series transfer.",
+      "mechanism": "Repeated composition may retain useful depth with fewer independent parameters and less overfitting.",
+      "control": "24 independent blocks, but initialize blocks13..24 as exact value copies of blocks1..12. The copies are independent parameters after initialization. This special fresh control is not a cached PR75 control.",
+      "treatment": "Use the same initial function, but tie each pair (l,l+12) to one parameter set; execute 24 logical layers. Keep 24 separate layer-position KV caches, including at reset/resume. Shared parameters appear once in the optimizer; autograd sums both uses. Do not halve the execution depth or share KV caches.",
+      "parameters": {
+        "logical_layers": 24,
+        "unique_blocks": 12,
+        "sharing_map": "layer modulo12",
+        "kv_cache_count": 24,
+        "control_second_half_init": "copy_first_half_untied"
+      },
+      "prediction": "Less train-valid separation and better fixed-E4 WP would support the shared-parameter recipe.",
+      "falsifier": "Underfitting or no stable gain. Fewer parameters and altered accumulated gradients are inherent coupled changes; this is not proof of an isolated regularization mechanism. No latency saving is assumed.",
+      "leakage": "Preserve causal mask and independent logical-layer cache histories; parameter sharing cannot alias stream state.",
+      "serving": "Fewer weight tensors, same24 block applications/KV cache count. Not automatically a small or fast submission.",
+      "adapter": "Shared-module factory, optimizer deduplication, per-logical-depth caches and strict save/reload identity.",
+      "diagnostics": [
+        "unique versus logical parameter counts",
+        "gradient norm by shared block",
+        "train/full-valid curve and fixed endpoint"
+      ],
+      "references": [
+        "https://arxiv.org/abs/1909.11942"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-05",
+      "experiment_id": "E-IMPACT-20261111-05",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/05-tied-depth.md"
+    },
+    {
+      "n": 6,
+      "slug": "pairwise-ranking",
+      "title": "Within-sequence ranking auxiliary for the Transformer",
+      "base": "T",
+      "priority": 5,
+      "lineage": "Different from PR70 correlation objective and PR56 teacher-delta KD: supervised pair ordering, no teacher. RankNet supplies a conceptual pairwise logistic objective.",
+      "mechanism": "WMSE may fit magnitude without sufficient ordering discrimination among clearly separated targets. A small pairwise term could improve ordering while retaining the original regression anchor.",
+      "control": "Exact Transformer primary WMSE.",
+      "treatment": "Within each fitting sequence/chunk, form only pairs (t,t-32) with both rows after warmup and absolute clipped-label difference>=0.5. For each target use sign(yc_t-yc_u) and softplus(-sign*(z_t-z_u)/1.0); weight by sqrt(abs(yc_t)*abs(yc_u)), normalize by eligible pair weight per target, then average targets. L=L_primary+0.05*L_pair; zero term when no eligible pairs. Do not use is_scored (train lacks it), cross-sequence pairs, pair labels as inputs or validation-driven pair mining.",
+      "parameters": {
+        "pair_lag": 32,
+        "minimum_clipped_label_gap": 0.5,
+        "temperature": 1.0,
+        "aux_weight": 0.05,
+        "pair_scope": "same_sequence_same_chunk"
+      },
+      "prediction": "Better train pair concordance together with better pooled fixed-E4 WP.",
+      "falsifier": "Concordance improves while weighted Pearson does not or deteriorates. Rank order alone is not equivalent to Pearson: nonlinear monotone changes can hurt the official metric.",
+      "leakage": "Both labels are training-loss targets only; each prediction remains prefix causal. Pair eligibility and RNG are frozen without valid feedback.",
+      "serving": "Training-only loss; identical callback architecture.",
+      "adapter": "Bounded causal prediction-pair sampler and explicit normalized ranking loss with empty-pair handling.",
+      "diagnostics": [
+        "eligible pair counts by target",
+        "pair loss and concordance on fixed train panel",
+        "WMSE, clipping counts and official WP"
+      ],
+      "references": [
+        "https://www.microsoft.com/en-us/research/publication/learning-to-rank-using-gradient-descent/"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-06",
+      "experiment_id": "E-IMPACT-20261111-06",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/06-pairwise-ranking.md"
+    },
+    {
+      "n": 7,
+      "slug": "future-label-heads",
+      "title": "Future-label auxiliary heads on a causal Transformer",
+      "base": "T",
+      "priority": 6,
+      "lineage": "Explicit continuation of the old multi-horizon-target backlog. Different from PR78 future-input pretraining: joint supervised task training, no pretraining stage or initializer.",
+      "mechanism": "Predicting several nearby task horizons may make hidden states retain signal useful to the current target.",
+      "control": "Current two-target WMSE, four full epochs.",
+      "treatment": "From h[t], add two-target heads for offsets1,16,64. Primary current-target objective unchanged. L=L_primary+0.1*mean(three future-label WMSE losses), each with source-equivalent abs-clipped-target weights and its own valid-row denominator. Use t>=99 and t+h within the same fitting sequence; mask missing/nonfinite labels. No other fitting stage.",
+      "parameters": {
+        "offsets": [
+          1,
+          16,
+          64
+        ],
+        "aux_weight_total": 0.1,
+        "primary_weight": 1.0,
+        "cross_sequence_targets": false
+      },
+      "prediction": "Future task losses improve and the unchanged current-target head improves at fixedE4.",
+      "falsifier": "Auxiliary tasks improve but current WP does not, or horizon interference hurts a target. Highly overlapping task labels may add redundant loss rather than useful memory.",
+      "leakage": "Only loss construction may look ahead in training labels. Model inputs, caches, normalization, feature processing and outputs at t remain prefix invariant. Across TBPTT boundaries a label-only buffer is permitted; no future feature/state encoding. Never borrow labels from valid or another sequence.",
+      "serving": "Drop auxiliary heads; no future-label or target input exists in the exported predictor.",
+      "adapter": "Label-only horizon target/mask builder, three heads, normalized losses and label-free inference export.",
+      "diagnostics": [
+        "loss and eligible count per horizon/target",
+        "primary versus auxiliary gradient norms",
+        "current-target fixed-E4 WP"
+      ],
+      "references": [],
+      "hypothesis_id": "H-IMPACT-20261111-07",
+      "experiment_id": "E-IMPACT-20261111-07",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/07-future-label-heads.md"
+    },
+    {
+      "n": 8,
+      "slug": "state-perturbation",
+      "title": "GRU sensitivity regularization with a perturbed carried state",
+      "base": "G",
+      "priority": 8,
+      "lineage": "Different from channel dropout PR59 and input-stem PR79/80. Lipschitz RNN is motivation for examining stability, not the implementation or a proof of stability for this GRU.",
+      "mechanism": "A recurrent predictor may amplify small errors in carried state. A training-only noisy-state branch could reduce brittleness while preserving the useful clean memory.",
+      "control": "K16 GRU primary WMSE, same clean state trajectory.",
+      "treatment": "Every fourth eligible chunk, at offset128 fork the current carried GRU state. Add independent Gaussian noise with coordinate std0.01*max(detached hidden RMS,1e-3). Advance the fork through the same next32 inputs; compare its predictions to stop-gradient clean predictions. Add0.01*mean_squared_prediction_difference/(0.01^2+1e-8). Keep primary predictions and all future carried state from the clean branch. Never replace the stream with the noisy state. Persist the separate perturbation RNG.",
+      "parameters": {
+        "sigma_relative": 0.01,
+        "rms_floor": 0.001,
+        "suffix_rows": 32,
+        "chunk_stride": 4,
+        "fork_offset": 128,
+        "aux_weight": 0.01,
+        "normalize_by_sigma_squared": true
+      },
+      "prediction": "Reduced train-panel perturbation sensitivity without losing long-memory usefulness, plus paired fixedE6 WP gain.",
+      "falsifier": "Sensitivity falls but clean quality declines: the regularizer may erase useful memory. It imposes no global contraction guarantee. Added forward/backward work is a real cost.",
+      "leakage": "At each suffix position use only the inputs observed up to that position. Fork remains in the same training sequence and is discarded; no noisy state enters evaluation or later chunks.",
+      "serving": "No additional model or operations after training-only branch removal.",
+      "adapter": "Safe state fork, shared input-stem prefix handling, isolated perturbation RNG and auxiliary branch reduction.",
+      "diagnostics": [
+        "clean/noisy prediction difference at offsets1/8/32",
+        "primary and auxiliary loss",
+        "clean-state endpoint WP and runtime overhead"
+      ],
+      "references": [
+        "https://arxiv.org/abs/2006.12070"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-08",
+      "experiment_id": "E-IMPACT-20261111-08",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/08-state-perturbation.md"
+    },
+    {
+      "n": 9,
+      "slug": "nll-transfer",
+      "title": "Variance-head auxiliary on K16 GRU: continuation of the earlier NLL idea",
+      "base": "G",
+      "priority": 7,
+      "lineage": "Explicit recipe continuation, no weight transfer: Oct21 NLL-Control+0.000738421, conditional95% interval[-0.000292725,+0.001869540] on one exposedF0/seed1001/fixedE5 panel. Different historical targets/normalization/initializer; not a replication or confirmed effect.",
+      "mechanism": "A variance head may separate predictable mean signal from input-dependent noise without discarding high-error examples from the primary objective.",
+      "control": "K16 GRU with unchanged mean head and primary WMSE.",
+      "treatment": "Add a two-output log-variance head s=clamp(raw_s,-5,3), initialized to0. On eligible training rows add0.05*mean(0.5*exp(-s)*(mu-yc)^2+0.5*s) to the unchanged WMSE. Use independent diagonal variances, not an unconstrained covariance matrix. No variance-based reweighting of the primary loss; discard s at inference.",
+      "parameters": {
+        "aux_weight": 0.05,
+        "log_variance_bounds": [
+          -5,
+          3
+        ],
+        "log_variance_init": 0.0,
+        "covariance": "diagonal",
+        "primary_weight": 1.0
+      },
+      "prediction": "Nontrivial finite variance structure plus paired current-target mean WP gain over K16 control.",
+      "falsifier": "Lower NLL without better mean WP, variance pinned at bounds, or harm to high-weight rows. The Gaussian likelihood is a surrogate on clipped labels, not calibrated market uncertainty or Bayesian confidence.",
+      "leakage": "Variance is predicted from causal hidden state; no target enters it as a feature. Fit all variance parameters only on train.",
+      "serving": "Mean-only export retains the original callback architecture; verify parity on receiver.",
+      "adapter": "Variance head, bounded Gaussian surrogate and mean-only export. Exact earlier NLL code is not silently reused under a new name.",
+      "diagnostics": [
+        "variance histogram and bound saturation",
+        "WMSE/NLL and per-target endpoint WP",
+        "fixed train-defined magnitude slices"
+      ],
+      "references": [
+        "https://arxiv.org/abs/1703.04977"
+      ],
+      "hypothesis_id": "H-IMPACT-20261111-09",
+      "experiment_id": "E-IMPACT-20261111-09",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/09-nll-transfer.md",
+      "initialization": "both_arms_from_scratch_no_parent_weights"
+    },
+    {
+      "n": 10,
+      "slug": "clip-event-head",
+      "title": "Auxiliary prediction of the official clipping-boundary events",
+      "base": "G",
+      "priority": 10,
+      "lineage": "Adjacent to PR62 auxiliary/target-clipping experiments and PR63 robust losses; keeps WMSE, sample weights and clipping unchanged, adding a distinct event label instead of a new primary clipping threshold.",
+      "mechanism": "Explicitly recognizing signed high-magnitude events may improve representation of the rows receiving the largest official weights.",
+      "control": "K16 GRU primary WMSE with the unchanged official training recipe.",
+      "treatment": "From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 train rows across>=32 fitting sequences. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.",
+      "parameters": {
+        "thresholds": [
+          -2,
+          2
+        ],
+        "aux_weight": 0.05,
+        "min_tail_rows_per_target": 100,
+        "min_tail_sequences_per_target": 32,
+        "class_weights": "none"
+      },
+      "prediction": "Event discrimination improves and translates into better full pooled WP without offsetting center-row damage.",
+      "falsifier": "CE improves but official WP does not, classes are too rare, or center performance regresses. Easy class separation alone is not evidence of useful regression.",
+      "leakage": "Class labels require pre-clipping raw train targets in a loss-only path. Train class counts cannot use valid; no event labels or score mask at callback.",
+      "serving": "Auxiliary heads are discarded. Main predictor remains the K16 GRU.",
+      "adapter": "Explicit raw-target loss view, fixed prevalence feasibility receipt, CE heads and export exclusion.",
+      "diagnostics": [
+        "per-target class prevalence and sequence counts",
+        "per-class CE/confusion on fixed train panel",
+        "tail/center diagnostic coverage and full pooled WP"
+      ],
+      "references": [],
+      "hypothesis_id": "H-IMPACT-20261111-10",
+      "experiment_id": "E-IMPACT-20261111-10",
+      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "fresh_control_fits": 2,
+      "fresh_treatment_fits": 2,
+      "total_new_fits": 4,
+      "new_teacher_fits": 0,
+      "control_reuse": 0,
+      "seeds": [
+        204101,
+        204102
+      ],
+      "measured_gain": null,
+      "run_command": null,
+      "card": "cards/10-clip-event-head.md"
+    }
+  ]
+}
