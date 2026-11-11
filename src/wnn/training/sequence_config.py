@@ -202,8 +202,22 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
-    if model["dropout"] != 0 or type(model["checkpoint_blocks"]) is not bool:
-        raise ValueError("this paired runtime freezes dropout=0 and boolean checkpoint_blocks")
+    dropout = model["dropout"]
+    if (
+        isinstance(dropout, bool)
+        or not isinstance(dropout, (int, float))
+        or not math.isfinite(float(dropout))
+        or not 0 <= dropout < 1
+    ):
+        raise ValueError("model.dropout must be finite and in [0, 1)")
+    if type(model["checkpoint_blocks"]) is not bool:
+        raise ValueError("checkpoint_blocks must be boolean")
+    if model["architecture"] != "gru" and dropout != 0:
+        raise ValueError("this paired runtime freezes non-GRU dropout=0")
+    if model["architecture"] == "gru" and dropout not in (0, 0.1):
+        raise ValueError("this successor runtime supports GRU dropout=0 or 0.1")
+    if model["architecture"] == "gru" and dropout > 0 and model["layers"] < 2:
+        raise ValueError("GRU dropout requires at least two recurrent layers")
     if model["architecture"] == "transformer" and model["hidden"] % (2 * model["heads"]):
         raise ValueError("RoPE requires an even integral head dimension")
     if config["hint_weight"] > 0 and (

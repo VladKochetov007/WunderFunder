@@ -40,19 +40,25 @@ class GRUSequenceAdapter(RNNModel):
     def _hidden_and_history(
         self, values: Tensor, state: Tensor | GRUSequenceState | None
     ) -> tuple[Tensor | None, Tensor | None, int]:
-        if self.input_stem_kernel == 16:
+        if self.input_stem_kernel > 1:
             if state is None:
                 return None, None, 0
             if not isinstance(state, GRUSequenceState):
-                raise TypeError("kernel-16 GRU state must include hidden state and input history")
+                raise TypeError(
+                    "stateful GRU stem state must include hidden state and input history"
+                )
             position = state.next_position
-            history = validate_input_history(state.input_history, values, position)
+            history = validate_input_history(
+                state.input_history, values, position, self.input_stem_kernel
+            )
             hidden = state.hidden
             if not isinstance(hidden, Tensor):
-                raise TypeError("kernel-16 GRU hidden state must be a tensor")
+                raise TypeError("stateful GRU hidden state must be a tensor")
         else:
             if isinstance(state, GRUSequenceState):
-                raise TypeError("GRU input-history state is valid only for input_stem_kernel=16")
+                raise TypeError(
+                    "GRU input-history state requires input_stem_kernel larger than one"
+                )
             if state is not None and not isinstance(state, Tensor):
                 raise TypeError("GRU state must be a tensor")
             hidden, history, position = state, None, 0
@@ -80,9 +86,9 @@ class GRUSequenceAdapter(RNNModel):
         recurrent, next_hidden = self.gru(encoded, hidden)
         prediction = self.head(torch.cat((recurrent, encoded), dim=-1))
         next_hidden = next_hidden.float()
-        if self.input_stem_kernel == 16:
+        if self.input_stem_kernel > 1:
             if next_history is None:
-                raise RuntimeError("kernel-16 input stem failed to return its causal history")
+                raise RuntimeError("stateful input stem failed to return its causal history")
             next_state: Tensor | GRUSequenceState = GRUSequenceState(
                 next_hidden, next_history, position + values.shape[1]
             )

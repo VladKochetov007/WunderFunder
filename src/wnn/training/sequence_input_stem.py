@@ -8,7 +8,7 @@ from torch.nn import functional as F
 
 RAW_INPUT_WIDTH = 112
 INPUT_STEM_HISTORY_ROWS = 15
-INPUT_STEM_KERNELS = (0, 1, 16)
+INPUT_STEM_KERNELS = (0, 1, 16, 64)
 
 
 def validate_input_stem_kernel(value: object) -> int:
@@ -16,27 +16,31 @@ def validate_input_stem_kernel(value: object) -> int:
     if type(value) is not int:
         raise TypeError("input_stem_kernel must be an integer")
     if value not in INPUT_STEM_KERNELS:
-        raise ValueError("input_stem_kernel must be 0, 1, or 16")
+        raise ValueError("input_stem_kernel must be 0, 1, 16, or 64")
     return value
 
 
 def validate_input_history(
-    history: Tensor | None, values: Tensor, next_position: int
+    history: Tensor | None, values: Tensor, next_position: int, kernel_size: int = 16
 ) -> Tensor | None:
-    """Validate the bounded normalized-input tail and its absolute sequence position."""
+    """Validate the normalized-input tail for a stateful causal kernel."""
     if type(next_position) is not int or next_position < 1:
         raise ValueError("GRU input history has an invalid absolute position")
     if history is None:
-        raise ValueError("kernel-16 GRU state is missing input history")
+        raise ValueError("stateful GRU stem is missing input history")
     if not isinstance(history, Tensor):
         raise TypeError("GRU input history must be a tensor")
+    kernel_size = validate_input_stem_kernel(kernel_size)
+    if kernel_size <= 1:
+        raise ValueError("input history requires a kernel larger than one")
+    history_rows = kernel_size - 1
     if (
         history.ndim != 3
         or history.shape[0] != values.shape[0]
         or history.shape[-1] != RAW_INPUT_WIDTH
     ):
         raise ValueError("GRU input history has an invalid batch or feature shape")
-    if history.shape[1] != min(next_position, INPUT_STEM_HISTORY_ROWS):
+    if history.shape[1] != min(next_position, history_rows):
         raise ValueError("GRU input history has an invalid row count")
     if history.device != values.device or history.dtype != torch.float32:
         raise ValueError("GRU input history must use the input device and float32 dtype")
@@ -48,10 +52,9 @@ class CausalInputStem(nn.Module):
 
     def __init__(self, kernel_size: int) -> None:
         super().__init__()
-        if type(kernel_size) is not int:
-            raise TypeError("causal input stem kernel must be an integer")
-        if kernel_size not in (1, 16):
-            raise ValueError("causal input stem kernel must be 1 or 16")
+        kernel_size = validate_input_stem_kernel(kernel_size)
+        if kernel_size not in (1, 16, 64):
+            raise ValueError("causal input stem kernel must be 1, 16, or 64")
         self.kernel_size = kernel_size
         self.weight = nn.Parameter(torch.zeros(RAW_INPUT_WIDTH, 1, kernel_size))
 
@@ -71,24 +74,25 @@ class CausalInputStem(nn.Module):
             source = values.transpose(1, 2)
             next_history = None
         else:
+            history_rows = self.kernel_size - 1
             if history is None:
                 past = values[:, :0]
             else:
                 if not isinstance(history, Tensor):
-                    raise TypeError("kernel-16 input history must be a tensor")
+                    raise TypeError("causal input history must be a tensor")
                 if (
                     history.ndim != 3
                     or history.shape[0] != values.shape[0]
                     or history.shape[-1] != RAW_INPUT_WIDTH
                     or history.device != values.device
                     or history.dtype != torch.float32
-                    or history.shape[1] > INPUT_STEM_HISTORY_ROWS
+                    or history.shape[1] > history_rows
                 ):
-                    raise ValueError("kernel-16 input history has an invalid shape or dtype")
+                    raise ValueError("causal input history has an invalid shape or dtype")
                 past = history
             joined = torch.cat((past, values), dim=1)
-            source = F.pad(joined.transpose(1, 2), (INPUT_STEM_HISTORY_ROWS, 0))
-            next_history = joined[:, -INPUT_STEM_HISTORY_ROWS:].clone()
+            source = F.pad(joined.transpose(1, 2), (history_rows, 0))
+            next_history = joined[:, -history_rows:].clone()
         filtered = F.conv1d(source, self.weight, groups=RAW_INPUT_WIDTH)
         filtered = filtered[..., -values.shape[1] :].transpose(1, 2)
         return values + filtered, next_history

@@ -213,6 +213,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if dropout not in (0.0, 0.1) or (dropout > 0 and layers < 2):
+            raise ValueError("GRU dropout must be 0 or 0.1 and requires at least two layers")
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
