@@ -1,5 +1,7 @@
 # Next-impact portfolio: ten research screens
 
+Published as [draft PR81](https://github.com/VladKochetov007/WunderFunder/pull/81) targeting `research-team`.
+
 **Prepared designs, not runnable experiments or measured improvements.** This
 portfolio reviews all 21 recent PRs **#60–80**, checks older overlaps, and proposes
 ten separately selectable comparisons: seven on the current Transformer recipe
