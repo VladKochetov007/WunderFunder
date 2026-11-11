@@ -49,3 +49,12 @@ Seventeen focused causal/state/dropout tests passed locally and on the actual re
 ## 11. Results and reporting
 
 All six fits have started. Fixed-E6 successor scores are pending. Live graphs are served locally at http://127.0.0.1:8770/. Native outputs are under /data/lc-epanov_s/tabdata-stem-successors-20261111-r1. The progress publisher records actual optimizer updates, train/full-valid loss and WP, LR, gradients/clipping and resource observations. Canonical prediction/scoring follows the completed fits and compares each same-seed output with the recorded K16 control.
+
+
+## Receiving continuation
+
+The six-fit controller was launched at01:55:57UTC. Both monitoring SSH streams disconnected at02:10UTC when the local VPN process exited. One bounded reconnect per host timed out during banner exchange. Subsequent current GPU state remains unverified pending a fresh VPN code. The detached fit timer retains its original05:10:28UTC cutoff.
+
+The receiving helper and focused tests are under `readout/`. Transfers089/090 and launch091 are queued on the existing L4 RPC transport. Native readout launch is still pending transport restoration. The helper checks the fixed-E6 endpoint, source, sparse membership, prediction coverage and canonical scorer agreement before paired comparisons against the exact reused controls. Collection retains the original06:10:28UTC deadline.
+
+The progress publisher is running locally as PID10068 and has posted its first report to PR80. Reports preserve observation timestamps and mirror age. Metadata inputs-r2 fixes the source identity in the manifest while preserving every R1 training/control config byte.
