@@ -1,0 +1,96 @@
+Reading additional input from stdin...
+OpenAI Codex v0.164.0
+--------
+workdir: /home/vlad/.cache/tmp/claude-1000/-home-vlad-development-wunder-wnn-connectome-starterpack/96f1cb5f-6c6e-4792-88d3-19c350a9412f/scratchpad/opt_codex
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 01a172ab-5cc6-7512-92a3-805b971347ef
+--------
+user
+Read BRIEF.md in the current directory and perform the task it describes. Output only the final Markdown answer.
+warning: Codex is ignoring 2 unrecognized configuration settings. Check for typos or deprecated settings.
+  user (/home/vlad/.codex/config.toml): `projects./home/vlad/development/kaggle_farm.approval_policy` is ignored.
+  user (/home/vlad/.codex/config.toml): `projects./home/vlad/development/kaggle_farm.sandbox_mode` is ignored.
+warning: Codex is ignoring 2 unrecognized configuration settings. Check for typos or deprecated settings.
+  user (/home/vlad/.codex/config.toml): `projects./home/vlad/development/kaggle_farm.approval_policy` is ignored.
+  user (/home/vlad/.codex/config.toml): `projects./home/vlad/development/kaggle_farm.sandbox_mode` is ignored.
+codex
+I’ll read BRIEF.md and carry out its instructions.
+
+exec
+/bin/bash -lc 'cat BRIEF.md' in /home/vlad/.cache/tmp/claude-1000/-home-vlad-development-wunder-wnn-connectome-starterpack/96f1cb5f-6c6e-4792-88d3-19c350a9412f/scratchpad/opt_codex
+ succeeded in 0ms:
+# Brief: what is the next "AdamW → Muon"-scale optimization step for this model? (2026-10-25)
+
+You are an independent optimization researcher. Use only this brief. Plain Markdown, ≤2,000 words.
+Be concrete: equations, the exact update rule, why it fits *these* measurements, a cheap
+discriminating experiment, a falsifier. Distinguish established theory from your conjecture.
+
+## Task and model
+
+Causal streaming regression on anonymized limit-order-book data (112 features/row, sequences
+of 20,000 rows, state reset per sequence). Targets: two future-price indicators; metric =
+pooled |y|-weighted Pearson (y, p clipped to ±2) — equivalent at the population level to
+|y|-weighted MSE, which is the training loss. Labels are extremely noisy: best weighted R² ≈ 0.46
+(WP 0.68); the hardest class ≈ 0.17. Serving: CPU-only, ≤20 MB, strict FP32 training policy.
+
+Model: input Linear(211→256 or 512) → GRU (1–2 layers, H 256–512, PyTorch gate order r,z,n) →
+MLP head (Linear→GELU→Linear 2). Trained with TBPTT windows of 2,000 rows, batch 8–16
+sequences, ~0.98–2.3 M parameters. Optimizer AdamW (lr 1e-3 cold, 1e-4 warm; β=(0.9,0.999);
+wd 0.01), OneCycle schedule (cosine anneal to ~0, β1 cycled), global grad-norm clip 1.0.
+
+## Measured facts (our runs)
+
+1. **Muon replicates.** Our MuonAdamW (Newton–Schulz orthogonalized Nesterov momentum per GRU
+   gate block, RMS-matched scale 0.2·sqrt(max(m,n)); AdamW for input layer, head, biases),
+   strict FP32, beat matched AdamW by **+0.0038 [+0.0006,+0.0078] and +0.0043 [+0.0020,+0.0072]**
+   WP on two fold/seed cells (cold H512×1, 10% data, 3 epochs). Seed noise of a full endpoint
+   ≈ 0.0007–0.0014. A synthetic CPU screen had shown Muon *losing* (−0.005); real data reverses it.
+2. **Spectra (final weights, same seed/data):** AdamW W_hh gate blocks (r,z,n): top singular
+   values 12.4 / **25.4–29.2** / 5.0, stable ranks 3.8–4.1 / **2.0–2.4** / 10.8–11.8.
+   W_ih similar (10 / 13–16 / 4.5; sr 4–14). Under Muon: W_hh top sv 1.8 / 3.1–3.2 / 2.2–2.3,
+   stable ranks **82–85 / 34–37 / 47–49**; W_ih sr 61–84. The update-gate (z) block under AdamW
+   is dominated by 1–2 directions. GRU biases end ~2× larger under Muon (RMS 0.22 vs 0.10).
+3. **Gradient norms (pre-clip, per epoch, AdamW cold run):** total q05/q50/q95 = 0.73/1.45/3.40
+   (ep0) → 0.96/1.85/4.21 (ep2). **Clip at 1.0 is active on 80–94% of steps, mean clip factor
+   0.56–0.69.** Per-family medians: head **1.30–1.79**, input 0.40–0.47, biases 0.26–0.31,
+   W_ih 0.13–0.19, W_hh **0.04–0.11**. The head dominates the global norm, so global clipping is
+   effectively head-driven clipping that also shrinks recurrent gradients. Under Muon the
+   recurrent gradient medians are 3–4× larger (W_hh 0.15→0.38, W_ih 0.39→0.65) and grow per epoch.
+4. **Adam state at end of training (AdamW runs):** per-coordinate |m|/sqrt(v) median 0.07–0.15,
+   q95 0.25–0.42 for every family — at or below the ≈0.23 expected from pure stationary noise
+   with β1=0.9. Per-coordinate gradient signal is undetectable at batch level.
+5. **Other optimizers, same cells:** Cautious AdamW (sign-agreement mask) −0.0014/−0.0011 (null/neg).
+   AdEMAMix (α=4, β3=.999, same lr) −0.0045/−0.0038; its clip rate rose to 99% (factor 0.35) —
+   effective step inflation. Earlier history: running loss normalization null; SWA/EMA-0.999 null;
+   WSD/trapezoid/SGDR tie OneCycle at full scale; long training (15 epochs) peaks at epochs 1–3
+   then oscillates in a 0.658–0.665 band, below a 3-epoch annealed run (0.666); dropout null;
+   larger width beyond 384 worse in cold runs; GRU 3 layers slightly better; Muon on every matrix
+   ("all") was the most robust teacher recipe historically (bf16 era).
+6. Per-batch |y|-weight mass varies 0.1×–9.7×; |y|-weighting concentrates gradient on rare
+   large-|y| rows. 94% of residual error is a per-label-run level offset; labels are step
+   functions that change only on book events.
+
+## Questions
+
+A. Explain *why* Muon wins here (mechanism) using facts 2–4. Is it conditioning of recurrent
+   dynamics, decoupling from head-driven clipping, implicit regularization of spectral norm,
+   or effective-LR increase for recurrent matrices? Propose a test that separates these.
+B. Propose 4–6 concrete next steps that could be as large as AdamW→Muon for *this* network:
+   e.g. Muon variants for gates (per-gate vs joint, spectral-norm constraints, orthogonal-manifold
+   updates, Muon for input/head), gradient-clipping redesign (per-family/per-parameter clipping,
+   clip before vs after orthogonalization), preconditioner choices (SOAP/Shampoo for tiny
+   matrices), recurrence-aware updates (e.g. controlling the spectrum of W_hh / gate saturation,
+   TBPTT-aware scaling), noise-aware step sizes given SNR ≈ noise floor, batch/LR scaling.
+   For each: exact update rule, why it fits the measurements, cheapest test (we can run 2–4 fits
+   of ~12 min each), falsifier, expected direction.
+C. Red-team: which of our measurements could mislead (e.g. end-of-anneal SNR, spectra
+   comparisons across optimizers, clip statistics), and what would you stop doing?
+
+codex
+The measurements support a useful spectral effect, but they do not yet separate it from update size or clipping history. I’m organizing the recommendations around controlled comparisons that can distinguish those explanations within the fit budget.
+

@@ -1,0 +1,51 @@
+diff -ru /home/vlad/development/wunder/research_tmp/h390_packet_extract/h390_all_data_homogeneous_r2/child_source_v1/scripts/train_rnn.py /home/vlad/development/wunder/research_tmp/h390m_child_source_v1/scripts/train_rnn.py
+--- /home/vlad/development/wunder/research_tmp/h390_packet_extract/h390_all_data_homogeneous_r2/child_source_v1/scripts/train_rnn.py	1970-01-01 03:00:00.000000000 +0300
++++ /home/vlad/development/wunder/research_tmp/h390m_child_source_v1/scripts/train_rnn.py	2026-10-26 01:08:21.693667965 +0200
+@@ -1690,6 +1690,8 @@
+         ap.error("--distill-cache-root requires a clean --split-manifest")
+     if args.final_distill_cache_root:
+         expected_name = f"vt_all_h390_ds_homogeneous_s{args.seed}"
++        if args.optim == "muon":  # h390m (2026-10-26): strict-FP32 Muon variant of the same recipe
++            expected_name = f"vt_all_h390m_s{args.seed}_r1"
+         if (
+             campaign_split is not None
+             or args.train_source != "train+valid"
+@@ -1702,7 +1704,7 @@
+             or args.valid_repeat != 1
+             or args.train_classes
+             or args.epoch_samples
+-            or args.fit_subset_manifest
++            # h390m: R2 startup bug (parser has no --fit-subset-manifest); removed as in the R3 fix
+             or args.fit_groups_manifest
+             or args.epochs != 6
+             or args.checkpoint_policy != "fixed"
+@@ -1722,7 +1724,7 @@
+             or args.hidden != 256
+             or args.layers != 2
+             or args.dropout != 0.0
+-            or args.optim != "adamw"
++            or (args.optim, args.precision, args.muon_scope) not in (("adamw", "fp16", "rnn"), ("muon", "fp32", "rnn"))
+             or args.sched != "onecycle"
+             or not math.isclose(args.lr, 0.0001, rel_tol=0.0, abs_tol=1e-12)
+             or args.wd != 0.01
+@@ -1730,7 +1732,6 @@
+             or args.chunk != 2000
+             or args.loss != "wmse"
+             or args.loss_norm != "chunk"
+-            or args.precision != "fp16"
+             or args.propensity != "c20260929_prop_f1"
+             or args.prop_power != 2.0
+             or args.prop_eps != 0.03
+diff -ru /home/vlad/development/wunder/research_tmp/h390_packet_extract/h390_all_data_homogeneous_r2/child_source_v1/src/wnn/optim.py /home/vlad/development/wunder/research_tmp/h390m_child_source_v1/src/wnn/optim.py
+--- /home/vlad/development/wunder/research_tmp/h390_packet_extract/h390_all_data_homogeneous_r2/child_source_v1/src/wnn/optim.py	1970-01-01 03:00:00.000000000 +0300
++++ /home/vlad/development/wunder/research_tmp/h390m_child_source_v1/src/wnn/optim.py	2026-10-26 01:06:22.906146211 +0200
+@@ -24,7 +24,7 @@
+     bf16 on CUDA as in Muon; fp32 on CPU (bf16 matmuls there are slow and the tests compare against an SVD).
+     """
+     a, b, c = NS_COEFFS
+-    x = g.to(torch.bfloat16 if g.is_cuda else torch.float32)
++    x = g.to(torch.float32)  # h390m: strict-FP32 Newton-Schulz (2026-10-26)
+     tall = x.size(-2) > x.size(-1)
+     if tall:
+         x = x.mT
+Only in /home/vlad/development/wunder/research_tmp/h390m_child_source_v1/src/wnn: __pycache__

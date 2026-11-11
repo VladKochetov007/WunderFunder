@@ -1,0 +1,24 @@
+{
+ "schema": "wnn.research-pause.v1",
+ "recorded_utc": "2026-10-25T16:55:00Z",
+ "user_instruction": "let current experiments land gracefully, wrap all the research progress in research notes. We will continue after; Stop research loop, just finish with already running jobs",
+ "research_loop": "deleted (cron 0d274b7f); no new admissions",
+ "landing_jobs": [
+  {
+   "job": "wnn-muon6 (local GPU)",
+   "run": "muon6_f0_s3_rnn_e6_r1",
+   "state_at_pause": "epoch 1 of 6, ~1.7 h left",
+   "auto_collection": "runner exports and grades -> research/campaign_2026-10-25/optimizer_panel_r1/grade_stage6_muon_f0_R1.json"
+  },
+  {
+   "job": "Kaggle vladkochetov07/wnn-muon-repro-20261025-r3-runner v2",
+   "state_at_pause": "RUNNING",
+   "auto_collection": "none; collect with kaggle kernels output, then export/grade locally (see SESSION_SYNTHESIS_R1.md section 5)"
+  }
+ ],
+ "background_units_left": {
+  "wnn-muon6-thermal": "exits when wnn-muon6 ends",
+  "wnn-ram-guard": "perpetual allowlisted language-server RAM guard; stop with systemctl --user stop wnn-ram-guard if not wanted"
+ },
+ "synthesis": "research/campaign_2026-10-25/SESSION_SYNTHESIS_R1.md"
+}

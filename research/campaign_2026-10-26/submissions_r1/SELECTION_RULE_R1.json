@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.submission-selection-rule.v1",
+  "created_utc": "2026-10-25T23:30:00Z",
+  "declared_before": "any vt_all_h390m_* checkpoint or the stage-6 Muon F0 grade exists",
+  "gate": {
+    "test": "stage-6 production-lineage Muon F0 (muon6_f0_s3_rnn_e6_r1@CP5) minus strict-FP32 AdamW control 0.6812108 (exact global WP, F0 evaluation)",
+    "promote_if": "delta > 0",
+    "else": "do not promote Muon students; the Oct-24 AdamW quota ZIPs remain the blend candidates",
+    "supporting_evidence": "fast-recipe Muon - AdamW +0.0038/+0.0043 (local), +0.0036/+0.0033 (Kaggle replication)"
+  },
+  "packages": {
+    "single_gru": {"members": [["vt_all_h390m_s3_r1@ep5", 1.0]], "role": "best single GRU"},
+    "single_gru_pair": {"members": [["vt_all_h390m_s3_r1@ep5", 0.5], ["vt_all_h390m_s4_r1@ep5", 0.5]], "role": "GRU-only seed pair (H390 README's intended 0.5/0.5)"},
+    "blend_pair": {"members": [["vt_all_h390m_s3_r1@ep5", 0.17], ["vt_all_h390m_s4_r1@ep5", 0.17], ["fttall_tlead_s5@ep3", 0.33], ["fttall_tlead_s6@ep3", 0.33]], "role": "best blend: TL3 with Muon student pair in the student slot"},
+    "blend_s3": {"members": [["vt_all_h390m_s3_r1@ep5", 0.34], ["fttall_tlead_s5@ep3", 0.33], ["fttall_tlead_s6@ep3", 0.33]], "role": "TL3 with Muon S3 (runtime-cheaper blend)"}
+  },
+  "coefficients": "fixed TL3 structure; no coefficient search on any data",
+  "technical_gates": ["member export reproduces checkpoint tensors", "ABI + CRC + A-B-A bitwise reset on the frozen 64-sequence panel", "finite outputs", "native int8 vs torch FP32 agreement comparable to the H390 S3 reference (RMS diff 0.72%)", "ZIP <= 20,000,000 bytes"],
+  "evidence_limits": "All-data members were fitted on every local sequence: panel scores are descriptive. Expected public gain is not claimed; Muon's support is cross-fold fast-recipe evidence plus the stage-6 transfer test.",
+  "upload": "human gate; no automatic upload"
+}
