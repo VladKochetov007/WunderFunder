@@ -13,6 +13,8 @@ from impact81.bindings import (
     source_identity,
     write_new,
 )
+from impact81.profile_objective_admission import validate_profile_objective
+from impact81.runtime_family import runtime_commit_for_card, world_size_for_card
 
 
 def main() -> None:
@@ -35,12 +37,14 @@ def main() -> None:
         for value in (args.max_host_ram_gib, args.max_vram_gib_per_rank)
     ):
         parser.error("positive resource limits are required")
-    root = admit_runtime(args.runtime_root)
     cell, _ = load_cell(args.cell)
+    world_size = world_size_for_card(cell["card"])
+    root = admit_runtime(args.runtime_root, runtime_commit_for_card(cell["card"]))
     receipt = read_object(args.profile)
     metadata = read_object(args.profile.parent / "run_metadata.json")
     identity = receipt.get("identity", {})
     config = metadata.get("config", {})
+    validate_profile_objective(receipt, config)
     current_source = source_identity(root)
     if (
         receipt.get("receipt_schema") != "wnn.sequence-profile.v1"
@@ -50,7 +54,7 @@ def main() -> None:
         or receipt.get("errors") != []
         or receipt.get("error_count") != 0
         or receipt.get("scientific_checkpoint_written") is not False
-        or identity.get("world_size") != 2
+        or identity.get("world_size") != world_size
         or identity.get("source_sha256") != current_source["sha256"]
         or identity.get("source_files") != current_source["files"]
         or identity.get("config_sha256") != canonical(config)
@@ -61,12 +65,12 @@ def main() -> None:
     checks = reload.get("by_rank", [])
     if (
         reload.get("status") != "passed"
-        or len(checks) != 2
+        or len(checks) != world_size
         or any(item.get("model_optimizer_scheduler_rng_equal") is not True for item in checks)
     ):
-        raise ValueError("both ranks require the canonical engineering reload proof")
+        raise ValueError("every selected rank requires the canonical engineering reload proof")
     memory = receipt.get("memory_by_rank", [])
-    if len(memory) != 2 or any(
+    if len(memory) != world_size or any(
         any(
             not isinstance(item.get(key), (int, float))
             or not math.isfinite(item[key])

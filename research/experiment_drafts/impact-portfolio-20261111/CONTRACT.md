@@ -1,12 +1,13 @@
 # Shared experiment contract
 
-Status: **cards01–06 implemented; receiver acceptance pending; cards07–10 remain
-proposals**. Owner of preparation: Ivan / Codex. Receiving operator and B300
-allocation: unassigned. The current plan contains 24 fresh fits (four per
+All ten cards are **implemented; receiver acceptance pending**.
+Owner of preparation: Ivan / Codex. Receiving operator and B300
+allocation: unassigned. The current plan contains 40 fresh fits (four per
 implemented card), with zero executed and no reused controls. No receiver check,
 profile, test, inference, model construction, submission or running-job mutation
 has been recorded. Publication does not automatically launch jobs. The exact
-server-side sequence is documented in [B300_COMMANDS.md](B300_COMMANDS.md).
+server-side sequence is documented in [B300_COMMANDS.md](B300_COMMANDS.md) and
+[the cards07–10 family guide](B300_CARDS07_10.md).
 
 Objective mode: competition. Development evaluation is deterministic but repeatedly
 exposed; it is not an untouched test of competition transfer. No predicted LB gain.
@@ -15,12 +16,14 @@ exposed; it is not an untouched test of competition transfer. No predicted LB ga
 
 - Integration base: `research-team` at
   `7e4074314a62d0907c9608f9220cf72958708a2d`.
-- The six implemented cards use the exact canonical plain Transformer runtime
+- Cards01–07 use the exact canonical plain Transformer runtime
   from PR75, commit `8626000a4b965763a70011a0291a891aa6535d7e`, loaded on the
   receiver through a separate clean, detached read-only worktree. PR81's runtime
   admission rejects a wrong or dirty checkout and computes source identity from
   both runtime and packet Python files. The existing `src/`, `scripts/`, training
   configs, optimizer, training loop, validation and checkpoint code are unchanged.
+- Cards08–10 use the similarly pinned PR79 GRU runtime. Family selection occurs
+  before importing model code; it cannot silently reuse the Transformer checkout.
 - Read-only reference configs are copied byte-for-byte under `sources/`, with
   origin URLs and SHA256 in `recipe.json`. They are **historical source examples**,
   not executable configs for these new experiments.
@@ -93,8 +96,8 @@ safe boundary. Receiver acceptance is pending; local model execution remains pro
 | Objective | standalone_labels_wmse_v2; KD/hints zero | same |
 
 These are fixed starting recipes, **not asserted optimal hyperparameters**.
-For G the historical source requires L4. A future B300 implementation must make
-an explicit device-only amendment for both arms and use fresh paired B300 controls;
+For G the historical source requires L4. Cards08–10 make the explicit device-only
+amendment for both arms and use fresh paired B300 controls;
 never compare a new B300 treatment to the old L4 score as the primary contrast.
 Do not silently convert G precision or copy T's Muon into G. Conversely, do not
 reintroduce strict FP32 model compute for the B300 Transformer continuation.
@@ -113,10 +116,9 @@ extra operations and parameters honestly: equal epochs do not imply equal FLOPs.
 
 Each implemented card uses seeds **204101 and 204102**, the same official file
 split, two fresh controls and two fresh treatments: **4 new fits per card**.
-Cards01–06 therefore have **24 planned fresh fits**, zero executed and zero reused
-old controls. There are no teacher fits or teacher caches. Cards07–10 are still
-proposals; their four four-fit panels account for the remaining 16 fits in the
-40-fit inventory only if they are later selected. This is not a dispatched queue
+Cards01–10 therefore have **40 planned fresh fits**, zero executed and zero reused
+old controls. There are no teacher fits or teacher caches. Cards07–10 add16 new fits under their implementation amendment. All40 remain
+prepared and unexecuted. This is not a dispatched queue
 or an automatic compute allocation.
 
 The implementations are in this PR. Before each cell's launch, the receiving
@@ -198,3 +200,8 @@ does not rebuild, replace or upload it. No CPU acceptance has been measured here
 ## Cards04–06 implementation amendment
 
 [IMPLEMENTATION_04_06.md](IMPLEMENTATION_04_06.md) records the explicit experiment-local engine for auxiliary losses, card05's value-copied control and12 unique shared parameter sets with24 cache histories, and MIDAS evidence support. The existing canonical source and native recipe are unchanged. Fresh receiver receipts are required at the new source revision; earlier running work must retain its original checkout.
+
+
+## Cards07–10 implementation amendment
+
+[IMPLEMENTATION_07_10.md](IMPLEMENTATION_07_10.md) records the remaining16 configurations, separate PR75/PR79 runtime admission and exact device-only GRU amendment. The GRU recipe remains FP32/AdamW on one B300; Transformer remains BF16/BF16x9 on two B300s. Source-equivalent horizon WMSE is pooled over targets per horizon. Card08 uses matched clean traversal and checkpointed private noise RNG. Card10 raw-label prevalence is a train-only prerequisite for either arm. All40 fits and actual MIDAS evidence import remain pending.

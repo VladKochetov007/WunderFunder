@@ -158,12 +158,14 @@ def run_checks(preprocessing_path: Path, output: Path, runtime_root: Path) -> No
         checks[variant]["config_sha256"] = canonical(configurations[variant])
 
     from impact81.receiver_depth_checks import run_depth_checks
+    from impact81.receiver_future_checks import run_future_checks
     from impact81.receiver_loop_checks import run_loop_checks
     from impact81.receiver_objective_checks import run_objective_checks
 
     depth_checks = run_depth_checks(artifact, artifact_sha256, device)
     objective_checks = run_objective_checks(device)
     loop_checks = run_loop_checks(artifact, artifact_sha256, device)
+    future_checks = run_future_checks(artifact, artifact_sha256, device)
     torch.cuda.synchronize(device)
     output.parent.mkdir(parents=True, exist_ok=True)
     receipt = {
@@ -199,9 +201,10 @@ def run_checks(preprocessing_path: Path, output: Path, runtime_root: Path) -> No
             "strict_state_roundtrip": "bitwise equal",
         },
         "variants": checks,
-        "extension_cards": ["04", "05", "06"],
+        "extension_cards": ["04", "05", "06", "07"],
         "depth_checks": depth_checks,
         "objective_checks": objective_checks,
         "control_engine_parity": loop_checks,
+        "future_checks": future_checks,
     }
     write_new(output, receipt)

@@ -1,10 +1,16 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
 from impact81.bindings import admit_runtime, load_cell
+from impact81.runtime_family import (
+    environment_for_card,
+    family_for_card,
+    runtime_commit_for_card,
+)
 
 
 def main() -> None:
@@ -30,21 +36,38 @@ def main() -> None:
         parser.error("model/data stages are restricted to the receiving Linux server")
     if not args.owner.strip() or not 1 <= args.timeout_seconds <= 172800:
         parser.error("named owner and bounded timeout (1..172800 seconds) required")
-    runtime_root = admit_runtime(args.runtime_root)
+    cell, native_config = load_cell(args.cell)
+    family = family_for_card(cell["card"])
+    for name, value in environment_for_card(cell["card"]).items():
+        if value is None:
+            os.environ.pop(name, None)
+        else:
+            os.environ[name] = value
+    runtime_root = admit_runtime(args.runtime_root, runtime_commit_for_card(cell["card"]))
     if args.mode == "prepare":
-        from impact81.preprocessing import prepare
-
         from wnn.training.sequence_config import load_config
         from wnn.training.sequence_data import build_data
 
-        _, native = load_cell(args.cell)
-        prepare(build_data(load_config(native), args.data_root, args.split_manifest), args.output)
-    elif args.mode == "check":
-        from impact81.receiver_checks import run_checks
+        data = build_data(load_config(native_config), args.data_root, args.split_manifest)
+        if family == "transformer":
+            from impact81.preprocessing import prepare
 
+            prepare(data, args.output)
+        else:
+            from impact81.preparation_later import prepare
+
+            prepare(data, args.output, cell)
+    elif args.mode == "check":
         if args.preprocessing is None:
             parser.error("check requires --preprocessing")
-        run_checks(args.preprocessing, args.output, runtime_root)
+        if family == "transformer":
+            from impact81.receiver_checks import run_checks
+
+            run_checks(args.preprocessing, args.output, runtime_root)
+        else:
+            from impact81.receiver_later import run_checks
+
+            run_checks(args.preprocessing, args.output, runtime_root)
     elif args.mode == "score":
         from wnn.training.sequence_score import score_export
 

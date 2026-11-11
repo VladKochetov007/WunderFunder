@@ -1,5 +1,7 @@
 # First three experiments: isolated B300 implementation
 
+Historical implementation record for its original scope. The current ten-card extension is documented in [IMPLEMENTATION_07_10.md](IMPLEMENTATION_07_10.md).
+
 Historical first-three-card implementation record at `3becf595a`.
 [The cards04–06 amendment](IMPLEMENTATION_04_06.md) extends the current packet;
 statements below about unimplemented later cards describe that earlier scope.

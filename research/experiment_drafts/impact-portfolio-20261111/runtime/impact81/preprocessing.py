@@ -87,6 +87,10 @@ def prepare(data: SequenceData, output: Path) -> None:
 def load_preprocessing(path: Path, data: SequenceData | None = None) -> dict[str, Any]:
     """Validate frozen knot/moment metadata; compare to actual fitting data when available."""
     value = read_object(path)
+    if value.get("schema") == "impact81.gru-preprocessing.v1":
+        from impact81.preparation_later import load_gru_preprocessing
+
+        return load_gru_preprocessing(value, data)
     if (
         value.get("schema") != "impact81.preprocessing.v1"
         or value.get("runtime_commit") != RUNTIME_COMMIT

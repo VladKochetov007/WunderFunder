@@ -66,3 +66,10 @@ Use the same future export/import commands for the new cells. Card04/06 training
 loss producers contain the combined optimized loss, with primary and auxiliary
 terms separately preserved in epoch history/rank logs. Official WP remains the
 fixed-endpoint external scorer result with full validation coverage.
+
+
+## Cards07–10 extension
+
+`route-preview-07-10.json` records the preparation-only MIDAS research route, SHA256 `e40c6afee584674626da15530fd5d3fe8c480ea57b5a30e394177e34ce2240c5`. The same clean MIDAS source commit `dec62b91120bfb6aaf4b0d214f4c4e2ac88bc54d` returned `READY_LOCAL_HANDOFF` with remote execution disabled. No model-agent/GPU work or evidence import was started.
+
+All ten cards are supported. Source admission selects the pinned PR75 or PR79 manifest from the card family and requires every current packet-runtime source hash. The GRU device amendment does not change its FP32/AdamW recipe. Use the same exporter/importer commands for actual outcomes; choose the cell's correct family checkout. The latest inventory contains40 prepared fits, zero executed. The combined training loss remains distinct from the official full-validation score.

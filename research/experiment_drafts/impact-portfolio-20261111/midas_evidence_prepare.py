@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from midas_evidence_binding import (
+    FAMILY_BY_CARD,
     SHA,
     bind,
     cell_identity,
@@ -16,9 +17,9 @@ from midas_evidence_binding import (
     run_identity,
     training_rows,
     validate_epoch_index,
-    validate_source_map,
 )
 from midas_evidence_io import _canonical, _hash_file, _read, _read_bytes
+from midas_source_admission import validate_source_map
 
 METRIC_LIMIT = 64 << 20
 EXPECTED_SCORE_ROWS = 3_528_273
@@ -77,12 +78,14 @@ def prepare_fit(fit: Path, score: Path | None) -> PreparedFit:
         or owner.get("optimization_changes") is not False
     ):
         raise ValueError("owner receipt does not identify this frozen PR81 fit")
-    commit, pinned_split, bindings_sha = pins(Path(__file__).resolve().parent)
+    family = FAMILY_BY_CARD[cell["card"]]
+    commit, pinned_split, bindings_sha = pins(Path(__file__).resolve().parent, family)
     validate_source_map(
         Path(__file__).resolve().parent,
         expected["source_files"],
         commit,
         bindings_sha,
+        family,
     )
     split, split_raw = _read(fit / "split.json")
     split_digest = hashlib.sha256(split_raw).hexdigest()

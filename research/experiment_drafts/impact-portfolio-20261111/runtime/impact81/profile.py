@@ -135,6 +135,14 @@ def run_profile(
     ):
         raise ValueError("profile_fields must include a finite combined total_loss")
 
+    signed_objective = config["impact81"]["cell"]["variant"] == "nll_transfer"
+    receipt_total = float(total_loss)
+    if signed_objective:
+        # Canonical profile admission requires nonnegative losses. Retain its
+        # primary field and expose the actual signed NLL objective explicitly.
+        receipt_total = float(profile_fields["primary_loss"])
+        profile_fields["total_loss"] = float(total_loss)
+
     receipt: dict[str, Any] = {
         "receipt_schema": "wnn.sequence-profile.v1",
         "status": "profile_complete" if complete else "profile_incomplete",
@@ -150,7 +158,7 @@ def run_profile(
             "label": label_loss,
             "distillation": kd_loss,
             "hint": hint_loss,
-            "total": float(total_loss),
+            "total": receipt_total,
         },
         "model_parameters": identity["model_parameters"],
         "memory_by_rank": memory,
@@ -166,6 +174,8 @@ def run_profile(
     }
     if profile_fields:
         receipt["objective_terms"] = profile_fields
+    if signed_objective:
+        receipt["losses_total_scope"] = "primary_only_signed_objective_in_terms"
 
     coordinated_call(
         lambda: (

@@ -57,7 +57,14 @@ def metrics(totals: Tensor) -> dict[str, Any]:
 def summarize_epoch(result: Any, config: dict[str, Any]) -> dict[str, Any]:
     """Retain canonical primary metrics and add the actual optimized auxiliary objective."""
     summary = canonical_epoch_summary(result, config)
-    auxiliary = metrics(result.auxiliary_totals)
+    from impact81 import later_reporting
+
+    variant = config["impact81"]["cell"]["variant"]
+    auxiliary = (
+        later_reporting.metrics(result.auxiliary_totals, variant)
+        if variant in later_reporting.VARIANTS
+        else metrics(result.auxiliary_totals)
+    )
     primary = float(summary["total_loss"])
     return summary | {
         "primary_loss": primary,

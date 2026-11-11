@@ -5,7 +5,6 @@ from typing import Any
 import torch
 from torch import nn
 
-from impact81.depth_models import build_depth_model
 from impact81.representations import GroupInputProjection, PLEInputProjection
 from impact81.target_head import TargetPrivateHead
 from wnn.training.sequence_models import build_sequence_model
@@ -14,7 +13,7 @@ from wnn.training.sequence_models import build_sequence_model
 
 
 def build_model(config: dict[str, Any], device: torch.device) -> nn.Module:
-    """Compose only the declared PR81 residual module onto the unchanged Transformer."""
+    """Compose the declared mechanism using its family's pinned model factory."""
     extension = config["impact81"]
     if extension.get("schema") != "impact81.model.v1":
         raise ValueError("unsupported PR81 model reconstruction schema")
@@ -28,15 +27,30 @@ def build_model(config: dict[str, Any], device: torch.device) -> nn.Module:
         "copied_depth",
         "tied_depth",
         "pairwise_ranking",
+        "future_heads",
+        "gru_plain",
+        "perturbation_control",
+        "state_perturbation",
+        "nll_transfer",
+        "clip_event",
     ):
         raise ValueError("unsupported PR81 experiment variant")
-    if config["model"]["architecture"] != "transformer":
-        raise ValueError("PR81 cards01–06 require the Transformer factory")
-    model = (
-        build_depth_model(config["model"], variant, int(extension["cell"]["seed"]))
-        if variant in ("deep_supervision", "copied_depth", "tied_depth")
-        else build_sequence_model(config["model"])
-    )
+    if config["model"]["architecture"] == "gru":
+        from impact81.gru_models import build_gru_model
+
+        model = build_gru_model(config["model"], variant, int(extension["cell"]["seed"]))
+    elif variant == "future_heads":
+        from impact81.future_model import build_future_model
+
+        model = build_future_model(config["model"], int(extension["cell"]["seed"]))
+    elif variant in ("deep_supervision", "copied_depth", "tied_depth"):
+        from impact81.depth_models import build_depth_model
+
+        model = build_depth_model(config["model"], variant, int(extension["cell"]["seed"]))
+    else:
+        if config["model"]["architecture"] != "transformer":
+            raise ValueError("unsupported model family for PR81")
+        model = build_sequence_model(config["model"])
     artifact = extension["preprocessing"]
     mean = torch.tensor(artifact["mean"], dtype=torch.float32)
     std = torch.tensor(artifact["std"], dtype=torch.float32)

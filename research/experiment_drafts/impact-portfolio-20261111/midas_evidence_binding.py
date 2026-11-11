@@ -4,16 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import math
-import os
 import re
-import stat
 from pathlib import Path
 from typing import Any
 
-from midas_evidence_io import _canonical, _hash_file, _object, _read
+from midas_evidence_io import _canonical, _object
 
 SHA = re.compile(r"^[0-9a-f]{64}$")
-SOURCE_MANIFEST_SHA256 = "b6c2004cd5b916a8976973217b944d44f79464a557309b31c42f8912ef7711bf"
 VARIANTS = {
     "01": ("plain", "ple"),
     "02": ("plain", "groups"),
@@ -21,14 +18,34 @@ VARIANTS = {
     "04": ("plain", "deep_supervision"),
     "05": ("copied_depth", "tied_depth"),
     "06": ("plain", "pairwise_ranking"),
+    "07": ("plain", "future_heads"),
+    "08": ("perturbation_control", "state_perturbation"),
+    "09": ("gru_plain", "nll_transfer"),
+    "10": ("gru_plain", "clip_event"),
+}
+FAMILY_BY_CARD = {
+    "01": "transformer",
+    "02": "transformer",
+    "03": "transformer",
+    "04": "transformer",
+    "05": "transformer",
+    "06": "transformer",
+    "07": "transformer",
+    "08": "gru",
+    "09": "gru",
+    "10": "gru",
 }
 
 
-def pins(packet: Path) -> tuple[str, str, str]:
-    """Read the PR81 runtime commit and split pins, plus the binding-file digest."""
+def pins(packet: Path, family: str) -> tuple[str, str, str]:
+    """Read one family runtime pin and the shared split/bindings-file digest."""
+    if family not in {"transformer", "gru"}:
+        raise ValueError("unsupported runtime family for MIDAS pin")
     raw = (packet / "runtime/impact81/bindings.py").read_bytes()
+    family_raw = (packet / "runtime/impact81/runtime_family.py").read_text(encoding="utf-8")
+    commit_name = "TRANSFORMER_RUNTIME_COMMIT" if family == "transformer" else "GRU_RUNTIME_COMMIT"
+    commit = re.search(rf'^{commit_name}\s*=\s*["\']([0-9a-f]{{40}})["\']$', family_raw, re.M)
     text = raw.decode("utf-8")
-    commit = re.search(r'^RUNTIME_COMMIT\s*=\s*["\']([0-9a-f]{40})["\']$', text, re.M)
     split = re.search(r'^SPLIT_SHA256\s*=\s*["\']([0-9a-f]{64})["\']$', text, re.M)
     if not commit or not split:
         raise ValueError("PR81 source/split pin is malformed")
@@ -36,7 +53,7 @@ def pins(packet: Path) -> tuple[str, str, str]:
 
 
 def cell_identity(config: dict[str, Any], fold: int) -> dict[str, Any]:
-    """Project and validate a frozen PR81 card, arm, variant, seed and fold."""
+    """Project a frozen card and verify its family-native epoch/device contract."""
     ext = config.get("impact81")
     cell = ext.get("cell") if isinstance(ext, dict) else None
     required = {"id", "card", "arm", "variant", "seed"}
@@ -57,6 +74,24 @@ def cell_identity(config: dict[str, Any], fold: int) -> dict[str, Any]:
         raise ValueError("PR81 cell does not bind its frozen fold or id")
     if cell.get("schema", "impact81.cell.v1") != "impact81.cell.v1":
         raise ValueError("PR81 cell schema is unsupported")
+    family = FAMILY_BY_CARD[card]
+    model = config.get("model")
+    expected_architecture = "transformer" if family == "transformer" else "gru"
+    expected_epochs = 4 if family == "transformer" else 6
+    expected_world_size = 2 if family == "transformer" else 1
+    expected_precision = "bf16_bf16x9" if family == "transformer" else "fp32"
+    expected_optimizer = "muon" if family == "transformer" else "adamw"
+    if (
+        not isinstance(model, dict)
+        or model.get("architecture") != expected_architecture
+        or config.get("epochs") != expected_epochs
+        or config.get("required_world_size") != expected_world_size
+        or config.get("precision_mode") != expected_precision
+        or config.get("optimizer") != expected_optimizer
+    ):
+        raise ValueError("cell config differs from its pinned family recipe")
+    if family == "gru" and config.get("required_device") != "B300":
+        raise ValueError("GRU cells must use the receiver B300 device requirement")
     return {k: cell[k] for k in ("id", "card", "arm", "variant", "seed")}
 
 
@@ -98,100 +133,6 @@ def run_identity(meta: dict[str, Any]) -> dict[str, Any]:
         "world_size": world,
         "model_parameters": params,
     }
-
-
-def _packet_source_files(packet: Path) -> dict[str, str]:
-    """Hash every regular Python file in the packet runtime, rejecting symlinks."""
-    runtime = packet / "runtime"
-    if runtime.is_symlink() or not runtime.is_dir():
-        raise ValueError("packet runtime source tree is missing or unsafe")
-
-    files: dict[str, str] = {}
-
-    def fail_walk(error: OSError) -> None:
-        """Do not let an unreadable directory silently shrink the source map."""
-        raise error
-
-    for current, directories, names in os.walk(runtime, followlinks=False, onerror=fail_walk):
-        parent = Path(current)
-        for name in (*directories, *names):
-            path = parent / name
-            if path.is_symlink():
-                raise ValueError(f"packet runtime contains a symlink: {path.relative_to(packet)}")
-        for name in names:
-            path = parent / name
-            if path.suffix != ".py":
-                continue
-            if not stat.S_ISREG(path.lstat().st_mode):
-                raise ValueError(f"packet runtime source is not a regular file: {path.name}")
-            digest, _ = _hash_file(path, 64 << 20)
-            key = f"impact81/{path.relative_to(packet).as_posix()}"
-            files[key] = digest
-    return files
-
-
-def validate_source_map(
-    packet: Path,
-    producer_files: dict[str, Any],
-    runtime_commit: str,
-    bindings_sha256: str,
-) -> None:
-    """Require the complete pinned canonical runtime and current packet source map."""
-    sources = packet / "sources"
-    if packet.is_symlink() or not packet.is_dir() or sources.is_symlink() or not sources.is_dir():
-        raise ValueError("packet source-manifest directory is missing or unsafe")
-    manifest_path = sources / "runtime_source_files.json"
-    manifest, raw = _read(manifest_path, 1 << 20)
-    if hashlib.sha256(raw).hexdigest() != SOURCE_MANIFEST_SHA256:
-        raise ValueError("canonical runtime source manifest differs from its packet pin")
-    if set(manifest) != {"schema", "runtime_commit", "source_sha256", "files"}:
-        raise ValueError("canonical runtime source manifest schema is invalid")
-    files, source_sha = manifest.get("files"), manifest.get("source_sha256")
-    if (
-        manifest.get("schema") != "impact81.canonical-runtime-source-files.v1"
-        or manifest.get("runtime_commit") != runtime_commit
-        or not isinstance(files, dict)
-        or not files
-        or not isinstance(source_sha, str)
-        or not SHA.fullmatch(source_sha)
-        or hashlib.sha256(_canonical(files)).hexdigest() != source_sha
-    ):
-        raise ValueError("canonical runtime manifest does not bind its pinned source files")
-    for name, digest in files.items():
-        if (
-            not isinstance(name, str)
-            or "\\" in name
-            or name.startswith("/")
-            or ".." in name.split("/")
-            or not name.endswith(".py")
-            or not isinstance(digest, str)
-            or not SHA.fullmatch(digest)
-            or not (
-                name.startswith("runtime/src/")
-                or name in {"runtime/scripts/train_sequence.py", "runtime/utils.py"}
-            )
-        ):
-            raise ValueError("canonical runtime manifest contains an invalid source entry")
-
-    expected = dict(files)
-    packet_files = _packet_source_files(packet)
-    overlap = expected.keys() & packet_files.keys()
-    if overlap:
-        raise ValueError("canonical and packet source paths unexpectedly overlap")
-    expected.update(packet_files)
-    if expected.get("impact81/runtime/impact81/bindings.py") != bindings_sha256:
-        raise ValueError("manifest-bound packet source pin differs from current bindings")
-    if producer_files != expected:
-        missing = len(expected.keys() - producer_files.keys())
-        unexpected = len(producer_files.keys() - expected.keys())
-        changed = sum(
-            producer_files[name] != expected[name]
-            for name in expected.keys() & producer_files.keys()
-        )
-        raise ValueError(
-            "producer source map is incomplete or differs from pinned sources "
-            f"(missing={missing}, unexpected={unexpected}, changed={changed})"
-        )
 
 
 def bind(value: object, expected: dict[str, Any], label: str) -> None:

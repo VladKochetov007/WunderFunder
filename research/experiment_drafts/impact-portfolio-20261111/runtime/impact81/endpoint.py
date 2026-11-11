@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,7 @@ def _sha256(value: object, name: str) -> str:
 def _validate_preprocessing(
     impact: Mapping[str, Any],
     *,
+    card: str,
     split_sha256: str,
     fit_members: list[list[str | int]],
     data: Mapping[str, Any],
@@ -35,22 +37,72 @@ def _validate_preprocessing(
 ) -> None:
     from wnn.data import FEATURE_COLUMNS
 
-    from .bindings import RUNTIME_COMMIT, canonical
+    from .bindings import canonical
+    from .runtime_family import family_for_card, runtime_commit_for_card
 
     preprocessing = _mapping(impact.get("preprocessing"), "impact81.preprocessing")
     encoded = json.dumps(preprocessing, indent=2, sort_keys=True, allow_nan=False).encode("utf-8")
     digest = hashlib.sha256(encoded + b"\n").hexdigest()
-    knots = preprocessing.get("knots")
+    family = family_for_card(card)
+    expected_schema = (
+        "impact81.preprocessing.v1" if family == "transformer" else "impact81.gru-preprocessing.v1"
+    )
     if (
-        preprocessing.get("schema") != "impact81.preprocessing.v1"
-        or preprocessing.get("runtime_commit") != RUNTIME_COMMIT
+        preprocessing.get("schema") != expected_schema
+        or preprocessing.get("runtime_commit") != runtime_commit_for_card(card)
         or digest != _sha256(impact.get("preprocessing_sha256"), "preprocessing_sha256")
-        or not isinstance(knots, list)
-        or len(knots) != 112
-        or any(not isinstance(row, list) or len(row) != 16 for row in knots)
     ):
         raise ValueError("unsupported or malformed embedded preprocessing artifact")
+    if family == "transformer":
+        knots = preprocessing.get("knots")
+        if (
+            not isinstance(knots, list)
+            or len(knots) != 112
+            or any(not isinstance(row, list) or len(row) != 16 for row in knots)
+        ):
+            raise ValueError("Transformer preprocessing knot dimensions are invalid")
+    else:
+        if set(preprocessing) != {
+            "schema",
+            "runtime_commit",
+            "fit_identity",
+            "mean",
+            "std",
+            "clip_event_feasibility",
+        }:
+            raise ValueError("GRU preprocessing fields differ from the frozen artifact schema")
+        for name in ("mean", "std"):
+            values = preprocessing.get(name)
+            if (
+                not isinstance(values, list)
+                or len(values) != 112
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(value)
+                    for value in values
+                )
+            ):
+                raise ValueError(f"GRU preprocessing {name} must contain 112 finite moments")
+        if any(value <= 0 for value in preprocessing["std"]):
+            raise ValueError("GRU preprocessing scales must be positive")
+        from .preparation_later import validate_feasibility
+
+        validate_feasibility(
+            _mapping(
+                preprocessing.get("clip_event_feasibility"),
+                "preprocessing.clip_event_feasibility",
+            ),
+            require_feasible=card == "10",
+        )
     fit_identity = _mapping(preprocessing.get("fit_identity"), "preprocessing.fit_identity")
+    if set(fit_identity) != {
+        "split_sha256",
+        "fit_members_sha256",
+        "normalization",
+        "feature_columns",
+    }:
+        raise ValueError("preprocessing fit identity fields differ from the frozen schema")
     expected_members_sha256 = canonical(fit_members)
     if (
         fit_identity.get("split_sha256") != split_sha256
@@ -78,6 +130,7 @@ def load_endpoint(
 
     from .bindings import canonical, source_identity
     from .modeling import build_model
+    from .runtime_family import epochs_for_card
     from .variants import variant_for
 
     if checkpoint.is_symlink() or not checkpoint.is_file():
@@ -87,12 +140,6 @@ def load_endpoint(
     if payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
         raise ValueError("unsupported checkpoint schema")
     config = _mapping(payload.get("config"), "checkpoint.config")
-    if (
-        config.get("epochs") != 4
-        or payload.get("completed_epochs") != 4
-        or payload.get("epoch") != 3
-    ):
-        raise ValueError("export requires the configured four-epoch fixed-final endpoint")
     impact = _mapping(config.get("impact81"), "checkpoint.config.impact81")
     if set(impact) != {"schema", "cell", "preprocessing", "preprocessing_sha256"}:
         raise ValueError("Impact81 checkpoint metadata fields are incomplete or unexpected")
@@ -107,7 +154,14 @@ def load_endpoint(
         or seed not in (204101, 204102)
         or cell.get("id") != f"ip{card}_{arm}_s{seed}"
     ):
-        raise ValueError("checkpoint cell is outside the six-card paired panel")
+        raise ValueError("checkpoint cell is outside the declared paired panel")
+    endpoint_epochs = epochs_for_card(card)
+    if (
+        config.get("epochs") != endpoint_epochs
+        or payload.get("completed_epochs") != endpoint_epochs
+        or payload.get("epoch") != endpoint_epochs - 1
+    ):
+        raise ValueError("export requires the family-configured fixed-final endpoint")
     provenance = _mapping(payload.get("provenance"), "checkpoint.provenance")
     identity = _mapping(provenance.get("identity"), "provenance.identity")
     current_source = source_identity(runtime_root)
@@ -131,6 +185,7 @@ def load_endpoint(
         raise ValueError("checkpoint data ancestry differs from the requested split/membership")
     _validate_preprocessing(
         impact,
+        card=card,
         split_sha256=split_sha256,
         fit_members=fit_members,
         data=saved_data,
@@ -150,4 +205,12 @@ def load_endpoint(
         from .depth_models import drop_auxiliary_heads
 
         drop_auxiliary_heads(model)
+    elif variant == "future_heads":
+        from .future_model import drop_future_heads
+
+        drop_future_heads(model)
+    elif variant in ("perturbation_control", "state_perturbation", "nll_transfer", "clip_event"):
+        from .gru_models import drop_gru_auxiliary_heads
+
+        drop_gru_auxiliary_heads(model)
     return model, payload

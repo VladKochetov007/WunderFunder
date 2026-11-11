@@ -1,4 +1,4 @@
-"""B300 receiver parity gate for the isolated cards04–06 control engine."""
+"""B300 parity gate for the isolated Transformer and GRU control engines."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ SEED = 204101
 
 
 def _setup(
-    artifact: dict[str, Any], artifact_sha256: str, device: torch.device
+    artifact: dict[str, Any], artifact_sha256: str, device: torch.device, family: str
 ) -> tuple[dict[str, Any], Any, Callable[[], tuple[nn.Module, torch.optim.Optimizer, Any]], int]:
     """Load the exact card04 control recipe and make a small B300-only probe config."""
     from impact81.bindings import PACKET, load_cell
@@ -32,7 +32,8 @@ def _setup(
     from wnn.training.sequence_fit_utils import make_optimizer, seed_worker, total_updates
     from wnn.training.sequence_precision import configure_precision_mode
 
-    cell, native_config = load_cell(PACKET / "configs/ip04_control_s204101.json")
+    cell_name = "ip09_control_s204101.json" if family == "gru" else "ip04_control_s204101.json"
+    cell, native_config = load_cell(PACKET / "configs" / cell_name)
     config = load_config(native_config)
     config.update(
         {
@@ -66,6 +67,9 @@ def _setup(
         "preprocessing": artifact,
         "preprocessing_sha256": artifact_sha256,
     }
+    if family == "gru":
+        config.update({"chunk_rows": 1000, "gradient_horizon_rows": 1000, "accumulate_chunks": 1})
+        config["model"].update({"hidden": 32, "attention_backend": "math"})
     configure_precision_mode(str(config["precision_mode"]))
     context = DistributedContext(0, int(device.index or 0), 1, device, False)
     schedule_updates = total_updates(config, 2, 1)
@@ -100,15 +104,20 @@ def _run_one(
 
 
 def run_loop_checks(
-    artifact: dict[str, Any], artifact_sha256: str, device: torch.device
+    artifact: dict[str, Any],
+    artifact_sha256: str,
+    device: torch.device,
+    family: str = "transformer",
 ) -> dict[str, object]:
-    """Compare stock and cards04–06 control update paths on synthetic B300 data only.
+    """Compare stock and experiment control updates for one pinned family on B300.
 
     The gate builds the same card04 plain control twice, executes one optimizer update
     through each epoch driver, and compares losses, row counts, logs, parameters,
     optimizer state and scheduler state. It is receiver evidence only, not a quality
     score or a full-fit/profile approval.
     """
+    if family not in ("transformer", "gru"):
+        raise ValueError("unknown control-engine receiver family")
     if device.type != "cuda" or not torch.cuda.is_available():
         raise RuntimeError("control-engine parity requires the actual receiver CUDA device")
     device_name = torch.cuda.get_device_name(device)
@@ -116,8 +125,10 @@ def run_loop_checks(
         raise RuntimeError(f"control-engine parity requires B300, got {device_name!r}")
     if not torch.cuda.is_bf16_supported():
         raise RuntimeError("control-engine parity requires CUDA BF16 support")
-    if os.environ.get("CUBLAS_EMULATE_SINGLE_PRECISION") != "1":
+    if family == "transformer" and os.environ.get("CUBLAS_EMULATE_SINGLE_PRECISION") != "1":
         raise RuntimeError("CUBLAS_EMULATE_SINGLE_PRECISION=1 is required for BF16x9")
+    if family == "gru" and os.environ.get("CUBLAS_EMULATE_SINGLE_PRECISION") not in (None, "0"):
+        raise RuntimeError("GRU FP32 requires cuBLAS emulation disabled")
     if len(artifact_sha256) != 64 or any(
         character not in "0123456789abcdef" for character in artifact_sha256
     ):
@@ -126,7 +137,7 @@ def run_loop_checks(
     from impact81.auxiliary_loop import train_epoch as experiment_train_epoch
     from wnn.training.sequence_loop import train_epoch as stock_train_epoch
 
-    config, context, construct, schedule_updates = _setup(artifact, artifact_sha256, device)
+    config, context, construct, schedule_updates = _setup(artifact, artifact_sha256, device, family)
     dataset = SyntheticDataset()
     stock_model, stock_optimizer, stock_scheduler = construct()
     experiment_model, experiment_optimizer, experiment_scheduler = construct()
@@ -173,10 +184,14 @@ def run_loop_checks(
             "objective sufficient sums",
         ),
     )
-    if int(stock_result.totals[3].item()) != 58:
-        raise AssertionError("synthetic update should include exactly 58 post-warmup target rows")
-    if int(stock_result.totals[4].item()) != 256 or int(stock_result.totals[5].item()) != 256:
-        raise AssertionError("synthetic update should forward exactly 256 real rows")
+    expected_valid, expected_rows = (1802, 2000) if family == "gru" else (58, 256)
+    if int(stock_result.totals[3].item()) != expected_valid:
+        raise AssertionError("synthetic update post-warmup row count differs")
+    if (
+        int(stock_result.totals[4].item()) != expected_rows
+        or int(stock_result.totals[5].item()) != expected_rows
+    ):
+        raise AssertionError("synthetic update forwarded row count differs")
     record_diff = compare_update_record(stock_log.records[0], experiment_log.records[0])
     model_diff = compare(
         experiment_model.state_dict(), stock_model.state_dict(), "updated model state"
@@ -192,9 +207,10 @@ def run_loop_checks(
     )
     return {
         "status": "passed",
-        "scope": "one synthetic update; stock sequence loop versus cards04–06 control engine",
+        "scope": "one synthetic update; stock sequence loop versus the selected family control engine",
         "device": device_name,
         "precision_mode": config["precision_mode"],
+        "family": family,
         "model": config["model"],
         "optimizer": config["optimizer"],
         "schedule_total_updates": schedule_updates,

@@ -1,6 +1,6 @@
 # 10. Auxiliary prediction of the official clipping-boundary events
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-10` / `E-IMPACT-20261111-10`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 10.
+**Status: implemented; receiver acceptance pending, not run.** IDs: `H-IMPACT-20261111-10` / `E-IMPACT-20261111-10`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 10.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ Explicitly recognizing signed high-magnitude events may improve representation o
 
 **Treatment:** From the shared hidden state add one three-logit head per target for raw training label classes y<-2, -2<=y<=2, y>2. Add0.05 times mean unweighted cross-entropy over both targets to unchanged WMSE. Before any fit require each tail class for each target to occur in>=100 eligible train rows across>=32 fitting sequences, counting only finite target rows under the same all_after_warmup loss mask. If not, mark this fixed recipe infeasible; do not retune thresholds on valid.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The design is implemented in this same draft PR; [the implementation amendment](../IMPLEMENTATION_07_10.md) supersedes the earlier separate-PR proposal. Source/config pins and receiver commands are prepared, but acceptance has not run. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,9 +34,7 @@ Auxiliary heads are discarded. Main predictor remains the K16 GRU.
 
 ## Implementation and evidence
 
-Missing: Explicit raw-target loss view, fixed prevalence feasibility receipt, CE heads and export exclusion.
-
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Implemented in the packet-local runtime. [B300 commands](../B300_CARDS07_10.md) select the correct pinned family, prepare train-only artifacts, run receiver checks and a per-cell profile before fitting. Local tests, model imports, training and inference remain prohibited.
 
 Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
 

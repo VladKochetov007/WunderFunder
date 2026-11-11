@@ -1,6 +1,6 @@
 # 07. Future-label auxiliary heads on a causal Transformer
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-07` / `E-IMPACT-20261111-07`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 6.
+**Status: implemented; receiver acceptance pending, not run.** IDs: `H-IMPACT-20261111-07` / `E-IMPACT-20261111-07`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 6.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ Predicting several nearby task horizons may make hidden states retain signal use
 
 **Treatment:** From h[t], add two-target heads for offsets1,16,64. Primary current-target objective unchanged. L=L_primary+0.1*mean(three future-label WMSE losses), each with source-equivalent abs-clipped-target weights and its own valid-row denominator. Use t>=99 and t+h within the same fitting sequence; mask missing/nonfinite labels. No other fitting stage.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The design is implemented in this same draft PR; [the implementation amendment](../IMPLEMENTATION_07_10.md) supersedes the earlier separate-PR proposal. Source/config pins and receiver commands are prepared, but acceptance has not run. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,14 +34,12 @@ Drop auxiliary heads; no future-label or target input exists in the exported pre
 
 ## Implementation and evidence
 
-Missing: Label-only horizon target/mask builder, three heads, normalized losses and label-free inference export.
-
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Implemented in the packet-local runtime. [B300 commands](../B300_CARDS07_10.md) select the correct pinned family, prepare train-only artifacts, run receiver checks and a per-cell profile before fitting. Local tests, model imports, training and inference remain prohibited.
 
 Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
 
 - loss and eligible count per horizon/target.
-- primary versus auxiliary gradient norms.
+- combined preclip gradient norm; separate primary/auxiliary attribution is optional receiver analysis.
 - current-target fixed-E4 WP.
 
 ## Evidence status

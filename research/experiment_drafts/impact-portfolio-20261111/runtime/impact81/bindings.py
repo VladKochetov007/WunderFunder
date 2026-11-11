@@ -7,10 +7,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from impact81.runtime_family import (
+    TRANSFORMER_RUNTIME_COMMIT,
+    family_for_card,
+)
 from impact81.variants import variant_for
 
 # JSON recipes are heterogeneous, with strict outer fields validated below.
-RUNTIME_COMMIT = "8626000a4b965763a70011a0291a891aa6535d7e"
+RUNTIME_COMMIT = TRANSFORMER_RUNTIME_COMMIT
 SPLIT_SHA256 = "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
 PACKET = Path(__file__).resolve().parents[2]
 
@@ -47,14 +51,14 @@ def write_new(path: Path, value: object) -> None:
         stream.write("\n")
 
 
-def admit_runtime(root: Path) -> Path:
-    """Import only the exact clean external PR75 runtime, without changing that checkout."""
+def admit_runtime(root: Path, expected_commit: str = TRANSFORMER_RUNTIME_COMMIT) -> Path:
+    """Import only the requested clean canonical runtime before importing WNN."""
     root = root.resolve(strict=True)
     commit = subprocess.check_output(
         ["git", "-C", str(root), "rev-parse", "HEAD"], text=True, timeout=10
     ).strip()
-    if commit != RUNTIME_COMMIT:
-        raise ValueError(f"runtime must be pinned to {RUNTIME_COMMIT}, got {commit}")
+    if commit != expected_commit:
+        raise ValueError(f"runtime must be pinned to {expected_commit}, got {commit}")
     subprocess.run(
         ["git", "-C", str(root), "diff", "--exit-code", "HEAD", "--", "src", "scripts", "utils.py"],
         check=True,
@@ -85,24 +89,33 @@ def source_identity(root: Path) -> dict[str, object]:
 
 
 def load_cell(path: Path) -> tuple[dict[str, Any], Path]:
-    """Resolve a named paired cell and its unmodified canonical training recipe."""
+    """Resolve a paired cell and the family-specific seed-qualified native recipe."""
     cell = read_object(path)
     fields = {"schema", "id", "card", "arm", "variant", "seed", "native_config", "native_sha256"}
     if set(cell) != fields or cell["schema"] != "impact81.cell.v1":
         raise ValueError("unsupported experiment cell descriptor")
     expected = variant_for(cell["card"], cell["arm"])
+    family = family_for_card(cell["card"])
     if cell["variant"] != expected or cell["seed"] not in (204101, 204102):
         raise ValueError("cell variant or paired seed differs from the declared panel")
     if cell["id"] != f"ip{cell['card']}_{cell['arm']}_s{cell['seed']}":
         raise ValueError("cell ID must encode its card, arm and seed")
-    native = (PACKET / cell["native_config"]).resolve(strict=True)
+    candidate = PACKET / cell["native_config"]
+    if candidate.is_symlink():
+        raise ValueError("native config may not be a symlink")
+    native = candidate.resolve(strict=True)
     if not native.is_relative_to(PACKET / "configs") or digest(native) != cell["native_sha256"]:
         raise ValueError("native config path or hash mismatch")
     raw = read_object(native)
     if raw["seed"] != cell["seed"]:
         raise ValueError("native config seed differs from the cell")
-    expected_raw = read_object(PACKET / "sources/transformer_plain_control.json")
+    source_name = (
+        "transformer_plain_control.json" if family == "transformer" else "gru_k16_control.json"
+    )
+    expected_raw = read_object(PACKET / "sources" / source_name)
     expected_raw["seed"] = cell["seed"]
+    if family == "gru":
+        expected_raw["required_device"] = "B300"
     if raw != expected_raw:
-        raise ValueError("PR81 freezes every native training setting except its paired seed")
+        raise ValueError("cell native recipe differs from its pinned family source")
     return cell, native

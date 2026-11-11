@@ -1,6 +1,6 @@
 # 09. Variance-head auxiliary on K16 GRU: continuation of the earlier NLL idea
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-09` / `E-IMPACT-20261111-09`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 7.
+**Status: implemented; receiver acceptance pending, not run.** IDs: `H-IMPACT-20261111-09` / `E-IMPACT-20261111-09`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 7.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ A variance head may separate predictable mean signal from input-dependent noise 
 
 **Treatment:** Add a two-output log-variance head s=clamp(raw_s,-5,3), initialized to0. On eligible training rows add0.05*mean(0.5*exp(-s)*(mu-yc)^2+0.5*s) to the unchanged WMSE. Use independent diagonal variances, not an unconstrained covariance matrix. No variance-based reweighting of the primary loss; discard s at inference.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The design is implemented in this same draft PR; [the implementation amendment](../IMPLEMENTATION_07_10.md) supersedes the earlier separate-PR proposal. Source/config pins and receiver commands are prepared, but acceptance has not run. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,15 +34,13 @@ Mean-only export retains the original callback architecture; verify parity on re
 
 ## Implementation and evidence
 
-Missing: Variance head, bounded Gaussian surrogate and mean-only export. Exact earlier NLL code is not silently reused under a new name.
-
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Implemented in the packet-local runtime. [B300 commands](../B300_CARDS07_10.md) select the correct pinned family, prepare train-only artifacts, run receiver checks and a per-cell profile before fitting. Local tests, model imports, training and inference remain prohibited.
 
 Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
 
-- variance histogram and bound saturation.
+- mean log-variance and bound saturation; full histograms are optional receiver analysis.
 - WMSE/NLL and per-target endpoint WP.
-- fixed train-defined magnitude slices.
+- fixed train-defined magnitude slices in optional receiver analysis.
 
 ## Evidence status
 

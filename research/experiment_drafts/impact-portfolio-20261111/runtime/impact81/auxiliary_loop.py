@@ -12,6 +12,7 @@ from wnn.training.sequence_ensemble_reporting import objective_metrics
 from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_window_reporting import window_record
 
+from impact81 import later_reporting
 from impact81.auxiliary_backward import auxiliary_denominators, backward_window
 from impact81.auxiliary_reporting import (
     WIDTH,
@@ -81,10 +82,11 @@ def train_epoch(
         or config["hint_weight"]
         or config["objective_mode"] != "standalone_labels_wmse_v2"
     ):
-        raise ValueError("cards04–06 require the frozen standalone label objective")
+        raise ValueError("extension cards require the frozen standalone label objective")
     variant = config["impact81"]["cell"]["variant"]
-    if config["impact81"]["cell"]["card"] not in ("04", "05", "06"):
-        raise ValueError("auxiliary epoch engine is restricted to cards04–06")
+    if config["impact81"]["cell"]["card"] not in ("04", "05", "06", "07", "08", "09", "10"):
+        raise ValueError("auxiliary epoch engine is restricted to cards04–10")
+    later = variant in later_reporting.VARIANTS
     indices = local_sequence_indices(len(dataset), context, int(config["seed"]), epoch)
     batch_size = int(config["batch_size"])
     intervals_all = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
@@ -94,7 +96,9 @@ def train_epoch(
     )
     totals = torch.zeros(8, dtype=torch.float64, device=context.device)
     objective_totals = torch.zeros(5, dtype=torch.float64, device=context.device)
-    auxiliary_totals = torch.zeros(WIDTH, dtype=torch.float64, device=context.device)
+    auxiliary_totals = torch.zeros(
+        later_reporting.WIDTH if later else WIDTH, dtype=torch.float64, device=context.device
+    )
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
         ids = indices[batch_start : batch_start + batch_size]
@@ -159,7 +163,8 @@ def train_epoch(
             updates += 1
             global_step += 1
             stats = global_sum(local, context)
-            auxiliary = window_totals(global_sum(raw_auxiliary, context), denominators[0], variant)
+            report_window = later_reporting.window_totals if later else window_totals
+            auxiliary = report_window(global_sum(raw_auxiliary, context), denominators[0], variant)
             totals[:6] += stats
             totals[6:] += denominators
             objective = torch.zeros(5, dtype=torch.float64, device=context.device)
@@ -182,7 +187,9 @@ def train_epoch(
                 0.0,
             )
             record.update(objective_metrics(config, objective))
-            auxiliary_metrics = metrics(auxiliary)
+            auxiliary_metrics = (
+                later_reporting.metrics(auxiliary, variant) if later else metrics(auxiliary)
+            )
             record["primary_loss"] = float(objective[3].item())
             record["total_loss"] = (
                 record["primary_loss"] + auxiliary_metrics["weighted_auxiliary_loss"]

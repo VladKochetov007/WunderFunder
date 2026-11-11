@@ -1,5 +1,7 @@
 # Cards04–06: B300 implementation amendment
 
+Historical implementation record for its original scope. The current ten-card extension is documented in [IMPLEMENTATION_07_10.md](IMPLEMENTATION_07_10.md).
+
 The 11 November request adds cards04–06 to this same draft PR. It supersedes
 these cards' earlier separate-implementation-PR notes. Twelve additional fresh
 fits are prepared, zero executed. Together with cards01–03 the packet contains

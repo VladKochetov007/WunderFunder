@@ -10,6 +10,7 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
+from impact81.runtime_family import epochs_for_card, family_for_card
 from impact81.variants import CARDS, TREATMENTS, variant_for
 
 SPLIT_SHA256 = "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
@@ -88,8 +89,10 @@ def _read_score(path: Path) -> dict[str, Any]:
         or cell.get("id") != f"ip{card}_{arm}_s{seed}"
     ):
         raise ValueError(f"{path} has a malformed or unsupported Impact81 cell")
-    if config.get("epochs") != 4:
-        raise ValueError(f"{path} is not a four-epoch endpoint")
+    family = family_for_card(card)
+    endpoint_epochs = epochs_for_card(card)
+    if config.get("epochs") != endpoint_epochs:
+        raise ValueError(f"{path} is not the fixed {endpoint_epochs}-epoch endpoint")
     preprocessing_sha256 = _sha256(
         impact.get("preprocessing_sha256"), f"{path}.preprocessing_sha256"
     )
@@ -108,6 +111,8 @@ def _read_score(path: Path) -> dict[str, Any]:
         "card": card,
         "arm": arm,
         "variant": variant,
+        "family": family,
+        "endpoint_epochs": endpoint_epochs,
         "seed": seed,
         "wp": wp,
         "t0": t0,
@@ -129,7 +134,7 @@ def compare(
 ) -> dict[str, Any]:
     """Persist all paired treatment-minus-control deltas from canonical score receipts.
 
-    A full portfolio requires all twenty-four endpoints. A four-endpoint subset is
+    A full portfolio requires all forty endpoints. A four-endpoint subset is
     accepted only when one card is explicitly selected and allow_one_card is true.
     No score is generated, imputed, selected, or ranked here.
     """
@@ -164,18 +169,29 @@ def compare(
     unexpected = sorted(observed - expected)
     if missing or unexpected:
         raise ValueError(f"score panel mismatch; missing={missing}, unexpected={unexpected}")
-    if len({row["source_sha256"] for row in records}) != 1:
-        raise ValueError("score receipts do not share one pinned source identity")
     if len({row["split_sha256"] for row in records}) != 1:
         raise ValueError("score receipts do not share one official split")
-    if len({row["preprocessing_sha256"] for row in records}) != 1:
-        raise ValueError("score receipts do not share one train-only preprocessing artifact")
     if len({row["checkpoint_sha256"] for row in records}) != len(records):
         raise ValueError("each declared cell must have its own fitted endpoint checkpoint")
 
     pairs: list[dict[str, Any]] = []
     summaries: dict[str, dict[str, Any]] = {}
+    source_by_card: dict[str, str] = {}
+    preprocessing_by_card: dict[str, str] = {}
+    family_by_card: dict[str, str] = {}
+    endpoint_epochs_by_card: dict[str, int] = {}
     for selected_card in selected_cards:
+        card_records = [row for row in records if row["card"] == selected_card]
+        if len({row["source_sha256"] for row in card_records}) != 1:
+            raise ValueError(f"card {selected_card} receipts mix canonical/runtime sources")
+        if len({row["preprocessing_sha256"] for row in card_records}) != 1:
+            raise ValueError(f"card {selected_card} receipts mix preprocessing artifacts")
+        if len({row["family"] for row in card_records}) != 1:
+            raise ValueError(f"card {selected_card} receipts mix runtime families")
+        source_by_card[selected_card] = card_records[0]["source_sha256"]
+        preprocessing_by_card[selected_card] = card_records[0]["preprocessing_sha256"]
+        family_by_card[selected_card] = card_records[0]["family"]
+        endpoint_epochs_by_card[selected_card] = card_records[0]["endpoint_epochs"]
         card_pairs = []
         for seed in SEEDS:
             control = by_cell[(selected_card, "control", seed)]
@@ -184,7 +200,12 @@ def compare(
                 raise ValueError(f"card {selected_card} seed {seed} is not a matched config pair")
             pair = {
                 "card": selected_card,
-                "variant": VARIANTS[selected_card],
+                "family": control["family"],
+                "endpoint_epochs": control["endpoint_epochs"],
+                "control_variant": control["variant"],
+                "treatment_variant": treatment["variant"],
+                "source_sha256": control["source_sha256"],
+                "preprocessing_sha256": control["preprocessing_sha256"],
                 "seed": seed,
                 "control": {
                     "wp": control["wp"],
@@ -207,19 +228,26 @@ def compare(
             pairs.append(pair)
             card_pairs.append(pair)
         summaries[selected_card] = {
-            "variant": VARIANTS[selected_card],
+            "family": family_by_card[selected_card],
+            "endpoint_epochs": endpoint_epochs_by_card[selected_card],
+            "control_variant": by_cell[(selected_card, "control", SEEDS[0])]["variant"],
+            "treatment_variant": VARIANTS[selected_card],
+            "source_sha256": source_by_card[selected_card],
+            "preprocessing_sha256": preprocessing_by_card[selected_card],
             "paired_seed_count": len(card_pairs),
             "mean_delta_wp": sum(item["delta_wp"] for item in card_pairs) / len(card_pairs),
             "mean_delta_t0": sum(item["delta_t0"] for item in card_pairs) / len(card_pairs),
             "mean_delta_t1": sum(item["delta_t1"] for item in card_pairs) / len(card_pairs),
         }
     result = {
-        "schema": "impact81.paired-comparison.v1",
+        "schema": "impact81.paired-comparison.v2",
         "status": "complete_panel" if len(selected_cards) == len(CARDS) else "one_card_subset",
         "metric_id": METRIC_ID,
         "split_sha256": SPLIT_SHA256,
-        "source_sha256": records[0]["source_sha256"],
-        "preprocessing_sha256": records[0]["preprocessing_sha256"],
+        "runtime_families_by_card": family_by_card,
+        "endpoint_epochs_by_card": endpoint_epochs_by_card,
+        "source_sha256_by_card": source_by_card,
+        "preprocessing_sha256_by_card": preprocessing_by_card,
         "expected_selected_rows": EXPECTED_ROWS,
         "expected_sequences": EXPECTED_SEQUENCES,
         "endpoint_count": len(records),

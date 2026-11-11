@@ -17,6 +17,8 @@ from impact81.auxiliary_objectives import (
     pairwise_scaled_loss,
     pairwise_window_denominators,
 )
+from impact81.later_reporting import RAW_WIDTH
+from impact81.later_reporting import VARIANTS as LATER_VARIANTS
 from wnn.training.sequence_distributed import DistributedContext, all_ranks_true, global_sum
 from wnn.training.sequence_models import detach_state
 from wnn.training.sequence_objectives import detached_sums, objective_numerators, scaled_objective
@@ -34,7 +36,11 @@ def auxiliary_denominators(
 ) -> Tensor:
     """Reduce pair masses across the complete accumulation window before any backward."""
     local = torch.zeros(2, dtype=torch.float32, device=context.device)
-    if variant == "pairwise_ranking":
+    if variant in LATER_VARIANTS:
+        from impact81.later_loss import local_denominators
+
+        local = local_denominators(target, mask, intervals, variant)
+    elif variant == "pairwise_ranking":
         for start, stop in intervals:
             local += pairwise_window_denominators(target[:, start:stop], mask[:, start:stop])
     result = global_sum(local, context)
@@ -57,7 +63,9 @@ def backward_window(
 ) -> tuple[Any, Tensor, Tensor]:
     """Backpropagate primary plus declared auxiliary losses with unchanged TBPTT cadence."""
     local = torch.zeros(6, dtype=torch.float64, device=context.device)
-    raw_auxiliary = torch.zeros(13, dtype=torch.float64, device=context.device)
+    raw_auxiliary = torch.zeros(
+        RAW_WIDTH if variant in LATER_VARIANTS else 13, dtype=torch.float64, device=context.device
+    )
     mode = str(config["precision_mode"])
     for index, (start, stop) in enumerate(intervals):
         sync = (
@@ -90,7 +98,23 @@ def backward_window(
             loss = scaled_objective(
                 numerators, denominators, context.world_size, 0.0, 0.0, microchunks=len(intervals)
             )
-            if variant == "deep_supervision":
+            if variant in LATER_VARIANTS:
+                from impact81.later_loss import contribution
+
+                auxiliary_loss, raw = contribution(
+                    prediction,
+                    auxiliary,
+                    batch["y"],
+                    batch["mask"],
+                    start,
+                    stop,
+                    auxiliary_mass,
+                    context.world_size,
+                    variant,
+                )
+                loss = loss + auxiliary_loss
+                raw_auxiliary += raw
+            elif variant == "deep_supervision":
                 deep = deep_supervision_wmse_numerators(auxiliary.float().unbind(-2), target, mask)
                 loss = loss + deep_supervision_scaled_loss(
                     deep, denominators[0], context.world_size

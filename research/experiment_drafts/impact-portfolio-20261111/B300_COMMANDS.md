@@ -139,7 +139,7 @@ PYTHONPATH="$WF_PACKET/runtime" "$WF_PYTHON" -m impact81.comparison \
   "$WF_RUNS/ip04_treatment_s204102/score.json"
 ```
 
-For the complete panel omit `--card/--allow-one-card` and supply exactly24 score
+For the complete panel omit `--card/--allow-one-card` and supply exactly40 score
 paths. Report every seed/target delta, failures and exposure; no significance or
 leaderboard forecast follows from these two-seed screens.
 
@@ -149,6 +149,8 @@ Import real receipts through [the MIDAS commands](midas/README.md). Keep
 weights, prediction manifest and score together. The MIDAS evidence archive may
 omit weight bytes; in that case hashes are producer claims, not byte verification.
 
-Cards04–06 add twelve fits with exactly the same stage commands. Select card05 control by its explicit ID: it uses value-copied depth initialization, not the plain control of another card. For a single completed new card, use `--card 04`, `05` or `06` and supply that card's four score paths. The default full comparison now expects24 endpoints.
+Cards04–06 add twelve fits with exactly the same stage commands. Select card05 control by its explicit ID: it uses value-copied depth initialization, not the plain control of another card. For a single completed new card, use `--card 04`, `05` or `06` and supply that card's four score paths. The default full comparison now expects40 endpoints.
 
 Use a fresh results directory and acceptance receipt at this source revision. Keep any earlier running first-three-card job on its original commit. The new receiver check includes loss-denominator and depth/cache proofs before the per-cell50-update profile; no acceptance has been run here.
+
+For the newly implemented cards07–10 and the current40-endpoint inventory, use [B300_CARDS07_10.md](B300_CARDS07_10.md). The full comparator now expects40 scores; one-card mode remains four scores.

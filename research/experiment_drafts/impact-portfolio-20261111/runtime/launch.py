@@ -10,6 +10,12 @@ import sys
 from pathlib import Path
 
 from impact81.bindings import load_cell, write_new
+from impact81.runtime_family import (
+    environment_for_card,
+    family_for_card,
+    runtime_commit_for_card,
+    world_size_for_card,
+)
 
 
 def main() -> None:
@@ -24,7 +30,8 @@ def main() -> None:
     parser.add_argument("--owner", required=True)
     parser.add_argument("--timeout-seconds", type=int, required=True)
     parser.add_argument(
-        "--devices", help="Explicit free GPU IDs; two for profile/fit/export, one for check"
+        "--devices",
+        help="Free GPU IDs: two for Transformer profile/fit/export, one for GRU or check",
     )
     parser.add_argument("--preprocessing", type=Path)
     parser.add_argument("--profile-receipt", type=Path)
@@ -39,10 +46,13 @@ def main() -> None:
     if not args.owner.strip() or not 1 <= args.timeout_seconds <= 172800:
         parser.error("a named owner and timeout1..172800 seconds are required")
     cell, _ = load_cell(args.cell)
-    distributed = args.mode in ("profile", "fit", "export")
+    family = family_for_card(cell["card"])
+    runtime_commit = runtime_commit_for_card(cell["card"])
+    world_size = world_size_for_card(cell["card"])
+    distributed = world_size > 1 and args.mode in ("profile", "fit", "export")
     if args.mode not in ("prepare", "score"):
         devices = (args.devices or "").split(",")
-        required = 2 if distributed else 1
+        required = world_size if args.mode in ("profile", "fit", "export") else 1
         if (
             len(devices) != required
             or len(set(devices)) != required
@@ -74,7 +84,11 @@ def main() -> None:
             argv += ["--" + name.replace("_", "-"), str(value)]
     argv += ["--profile-updates", str(args.profile_updates)]
     env = os.environ.copy()
-    env["CUBLAS_EMULATE_SINGLE_PRECISION"] = "1"
+    for name, value in environment_for_card(cell["card"]).items():
+        if value is None:
+            env.pop(name, None)
+        else:
+            env[name] = value
     if args.devices:
         env["CUDA_VISIBLE_DEVICES"] = args.devices
     now = dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%S%fZ")
@@ -87,6 +101,10 @@ def main() -> None:
         {
             "schema": "impact81.launch.v1",
             "cell_id": cell["id"],
+            "family": family,
+            "runtime_commit": runtime_commit,
+            "world_size": world_size,
+            "environment_overrides": environment_for_card(cell["card"]),
             "mode": args.mode,
             "owner": args.owner,
             "started_at": now,

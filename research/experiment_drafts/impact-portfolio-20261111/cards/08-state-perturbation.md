@@ -1,6 +1,6 @@
 # 08. GRU sensitivity regularization with a perturbed carried state
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-08` / `E-IMPACT-20261111-08`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 8.
+**Status: implemented; receiver acceptance pending, not run.** IDs: `H-IMPACT-20261111-08` / `E-IMPACT-20261111-08`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **G** from [CONTRACT.md](../CONTRACT.md); priority 8.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ A recurrent predictor may amplify small errors in carried state. A training-only
 
 **Treatment:** Every fourth eligible chunk, at offset128 fork the current carried GRU state. Add independent Gaussian noise with coordinate std0.01*max(detached hidden RMS,1e-3). Advance the fork through the same next32 inputs; compare its predictions to stop-gradient clean predictions. Add0.01*mean_squared_prediction_difference/(0.01^2+1e-8). Keep primary predictions and all future carried state from the clean branch. Never replace the stream with the noisy state. Persist the separate perturbation RNG.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The design is implemented in this same draft PR; [the implementation amendment](../IMPLEMENTATION_07_10.md) supersedes the earlier separate-PR proposal. Source/config pins and receiver commands are prepared, but acceptance has not run. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,9 +34,7 @@ No additional model or operations after training-only branch removal.
 
 ## Implementation and evidence
 
-Missing: Safe state fork, shared input-stem prefix handling, isolated perturbation RNG and auxiliary branch reduction.
-
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Implemented in the packet-local runtime. [B300 commands](../B300_CARDS07_10.md) select the correct pinned family, prepare train-only artifacts, run receiver checks and a per-cell profile before fitting. Local tests, model imports, training and inference remain prohibited.
 
 Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
 

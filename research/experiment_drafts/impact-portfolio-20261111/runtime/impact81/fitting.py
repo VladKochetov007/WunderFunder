@@ -67,7 +67,7 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
         checks.get("status") != "passed"
         or checks.get("source_identity") != source_identity(runtime_root)
         or checks.get("preprocessing_sha256") != digest(args.preprocessing)
-        or checks.get("precision_mode") != "bf16_bf16x9"
+        or checks.get("precision_mode") != config["precision_mode"]
     ):
         raise ValueError(
             "server acceptance must bind these exact sources, preprocessing and precision"
@@ -77,8 +77,8 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
         from impact81.lifecycle import run_full_fit as fit_runner
         from impact81.profile import run_profile as profile_runner
 
-        if checks.get("extension_cards") != list(EXTENSION_CARDS):
-            raise ValueError("cards04–06 require the new depth/objective receiver receipt")
+        if cell["card"] not in checks.get("extension_cards", []):
+            raise ValueError("this card requires its family's current receiver receipt")
         engine_options = {"engine": get_engine()}
     else:
         fit_runner, profile_runner = run_full_fit, run_profile
@@ -109,6 +109,14 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
             "train preprocessing identity",
             context,
         )
+        if cell["card"] == "10":
+            from impact81.preparation_later import validate_feasibility
+
+            coordinated_call(
+                lambda: _admit_clip_events(artifact, validate_feasibility),
+                "train-only tail feasibility",
+                context,
+            )
         extension = {
             "schema": "impact81.model.v1",
             "cell": cell,
@@ -152,7 +160,7 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
                 if parameter.requires_grad
             ),
         }
-        if cell["card"] in EXTENSION_CARDS:
+        if cell["card"] in ("04", "05", "06"):
             from impact81.depth_metadata import parameter_layout
 
             identity["impact81_depth_layout"] = parameter_layout(base_model)
@@ -161,7 +169,7 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
         assert_same_identity(identity, context)
         profile_hash = (
             coordinated_call(
-                lambda: validate_profile_receipt(receipt, identity), "profile admission", context
+                lambda: _profile_admission(receipt, identity, config), "profile admission", context
             )
             if receipt is not None
             else None
@@ -232,6 +240,20 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
             rank_log.close()
         close_monitor_progress(monitor)
         shutdown_distributed(context)
+
+
+def _profile_admission(path: Path, identity: dict[str, object], config: dict[str, Any]) -> str:
+    """Validate signed auxiliary semantics before the unchanged canonical resource gate."""
+    from impact81.profile_objective_admission import validate_profile_objective
+
+    validate_profile_objective(read_object(path), config)
+    return validate_profile_receipt(path, identity)
+
+
+def _admit_clip_events(artifact: dict[str, Any], validator: Any) -> bool:
+    """Make the card10 fixed-threshold feasibility decision collective and explicit."""
+    validator(artifact["clip_event_feasibility"], require_feasible=True)
+    return True
 
 
 def _owner_receipt(
