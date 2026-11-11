@@ -1,14 +1,14 @@
-# Next-impact portfolio: three implemented screens, seven proposals
+# Next-impact portfolio: six implemented screens, four proposals
 
 Published as [draft PR81](https://github.com/VladKochetov007/WunderFunder/pull/81) targeting `research-team`.
 
-**Current status:** cards 01–03 have implementation in this packet and await
-receiver acceptance. Cards 04–10 remain proposals. The first three cards have
-12 fresh fits planned in total (four per card: two seeds, control and treatment),
+**Current status:** cards 01–06 have implementation in this packet and await
+receiver acceptance. Cards 07–10 remain proposals. The first six cards have
+24 fresh fits planned in total (four per card: two seeds, control and treatment),
 with zero fits executed and no old controls reused. No profile, grade, or result
 is available. The packet does not automatically launch jobs.
 
-The three implementations use the exact plain Transformer runtime from PR75,
+All six implementations use the exact plain Transformer runtime from PR75,
 commit `8626000a4b965763a70011a0291a891aa6535d7e`, staged as a separate clean,
 read-only worktree on the receiving host. New experiment adapters live under
 `runtime/`; the repository's existing `src/`, `scripts/`, training configs,
@@ -50,19 +50,21 @@ and limitations.
 | [01 Numerical PLE](cards/01-numerical-ple.md) | Transformer | Do continuous nonlinear scalar embeddings help? | Implemented; receiver acceptance pending; continuation of level encoding |
 | [02 Same-row group tokens](cards/02-same-row-group-tokens.md) | Transformer | Does nonlinear mixing of schema groups help before temporal attention? | Implemented; receiver acceptance pending; PR8 continuation in this same PR |
 | [03 Target-private adapters](cards/03-target-private-adapters.md) | Transformer | Can both targets share time modeling but use different nonlinear readouts? | Implemented; receiver acceptance pending; differs from independent specialists |
-| [04 Intermediate supervision](cards/04-deep-supervision.md) | Transformer | Does direct supervision at depths6/12/18 help the final head? | Proposal only |
-| [05 Shared-depth blocks](cards/05-tied-depth.md) | Transformer | Does sharing12 parameter sets over24 logical layers improve generalization? | Proposal only; separate24 KV caches |
-| [06 Pairwise ordering](cards/06-pairwise-ranking.md) | Transformer | Does a small ranking auxiliary improve official WP? | Proposal only; ranking is not Pearson |
+| [04 Intermediate supervision](cards/04-deep-supervision.md) | Transformer | Does direct supervision at depths6/12/18 help the final head? | Implemented; receiver acceptance pending |
+| [05 Shared-depth blocks](cards/05-tied-depth.md) | Transformer | Does sharing12 parameter sets over24 logical layers improve generalization? | Implemented; receiver acceptance pending |
+| [06 Pairwise ordering](cards/06-pairwise-ranking.md) | Transformer | Does a small ranking auxiliary improve official WP? | Implemented; receiver acceptance pending |
 | [07 Future-label heads](cards/07-future-label-heads.md) | Transformer | Do row-offset targets1/16/64 improve the current prediction? | Proposal only; labels are not future inputs |
 | [08 State perturbation](cards/08-state-perturbation.md) | K16 GRU | Can less brittle state improve clean prediction? | Proposal only; training-only noisy branch |
 | [09 Variance-head auxiliary](cards/09-nll-transfer.md) | K16 GRU | Does the earlier NLL idea help this stronger recipe? | Proposal only; from scratch, no checkpoint transfer |
 | [10 Clip-event head](cards/10-clip-event-head.md) | K16 GRU | Does classifying signed tail events help the unchanged regression head? | Proposal only; train-only prevalence gate first |
 
-The three implemented cards retain their separate controls and treatments. The
-other seven are not part of the current 12-fit plan. If every card were later
+The six implemented cards retain their separate controls and treatments. The
+other four are not part of the current 24-fit plan. If every card were later
 selected, the complete inventory would total 40 fits; that is not a launch
 request or an executed queue. Card02's earlier note proposing a separate PR is
 superseded: its implementation is included in PR81 alongside cards01 and03.
+
+[Cards04–06 implementation amendment](IMPLEMENTATION_04_06.md) documents the new objective driver, copied/tied-depth control, and twelve additional fits. Prior first-three-card source receipts remain bound to their original commit.
 
 ## Frozen implementation and preprocessing
 
@@ -115,8 +117,7 @@ The MIDAS registration/route is metadata only; it does not launch remote work.
   card-specific diagnostics.
 - [PR_REVIEW.md](PR_REVIEW.md), [SOURCES.md](SOURCES.md), and [REVIEW.md](REVIEW.md):
   prior results, literature and independent design criticism.
-- [STATIC_REVIEW.json](STATIC_REVIEW.json): static metadata inspection only; it
-  is not runtime, numerical or receiver acceptance.
+- [Current static implementation review](STATIC_IMPLEMENTATION_REVIEW_04_06.json): source/config/command checks for cards04–06, not runtime or numerical acceptance. Earlier static receipts retain their original source scope.
 - [sources/](sources/): byte-preserved historical configs. They are not
   launch configs; per-cell descriptors bind seed-only copies for this screen.
 - [PR.md](PR.md): the English 11-section publication body.
@@ -124,5 +125,5 @@ The MIDAS registration/route is metadata only; it does not launch remote work.
   [experiment ledger](../../experiments.jsonl): append-only status history.
 
 No local model imports, construction, tests, inference, training, profiling or
-job changes were performed. Receiver acceptance is pending, all 12 planned fits
+job changes were performed. Receiver acceptance is pending, all 24 planned fits
 remain unrun, and no quality or leaderboard claim follows from this packet.

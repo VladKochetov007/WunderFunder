@@ -1,122 +1,77 @@
-# [Experiment] IMPACT81: three implemented Transformer representation screens
+# [Experiment] IMPACT81: six implemented Transformer screens for B300
 
-[Portfolio and status](README.md) · [shared contract](CONTRACT.md) ·
-[implementation details](IMPLEMENTATION.md) · [B300 commands](B300_COMMANDS.md) ·
-[PR60–80 review](PR_REVIEW.md)
+This update implements cards04–06 alongside the previously prepared cards01–03.
+All code/configs are preparation only: **24 fresh fits planned, zero executed**.
+The existing training pipeline and native optimization recipe are unchanged.
 
-1. **Status, lineage and owner.** Cards01–03 are implemented in this PR and
-   pending receiver acceptance; cards04–10 remain proposals. The three
-   implemented hypothesis/experiment pairs are `H-IMPACT-20261111-01` /
-   `E-IMPACT-20261111-01` (continuous numerical PLE),
-   `H-IMPACT-20261111-02` / `E-IMPACT-20261111-02` (same-row feature-group
-   tokens), and `H-IMPACT-20261111-03` / `E-IMPACT-20261111-03`
-   (target-private adapters). Preparation owner: Ivan / Codex. Receiving owner
-   and allocated B300s remain unassigned. No receiver checks, profiles, fits,
-   grades or quality measurements have been recorded. The training runtime is
-   pinned to the plain Transformer source in PR75 at
-   `8626000a4b965763a70011a0291a891aa6535d7e`, loaded from a separate clean,
-   read-only worktree. This supersedes the earlier suggestion to put the first
-   three mechanisms in separate implementation PRs; card02's PR8 continuation
-   is included here as a dated recipe amendment, not a duplicate PR.
-2. **Why it should work.** Card01 gives the shared temporal model a continuous
-   nonlinear basis over each scalar while keeping the raw projection bypass.
-   Card02 mixes the canonical 16 feature groups at the current row before the
-   unchanged temporal model. Card03 allows two nonlinear readouts to adapt to
-   target-specific features while both losses continue training one shared
-   trunk. The predicted observations, falsifiers and capacity alternatives are
-   specified in [cards01–03](cards/). These mechanisms do not establish that
-   representation limits explain current errors; receiver metrics decide that.
-3. **Compute advantage.** The planned B300 fits compare each treatment with a
-   fresh same-seed control on the same full-data recipe. They test three distinct
-   representation mechanisms; they do not claim faster training, better scaling,
-   or a leaderboard gain. New input/readout operations have real runtime cost.
-   Hardware and throughput optimization are outside this change. The remaining
-   seven ideas are proposal-only and are not part of the 12-fit plan.
-4. **Frozen comparison.** Each card uses two fresh seeds, `204101` and `204102`,
-   with one plain control and one treatment per seed. The common candidate is the
-   PR75 plain Transformer: H768, 24 layers, 12 heads, FF multiplier4, context1024,
-   gradient horizon256, batch128 under the pinned runtime semantics, accumulation4,
-   and fixed final epoch4. Muon/AdamW roles, LR3e-4, weight decay0.01, clip1,
-   5% warmup/cosine floor0.1, compiled temporal blocks, and BF16/BF16x9 behavior
-   are inherited unchanged. Use all 10,325 train sequences and all 1,873 valid
-   sequences; the split receipt SHA256 is
-   `0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c`.
-   Canonical normalization remains over all fit rows. Card01 estimates its 16
-   linear quantile knots from 64 evenly spaced row positions in each train
-   sequence (660,800 label-independent sample rows); these are not exact quantiles
-   over every row. Valid/test data do not contribute to preprocessing. Per-card
-   deltas are paired by seed, with no old control reuse or teacher fit.
-5. **Bounded fitting panel.** The current plan is 12 new scientific fits: each
-   of cards01, 02 and03 has two fresh controls and two fresh treatments. No fit
-   has run, and no old PR75 control is reused. There are no teacher or
-   pretraining fits. Profile runs are separate engineering work. Cards04–10 are
-   not selected for execution; the 40-fit total in `recipe.json` is the inventory
-   only if all ten cards are eventually selected. No automatic multi-cell launch
-   is supplied. Every full-size cell needs its own accepted 50-update profile,
-   reload evidence and operator-approved resource receipt before its fit.
-6. **Validation and uncertainty.** The primary endpoint is the canonical pooled
-   `global_wp_clip2_v1` on all 3,528,273 scored valid rows. Return both seed
-   deltas, per-target t0/t1 values, coverage and fixed-E4 identities. The official
-   valid split is repeatedly exposed development data. Two seeds on this one
-   split do not estimate broad training variance, establish significance, or
-   demonstrate fold/source robustness. No fit scores, intervals or conclusions
-   exist for these cards yet. The working allocation screen in
-   [CONTRACT.md](CONTRACT.md) is not an automatic promotion or submission rule.
-7. **Leakage and coverage.** Inputs at row t use features observed through t and
-   the canonical carried state only. All transformations and learned parameters
-   use train data. PLE knots use the fixed train-only sample described above;
-   canonical moments still use every fit row. Group attention sees the 16 groups
-   at the same row, never a future window. Target adapters receive hidden states,
-   not target values or validity flags; both target losses update the shared
-   backbone. Reset, prefix-causality, chunk carry and reconstruction are checked
-   by the receiver before profiling. No valid/test updates are introduced.
-8. **Decision-changing result.** Apply the existing screen as a descriptive
-   allocation heuristic: mean paired WP gain at least 0.0005, both seed deltas
-   positive, and review any per-target loss worse than 0.001. Preserve mixed,
-   negative or incomplete endpoints. This is not a significance test, automatic
-   winner rule, or forecast. Adapter contribution/group diagnostics may help
-   distinguish active mechanisms from unused capacity, but are not all emitted
-   by the current runtime; any additional analysis must be identified as
-   receiver-derived or separately instrumented. No valid-driven tuning of
-   coefficients or post hoc endpoint selection is allowed.
-9. **How to run.** Commands are prepared in
-   [B300_COMMANDS.md](B300_COMMANDS.md) and have not been executed. On the
-   provisioned Linux receiver, stage PR81 in its own worktree and the exact PR75
-   commit in a separate detached worktree; bind the actual data and split; create
-   one shared preprocessing artifact; run receiver checks on an available B300;
-   then profile one selected cell for 50 updates. Review the real profile and
-   reload evidence before writing approval; fit only with that receipt and the
-   same GPU pair/runtime. Export and score the fixed E4 checkpoint with full row
-   coverage, then compare the four endpoints for one card. The launcher is
-   one-stage only, requires an owner/devices/time limit, has no retry or device
-   search, and leaves other jobs untouched. Do not run packet model stages on
-   macOS. See [MIDAS handoff instructions](midas/README.md) for evidence import;
-   the [route preview](midas/route-preview.json) is metadata-only and does not
-   represent an allocated worker or execution.
-10. **Evidence to return.** Preserve per-cell source/config/runtime/data/split
-    identity; preprocessing artifact; receiver acceptance and profile/reload
-    receipts; owner and device allocation; producer-stamped updates, losses, LR,
-    preclip gradient norm, skipped/nonfinite counts, elapsed time and peak
-    memory; all epoch checkpoints and resume state; fixed-E4 prediction manifest,
-    exact row coverage, canonical score and both paired deltas. Keep evidence and
-    weights archives separate with hashes and storage locations. The
-    [MIDAS evidence exporter](midas_evidence.py) packages completed run evidence
-    without copying weights; producer-provided weight hashes are not byte
-    verification when the archive omits weight bytes.
-11. **Results and trace.** There are no measured results from this PR: 12 fits
-    are planned, zero executed; receiver acceptance and profiles are pending.
-    [Implementation](IMPLEMENTATION.md), [commands](B300_COMMANDS.md),
-    [cards](cards/), [recipe](recipe.json), [append-only hypothesis ledger](../../hypotheses.jsonl),
-    and [experiment ledger](../../experiments.jsonl) carry the current design and
-    status. [PR_REVIEW.md](PR_REVIEW.md), [SOURCES.md](SOURCES.md), and
-    [REVIEW.md](REVIEW.md) retain prior evidence, literature and independent
-    criticism. PR76's separate CPU ZIP is unchanged and is not evaluated here.
+1. **Scope and lineage.** Cards01–06 are implemented pending receiver acceptance;
+   cards07–10 remain proposals. Preparation owner: Ivan / Codex; receiver owner
+   and GPU allocation remain unassigned. [Cards04–06 amendment](IMPLEMENTATION_04_06.md)
+   supersedes their earlier separate-PR proposals. The runtime is pinned to PR75
+   `8626000a4b965763a70011a0291a891aa6535d7e`, plain Transformer. Existing running
+   work must retain its original checkout and receipts.
+2. **Mechanisms.** Card01 adds continuous scalar embeddings;02 mixes current-row
+   feature groups;03 adds target-private rank8 readouts. Card04 adds label heads
+   after blocks6/12/18 with primary+0.1×mean auxiliary WMSE. Card05 compares24
+   independent copied-initialization blocks to12 unique blocks applied twice,
+   preserving24 independent KV histories. Card06 adds0.05×within-chunk lag32
+   pairwise logistic loss with clipped-label separation≥0.5 and fixed temperature1.
+   Hypotheses, alternatives and falsifiers remain in the individual [cards](cards/).
+3. **Compute advantage.** Extra compute buys matched full-data mechanism screens,
+   not a promised speedup. Auxiliary losses add work; tied weights do not halve
+   the execution depth. No kernel tuning, new precision, optimizer change,
+   quantization, queue manager or throughput optimization is included.
+4. **Frozen recipe.** H768/L24,12 heads, FF4, context1024, gradient horizon256,
+   batch128, accumulation4, two B300 ranks, four epochs, fixed finalE4. Keep Muon/
+   AdamW roles, LR3e-4, WD0.01, clip1,5% warmup/cosine floor0.1, BF16/BF16x9 and
+   compiled temporal blocks. Use all10,325 train sequences and1,873 valid sequences.
+   [Contract](CONTRACT.md) binds the exact split, source and all-fit normalization.
+   Card01's previously declared64-position/train-sequence quantile estimator stays
+   unchanged. Card05 uses its explicit copied-depth control, never an old plain score.
+5. **Fit accounting.** Each implemented card has two controls and two treatments at
+   seeds204101/204102. Cards04–06 add12 fresh fits; all six total24. Zero reused
+   controls, zero teacher/pretraining fits and zero launched fits. The ten-card
+   inventory would total40 only if the remaining proposals were later selected.
+6. **Validation and uncertainty.** Score every fixed endpoint with the canonical
+   `global_wp_clip2_v1` on3,528,273 scored valid rows. Report every seed/target
+   delta and incomplete or negative result. This official split is repeatedly
+   exposed development data; two seeds are not two folds and do not establish
+   significance or public transfer.
+7. **Leakage and reduction.** No labels enter model inputs. Card04 uses the exact
+   primary mask/weights and global full-window denominator for each head. Card06
+   pairs only rows within a sequence/chunk, uses the training mask (not missing
+   train `is_scored`), and reduces per-target pair mass over all ranks and
+   microchunks before backward. Empty targets contribute zero to the fixed
+   two-target mean. Card05 shares parameters, not temporal state. No valid/test updates.
+8. **Decision-changing result.** Retain the declared descriptive allocation
+   heuristic: mean paired WP gain≥0.0005, both seed deltas positive, and review
+   per-target regressions worse than0.001. This is not an automatic promotion or
+   significance rule. Ranking concordance or intermediate-head loss improvement
+   alone cannot establish official-metric benefit.
+9. **Implementation and launch.** All additions live in this packet. Cards01–03
+   retain their existing canonical runner. Cards04–06 use an explicit local
+   `TrainingEngine` for the additional loss/depth behavior, reusing canonical
+   batching, primary WMSE, DDP, optimizer updates, monitor, checkpoint and resume
+   components. No global monkeypatch or existing-source rewrite is used.
+   [B300 commands](B300_COMMANDS.md) cover preprocessing, source-bound checks,
+   per-cell50-update profile, operator resource review, fit, strict endpoint export,
+   canonical score and paired comparison. Every stage has an owner and timeout;
+   no automatic multi-cell launch or retry is provided.
+10. **Evidence and MIDAS.** Preserve source/config/data/runtime identities,
+    acceptance/profile/reload receipts, primary and auxiliary losses, pair counts,
+    per-target concordance, LR/preclip gradients, fixed endpoint, epoch snapshots,
+    manifests and full score coverage. Optional depth/head diagnostics require
+    separate receiver analysis. [MIDAS handoff](midas/README.md) records the
+    preparation route and imports only real producer-bound evidence; weights are
+    not copied, checkpoint hashes remain external claims to MIDAS. No MIDAS
+    research-agent run, GPU execution or evidence import is claimed.
+11. **Results and verification.** No measurements exist for these new cards.
+    Static lint/AST, metadata/hash and shell-syntax checks are recorded separately
+    in [the cards04–06 static review](STATIC_IMPLEMENTATION_REVIEW_04_06.json).
+    Receiver probes, real full-size profiles, validation scores and paired deltas
+    remain pending. Local tests, model imports, training, inference and profiling
+    were not run. The prior source-bound receipt remains historical rather than
+    being rewritten for new code.
 
-No local model imports, construction, tests, inference, training, profiles or
-existing-job changes were performed. The receiver must provide actual acceptance
-and fit receipts before any scientific result is claimed.
-
-Static validation: Ruff lint/format, AST structure, frozen config/hash checks,
-shell-command syntax and independent integration review. See
-[the static receipt](STATIC_IMPLEMENTATION_REVIEW.json); no numerical or GPU
-acceptance is claimed.
+[Recipe](recipe.json) · [portfolio and prior PR review](README.md) ·
+[experiments ledger](../../experiments.jsonl) · [hypothesis ledger](../../hypotheses.jsonl).

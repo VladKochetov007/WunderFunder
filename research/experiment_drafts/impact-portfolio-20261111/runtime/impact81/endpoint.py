@@ -78,6 +78,7 @@ def load_endpoint(
 
     from .bindings import canonical, source_identity
     from .modeling import build_model
+    from .variants import variant_for
 
     if checkpoint.is_symlink() or not checkpoint.is_file():
         raise ValueError("checkpoint must be a regular non-symlink file")
@@ -101,15 +102,12 @@ def load_endpoint(
     if cell.get("schema") != "impact81.cell.v1":
         raise ValueError("unsupported Impact81 cell descriptor")
     card, arm, variant, seed = (cell.get(key) for key in ("card", "arm", "variant", "seed"))
-    expected_variants = {"01": "ple", "02": "groups", "03": "target_adapters"}
     if (
-        card not in expected_variants
-        or arm not in ("control", "treatment")
-        or variant != ("plain" if arm == "control" else expected_variants.get(card))
+        variant != variant_for(card, arm)
         or seed not in (204101, 204102)
         or cell.get("id") != f"ip{card}_{arm}_s{seed}"
     ):
-        raise ValueError("checkpoint cell is outside the first-three-card paired panel")
+        raise ValueError("checkpoint cell is outside the six-card paired panel")
     provenance = _mapping(payload.get("provenance"), "checkpoint.provenance")
     identity = _mapping(provenance.get("identity"), "provenance.identity")
     current_source = source_identity(runtime_root)
@@ -147,4 +145,9 @@ def load_endpoint(
             raise ValueError(f"invalid checkpoint model tensor: {name}")
     model = build_model(config, device)
     model.load_state_dict(state, strict=True)
-    return model.eval(), payload
+    model.eval()
+    if variant == "deep_supervision":
+        from .depth_models import drop_auxiliary_heads
+
+        drop_auxiliary_heads(model)
+    return model, payload

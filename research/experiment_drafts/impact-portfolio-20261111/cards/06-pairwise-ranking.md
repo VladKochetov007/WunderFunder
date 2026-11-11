@@ -1,6 +1,6 @@
 # 06. Within-sequence ranking auxiliary for the Transformer
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-06` / `E-IMPACT-20261111-06`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 5.
+**Status: implemented; receiver acceptance pending; zero fits executed.** IDs: `H-IMPACT-20261111-06` / `E-IMPACT-20261111-06`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 5.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ WMSE may fit magnitude without sufficient ordering discrimination among clearly 
 
 **Treatment:** Within each fitting sequence/chunk, form only pairs (t,t-32) with both rows after warmup and absolute clipped-label difference>=0.5. For each target use sign(yc_t-yc_u) and softplus(-sign*(z_t-z_u)/1.0); weight by sqrt(abs(yc_t)*abs(yc_u)), normalize by eligible pair weight per target, then average targets. L=L_primary+0.05*L_pair; zero term when no eligible pairs. Do not use is_scored (train lacks it), cross-sequence pairs, pair labels as inputs or validation-driven pair mining.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The user requested implementation in this same PR. [Implementation amendment](../IMPLEMENTATION_04_06.md) and [B300 commands](../B300_COMMANDS.md) bind the frozen design to an isolated runner. Existing pipeline files and the native optimization recipe remain unchanged.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,11 +34,12 @@ Training-only loss; identical callback architecture.
 
 ## Implementation and evidence
 
-Missing: Bounded causal prediction-pair sampler and explicit normalized ranking loss with empty-pair handling.
+`auxiliary_objectives.py` implements within-chunk lag32 pairs, per-target global denominators and safe empty cases. `auxiliary_loop.py` logs losses, pair counts/mass and concordance separately from official WP.
 
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Use [the prepared receiver sequence](../B300_COMMANDS.md). No checks, profiles, fits or inference have run locally or on B300 for this card.
 
-Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
+
+Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus the following optional receiver analysis (per-depth/head diagnostics are not automatically emitted):
 
 - eligible pair counts by target.
 - pair loss and concordance on fixed train panel.

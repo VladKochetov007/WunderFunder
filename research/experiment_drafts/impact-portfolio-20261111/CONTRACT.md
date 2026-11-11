@@ -1,8 +1,8 @@
 # Shared experiment contract
 
-Status: **cards01–03 implemented; receiver acceptance pending; cards04–10 remain
+Status: **cards01–06 implemented; receiver acceptance pending; cards07–10 remain
 proposals**. Owner of preparation: Ivan / Codex. Receiving operator and B300
-allocation: unassigned. The current plan contains 12 fresh fits (four per
+allocation: unassigned. The current plan contains 24 fresh fits (four per
 implemented card), with zero executed and no reused controls. No receiver check,
 profile, test, inference, model construction, submission or running-job mutation
 has been recorded. Publication does not automatically launch jobs. The exact
@@ -15,7 +15,7 @@ exposed; it is not an untouched test of competition transfer. No predicted LB ga
 
 - Integration base: `research-team` at
   `7e4074314a62d0907c9608f9220cf72958708a2d`.
-- The three implemented cards use the exact canonical plain Transformer runtime
+- The six implemented cards use the exact canonical plain Transformer runtime
   from PR75, commit `8626000a4b965763a70011a0291a891aa6535d7e`, loaded on the
   receiver through a separate clean, detached read-only worktree. PR81's runtime
   admission rejects a wrong or dirty checkout and computes source identity from
@@ -113,9 +113,9 @@ extra operations and parameters honestly: equal epochs do not imply equal FLOPs.
 
 Each implemented card uses seeds **204101 and 204102**, the same official file
 split, two fresh controls and two fresh treatments: **4 new fits per card**.
-Cards01–03 therefore have **12 planned fresh fits**, zero executed and zero reused
-old controls. There are no teacher fits or teacher caches. Cards04–10 are still
-proposals; their seven four-fit panels account for the remaining 28 fits in the
+Cards01–06 therefore have **24 planned fresh fits**, zero executed and zero reused
+old controls. There are no teacher fits or teacher caches. Cards07–10 are still
+proposals; their four four-fit panels account for the remaining 16 fits in the
 40-fit inventory only if they are later selected. This is not a dispatched queue
 or an automatic compute allocation.
 
@@ -194,3 +194,7 @@ the full test set, <=20 MB uploaded ZIP, no network/GPU. Profile on an available
 server before full validation; compare against canonical TL3 and check existing
 submission hashes. PR76 already supplies a different TL3+LSTM ZIP: this portfolio
 does not rebuild, replace or upload it. No CPU acceptance has been measured here.
+
+## Cards04–06 implementation amendment
+
+[IMPLEMENTATION_04_06.md](IMPLEMENTATION_04_06.md) records the explicit experiment-local engine for auxiliary losses, card05's value-copied control and12 unique shared parameter sets with24 cache histories, and MIDAS evidence support. The existing canonical source and native recipe are unchanged. Fresh receiver receipts are required at the new source revision; earlier running work must retain its original checkout.

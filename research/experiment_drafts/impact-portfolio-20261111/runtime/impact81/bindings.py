@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from impact81.variants import variant_for
+
 # JSON recipes are heterogeneous, with strict outer fields validated below.
 RUNTIME_COMMIT = "8626000a4b965763a70011a0291a891aa6535d7e"
 SPLIT_SHA256 = "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
@@ -88,10 +90,7 @@ def load_cell(path: Path) -> tuple[dict[str, Any], Path]:
     fields = {"schema", "id", "card", "arm", "variant", "seed", "native_config", "native_sha256"}
     if set(cell) != fields or cell["schema"] != "impact81.cell.v1":
         raise ValueError("unsupported experiment cell descriptor")
-    variants = {"01": "ple", "02": "groups", "03": "target_adapters"}
-    if cell["card"] not in variants or cell["arm"] not in ("control", "treatment"):
-        raise ValueError("only the first three paired screens are implemented")
-    expected = "plain" if cell["arm"] == "control" else variants[cell["card"]]
+    expected = variant_for(cell["card"], cell["arm"])
     if cell["variant"] != expected or cell["seed"] not in (204101, 204102):
         raise ValueError("cell variant or paired seed differs from the declared panel")
     if cell["id"] != f"ip{cell['card']}_{cell['arm']}_s{cell['seed']}":

@@ -13,6 +13,7 @@ from wnn.training.sequence_monitor_progress import close_monitor_progress
 from impact81.bindings import digest, load_cell, read_object, source_identity, write_new
 from impact81.modeling import build_model
 from impact81.preprocessing import load_preprocessing
+from impact81.variants import EXTENSION_CARDS
 from wnn.training.sequence_config import (
     load_config,
     validate_expected_fold,
@@ -48,7 +49,7 @@ from wnn.training.sequence_provenance import (
 
 
 def run(args: argparse.Namespace, runtime_root: Path) -> None:
-    """Own experiment setup only; delegate every update/epoch/checkpoint to PR75 unchanged."""
+    """Compose an isolated experiment runner using pinned canonical training components."""
     cell, native_path = load_cell(args.cell)
     config: dict[str, Any] = load_config(native_path)
     validate_fit_reference_inputs(config, None, None, None)
@@ -71,6 +72,17 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
         raise ValueError(
             "server acceptance must bind these exact sources, preprocessing and precision"
         )
+    if cell["card"] in EXTENSION_CARDS:
+        from impact81.auxiliary_loop import get_engine
+        from impact81.lifecycle import run_full_fit as fit_runner
+        from impact81.profile import run_profile as profile_runner
+
+        if checks.get("extension_cards") != list(EXTENSION_CARDS):
+            raise ValueError("cards04–06 require the new depth/objective receiver receipt")
+        engine_options = {"engine": get_engine()}
+    else:
+        fit_runner, profile_runner = run_full_fit, run_profile
+        engine_options = {}
     context = initialize_distributed()
     monitor = None
     rank_log = None
@@ -140,6 +152,10 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
                 if parameter.requires_grad
             ),
         }
+        if cell["card"] in EXTENSION_CARDS:
+            from impact81.depth_metadata import parameter_layout
+
+            identity["impact81_depth_layout"] = parameter_layout(base_model)
         identity["optimizer"] = optimizer_contract(optimizer, config, updates)
         identity["impact81_checks_sha256"] = digest(args.checks_receipt)
         assert_same_identity(identity, context)
@@ -172,7 +188,7 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
             context,
         )
         if args.profile_updates:
-            run_profile(
+            profile_runner(
                 dataset,
                 model,
                 optimizer,
@@ -186,11 +202,12 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
                 args.profile_updates,
                 updates,
                 progress=monitor.progress,
+                **engine_options,
             )
         else:
             if receipt is None or profile_hash is None:
                 raise ValueError("missing fit profile identity")
-            run_full_fit(
+            fit_runner(
                 dataset,
                 model,
                 base_model,
@@ -208,6 +225,7 @@ def run(args: argparse.Namespace, runtime_root: Path) -> None:
                 receipt,
                 profile_hash,
                 monitor=monitor,
+                **engine_options,
             )
     finally:
         if rank_log is not None:

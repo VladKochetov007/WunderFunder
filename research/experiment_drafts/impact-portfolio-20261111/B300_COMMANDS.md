@@ -1,4 +1,4 @@
-# B300 commands for cards01–03
+# B300 commands for cards01–06
 
 Run only on the team's provisioned Linux host, using the same Python/CUDA/Torch
 environment as PR75. These commands are prepared, **not executed**. Paths, owner,
@@ -60,16 +60,19 @@ and normalizer identity; it reads no validation labels for preprocessing.
 ## One selected cell: profile, explicit review, fit
 
 Choose **one** ID from the table; the same sequence applies to every selected cell.
-No loop or automatic twelve-fit admission is supplied.
+No loop or automatic 24-fit admission is supplied.
 
 | Card | Controls | Treatments |
 |---|---|---|
 |01 PLE | `ip01_control_s204101`, `ip01_control_s204102` | `ip01_treatment_s204101`, `ip01_treatment_s204102` |
 |02 Groups | `ip02_control_s204101`, `ip02_control_s204102` | `ip02_treatment_s204101`, `ip02_treatment_s204102` |
 |03 Adapters | `ip03_control_s204101`, `ip03_control_s204102` | `ip03_treatment_s204101`, `ip03_treatment_s204102` |
+|04 Deep supervision | `ip04_control_s204101`, `ip04_control_s204102` | `ip04_treatment_s204101`, `ip04_treatment_s204102` |
+|05 Copied / tied depth | `ip05_control_s204101`, `ip05_control_s204102` | `ip05_treatment_s204101`, `ip05_treatment_s204102` |
+|06 Pairwise ranking | `ip06_control_s204101`, `ip06_control_s204102` | `ip06_treatment_s204101`, `ip06_treatment_s204102` |
 
 ```bash
-WF_ID=ip01_treatment_s204101
+WF_ID=ip04_treatment_s204101
 WF_CELL="$WF_PACKET/configs/$WF_ID.json"
 COMMON=(--runtime-root "$WF_RUNTIME" --cell "$WF_CELL" --data-root "$WF_DATA" \
   --split-manifest "$WF_SPLIT" --owner "$WF_OWNER")
@@ -103,7 +106,7 @@ Use the **same physical GPU pair, runtime and source** as that cell's profile;
 the canonical receipt binds them. Controls/treatments must be paired on the same
 hardware/runtime. The8-hour bound is a declared attempt limit, not an ETA. Reserve
 time and disk for collection. All four epoch snapshots and canonical resume state
-remain enabled. Twelve independent fits are not a request to use24 GPUs at once.
+remain enabled. Twenty-four independent fits are not a request to use48 GPUs at once.
 
 For a diagnosed interruption, rerun that cell's fit command with its original
 output and `--resume "$WF_RUNS/$WF_ID/fit/training_state.pt"`; a new launch receipt
@@ -129,14 +132,14 @@ migration; never silently bypass the source check. Compare a completed card:
 
 ```bash
 PYTHONPATH="$WF_PACKET/runtime" "$WF_PYTHON" -m impact81.comparison \
-  --card 01 --allow-one-card --output "$WF_RUNS/card01-comparison.json" \
-  --scores "$WF_RUNS/ip01_control_s204101/score.json" \
-  "$WF_RUNS/ip01_treatment_s204101/score.json" \
-  "$WF_RUNS/ip01_control_s204102/score.json" \
-  "$WF_RUNS/ip01_treatment_s204102/score.json"
+  --card 04 --allow-one-card --output "$WF_RUNS/card04-comparison.json" \
+  --scores "$WF_RUNS/ip04_control_s204101/score.json" \
+  "$WF_RUNS/ip04_treatment_s204101/score.json" \
+  "$WF_RUNS/ip04_control_s204102/score.json" \
+  "$WF_RUNS/ip04_treatment_s204102/score.json"
 ```
 
-For the complete panel omit `--card/--allow-one-card` and supply exactly12 score
+For the complete panel omit `--card/--allow-one-card` and supply exactly24 score
 paths. Report every seed/target delta, failures and exposure; no significance or
 leaderboard forecast follows from these two-seed screens.
 
@@ -145,3 +148,7 @@ Import real receipts through [the MIDAS commands](midas/README.md). Keep
 `fit/split.json`, progress/monitor logs, terminal receipt, epoch index, fixed
 weights, prediction manifest and score together. The MIDAS evidence archive may
 omit weight bytes; in that case hashes are producer claims, not byte verification.
+
+Cards04–06 add twelve fits with exactly the same stage commands. Select card05 control by its explicit ID: it uses value-copied depth initialization, not the plain control of another card. For a single completed new card, use `--card 04`, `05` or `06` and supply that card's four score paths. The default full comparison now expects24 endpoints.
+
+Use a fresh results directory and acceptance receipt at this source revision. Keep any earlier running first-three-card job on its original commit. The new receiver check includes loss-denominator and depth/cache proofs before the per-cell50-update profile; no acceptance has been run here.

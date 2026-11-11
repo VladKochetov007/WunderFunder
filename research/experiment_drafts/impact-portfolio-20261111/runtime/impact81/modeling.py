@@ -5,6 +5,7 @@ from typing import Any
 import torch
 from torch import nn
 
+from impact81.depth_models import build_depth_model
 from impact81.representations import GroupInputProjection, PLEInputProjection
 from impact81.target_head import TargetPrivateHead
 from wnn.training.sequence_models import build_sequence_model
@@ -18,11 +19,24 @@ def build_model(config: dict[str, Any], device: torch.device) -> nn.Module:
     if extension.get("schema") != "impact81.model.v1":
         raise ValueError("unsupported PR81 model reconstruction schema")
     variant = extension["cell"]["variant"]
-    if variant not in ("plain", "ple", "groups", "target_adapters"):
+    if variant not in (
+        "plain",
+        "ple",
+        "groups",
+        "target_adapters",
+        "deep_supervision",
+        "copied_depth",
+        "tied_depth",
+        "pairwise_ranking",
+    ):
         raise ValueError("unsupported PR81 experiment variant")
     if config["model"]["architecture"] != "transformer":
-        raise ValueError("PR81 cards01–03 require the Transformer factory")
-    model = build_sequence_model(config["model"])
+        raise ValueError("PR81 cards01–06 require the Transformer factory")
+    model = (
+        build_depth_model(config["model"], variant, int(extension["cell"]["seed"]))
+        if variant in ("deep_supervision", "copied_depth", "tied_depth")
+        else build_sequence_model(config["model"])
+    )
     artifact = extension["preprocessing"]
     mean = torch.tensor(artifact["mean"], dtype=torch.float32)
     std = torch.tensor(artifact["std"], dtype=torch.float32)

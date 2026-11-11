@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "implementation_and_proposal_inventory",
-  "status": "FIRST_THREE_IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
+  "status": "FIRST_SIX_IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
   "created_utc": "2026-11-11",
   "objective": "competition",
   "integration_base": "research-team",
@@ -13,7 +13,7 @@
   "local_model_execution": false,
   "optimization_scope": "receiving_team_only",
   "inventory_new_fits": 40,
-  "selected_new_fits": 12,
+  "selected_new_fits": 24,
   "new_teacher_fits": 0,
   "profile_count": 0,
   "measured_results": [],
@@ -239,7 +239,7 @@
       ],
       "hypothesis_id": "H-IMPACT-20261111-04",
       "experiment_id": "E-IMPACT-20261111-04",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -250,8 +250,18 @@
         204102
       ],
       "measured_gain": null,
-      "run_command": null,
-      "card": "cards/04-deep-supervision.md"
+      "run_command": "runtime/launch.py (stages and required arguments in B300_COMMANDS.md)",
+      "card": "cards/04-deep-supervision.md",
+      "implementation_doc": "IMPLEMENTATION_04_06.md",
+      "commands_doc": "B300_COMMANDS.md",
+      "cell_configs": [
+        "configs/ip04_control_s204101.json",
+        "configs/ip04_control_s204102.json",
+        "configs/ip04_treatment_s204101.json",
+        "configs/ip04_treatment_s204102.json"
+      ],
+      "executed_new_fits": 0,
+      "receiver_acceptance": "pending"
     },
     {
       "n": 5,
@@ -285,7 +295,7 @@
       ],
       "hypothesis_id": "H-IMPACT-20261111-05",
       "experiment_id": "E-IMPACT-20261111-05",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -296,8 +306,18 @@
         204102
       ],
       "measured_gain": null,
-      "run_command": null,
-      "card": "cards/05-tied-depth.md"
+      "run_command": "runtime/launch.py (stages and required arguments in B300_COMMANDS.md)",
+      "card": "cards/05-tied-depth.md",
+      "implementation_doc": "IMPLEMENTATION_04_06.md",
+      "commands_doc": "B300_COMMANDS.md",
+      "cell_configs": [
+        "configs/ip05_control_s204101.json",
+        "configs/ip05_control_s204102.json",
+        "configs/ip05_treatment_s204101.json",
+        "configs/ip05_treatment_s204102.json"
+      ],
+      "executed_new_fits": 0,
+      "receiver_acceptance": "pending"
     },
     {
       "n": 6,
@@ -331,7 +351,7 @@
       ],
       "hypothesis_id": "H-IMPACT-20261111-06",
       "experiment_id": "E-IMPACT-20261111-06",
-      "status": "PROPOSED_NOT_IMPLEMENTED",
+      "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
       "fresh_control_fits": 2,
       "fresh_treatment_fits": 2,
       "total_new_fits": 4,
@@ -342,8 +362,18 @@
         204102
       ],
       "measured_gain": null,
-      "run_command": null,
-      "card": "cards/06-pairwise-ranking.md"
+      "run_command": "runtime/launch.py (stages and required arguments in B300_COMMANDS.md)",
+      "card": "cards/06-pairwise-ranking.md",
+      "implementation_doc": "IMPLEMENTATION_04_06.md",
+      "commands_doc": "B300_COMMANDS.md",
+      "cell_configs": [
+        "configs/ip06_control_s204101.json",
+        "configs/ip06_control_s204102.json",
+        "configs/ip06_treatment_s204101.json",
+        "configs/ip06_treatment_s204102.json"
+      ],
+      "executed_new_fits": 0,
+      "receiver_acceptance": "pending"
     },
     {
       "n": 7,
@@ -541,8 +571,8 @@
   ],
   "executed_new_fits": 0,
   "implementation_status": {
-    "cards_01_03": "implemented_receiver_acceptance_pending",
-    "cards_04_10": "proposal_only",
+    "cards_01_06": "implemented_receiver_acceptance_pending",
+    "cards_07_10": "proposal_only",
     "receiver_checks_executed": 0,
     "profile_count": 0,
     "local_model_execution": false
@@ -551,7 +581,10 @@
     "cards": [
       "01",
       "02",
-      "03"
+      "03",
+      "04",
+      "05",
+      "06"
     ],
     "fresh_control_fits_per_card": 2,
     "fresh_treatment_fits_per_card": 2,
@@ -559,15 +592,12 @@
       204101,
       204102
     ],
-    "planned_new_fits": 12,
+    "planned_new_fits": 24,
     "executed_new_fits": 0,
     "reused_controls": 0,
     "teacher_or_pretraining_fits": 0,
     "automatic_launch": false,
     "proposal_only_cards": [
-      "04",
-      "05",
-      "06",
       "07",
       "08",
       "09",
@@ -598,5 +628,15 @@
   "implementation_doc": "IMPLEMENTATION.md",
   "midas_handoff_doc": "midas/README.md",
   "midas_route_preview": "midas/route-preview.json",
-  "midas_evidence_exporter": "midas_evidence.py"
+  "midas_evidence_exporter": "midas_evidence.py",
+  "extension_04_06": {
+    "amendment": "IMPLEMENTATION_04_06.md",
+    "previous_implementation_commit": "3becf595acaaac959198b872ffd129225e882870",
+    "new_fits_planned": 12,
+    "new_fits_executed": 0,
+    "native_recipe_changes": [],
+    "loop": "explicit isolated TrainingEngine for new objectives",
+    "source_receipts_require_refresh": true,
+    "midas_preview": "midas/route-preview-04-06.json"
+  }
 }

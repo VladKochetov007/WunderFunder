@@ -1,5 +1,9 @@
 # First three experiments: isolated B300 implementation
 
+Historical first-three-card implementation record at `3becf595a`.
+[The cards04–06 amendment](IMPLEMENTATION_04_06.md) extends the current packet;
+statements below about unimplemented later cards describe that earlier scope.
+
 The user's 11 November instruction implements cards01–03 in this same PR, with
 no changes to the existing pipeline and no optimization work. Cards04–10 remain
 proposals. This supersedes the earlier suggestion to open separate implementation

@@ -16,6 +16,7 @@ from midas_evidence_binding import (
     run_identity,
     training_rows,
     validate_epoch_index,
+    validate_source_map,
 )
 from midas_evidence_io import _canonical, _hash_file, _read, _read_bytes
 
@@ -77,8 +78,12 @@ def prepare_fit(fit: Path, score: Path | None) -> PreparedFit:
     ):
         raise ValueError("owner receipt does not identify this frozen PR81 fit")
     commit, pinned_split, bindings_sha = pins(Path(__file__).resolve().parent)
-    if expected["source_files"].get("impact81/runtime/impact81/bindings.py") != bindings_sha:
-        raise ValueError("current PR81 source pin differs from the fitted source identity")
+    validate_source_map(
+        Path(__file__).resolve().parent,
+        expected["source_files"],
+        commit,
+        bindings_sha,
+    )
     split, split_raw = _read(fit / "split.json")
     split_digest = hashlib.sha256(split_raw).hexdigest()
     if split_digest != split_sha or split_digest != pinned_split or split.get("fold") != fold:

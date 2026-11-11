@@ -21,6 +21,8 @@ python3 research/experiment_drafts/impact-portfolio-20261111/midas_evidence.py \
 
 The fit must contain the byte-preserved `split.json` snapshot, its `owner.json`, run metadata, training metrics, and the producer logs expected from PR75. The exporter binds the split bytes to both the fit metadata and PR81 pin. A completed fit must include the fixed model and terminal status, a complete epoch index for all-epoch retention, and monitor event/evaluation logs.
 
+Before bundling, the exporter requires the producer's complete `source.files` map to equal the checked manifest of all 206 Python files from clean PR75 commit `8626000a4b965763a70011a0291a891aa6535d7e`, plus hashes of every current packet `runtime/**/*.py` file. The manifest bytes and runtime commit are pinned in the validator; missing, extra, changed, symlinked, or unreadable source entries fail admission. This checks source-map completeness and consistency; it does not attest which machine executed the fit or convert producer receipts into receiver acceptance.
+
 The bundle contains bounded metadata, the raw training/monitor/rank logs that exist, the split snapshot, epoch index, score JSON when supplied, and per-epoch metric producer rows. It hashes `model.pt` but never copies it; the MIDAS checkpoint entry has `path: null` and is therefore an external hash claim. Dataset and model bytes are not included. The owner receipt is hashed into the local external run ID and bundle manifest, but its owner details are not copied. `campaign.stage` is `B` as an explicit PR81 initial-screen catalog mapping; this does not identify the work as historical R4-B.
 
 ## Importing evidence later
@@ -48,3 +50,19 @@ This command is documented for future use and was not run. MIDAS stores the immu
 - `../midas_evidence_binding.py`: frozen cell, split, source and metric checks.
 - `../midas_evidence_io.py`: bounded, symlink-rejecting JSON and file-copy helpers.
 - `route-preview.json`: exact metadata-only MIDAS route output described above.
+
+## Cards04–06 extension
+
+The same exporter now accepts cards04–06 and card05's `copied_depth` control.
+`route-preview-04-06.json` records the preparation-only request; MIDAS returned
+`READY_LOCAL_HANDOFF` with remote launching disabled. Its SHA-256 is `a8e546d93a28151f5fd706e1324f7d65c4ceb4a1ffa7badc24662a75afb6bf4f`.
+
+`route-preview-04-06-native-publication.json` preserves the first route decision:
+MIDAS separated the external publication action into a native workflow. It is
+not a failed experiment or model result. Publication uses the explicitly requested
+Git CLI workflow; no agent/GPU run or evidence import follows from either preview.
+
+Use the same future export/import commands for the new cells. Card04/06 training
+loss producers contain the combined optimized loss, with primary and auxiliary
+terms separately preserved in epoch history/rank logs. Official WP remains the
+fixed-endpoint external scorer result with full validation coverage.

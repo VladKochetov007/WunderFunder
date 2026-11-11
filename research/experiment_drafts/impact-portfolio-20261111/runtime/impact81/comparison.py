@@ -10,14 +10,16 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
+from impact81.variants import CARDS, TREATMENTS, variant_for
+
 SPLIT_SHA256 = "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
 METRIC_ID = "global_wp_clip2_v1"
 EXPECTED_ROWS = 3_528_273
 EXPECTED_SEQUENCES = 1_873
-CARDS = ("01", "02", "03")
+
 ARMS = ("control", "treatment")
 SEEDS = (204101, 204102)
-VARIANTS = {"01": "ple", "02": "groups", "03": "target_adapters"}
+VARIANTS = TREATMENTS
 
 
 def _mapping(value: object, name: str) -> dict[str, Any]:
@@ -80,7 +82,7 @@ def _read_score(path: Path) -> dict[str, Any]:
         != {"schema", "id", "card", "arm", "variant", "seed", "native_config", "native_sha256"}
         or card not in VARIANTS
         or arm not in ARMS
-        or variant != ("plain" if arm == "control" else VARIANTS.get(card))
+        or variant != variant_for(card, arm)
         or seed not in SEEDS
         or config.get("seed") != seed
         or cell.get("id") != f"ip{card}_{arm}_s{seed}"
@@ -127,7 +129,7 @@ def compare(
 ) -> dict[str, Any]:
     """Persist all paired treatment-minus-control deltas from canonical score receipts.
 
-    A full portfolio requires all twelve endpoints. A four-endpoint subset is
+    A full portfolio requires all twenty-four endpoints. A four-endpoint subset is
     accepted only when one card is explicitly selected and allow_one_card is true.
     No score is generated, imputed, selected, or ranked here.
     """
@@ -137,7 +139,7 @@ def compare(
         raise ValueError("score receipt paths must be unique")
     if allow_one_card:
         if card not in CARDS:
-            raise ValueError("--allow-one-card requires an explicit card in 01, 02, 03")
+            raise ValueError(f"--allow-one-card requires an explicit card in {CARDS}")
         selected_cards = (card,)
     else:
         if card is not None:

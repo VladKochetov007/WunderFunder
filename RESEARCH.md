@@ -1,6 +1,6 @@
 # Research evidence index
 
-[11 November: PR60–80 audit and ten next-impact screens](research/experiment_drafts/impact-portfolio-20261111/README.md). The first three Transformer screens have isolated B300 implementations and [launch commands](research/experiment_drafts/impact-portfolio-20261111/B300_COMMANDS.md); seven remain proposals. Twelve fits are prepared, zero executed. Result sources, negatives and stale producer telemetry remain explicit.
+[11 November: PR60–80 audit and ten next-impact screens](research/experiment_drafts/impact-portfolio-20261111/README.md). The first six Transformer screens have isolated B300 implementations and [launch commands](research/experiment_drafts/impact-portfolio-20261111/B300_COMMANDS.md); four remain proposals. Twenty-four fits are prepared, zero executed. Result sources, negatives and stale producer telemetry remain explicit.
 
 Use [current project state](specs/current-state.md) for the latest status and
 effective scope. The [unified research library](research/unified/README.md) is

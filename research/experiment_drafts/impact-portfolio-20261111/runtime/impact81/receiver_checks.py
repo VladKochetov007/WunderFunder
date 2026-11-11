@@ -157,13 +157,20 @@ def run_checks(preprocessing_path: Path, output: Path, runtime_root: Path) -> No
         )
         checks[variant]["config_sha256"] = canonical(configurations[variant])
 
+    from impact81.receiver_depth_checks import run_depth_checks
+    from impact81.receiver_loop_checks import run_loop_checks
+    from impact81.receiver_objective_checks import run_objective_checks
+
+    depth_checks = run_depth_checks(artifact, artifact_sha256, device)
+    objective_checks = run_objective_checks(device)
+    loop_checks = run_loop_checks(artifact, artifact_sha256, device)
     torch.cuda.synchronize(device)
     output.parent.mkdir(parents=True, exist_ok=True)
     receipt = {
         "schema": "impact81.receiver-checks.v1",
         "status": "passed",
         "completed_at_utc": datetime.now(UTC).isoformat(),
-        "scope": "small-model engineering receiver gate; no full profile, training, or quality score",
+        "scope": "small-model engineering updates; no full profile, scientific fit, or quality score",
         "runtime_commit": RUNTIME_COMMIT,
         "source_identity": identity,
         "preprocessing_sha256": artifact_sha256,
@@ -192,5 +199,9 @@ def run_checks(preprocessing_path: Path, output: Path, runtime_root: Path) -> No
             "strict_state_roundtrip": "bitwise equal",
         },
         "variants": checks,
+        "extension_cards": ["04", "05", "06"],
+        "depth_checks": depth_checks,
+        "objective_checks": objective_checks,
+        "control_engine_parity": loop_checks,
     }
     write_new(output, receipt)

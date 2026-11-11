@@ -1,6 +1,6 @@
 # 04. Direct label supervision at intermediate Transformer depths
 
-**Status: proposed, not implemented or run.** IDs: `H-IMPACT-20261111-04` / `E-IMPACT-20261111-04`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 4.
+**Status: implemented; receiver acceptance pending; zero fits executed.** IDs: `H-IMPACT-20261111-04` / `E-IMPACT-20261111-04`. Preparation owner: Ivan / Codex; receiving owner unassigned. Template **T** from [CONTRACT.md](../CONTRACT.md); priority 4.
 
 ## Mechanism and prior work
 
@@ -14,7 +14,7 @@ A final-only objective may provide a weak or conflicting learning signal to earl
 
 **Treatment:** Add independent two-output linear heads after blocks6,12,18. L=L_primary+0.1*mean(L_WMSE_6,L_WMSE_12,L_WMSE_18), each using the exact primary training mask/weight reduction. Final-head loss weight stays1. Discard intermediate heads at serving.
 
-The scientific design values above are proposed for implementation. Source/config/runtime/receiver identities still need binding in a separate mechanism-specific PR; this file is not a runnable config. Apart from the declared changes, inherit the source recipe, full data, precision, optimizer, schedule, update budget, stream semantics and fixed final endpoint from the shared contract.
+The user requested implementation in this same PR. [Implementation amendment](../IMPLEMENTATION_04_06.md) and [B300 commands](../B300_COMMANDS.md) bind the frozen design to an isolated runner. Existing pipeline files and the native optimization recipe remain unchanged.
 
 ## Prediction, alternatives and falsifier
 
@@ -34,11 +34,12 @@ No additional inference branch after export; final predictor parity still needs 
 
 ## Implementation and evidence
 
-Missing: Intermediate-output hook/return interface, auxiliary objective normalization and export exclusion.
+`depth_models.py` provides explicit intermediate heads; `auxiliary_objectives.py` and `auxiliary_backward.py` add exact global-window-normalized loss. Export strictly loads then removes training heads.
 
-No launch command exists yet. Receiver-only correctness/profile gates and exact ownership/timeout/artifact bindings are required after implementation. Do not run tests, models or inference on the Mac.
+Use [the prepared receiver sequence](../B300_COMMANDS.md). No checks, profiles, fits or inference have run locally or on B300 for this card.
 
-Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus:
+
+Return all shared losses/LR/preclip gradients/updates, full valid counts and WP, source/config/data/ancestry hashes, final checkpoints and prediction manifests, plus the following optional receiver analysis (per-depth/head diagnostics are not automatically emitted):
 
 - per-depth preclip gradient norms.
 - each auxiliary loss and head WP diagnostic.
