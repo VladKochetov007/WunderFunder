@@ -1,0 +1,13 @@
+{
+ "utc": "2026-10-29T14:10:00Z",
+ "user_instruction": "Finish with current ideas. pause research loop. write all to research notes/index when it lands",
+ "effect": "no new admissions after the teacher track's declared fits; research loop already deleted (cron 7e22e251); no Kaggle/Vast jobs running",
+ "landing": {
+  "wnn-tt29-rep": "fallback PR49 teacher reproduction: tt29rep_fin256_s3 (done, valid 0.68780, train export done) -> fin256_s4 fit+export -> fbc1k_s5 fit + train/valid exports",
+  "wnn-tt29-fin": "waits for wnn-tt29-rep, then the two declared seed-3 pilots D1 (alpha 0.9) and D2 (alpha 0.6) distilling tt29rep_fbc1k_s5 into the fixed child; runtime config checked from each log header (CONFIG_OK/CONFIG_MISMATCH)",
+  "thermal": "wnn-tt29-thermal-rep / wnn-tt29-thermal-fin freeze at >=92C"
+ },
+ "not_admitted": "confirmation seeds 4/5 (plan rule: only if D - max(P, C0) >= +0.001), regime-held-out folds, public calibration ZIPs, Semyon's PR49 release checkpoints",
+ "late_artifact_note": "Semyon posted the 16 PR49 checkpoints at 12:17Z (release tabdata-pr49-checkpoints-20261029-r1, 81 MB, SHA-verified). The local fallback had started at ~10:45Z and is kept: its teachers share our split-manifest provenance, which the PR49 export/distill validators bind by hash (release split_sha256 differs from our local file hash).",
+ "final_writeup": "on landing: teacher_track_r1/README results table + adopt/stop, ledger rows, unified indexes, AGENTS.md, specs/current-state.md"
+}

@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [[Experiment] Train-only teacher track: PR49 reproduction, Muon-child distillation, TL3C public results](train-only-distill-tl3c-public-20261111/README.md) — PR49 teachers reproduce within 0.0005; D1 distilled child 0.68997 (+0.0033 over parent, below its teacher); TL3C public 0.66355/0.66246 and F32 timeout; 3-5 continuation fits.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
