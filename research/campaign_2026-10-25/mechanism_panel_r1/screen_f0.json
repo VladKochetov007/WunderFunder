@@ -1,0 +1,74 @@
+{
+ "folds": [
+  0
+ ],
+ "arms": {
+  "adamw": {
+   "i1lead_f0_s1001_control_r1": 1.0
+  },
+  "muon_ns": {
+   "optim_f0_s1001_muon_r1": 1.0
+  },
+  "m1_muon_rmsmom": {
+   "mech_f0_s1001_m1_muon_rmsmom_r1": 1.0
+  },
+  "e1_adamw_lr5e4": {
+   "mech_f0_s1001_e1_adamw_lr5e4_r1": 1.0
+  },
+  "e1b_muon_rms01": {
+   "mech_f0_s1001_e1b_muon_rms01_r1": 1.0
+  },
+  "m2_beta2_095": {
+   "mech_f0_s1001_m2_beta2_095_r1": 1.0
+  },
+  "m4_chrono": {
+   "mech_f0_s1001_m4_chrono_r1": 1.0
+  },
+  "tf_adamw_strict_fp32": {
+   "mech_f0_s1001_tf_adamw_strict_fp32_r1": 1.0
+  }
+ },
+ "comparisons": [
+  [
+   "m1_muon_rmsmom",
+   "muon_ns"
+  ],
+  [
+   "m1_muon_rmsmom",
+   "adamw"
+  ],
+  [
+   "e1_adamw_lr5e4",
+   "adamw"
+  ],
+  [
+   "muon_ns",
+   "e1_adamw_lr5e4"
+  ],
+  [
+   "e1b_muon_rms01",
+   "muon_ns"
+  ],
+  [
+   "m2_beta2_095",
+   "adamw"
+  ],
+  [
+   "m4_chrono",
+   "adamw"
+  ],
+  [
+   "tf_adamw_strict_fp32",
+   "adamw"
+  ]
+ ],
+ "n_boot": 2000,
+ "class_mix": {
+  "public_fit_E298": [
+   0.0,
+   0.525,
+   0.05,
+   0.425
+  ]
+ }
+}

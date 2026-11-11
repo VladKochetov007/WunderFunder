@@ -1,0 +1,35 @@
+{
+ "folds": [
+  0
+ ],
+ "arms": {
+  "stage6_fp32_control": {
+   "c3mix6_f0_s3_control_e6_r1": 1.0
+  },
+  "parent_fp16": {
+   "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_cp5_full_valid_r1": 1.0
+  },
+  "warm_wmse_cp1": {
+   "overnight_nll_f0_s3_wmse_e2_r1": 1.0
+  }
+ },
+ "comparisons": [
+  [
+   "stage6_fp32_control",
+   "parent_fp16"
+  ],
+  [
+   "warm_wmse_cp1",
+   "stage6_fp32_control"
+  ]
+ ],
+ "n_boot": 2000,
+ "class_mix": {
+  "public_fit_E298": [
+   0.0,
+   0.525,
+   0.05,
+   0.425
+  ]
+ }
+}

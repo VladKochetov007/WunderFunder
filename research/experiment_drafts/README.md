@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [[Results] Strict-FP32 Muon for GRU recurrent matrices: evidence, mechanism, transfer limits](muon-gru-evidence-20261111/README.md) — Muon vs AdamW +0.0038/+0.0043 cold, Kaggle replication +0.0036/+0.0033, gate-saturation mechanism, warm transfer only +0.00026, TF32 cuDNN fidelity finding; evidence only, code on the source branch.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
