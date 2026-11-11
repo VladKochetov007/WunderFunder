@@ -97,6 +97,8 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
+- `sequence_gru`, `sequence_input_stem`: canonical GRU with optional causal
+  per-channel FIR filtering and bounded normalized-input carry across TBPTT chunks.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count
   DDP partitioning with zero-weight padding, global accumulation denominators,
   strict-FP32 TBPTT and update telemetry.
@@ -113,6 +115,14 @@ Prepared checks are in `tests/test_b300_sequence_models.py`,
 They must run on the receiving host; this delivery executed no local tests or models.
 
 ## Quality checks
+
+The separately identified [November 7 PR67 receiving adapter](../../../research/experiment_drafts/tl3-transformer-complement-execution-20261107/README.md)
+adds `sequence_complement_monitor`, reuses the canonical monitor evaluation/event/
+identity helpers, and binds report-only journal offsets through `sequence_fit_state`.
+It reports the fixed reference composition on full official valid each epoch while
+preserving fixed-final fitting. `sequence_source_capsule` checks sender-bound Git
+blob inventories when the receiving node has no Git executable. Frozen configs
+retain their default behavior. Static preparation does not establish native parity.
 
 Static checks and checker unit tests do not require the training dependencies:
 

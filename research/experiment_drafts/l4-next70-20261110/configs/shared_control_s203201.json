@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "epochs": 6,
+  "batch_size": 32,
+  "accumulate_chunks": 1,
+  "chunk_rows": 1000,
+  "seed": 203201,
+  "lr": 0.0003,
+  "weight_decay": 0.01,
+  "optimizer": "adamw",
+  "grad_clip": 1.0,
+  "warmup_fraction": 0.05,
+  "schedule": "warmup_cosine_v2",
+  "min_lr_ratio": 0.1,
+  "kd_weight": 0.0,
+  "hint_weight": 0.0,
+  "normalization_sequences": 10325,
+  "training_mask": "all_after_warmup",
+  "normalization_scope": "all_fit",
+  "required_world_size": 1,
+  "required_device": "L4",
+  "precision_mode": "fp32",
+  "checkpoint_retention": "all_epochs",
+  "checkpoint_endpoint_policy": "configured_final_epoch",
+  "objective_mode": "standalone_labels_wmse_v2",
+  "supervised_target": null,
+  "profile_reload": true,
+  "gradient_horizon_rows": 1000,
+  "optimizer_update_diagnostics_every": 20,
+  "monitoring": {
+    "train_eval_sequences": 32,
+    "eval_batch_size": 32,
+    "train_eval_selection": "hash_rank_v1"
+  },
+  "model": {
+    "architecture": "gru",
+    "hidden": 256,
+    "layers": 2
+  }
+}

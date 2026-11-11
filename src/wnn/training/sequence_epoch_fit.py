@@ -7,6 +7,7 @@ from typing import Any
 import torch
 import torch.distributed as dist
 
+from wnn.training.sequence_checkpoint_policy import CONFIGURED_FINAL_EPOCH
 from wnn.training.sequence_distributed import DistributedContext, coordinated_call
 from wnn.training.sequence_epoch_checkpoints import (
     preflight_epoch_storage,
@@ -56,7 +57,14 @@ def reconcile_epoch_snapshots(
     def preflight() -> bool:
         """Check remaining snapshot storage before advancing training."""
         if context.is_primary:
-            preflight_epoch_storage(output, base_model, remaining)
+            preflight_epoch_storage(
+                output,
+                base_model,
+                remaining,
+                reserve_atomic_checkpoint_state=(
+                    config.get("checkpoint_endpoint_policy") == CONFIGURED_FINAL_EPOCH
+                ),
+            )
         return True
 
     coordinated_call(preflight, "all-epoch checkpoint storage preflight", context)
