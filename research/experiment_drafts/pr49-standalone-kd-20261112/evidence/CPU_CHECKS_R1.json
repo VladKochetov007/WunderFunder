@@ -1,0 +1,86 @@
+{
+  "schema": "wnn.pr49-standalone-kd-cpu-checks.r1",
+  "source_commit": "33542502a1404a2843359b3999fa34f3a157bf3f",
+  "base_commit": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+  "worktree": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-pr49-standalone-kd-20261112",
+  "environment": {
+    "python": "C:/Users/admin/Documents/Codex/reviews/galam-test-env-20261027/Scripts/python.exe",
+    "python_version": "3.12",
+    "torch": "2.14.1+cpu",
+    "thread_limits": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "gpu_or_native_inference": false
+  },
+  "focused_new_tests": {
+    "command": "python -m pytest -q tests/test_sequence_standalone_kd.py",
+    "exit_code": 0,
+    "stdout_summary": "17 passed in 5.14s"
+  },
+  "bounded_regressions": {
+    "tested_source_commit": "1e4306b9bf7b32b54606a2f949aa47fab4803051",
+    "command": "python -m pytest -q tests/test_sequence_standalone_labels.py tests/test_sequence_complement_monitor.py tests/test_sequence_since_weighting.py tests/test_sequence_loop_sampling.py tests/test_sequence_blend_objective.py tests/test_sequence_reference_cache.py tests/test_sequence_standalone_kd.py",
+    "exit_code": 1,
+    "stdout_summary": "71 passed, 1 failed in 6.40s",
+    "sole_failure": {
+      "test": "tests/test_sequence_standalone_labels.py::test_legacy_config_identities_match_completed_producer_runs",
+      "actual": "c5f98c986292570b3b29494555946021522fc9ee54fe58f729af57c6f16cff54",
+      "expected": "d3ef8df541ec5ce9ac4f68b816e5ac61a59e7c1d0a181954f0fb6bdd4f8409ef"
+    }
+  },
+  "base_reproduction": {
+    "worktree": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-pr49-kd-baseline-20261112",
+    "head": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+    "command": "python -m pytest -q tests/test_sequence_standalone_labels.py::test_legacy_config_identities_match_completed_producer_runs",
+    "exit_code": 1,
+    "same_failure": true,
+    "actual": "c5f98c986292570b3b29494555946021522fc9ee54fe58f729af57c6f16cff54",
+    "expected": "d3ef8df541ec5ce9ac4f68b816e5ac61a59e7c1d0a181954f0fb6bdd4f8409ef"
+  },
+  "production_config_load_and_admission": {
+    "builder": "C:/Users/admin/Documents/Codex/artifacts/final-quality-wave-20261112-r1/pr49-standalone-kd-r1/build_panel_r1.py",
+    "status": "passed for all four config variants before final source commit; configurations were unchanged afterward",
+    "cells": [
+      {
+        "seed": 203501,
+        "kd_weight": 0.0,
+        "config_sha256": "4d66f4ec8be1239863e11f1632f0dc86b69673a24a46e5755d0e3f1a556a49ab"
+      },
+      {
+        "seed": 203501,
+        "kd_weight": 0.2,
+        "config_sha256": "a25b32b89543689ec21bda7f40d1d9f056fab7452477743ff46ed0d46afa88bb"
+      },
+      {
+        "seed": 203502,
+        "kd_weight": 0.0,
+        "config_sha256": "a98f45e6a73fe5a8a93ac09fe6d55a9432b762046fe3a666a3272e3deeb94f07"
+      },
+      {
+        "seed": 203502,
+        "kd_weight": 0.2,
+        "config_sha256": "e48352cce888ca67a98b0feb85eb5342a5d951404949842ba344ed1d559c2849"
+      }
+    ]
+  },
+  "training_structure_check": {
+    "command": "python scripts/check_training_structure.py",
+    "current_commit_exit_code": 1,
+    "current_commit_errors": [
+      "src/wnn/training/sequence_config.py: module exceeds 300 lines",
+      "src/wnn/training/sequence_config.py:72 function load_config exceeds 200 lines"
+    ],
+    "base_commit_exit_code": 1,
+    "base_commit_additional_error": "src/wnn/training/sequence_loop.py: module exceeds 300 lines",
+    "interpretation": "The new source reduces the existing sequence_loop size warning; the two remaining warnings are in unchanged sequence_config.py."
+  },
+  "ruff": {
+    "check_exit_code": 0,
+    "check_result": "All checks passed at source commit 33542502a1404a2843359b3999fa34f3a157bf3f",
+    "format_check_exit_code": 0,
+    "format_result": "9 files already formatted at final source commit f25e48f4dc93bcf26cec8b59b237cedfcf131ebd"
+  },
+  "limits": "CPU-only source and unit validation; no cache was consumed, no model inference/training/profile was run, no GPU/native execution occurred. The panel manifest R1 source-overlay fingerprint is historical; current committed source identity is source_commit above."
+}

@@ -723,3 +723,5 @@ Eight strict native NCCL gradient cases and four50-update actual BF16/BF16x9 pro
 with both-rank state/RNG reload pass. The external receiver retains the earliest4h
 clock, ROOT profile copies, safe old-partial retirement, fixed4E3280 endpoint,
 canonical scoring, and actual per-epoch plots. No quality endpoint is claimed yet.
+
+- [Source-qualified standalone KD execution](../../experiment_drafts/pr49-standalone-kd-20261112/README.md) records H/E-PR49-STANDALONE-KD-20261112, new canonical objective, actual cache/profile admission and four fixed-E6 L4 fits. Source33542502 is separate from the unchanged since source390; exposed full-valid evaluation, no scientific KD gain yet.
