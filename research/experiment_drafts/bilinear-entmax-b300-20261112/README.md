@@ -1,5 +1,7 @@
 # Bilinear inputs and entmax on B300
 
+[Draft PR #91](https://github.com/VladKochetov007/WunderFunder/pull/91) targets `research-team`.
+
 Two implemented, independent architecture screens; **8 prepared fits, 0 executed**.
 Publication and static checks do not establish numerical correctness, B300 fit,
 quality improvement or submission readiness. Existing pipeline and running jobs
