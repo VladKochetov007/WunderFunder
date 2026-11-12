@@ -131,7 +131,12 @@ def evaluate_dataset(
         metrics.update(mixture_metrics.metrics(prefix, "mixture"))
     if since_accumulators is not None:
         for label, accumulator_for_age in since_accumulators.items():
+            if not accumulator_for_age.selected_rows:
+                metrics[f"{prefix}/wp/since_{label}/available"] = 0
+                metrics[f"{prefix}/wp/since_{label}/selected_rows"] = 0
+                continue
             result = accumulator_for_age.result()
+            metrics[f"{prefix}/wp/since_{label}/available"] = 1
             metrics[f"{prefix}/wp/since_{label}"] = float(result["wp"])
             metrics[f"{prefix}/wp/since_{label}/t0"] = float(result["t0"])
             metrics[f"{prefix}/wp/since_{label}/t1"] = float(result["t1"])

@@ -404,6 +404,45 @@ def test_since_diagnostics_report_full_valid_age_strata_without_changing_primary
     assert "valid/wp/since_gte32/t1" in diagnostics
 
 
+def test_since_diagnostics_emit_finite_unavailable_metrics_for_empty_age_bucket() -> None:
+    class Dataset:
+        def __init__(self) -> None:
+            inputs = torch.zeros(40, 112)
+            inputs[:, I0.bid_px.start] = torch.arange(40, dtype=torch.float32)
+            inputs[:, I0.ask_px.start] = torch.arange(40, dtype=torch.float32) + 1.0
+            target = torch.stack(
+                (torch.arange(40, dtype=torch.float32), torch.arange(40).float().sin()), dim=-1
+            )
+            self.item = {
+                "x": inputs,
+                "y": target,
+                "mask": torch.ones(40, dtype=torch.bool),
+                "teacher": torch.zeros_like(target),
+                "hints": torch.zeros(40, 0),
+            }
+
+        def __len__(self) -> int:
+            return 1
+
+        def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
+            assert index == 0
+            return self.item
+
+    context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
+    metrics = evaluate_dataset(
+        _CountingModel(), Dataset(), "valid", 8, "fp32", context, 1, since_diagnostics=True
+    )
+
+    assert metrics["valid/wp/since_lt32/available"] == 1
+    assert metrics["valid/wp/since_gte32/available"] == 0
+    assert metrics["valid/wp/since_gte32/selected_rows"] == 0
+    assert "valid/wp/since_gte32" not in metrics
+    assert "valid/wp/since_gte32/t0" not in metrics
+    assert "valid/wp/since_gte32/t1" not in metrics
+    assert metrics["valid/wp"] == pytest.approx(metrics["valid/wp/since_lt32"])
+    assert all(np.isfinite(value) for value in metrics.values())
+
+
 def test_streaming_diagnostics_ignore_unselected_nans_and_reject_selected_nans() -> None:
     """Sparse masks ignore unselected nonfinites while selected values fail closed."""
     dataset = _DiagnosticDataset()
