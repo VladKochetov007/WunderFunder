@@ -1,3 +1,20 @@
+## 10 November: CPU submission and authorized server validation
+
+The user requests a new CPU-ZIP from available weights, duplicate checking and
+server validation commands. Tensor-only restricted checkpoint conversion, ZIP
+packaging and static source/byte checks are authorized locally. Do not run local
+tests, inference, training, model construction or native libraries. Preserve GPU
+jobs. Competition upload is outside this validation request.
+The later instruction to continue experiments authorizes ongoing follow-up;
+actual remote execution still needs a concrete server/data path and available
+resources. The latest user explicitly authorizes CPU profiling followed by full
+validation and comparison with TL3 on that server, plus reducing checker runtime
+and output storage. Preserve every callback and the official scoring coverage.
+No unspecified files may be deleted. The local model-execution ban remains.
+The portable handoff is
+under research/submission_candidates/tl3-lstm-complement-20261110/. Prepared ZIP
+bytes do not establish receiving CPU acceptance or a new score.
+
 # Project agent instructions
 
 ## B300 precision amendment — user correction, 2026-10-24

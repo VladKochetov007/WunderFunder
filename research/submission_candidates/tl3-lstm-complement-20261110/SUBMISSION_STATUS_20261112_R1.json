@@ -1,0 +1,112 @@
+{
+  "schema": "wnn.submission-status-review.v1",
+  "observed_date_utc": "2026-11-12",
+  "scope": "Live signed-in portal and HF inspection, current GitHub PR metadata/results, local archive metadata and hashes only",
+  "portal": {
+    "submissions_url": "https://wundernn.io/connectome/submit",
+    "leaderboard_url": "https://wundernn.io/connectome/leaderboard",
+    "team": "kotiki",
+    "rank": 53,
+    "rank_denominator_displayed": 5811,
+    "best_public_wp": 0.66832,
+    "best_submission_id": "1LMEHFI3",
+    "best_submission_file": "tl3.zip",
+    "leader_team": "Gargantua",
+    "leader_public_wp": 0.67668,
+    "total_submissions": 108,
+    "used_today": 0,
+    "daily_limit_displayed": 5,
+    "latest": {
+      "portal_display_time": "13:09 2026-11-04",
+      "id": "1H7KP3OQ",
+      "file": "tabdata-w18-final-20261103-r1.zip",
+      "public_wp": 0.66453,
+      "duration_displayed": "14m32s",
+      "memory_displayed": "627MB"
+    },
+    "pr76_filename_found": false,
+    "dedup_basis": "History still ends before PR76 packaging; known archive/member comparisons are retained in DEDUP.json. No exhaustive prediction-equivalence comparison against all 108 submissions."
+  },
+  "hf": {
+    "url": "https://huggingface.co/hft-kagglers/wnn-challenge2-model-archive/tree/main",
+    "access": "signed-in Chrome Files and versions",
+    "head": "167452c72a8e994b280446d2fca93f7c08e16f66",
+    "head_message": "Existing supplemental models batch 003",
+    "commits_displayed": 154,
+    "unchanged_from_recorded_20261012_revision": true,
+    "new_weights_in_this_archive": false
+  },
+  "selected_for_next_receiver_check": {
+    "pr": 76,
+    "observed_pr_head": "f95f5b5671e7b6d55342192dccae78c2f37eb045",
+    "file": "kotiki-tl3-w18-lstm10-cpu-20261110.zip",
+    "bytes": 14011657,
+    "sha256": "766bab1f3205697819af994acbb54cfe60682651977f393d76bec69608a75e3e",
+    "handoff": "cpu-receiver-handoff-20261110-r2.tar.gz",
+    "handoff_bytes": 14093920,
+    "handoff_sha256": "faa37344f199aff0f447cbb341f3727e136f0843e6a99f03d2415084982fe983",
+    "recipe": "0.90 canonical train-only W18/tiedlead5/tiedlead6 TL3 + 0.10 fixed PR53 LSTM",
+    "research_wp": 0.6925020625522238,
+    "research_matched_tl3_wp": 0.6923774247837755,
+    "research_delta": 0.000124637768448288,
+    "research_exposure": "Repeatedly used official valid; selected from six predeclared mixtures; not a significance claim or CPU-ZIP result",
+    "receiver_comparator": "Same-pass served TL3 component; not a fresh replay of public incumbent ZIP d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+    "status": "PACKAGED_NOT_EXECUTED",
+    "cpu_wp": null,
+    "cpu_runtime_seconds": null,
+    "server_acceptance": "PENDING",
+    "submission_ready": false,
+    "uploaded": false
+  },
+  "new_research_candidates": [
+    {
+      "pr": 89,
+      "head": "882eaf865e9df3a56157772dbf957a45df0a6001",
+      "mechanism": "since-event32",
+      "endpoint": "fixed E6; two L4 seeds",
+      "wp": [0.686306013, 0.685903598],
+      "control_wp": [0.683019498, 0.682629372],
+      "reported_mean_paired_delta": 0.003280371,
+      "source": "https://github.com/VladKochetov007/WunderFunder/pull/89#issuecomment-6818869466",
+      "limits": "Producer-reported scores; at the pinned head canonical R4 readout acceptance remains pending after the R3 data-path rejection. Same-source zero-weight control remains pending; no published checkpoint download found; no CPU package or comparison against the served TL3 endpoint",
+      "artifact_handoff": "SINCE32_ARTIFACT_HANDOFF_20261112_R1.md",
+      "terminal_checkpoint_sha256": {
+        "since32_k16_s203301": "e8fba80e0dd6edbebc17a0cd4b38ea20637aa259b2cc8f552538e7a1fbec1ae4",
+        "since32_k16_s203302": "37cef64335aa7d3097832fe2354b6a0d11bd7d2ac72c4f9db76a9b7e51e56c26"
+      },
+      "status": "RETRIEVE_WEIGHTS_BEFORE_PACKAGING"
+    },
+    {
+      "pr": 87,
+      "head": "cd1afe4e78f556f238ce812c6f2d69934190fd76",
+      "mechanism": "depth1",
+      "endpoint": "fixed E6; two seeds",
+      "wp": [0.683348193, 0.683038532],
+      "source": "https://github.com/VladKochetov007/WunderFunder/pull/87#issuecomment-6818527358",
+      "limits": "Small paired improvement against its own control; no CPU-ready artifact found. Depth3/horizon alternatives do not establish a stronger endpoint.",
+      "status": "RESEARCH_ONLY"
+    },
+    {
+      "pr": 88,
+      "head": "d7aca22297bea1c276468007d8371f92380e4c65",
+      "mechanism": "Transformer numeric PLE from PR81",
+      "endpoint": "partial E3, seed204101; planned E4 unavailable",
+      "wp": 0.682872727795,
+      "control_wp": 0.682569317367,
+      "source": "https://github.com/VladKochetov007/WunderFunder/pull/81#issuecomment-6818841548",
+      "status": "PARTIAL_RESEARCH_RESULT_NOT_SUBMISSION"
+    }
+  ],
+  "execution_this_review": {
+    "local_model_tests": false,
+    "local_inference": false,
+    "local_training": false,
+    "local_model_profile": false,
+    "remote_model_jobs_started": 0,
+    "current_trainings_changed": false,
+    "submission_zip_changed": false,
+    "new_coefficient_variants_built": 0,
+    "portal_uploads": 0
+  },
+  "remaining_input": "Accessible Linux x86-64 host, canonical valid.parquet path, one free CPU, named execution owner and fresh bounded receiver budget. Hidden test row count remains unknown."
+}

@@ -1,0 +1,39 @@
+{
+  "base_arithmetic": "Historical native dynamic_int8 with fast activations; different from FP32 research replay, must measure served quality",
+  "baseline_members": [
+    {
+      "coef": 0.34,
+      "family": "event211",
+      "run": "tl3c_w18final_distilled_s5",
+      "weights": "w18.npz"
+    },
+    {
+      "coef": 0.33,
+      "family": "tiedlead263",
+      "run": "tl3c_fttall_tlead_s5",
+      "weights": "tiedlead5.npz"
+    },
+    {
+      "coef": 0.33,
+      "family": "tiedlead263",
+      "run": "tl3c_fttall_tlead_s6",
+      "weights": "tiedlead6.npz"
+    }
+  ],
+  "baseline_weight": 0.9,
+  "id": "tl3-w18-lstm10-cpu-20261110",
+  "lstm_arithmetic": "FP32 NumPy; exact checkpoint normalizers; no quantization",
+  "lstm_weight": 0.1,
+  "lstm_weights": "lstm.npz",
+  "mix_arithmetic": "FP64 raw weighted sum then one FP32 cast; no prediction clipping in callback",
+  "mode": "dynamic_int8",
+  "research_reference": {
+    "base_wp": 0.6923774247837755,
+    "delta": 0.000124637768448288,
+    "scope": "Exposed validation, unquantized research predictors; not a score for this CPU ZIP",
+    "source_report_sha256": "80505a67dbafd66d1cdbdbc3870f041548bcfcab531f5d7a67609ffd33d6b06d",
+    "wp": 0.6925020625522238
+  },
+  "schema": "wnn.cpu-tl3-lstm-recipe.v1",
+  "submission_ready": false
+}

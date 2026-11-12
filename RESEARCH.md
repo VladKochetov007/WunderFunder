@@ -67,3 +67,5 @@ for indexing and provenance requirements. The large
 [12 October handoff](research/RESEARCH_COMPLETE_HANDOFF_20261012.md) and the
 [current-state history archive](specs/current-state-history-20261017.md) are
 dated historical records, not current authority.
+
+- [CPU submission candidates](research/submission_candidates/README.md): prepared ZIP artifacts and receiving validation, including the fixed TL3/LSTM complement (10 November).
