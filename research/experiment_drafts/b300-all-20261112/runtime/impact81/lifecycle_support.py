@@ -24,8 +24,16 @@ from wnn.training.sequence_fit_artifacts import (
     metrics_offset,
     write_final_outputs,
 )
-from wnn.training.sequence_fit_modes import _load_resume
 from wnn.training.sequence_fit_utils import RankJsonlLog
+
+try:
+    # PR79 moved the helper to a public module and name.  Keep the exact PR75
+    # fallback for the Transformer family, whose pinned runtime predates it.
+    from wnn.training.sequence_fit_resume import load_resume as _load_resume
+except ModuleNotFoundError as error:
+    if error.name != "wnn.training.sequence_fit_resume":
+        raise
+    from wnn.training.sequence_fit_modes import _load_resume
 
 
 def begin_fit(
