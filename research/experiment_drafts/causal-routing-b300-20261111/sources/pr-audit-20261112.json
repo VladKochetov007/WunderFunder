@@ -1,0 +1,94 @@
+{
+  "schema": "signal-routes.pr-audit.v1",
+  "repository": "VladKochetov007/WunderFunder",
+  "checked_at_utc": "2026-11-12T00:17:58Z",
+  "method": "read-only gh PR bodies, changed-file lists, issue comments, submitted reviews",
+  "new_fits_or_measurements_by_this_audit": 0,
+  "prs": [
+    {
+      "number": 82,
+      "head_sha": "c0dc2e7b85847d45e088e6090cd1bffad5fdf549",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/82",
+      "updated_at": "2026-11-11T17:54:23Z",
+      "state": "open",
+      "issue_comments": 0,
+      "submitted_reviews": 0,
+      "status": "proposal_only; no fits or profiles reported",
+      "reported_claims": [
+        "10 L4 GRU proposals; 20 treatment fits plus two train-prediction exports if later run",
+        "closest mechanism adjacency is causal class-routed readout and regime channels, not internal Transformer attention or dense per-token FFN routing"
+      ]
+    },
+    {
+      "number": 83,
+      "head_sha": "9f01bb0eb9f104f7788ec02aa11d94d303d390de",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/83",
+      "updated_at": "2026-11-11T21:26:59Z",
+      "state": "open",
+      "issue_comments": 0,
+      "submitted_reviews": 0,
+      "status": "results-only; no fits in this PR",
+      "reported_claims": [
+        "TabM-GRU k4 minus single Muon -0.0012; NorMuon no gain",
+        "view-mask p=0.15 standalone -0.0014 and pair-control +0.00025",
+        "epoch 3-5 weight averaging +0.00004/+0.00002",
+        "zero-fit pair ensemble law approximately 0.168*(1-rho)"
+      ]
+    },
+    {
+      "number": 84,
+      "head_sha": "47d239eb847cac5afd308ffd63aad43a8157fe58",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/84",
+      "updated_at": "2026-11-11T21:27:04Z",
+      "state": "open",
+      "issue_comments": 0,
+      "submitted_reviews": 0,
+      "status": "results-only; no fits in this PR",
+      "reported_claims": [
+        "cold GRU Muon minus AdamW 1e-3 +0.0038/+0.0043",
+        "cold GRU Muon minus AdamW 5e-4 +0.0026/+0.0035",
+        "warm-stage transfer +0.00026 with interval [-0.00041,+0.00101]",
+        "PR flags cuDNN GRU recurrence precision as a fidelity issue"
+      ]
+    },
+    {
+      "number": 85,
+      "head_sha": "38db05ea37e7f790cd05f6d221d8f88173db83bb",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/85",
+      "updated_at": "2026-11-11T21:27:09Z",
+      "state": "open",
+      "issue_comments": 0,
+      "submitted_reviews": 0,
+      "status": "continuation proposed; stopped earlier; no fits launched by this PR",
+      "reported_claims": [
+        "reproduced PR49 fbc1k E3 teacher WP 0.69142",
+        "D1 distilled child E5 WP 0.68997; below teacher 0.69142",
+        "TL3C blend valid 0.692336/public 0.66355",
+        "D2 rerun and seed 4/5 confirmation pending"
+      ]
+    },
+    {
+      "number": 86,
+      "head_sha": "742aaacc9a3d4094d93d2f897a6cfe4a42f5f9a5",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/86",
+      "updated_at": "2026-11-11T21:27:13Z",
+      "state": "open",
+      "issue_comments": 0,
+      "submitted_reviews": 0,
+      "status": "proposal_only; zero-fit phase and four-fit phase not run",
+      "reported_claims": [
+        "prior adversarial validation AUC 0.984",
+        "proposes leave-regime-out fold comparison for PR80 K16 and a train-only distilled student"
+      ]
+    }
+  ],
+  "novelty": {
+    "candidate_mechanisms": [
+      "signed-half attention",
+      "dense per-token FFN routing"
+    ],
+    "collision_found": false,
+    "nearest_adjacency": "PR82 causal class-routed readout and regime channels; these are output/input paths, not internal Transformer attention or FFN routing",
+    "scope_note": "PR82-86 do not propose the selected internal Transformer mechanisms; historical metrics are PR-reported and not independently revalidated by this audit"
+  }
+}
