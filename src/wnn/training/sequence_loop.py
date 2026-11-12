@@ -52,7 +52,9 @@ class EpochResult:
     objective_totals: torch.Tensor | None = None
 
 
-def _window_denominators(target: torch.Tensor, mask: torch.Tensor, hint_target: torch.Tensor) -> torch.Tensor:
+def _window_denominators(
+    target: torch.Tensor, mask: torch.Tensor, hint_target: torch.Tensor
+) -> torch.Tensor:
     return window_denominators(target, mask, hint_target)
 
 
