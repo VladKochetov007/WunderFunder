@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [Idea backlog batch 3 (Vlad)](idea-backlog-batch3-vlad-20261112/README.md) — untested October reframe ideas not closed by evidence: gap ledger and data-scaling slope, two-clock GRU, event-row training with hold, frozen-trunk switching readouts, residual-boosting GRU, i0/i1 pair encoder, TensorSketch interactions, delayed-label test-time training ceiling; 14-16 fits plus two zero-fit checks, none executed.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
