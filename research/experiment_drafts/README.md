@@ -1,5 +1,15 @@
 # Research-team experiment catalogue
 
+- [Ensemble-objective package, 8 November](ensemble-objective-fix-20261108/README.md)
+  prepares four fresh fixed4E matched B300 teachers under the explicit new contract.
+  Native NCCL gradient equivalence and four actual-shaped50-update/reload profiles
+  pass; ROOT owns safe retirement and fresh fit launch. Quality endpoints remain pending.
+
+- [PR67 receiving amendment, 7 November](tl3-transformer-complement-execution-20261107/README.md)
+  prepares four matched two-B300 fixed-final fits with unchanged update budget,
+  full official-valid reports every epoch and Git-free source capsule admission.
+  The frozen eight-rank packet is preserved; profiles and scientific results are pending.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
@@ -49,3 +59,13 @@ A separate local fixed-GRU replay on 16 selected exposed-F0 groups found +0.0003
 ## Large dynamics Transformer teacher — October19 R2
 
 The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2) proposes a four-fit 0.68B/1.65B teacher-scale comparison, strict-FP32 Muon, WSD, profiled DDP and later matched GRU transfer. It includes analytical capacity/ETA code and independent criticism; the distributed trainer, source/data bindings and actual B300 profile remain unimplemented. Branch/PR publication is recorded when it exists. The [canonical design](../unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) and ADR0043 explain the new 4–6-total-fit policy.
+
+## Fixed-TL3 Transformer complement — 6 November 2026
+
+[Implemented four-fit packet](tl3-transformer-complement-20261106/README.md): label-only versus fixed-composition Transformer training, two paired seeds on the exact PR49 train-only source split. Both endpoints are0.9 clean TL3 + 0.1 Transformer; T768×24, context 1024, 30 epochs, Muon, BF16/BF16x9, eight B300s. Native 17-role ancestry, explicit composed scoring and receiver-only acceptance/profiles are implemented; all four fits and real GPU acceptance remain unrun. [Current portal/result audit](tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) distinguishes public best 0.66832 from clean-development 0.692377425. H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106. No CPU-ready ZIP or compact-KD result.
+
+## PR82 sequence GRU follow-ups - 12 November 2026
+
+[Frozen source and four-fit packet](sequence-gru-muon-20261112/README.md): recurrent Muon (#01, PR84 transfer) and causal since-event weighting (#03) are separate two-seed arms on the exact PR80 sequence receiver. Both reuse the fitted K16 controls, preserve the official train/valid boundary, and require ROOT's exact-config 30-update profile receipts before fit admission. Source and config hashes are in the packet manifest; no profile or fit has been launched for these arms.
+
+- [Standalone PR49 KD](pr49-standalone-kd-20261112/README.md): four cold K16GRU fits compare lambda0/0.2 on two seeds; actual canonical cache gate and four profiles passed, fixed-E6 outcomes pending.

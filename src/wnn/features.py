@@ -13,9 +13,14 @@ recency and last-event deltas expose that history to a recurrent model.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 
-from wnn.data import I0, I1
+from wnn.data import I0, I1, N_FEATURES
+
+if TYPE_CHECKING:
+    import torch
 
 _I0_PX = slice(I0.bid_px.start, I0.ask_px.stop)  # 22
 _I0_VOL = slice(I0.bid_vol.start, I0.ask_vol.stop)  # 22
@@ -108,6 +113,21 @@ def event_features_torch(x):
     return torch.cat(
         [d[..., _I0_PX], d[..., _I0_VOL], d[..., _I1_PX], flags.to(x.dtype), since, held], dim=-1
     )
+
+
+def causal_since_i0px_torch(x: torch.Tensor) -> torch.Tensor:
+    """Return capped row ages since causal i0 price events for raw ``(B,T,112)`` input."""
+    import torch
+
+    if x.ndim != 3 or x.shape[-1] != N_FEATURES or x.shape[1] < 1:
+        raise ValueError(f"raw input must have shape (B,T,{N_FEATURES}) with T positive")
+    batch, steps, _ = x.shape
+    previous = torch.cat((x[:, :1], x[:, :-1]), dim=1)
+    event = _flags(previous, x)[0]
+    row = torch.arange(steps, device=x.device).expand(batch, steps)
+    last_event = torch.cummax(torch.where(event, row, torch.zeros_like(row)), dim=1).values
+    age = (row - last_event).clamp(max=int(_COUNTER_CAP))
+    return age.to(dtype=x.dtype)
 
 
 class StreamingEventFeatures:

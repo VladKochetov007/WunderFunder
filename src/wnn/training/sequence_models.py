@@ -8,74 +8,18 @@ import torch
 from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
-from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
 from wnn.training.sequence_compile import compile_transformer_blocks
+from wnn.training.sequence_gru import GRUSequenceAdapter
+from wnn.training.sequence_input_stem import RAW_INPUT_WIDTH, validate_input_stem_kernel
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
+from wnn.training.sequence_model_helpers import check_sequence_input as _check_sequence_input
 from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
     configure_precision_mode,
-    validate_forward_state,
 )
-
-RAW_INPUT_WIDTH = 112
-
-
-def _check_fp32_environment(model: nn.Module, values: Tensor, precision_mode: str) -> None:
-    if values.dtype != torch.float32:
-        raise TypeError("sequence models require float32 inputs")
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("sequence models require float32 parameters")
-    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
-        raise TypeError("sequence models require float32 buffers")
-    validate_forward_state(precision_mode, values.device.type)
-
-
-def _check_input_shape(values: Tensor) -> None:
-    if values.ndim != 3 or values.shape[-1] != RAW_INPUT_WIDTH:
-        raise ValueError("sequence models accept only raw input shaped [batch, rows, 112]")
-    if values.shape[0] <= 0 or values.shape[1] <= 0:
-        raise ValueError("sequence batches and row chunks must be non-empty")
-
-
-class _GRUSequenceAdapter(RNNModel):
-    """Expose canonical GRU hidden rows for hints without changing its prediction path."""
-
-    def __init__(
-        self,
-        hidden: int,
-        layers: int,
-        dropout: float,
-        hint_dim: int,
-        hint_mode: str,
-        precision_mode: str,
-    ) -> None:
-        super().__init__(
-            RAW_INPUT_WIDTH, hidden, layers, dropout, n_out=2, cell="gru", enc="linear"
-        )
-        self.precision_mode = precision_mode
-        self.hint_projector = _HintProjector(hidden, hint_dim, hint_mode)
-
-    def forward(self, values: Tensor, state: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor]:
-        """Return canonical GRU predictions, hidden-state hints, and recurrent state."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
-        if state is not None and (
-            state.shape != (self.gru.num_layers, values.shape[0], self.hidden)
-            or state.device != values.device
-            or state.dtype != torch.float32
-        ):
-            raise ValueError(
-                "GRU state must match the model layers, batch, device, and float32 dtype"
-            )
-        encoded = self.encode((values - self.mean) / self.std)
-        recurrent, next_state = self.gru(encoded, state)
-        prediction = self.head(torch.cat((recurrent, encoded), dim=-1))
-        # Autocast can return BF16 recurrent state; the next chunk's public
-        # streaming interface and saved activation state remain FP32.
-        return prediction, self.hint_projector(recurrent), next_state.float()
 
 
 class _TransformerSequenceAdapter(nn.Module):
@@ -152,8 +96,7 @@ class _TransformerSequenceAdapter(nn.Module):
         state: TransformerState | None = None,
     ) -> tuple[Tensor, Tensor, TransformerState]:
         """Predict each raw row using only current and bounded past sequence rows."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
+        _check_sequence_input(self, values, self.precision_mode)
         previous = self._state_for_batch(values, state)
         position = previous.next_position
         hidden = self.input_projection((values - self.mean) / self.std)
@@ -239,6 +182,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     architecture = config.get("architecture")
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    input_stem_kernel = validate_input_stem_kernel(config.get("input_stem_kernel", 0))
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -269,11 +213,23 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if dropout not in (0.0, 0.1) or (dropout > 0 and layers < 2):
+            raise ValueError("GRU dropout must be 0 or 0.1 and requires at least two layers")
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
             raise ValueError("attention backend selection requires a Transformer model")
-        return _GRUSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
+        return GRUSequenceAdapter(
+            hidden,
+            layers,
+            dropout,
+            hint_dim,
+            hint_mode,
+            precision_mode,
+            input_stem_kernel,
+        )
+    if input_stem_kernel:
+        raise ValueError("input_stem_kernel is supported only for GRU models")
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:
         raise ValueError("Transformer hidden width must divide evenly into even rotary head widths")
     ff_width = int(hidden * ff_multiplier)

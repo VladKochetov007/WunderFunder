@@ -9,6 +9,7 @@ import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
 from torch.nn.parallel import DistributedDataParallel
 
+from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_distributed import (
     DistributedContext,
     all_ranks_true,
@@ -16,6 +17,7 @@ from wnn.training.sequence_distributed import (
     global_sum,
     local_sequence_indices,
 )
+from wnn.training.sequence_ensemble_reporting import objective_metrics
 from wnn.training.sequence_fit_utils import (
     SEQUENCE_ROWS,
     RankJsonlLog,
@@ -24,15 +26,19 @@ from wnn.training.sequence_fit_utils import (
     move_and_validate_batch,
 )
 from wnn.training.sequence_models import detach_state
+from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_objectives import (
     detached_sums,
+    global_window_denominators,
     objective_numerators,
     scaled_objective,
+    since_event_row_weights,
     window_denominators,
 )
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 from wnn.training.sequence_precision import backward_context, forward_context
-from wnn.training.sequence_update import finish_update
+from wnn.training.sequence_update import finish_sampled_update, finish_update
+from wnn.training.sequence_window_reporting import window_record as _window_record
 
 
 @dataclass(frozen=True)
@@ -43,6 +49,13 @@ class EpochResult:
     complete: bool
     totals: torch.Tensor
     elapsed_seconds: float
+    objective_totals: torch.Tensor | None = None
+
+
+def _window_denominators(
+    target: torch.Tensor, mask: torch.Tensor, hint_target: torch.Tensor
+) -> torch.Tensor:
+    return window_denominators(target, mask, hint_target)
 
 
 def _chunks(row_count: int, chunk_rows: int) -> list[tuple[int, int]]:
@@ -66,12 +79,14 @@ def _backward_window(
     hint_target: torch.Tensor,
     mask: torch.Tensor,
     x: torch.Tensor,
+    label_row_weights: torch.Tensor | None,
     intervals: list[tuple[int, int]],
     real_sequence_count: int,
     denominators: torch.Tensor,
     state: Any,  # Model-owned recurrent state has architecture-specific container structure.
     config: dict[str, object],
     context: DistributedContext,
+    objective_stats: torch.Tensor | None = None,
 ) -> tuple[Any, torch.Tensor]:
     """Forward and backpropagate one pre-normalized TBPTT accumulation window."""
     local_stats = torch.zeros(6, dtype=torch.float64, device=context.device)
@@ -100,6 +115,16 @@ def _backward_window(
                 teacher[:, start:stop],
                 hint_target[:, start:stop],
                 mask[:, start:stop],
+                blend_objective_alpha=float(config.get("blend_objective_alpha", 0.0)),
+                objective_mode=config.get("objective_mode"),
+                context=context,
+                correlation_prediction_std_floor=float(
+                    config.get("correlation_prediction_std_floor", 0.01)
+                ),
+                supervised_target=config.get("supervised_target"),
+                label_row_weights=(
+                    label_row_weights[:, start:stop] if label_row_weights is not None else None
+                ),
             )
             loss = scaled_objective(
                 numerators,
@@ -107,75 +132,21 @@ def _backward_window(
                 context.world_size,
                 float(config["kd_weight"]),
                 float(config["hint_weight"]),
+                microchunks=len(intervals),
             )
             _check_finite_loss(loss, context)
             with backward_context(mode, context.device.type):
                 loss.backward()
+            if objective_stats is not None and numerators.correlation is not None:
+                objective_stats[:3] += torch.cat(
+                    (
+                        numerators.correlation.detach(),
+                        numerators.correlation_loss.detach().reshape(1),
+                    )
+                ).double() / len(intervals)
         local_stats[:5] += detached_sums(numerators, target[:, start:stop], mask[:, start:stop])
         local_stats[5] += real_sequence_count * (stop - start)
     return state, local_stats
-
-
-def _window_denominators(
-    target: torch.Tensor,
-    mask: torch.Tensor,
-    hints: torch.Tensor,
-    intervals: list[tuple[int, int]],
-    context: DistributedContext,
-) -> torch.Tensor:
-    """Reduce both objective denominators across every rank before any window backward."""
-    local = torch.zeros(2, dtype=torch.float32, device=context.device)
-    for start, stop in intervals:
-        local += window_denominators(
-            target[:, start:stop], mask[:, start:stop], hints[:, start:stop]
-        )
-    global_denominators = global_sum(local, context)
-    if not all_ranks_true(bool(torch.isfinite(global_denominators).all()), context):
-        raise FloatingPointError("nonfinite objective denominator detected across torchrun ranks")
-    return global_denominators
-
-
-def _window_record(
-    stats: torch.Tensor,
-    denominators: torch.Tensor,
-    rank: int,
-    epoch: int,
-    step: int,
-    learning_rate: float,
-    gradient_norm: torch.Tensor,
-    elapsed: float,
-    peak_memory: int,
-    gradient_clip: float,
-    kd_weight: float,
-    hint_weight: float,
-) -> dict[str, object]:
-    """Convert global sufficient sums and this rank's diagnostics into a JSON row."""
-    label_denom = float(denominators[0].item())
-    hint_denom = float(denominators[1].item())
-    label_loss = float(stats[0].item()) / label_denom if label_denom > 0 else 0.0
-    kd_loss = float(stats[1].item()) / label_denom if label_denom > 0 else 0.0
-    hint_loss = float(stats[2].item()) / hint_denom if hint_denom > 0 else 0.0
-    return {
-        "rank": rank,
-        "epoch": epoch,
-        "step": step,
-        "label_loss": label_loss,
-        "kd_loss": kd_loss,
-        "hint_loss": hint_loss,
-        "total_loss": label_loss + kd_weight * kd_loss + hint_weight * hint_loss,
-        "valid_rows": int(stats[3].item()),
-        "forwarded_rows": int(stats[4].item()),
-        "real_rows": int(stats[5].item()),
-        "label_weight": label_denom,
-        "hint_elements": hint_denom,
-        "learning_rate": learning_rate,
-        "gradient_norm_preclip": float(gradient_norm.item()),
-        "gradient_clipped": int(float(gradient_norm.item()) > gradient_clip),
-        "window_seconds": elapsed,
-        "valid_rows_per_second": float(stats[3].item()) / max(elapsed, 1e-12),
-        "forwarded_rows_per_second": float(stats[4].item()) / max(elapsed, 1e-12),
-        "peak_memory_bytes": peak_memory,
-    }
 
 
 def train_epoch(
@@ -189,6 +160,8 @@ def train_epoch(
     epoch: int,
     global_step: int,
     max_updates: int | None = None,
+    *,
+    progress: MonitorProgress | None = None,
 ) -> EpochResult:
     """Run complete sequences in padded distributed order with fixed-window DDP scaling."""
     started = time.perf_counter()
@@ -199,7 +172,15 @@ def train_epoch(
     batch_size = int(config["batch_size"])
     chunk_intervals = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
     accumulation = int(config["accumulate_chunks"])
+    steps_per_epoch = ((len(indices) + batch_size - 1) // batch_size) * (
+        (len(chunk_intervals) + accumulation - 1) // accumulation
+    )
     total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
+    objective_totals = (
+        torch.zeros(6, dtype=torch.float64, device=context.device)
+        if config.get("objective_mode")
+        else None
+    )
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
         batch_ids = indices[batch_start : batch_start + batch_size]
@@ -219,17 +200,31 @@ def train_epoch(
             batch["hints"],
             batch["x"],
         )
+        label_row_weights = None
+        since_weight = float(config.get("since_weight", 0.0))
+        if since_weight > 0:
+            label_row_weights = since_event_row_weights(
+                x, since_weight, float(config.get("since_floor", 0.25))
+            )
         real_sequence_count = sum(index >= 0 for index in batch_ids)
         state: Any = None
         for window_start in range(0, len(chunk_intervals), accumulation):
             if max_updates is not None and updates >= max_updates:
-                return EpochResult(updates, False, total_count, time.perf_counter() - started)
+                return EpochResult(
+                    updates, False, total_count, time.perf_counter() - started, objective_totals
+                )
             window_started = time.perf_counter()
             intervals = chunk_intervals[window_start : window_start + accumulation]
-            denominators = _window_denominators(target, mask, hints, intervals, context)
+            denominators = global_window_denominators(
+                target, mask, hints, intervals, context, window_denominator=_window_denominators
+            )
             optimizer.zero_grad(set_to_none=True)
             rates = optimizer_learning_rates(optimizer)
             lr = float(optimizer.param_groups[0]["lr"])
+            objective_stats = (
+                torch.zeros_like(objective_totals) if objective_totals is not None else None
+            )
+            diagnostics_interval = config.get("optimizer_update_diagnostics_every")
             state, local_stats = _backward_window(
                 model,
                 optimizer,
@@ -238,21 +233,40 @@ def train_epoch(
                 hints,
                 mask,
                 x,
+                label_row_weights,
                 intervals,
                 real_sequence_count,
                 denominators,
                 state,
                 config,
                 context,
+                objective_stats,
             )
-            gradient_norm, optimizer_seconds = finish_update(
-                model, optimizer, scheduler, context, float(config["grad_clip"])
-            )
+            if diagnostics_interval is None:
+                gradient_norm, optimizer_seconds = finish_update(
+                    model, optimizer, scheduler, context, float(config["grad_clip"])
+                )
+                update_diagnostics = None
+            else:
+                gradient_norm, optimizer_seconds, update_diagnostics = finish_sampled_update(
+                    model,
+                    optimizer,
+                    scheduler,
+                    context,
+                    float(config["grad_clip"]),
+                    global_step + 1,
+                    int(diagnostics_interval),
+                )
             updates += 1
             global_step += 1
             global_stats = global_sum(local_stats, context)
             total_count[:6] += global_stats
             total_count[6:] += denominators
+            if objective_stats is not None:
+                objective_stats[3] = global_stats[0] / denominators[0].clamp_min(1e-8)
+                objective_stats[4] = global_stats[1] / denominators[0].clamp_min(1e-8)
+                objective_stats[5] = 1
+                objective_totals += objective_stats
             elapsed = time.perf_counter() - window_started
             record = _window_record(
                 global_stats,
@@ -269,7 +283,17 @@ def train_epoch(
                 float(config["hint_weight"]),
             )
             record["learning_rates"] = rates
+            record.update(blend_loss_metrics(config, float(record["label_loss"])))
+            record.update(objective_metrics(config, objective_stats))
             record["optimizer_seconds"] = optimizer_seconds
+            if update_diagnostics is not None:
+                record["optimizer_update_diagnostics"] = update_diagnostics
             rank_log.write(record)
+            if progress is not None:
+                progress.optimizer_update(
+                    global_step,
+                    epoch + updates / steps_per_epoch,
+                    float(record["forwarded_rows_per_second"]),
+                )
         state = None
-    return EpochResult(updates, True, total_count, time.perf_counter() - started)
+    return EpochResult(updates, True, total_count, time.perf_counter() - started, objective_totals)

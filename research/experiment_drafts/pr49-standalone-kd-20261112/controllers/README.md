@@ -1,0 +1,3 @@
+# Frozen execution components
+
+`freeze_standalone_kd_r2.py` builds the runtime from committed Git blobs and binds the capsule, configs and controller. `native_kd_preflight_profiles_r1.py` production-loads the exact configs and validates the actual fitting-only teacher cache before profiles. `l4_standalone_kd_wave_r1.py` runs four owned profiles or admitted fixed-E6 fits on GPUs0-3 within the original clock. `native_newkd_admit_fit_r1.py` requires all profile/reload/source/split/teacher gates before full fitting. These are as-executed records; no command here authorizes another run or a restart.

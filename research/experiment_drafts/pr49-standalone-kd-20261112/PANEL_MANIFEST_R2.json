@@ -1,0 +1,108 @@
+{
+  "schema": "wnn.pr49.standalone-kd-panel.r2",
+  "status": "committed source; native cache/config preflight and profiles pending",
+  "base_source_commit": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+  "source_tree_status": "clean committed Git-blob runtime capsule",
+  "base_config": "C:\\Users\\admin\\Documents\\Codex\\artifacts\\final-quality-wave-20261112-r1\\since-scale-followup-r1\\configs\\age8_k16_seed203401.json",
+  "base_config_sha256": "247062a5d2ae50d1d9660da813f57545652d0bfa13642e819e495ebffc85c9fb",
+  "fixed_recipe": {
+    "architecture": "GRU",
+    "hidden": 256,
+    "layers": 2,
+    "input_stem_kernel": 16,
+    "epochs": 6,
+    "batch_size": 32,
+    "chunk_rows": 1000,
+    "gradient_horizon_rows": 1000,
+    "precision_mode": "fp32",
+    "optimizer": "adamw",
+    "training_mask": "all_after_warmup",
+    "normalization_scope": "all_fit",
+    "official_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_members": 10325,
+    "validation_members": 1873,
+    "train_eval_sequences": 32,
+    "validation": "full official valid, report-only, every epoch; raw student z"
+  },
+  "treatment": {
+    "source_condition": "standalone_labels_kd_wmse_v1",
+    "target_clip": [
+      -2.0,
+      2.0
+    ],
+    "row_weight": "abs(clipped label target)",
+    "label_term": "sum(w * (z - clip(y,-2,2))^2)",
+    "kd_term": "lambda * sum(w * (z - clip(teacher,-2,2))^2)",
+    "shared_denominator": "D=sum(w) over both targets and the whole actual optimizer window across chunks/ranks",
+    "objective": "(label numerator + lambda * KD numerator) / D",
+    "lambda_scope": "numerator only; lambda does not change D",
+    "teacher_cache_condition": "exact source-qualified official fitting membership only; valid absent",
+    "lambda_zero_condition": "cache remains required and identical; KD numerator coefficient is zero",
+    "since_weight": 0.0,
+    "hints": "disabled",
+    "blending_and_reference_cache": "disabled",
+    "initializer": "cold model; no pretraining or parent initializer"
+  },
+  "teacher_lineage": {
+    "actual_raw_checkpoint_sha256": "759165147d99b33034b74f4af63a30e8a202dafc78fd5e5699d05b6cfe9bef90",
+    "official_logical_e3_alias_sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496",
+    "normalized_logical_alias_receipt_sha256": "e1417ce910ac3edbc83c5395103444d024365479a8b3e83734eeef839ce96b37",
+    "alias_checker_source_sha256": "176ab4d2ad375c28bbfac89ad10d1b459e3343537b84e524b91cce0beeb0ec67",
+    "pinned_teacher_provenance_sha256": "b157c12556ec0f8cb60fc108a4e6ea28474ed9083d57032fa345a88e3818448c",
+    "claim_limit": "verified normalized logical checkpoint-field equality; not prediction equality",
+    "cache_requirement": "fit-only cache manifest and exact 10325-member membership must be validated at native preflight"
+  },
+  "cells": [
+    {
+      "cell": "standalone_kd0_k16_seed203501",
+      "config": "configs/standalone_kd0_k16_seed203501.json",
+      "config_sha256": "4d66f4ec8be1239863e11f1632f0dc86b69673a24a46e5755d0e3f1a556a49ab",
+      "seed": 203501,
+      "kd_weight": 0.0,
+      "since_weight": 0.0,
+      "teacher_cache_required": true,
+      "teacher_cache_path_argument": "--teacher-cache",
+      "role": "matched_lambda_zero_control"
+    },
+    {
+      "cell": "standalone_kd0.2_k16_seed203501",
+      "config": "configs/standalone_kd0.2_k16_seed203501.json",
+      "config_sha256": "a25b32b89543689ec21bda7f40d1d9f056fab7452477743ff46ed0d46afa88bb",
+      "seed": 203501,
+      "kd_weight": 0.2,
+      "since_weight": 0.0,
+      "teacher_cache_required": true,
+      "teacher_cache_path_argument": "--teacher-cache",
+      "role": "KD_treatment"
+    },
+    {
+      "cell": "standalone_kd0_k16_seed203502",
+      "config": "configs/standalone_kd0_k16_seed203502.json",
+      "config_sha256": "a98f45e6a73fe5a8a93ac09fe6d55a9432b762046fe3a666a3272e3deeb94f07",
+      "seed": 203502,
+      "kd_weight": 0.0,
+      "since_weight": 0.0,
+      "teacher_cache_required": true,
+      "teacher_cache_path_argument": "--teacher-cache",
+      "role": "matched_lambda_zero_control"
+    },
+    {
+      "cell": "standalone_kd0.2_k16_seed203502",
+      "config": "configs/standalone_kd0.2_k16_seed203502.json",
+      "config_sha256": "e48352cce888ca67a98b0feb85eb5342a5d951404949842ba344ed1d559c2849",
+      "seed": 203502,
+      "kd_weight": 0.2,
+      "since_weight": 0.0,
+      "teacher_cache_required": true,
+      "teacher_cache_path_argument": "--teacher-cache",
+      "role": "KD_treatment"
+    }
+  ],
+  "comparison": "paired seeds; within each seed the only treatment difference is kd_weight 0.0 versus 0.2",
+  "selection_and_exposure": "fixed final epoch 5; no early stopping; official validation is development-exposed",
+  "historical_r1_overlay_sha256": "75692b87d1c9dc3fcded94e987b649a6dad93230165daa9f299d4d228e5516aa",
+  "source_commit": "33542502a1404a2843359b3999fa34f3a157bf3f",
+  "source_identity_sha256": "ae7ae9386060475363afad63cdca140c740e80289fe908e82211dc3bb2f61242",
+  "source_manifest_sha256": "9d31e623c9acd202bdeb4842342f5ba85994b9bb9176da40e98de4972ee5bf44",
+  "allocation": "four new same-source lambda0/0.2 fits onGPU0-3; fixedE6; shared CLOCK_R1 unchanged"
+}

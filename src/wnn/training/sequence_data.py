@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import torch
@@ -12,8 +12,10 @@ from torch.utils.data import Dataset
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, WARMUP
 from wnn.splits import MAX_CAMPAIGN_SPLIT_BYTES, CampaignSplit, load_campaign_split
+from wnn.training import sequence_ensemble_config as ensemble_config
 from wnn.training.datasets import Sequences
 from wnn.training.environment import InputConfiguration, TrainingEnvironment
+from wnn.training.sequence_blend import fit_reference
 from wnn.training.sequence_cache import TeacherCache
 from wnn.training.sequence_normalization import (
     NormalizationMoments,
@@ -23,8 +25,11 @@ from wnn.training.sequence_normalization import (
     moments_sha256,
     normalization_identity_sha256,
 )
+from wnn.training.sequence_runtime_context import P5_RUNTIME_KEYS, runtime_context_contract
 
 # Heterogeneous JSON recipes/provenance are restricted to the public runtime boundary.
+if TYPE_CHECKING:
+    from wnn.training.sequence_reference_cache import ReferenceCache
 
 
 class SequenceRecords(Dataset):
@@ -35,7 +40,7 @@ class SequenceRecords(Dataset):
         root: Path,
         members: list[tuple[str, int]],
         hint_dim: int,
-        cache: TeacherCache | None = None,
+        cache: TeacherCache | ReferenceCache | None = None,
         hint_members: list[tuple[str, int]] | None = None,
         training_mask: str = "is_scored",
     ) -> None:
@@ -197,18 +202,21 @@ def build_data(
     data_root: Path,
     split_manifest: Path,
     teacher_cache: Path | None = None,
+    reference_cache: Path | None = None,
 ) -> SequenceData:
     """Validate the canonical component split before opening any training stream."""
     split = load_campaign_split(split_manifest, data_root)
     members = [("train", group) for group in split.train_groups]
     members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]
-    needed = config["kd_weight"] > 0 or config["hint_weight"] > 0
+    pretraining = config.get("pretraining") is not None
+    needed = ensemble_config.requires_teacher_cache(config, pretraining)
     if needed and teacher_cache is None:
         raise ValueError("distillation requires a source-bound teacher cache")
     if teacher_cache is not None and not needed:
         raise ValueError("label-only control must not receive a teacher cache")
     cache = TeacherCache(teacher_cache, split, members) if teacher_cache else None
+    reference = fit_reference(config, reference_cache, teacher_cache, split, members)
     if cache is not None and config["hint_weight"] > 0 and cache.metadata["hint_dim"] != hint_dim:
         raise ValueError("teacher/student hint widths differ")
     with split_manifest.open("rb") as stream:
@@ -263,11 +271,18 @@ def build_data(
         "hint_mode": config["hint_mode"],
         "hint_members": None if hint_members is None else [list(member) for member in hint_members],
     }
+    declared_objective = ensemble_config.objective_contract(config)
+    if declared_objective is not None:
+        provenance["objective_contract"] = declared_objective
+    if declared_objective is not None or P5_RUNTIME_KEYS.intersection(config):
+        provenance["runtime_context_contract"] = runtime_context_contract(config)
+    if reference is not None:
+        provenance["reference"] = reference.identity
     fit = SequenceRecords(
         data_root,
         members,
         hint_dim,
-        cache,
+        reference if reference is not None else cache,
         hint_members,
         training_mask=training_mask,
     )

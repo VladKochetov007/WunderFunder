@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 import os
 import platform
 import subprocess
@@ -56,6 +55,14 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _cudnn_rnn_fp32_precision(backend: object | None = None) -> str:
+    """Return the backend's RNN FP32 mode or an explicit marker on older PyTorch."""
+    cudnn_backend = torch.backends.cudnn if backend is None else backend
+    rnn_backend = getattr(cudnn_backend, "rnn", None)
+    value = getattr(rnn_backend, "fp32_precision", None)
+    return str(value) if value is not None else "unavailable"
+
+
 def source_identity(source_root: Path, entrypoint: Path) -> dict[str, object]:
     """Hash every source file under src plus the public entrypoint for exact resume."""
     root = source_root.resolve()
@@ -102,6 +109,11 @@ def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
         "matmul_precision": torch.get_float32_matmul_precision(),
         "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
         "cudnn_tf32": torch.backends.cudnn.allow_tf32,
+        "cudnn_rnn_fp32_precision": _cudnn_rnn_fp32_precision(),
+        "nvidia_tf32_override": os.environ.get("NVIDIA_TF32_OVERRIDE"),
+        "torch_allow_tf32_cublas_override": os.environ.get(
+            "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE"
+        ),
         "autocast": False,
         "amp_scaler": False,
         "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
@@ -135,7 +147,16 @@ def runtime_identity(context: DistributedContext) -> dict[str, object]:
         raise RuntimeError("could not collect runtime identity from every rank")
     common_fields = (
         ("python", "platform", "torch", "cuda_runtime", "cudnn", "nvidia_driver")
-        + ("visible_devices", "world_size", "matmul_precision", "matmul_tf32", "cudnn_tf32")
+        + (
+            "visible_devices",
+            "world_size",
+            "matmul_precision",
+            "matmul_tf32",
+            "cudnn_tf32",
+            "cudnn_rnn_fp32_precision",
+            "nvidia_tf32_override",
+            "torch_allow_tf32_cublas_override",
+        )
         + ("autocast", "amp_scaler", "cublas_workspace_config")
     )
     baseline = workers[0]
@@ -167,7 +188,7 @@ def run_identity(
 ) -> dict[str, object]:
     """Bind configuration, supplied data/teacher, source, runtime, and exact rank count."""
     data_value = json_value(data_provenance)
-    return {
+    identity = {
         "schema": "wnn.sequence-run-identity.v1",
         "config_sha256": canonical_sha256(config),
         "data_sha256": canonical_sha256(data_value),
@@ -177,6 +198,9 @@ def run_identity(
         "runtime": runtime_precision_identity(config, runtime),
         "world_size": world_size,
     }
+    if config.get("profile_reload", False):
+        identity["profile_reload_required"] = True
+    return identity
 
 
 def assert_same_identity(identity: dict[str, object], context: DistributedContext) -> None:
@@ -211,90 +235,7 @@ def recorder_for_run(
 
 
 def validate_profile_receipt(path: Path, identity: dict[str, object]) -> str:
-    """Require a manually approved engineering profile with exact fit identities."""
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError("profile receipt must contain a JSON object")
-    if value.get("receipt_schema") != "wnn.sequence-profile.v1":
-        raise ValueError("unsupported engineering profile receipt")
-    if value.get("status") != "profile_complete" or value.get("approved") is not True:
-        raise ValueError("full fitting requires an explicitly approved completed profile receipt")
-    if value.get("identity") != identity:
-        raise ValueError("profile receipt config/data/source/runtime identity does not match")
-    for name in ("updates", "forwarded_rows", "real_rows", "valid_rows"):
-        if not _positive_integer(value.get(name)):
-            raise ValueError(f"profile receipt {name} must be a positive integer")
-    epochs = value.get("epochs_traversed")
-    if not isinstance(epochs, int) or isinstance(epochs, bool) or epochs < 0:
-        raise ValueError("profile completed-epoch count must be a nonnegative integer")
-    if value["forwarded_rows"] < value["real_rows"] or value["valid_rows"] > value["real_rows"]:
-        raise ValueError("profile work counts are internally inconsistent")
-    if not _finite_nonnegative(value.get("elapsed_seconds")) or value["elapsed_seconds"] <= 0:
-        raise ValueError("profile receipt elapsed time must be finite and positive")
-    if value.get("scientific_checkpoint_written") is not False:
-        raise ValueError("engineering profiles must not write a scientific checkpoint")
-    errors = value.get("errors")
-    if errors != [] or value.get("error_count") != 0:
-        raise ValueError("profile receipt must have no runtime errors")
-    losses = value.get("losses")
-    if not isinstance(losses, dict) or set(losses) != {"label", "distillation", "hint", "total"}:
-        raise ValueError("profile receipt is missing its objective summary")
-    if not all(_finite_nonnegative(loss) for loss in losses.values()):
-        raise ValueError("profile losses must be finite and nonnegative")
-    if value.get("model_parameters") != identity.get("model_parameters"):
-        raise ValueError("profile model parameter count does not match this fit")
-    memory = value.get("memory_by_rank")
-    world_size = identity.get("world_size")
-    if not isinstance(world_size, int) or isinstance(world_size, bool):
-        raise ValueError("run identity has an invalid world size")
-    if not isinstance(memory, list) or len(memory) != world_size:
-        raise ValueError("profile receipt must record memory metrics for every rank")
-    if [item.get("rank") for item in memory if isinstance(item, dict)] != list(range(world_size)):
-        raise ValueError("profile resource records are missing or misordered by rank")
-    memory_fields = (
-        "peak_allocated_bytes",
-        "peak_reserved_bytes",
-        "device_total_memory_bytes",
-        "host_peak_rss_bytes",
-    )
-    for item in memory:
-        if not isinstance(item, dict) or not all(
-            _positive_integer(item.get(field)) for field in memory_fields
-        ):
-            raise ValueError("profile resource values must be positive integer byte counts")
-        if item["peak_allocated_bytes"] > item["peak_reserved_bytes"]:
-            raise ValueError("profile allocated memory cannot exceed reserved memory")
-        if item["peak_reserved_bytes"] > item["device_total_memory_bytes"]:
-            raise ValueError("profile reserved memory cannot exceed total device memory")
-    runtime = identity.get("runtime")
-    if isinstance(runtime, dict) and "devices" in runtime:
-        devices = runtime["devices"]
-        if not isinstance(devices, list) or len(devices) != world_size:
-            raise ValueError("run identity must bind one runtime device per rank")
-        for rank, (device, item) in enumerate(zip(devices, memory, strict=True)):
-            if (
-                not isinstance(device, dict)
-                or device.get("rank") != rank
-                or device.get("total_memory_bytes") != item["device_total_memory_bytes"]
-            ):
-                raise ValueError("profile device memory does not match the runtime identity")
-    if value.get("peak_memory_bytes") != max(item["peak_allocated_bytes"] for item in memory):
-        raise ValueError("profile aggregate allocated memory does not match per-rank values")
-    if value.get("peak_reserved_bytes") != max(item["peak_reserved_bytes"] for item in memory):
-        raise ValueError("profile aggregate reserved memory does not match per-rank values")
-    return file_sha256(path)
+    """Validate a profile receipt through the focused receipt component."""
+    from wnn.training.sequence_profile_receipt import validate_profile_receipt as validate
 
-
-def _positive_integer(value: object) -> bool:
-    """Accept only positive Python integer counters, excluding booleans."""
-    return isinstance(value, int) and not isinstance(value, bool) and value > 0
-
-
-def _finite_nonnegative(value: object) -> bool:
-    """Accept finite nonnegative numeric receipt values, excluding booleans."""
-    return (
-        isinstance(value, (int, float))
-        and not isinstance(value, bool)
-        and math.isfinite(value)
-        and value >= 0
-    )
+    return validate(path, identity)

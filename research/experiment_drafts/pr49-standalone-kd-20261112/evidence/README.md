@@ -1,0 +1,3 @@
+# Admission evidence
+
+`KD_SOURCE_CAPSULE_R2.json` and `SOURCE_MANIFEST.json` bind the exact committed runtime and its Git-blob inventory. `CPU_CHECKS_R1.json` and `REVIEW_NOTES_R1.md` preserve focused tests, the reproduced base failure, source-format successors and limits. `180-newkd-canonical-cache-profiles-r1.json` records actual canonical config/cache consumption before GPU work. `L4_NEWKD_PROFILE_RECEIPTS_R1.json` reports all four completed30-step profiles, exact reload/source/split/teacher identities, and independent grades of the preceding E6 label fits. `182-newkd-admit-fixed-epoch-fits-r1.json` binds root admission and detached launch; it alone does not prove child progress. `CLOCK_R1.json` is the unchanged original wave deadline, not a fresh budget.

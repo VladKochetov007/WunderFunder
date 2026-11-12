@@ -1,0 +1,176 @@
+{
+  "arms": [
+    {
+      "configs": [
+        {
+          "path": "configs/muon_rnn_k16_s203301.json",
+          "seed": 203301,
+          "sha256": "7b5e46e48d69694c653f2e3f4ae9f87550a758e2471e71e5c60033845ed9e6b3"
+        },
+        {
+          "path": "configs/muon_rnn_k16_s203302.json",
+          "seed": 203302,
+          "sha256": "a58bd410e0b52b13073fb581d3f10fba83789b4d176ef6f73abc1010af762df4"
+        }
+      ],
+      "id": "pr82_01_pr84_recurrent_muon",
+      "optimizer_controls": {
+        "adamw_beta1": 0.9,
+        "adamw_beta2": 0.999,
+        "adamw_eps": 1e-08,
+        "muon_momentum": 0.95,
+        "muon_ns_eps": 1e-07,
+        "muon_ns_steps": 5
+      },
+      "pairing_note": "AdamW beta2 .999 and weight decay .01 match the reused K16 controls and PR84 CLI defaults",
+      "status": "needs exact-source per-config 30-update profiles and ROOT approval",
+      "treatment": "Muon on all named GRU input and hidden gate matrices, 3 blocks per parameter; AdamW on all other trainables"
+    },
+    {
+      "configs": [
+        {
+          "path": "configs/since32_k16_s203301.json",
+          "seed": 203301,
+          "sha256": "e5c820ce524aa305cd77cfa784492cb1aec2ac95eeb919a815894f63d10e7553"
+        },
+        {
+          "path": "configs/since32_k16_s203302.json",
+          "seed": 203302,
+          "sha256": "42972bf72573bf84fd55a5086b2bece2412799a74f9070eaf09ca7b688aa0fdf"
+        }
+      ],
+      "id": "pr82_03_since_event_weighting",
+      "status": "needs exact-source per-config 30-update profiles and ROOT approval",
+      "treatment": "multiply only main label numerator row weights by max(.25, 1/(1+since/32)) from causal raw i0 price-event ages; leave denominator and official metric unchanged"
+    }
+  ],
+  "branch": "experiment/l4-adapters-20261112",
+  "clock": {
+    "controller": "ROOT only",
+    "first_new_gpu_epoch": 1794453619.060462,
+    "fit_deadline_epoch": 1794468019.060462,
+    "id": "CLOCK_R1",
+    "sha256": "0181e9889a45d0636e3b9981ddb15e17fb5cd26429068bb0ee37f78d09d71270",
+    "wave_deadline_epoch": 1794471619.060462
+  },
+  "commands": {
+    "config_loader": "PYTHONPATH=SOURCE_ROOT/src python -c 'from pathlib import Path; from wnn.training.sequence_config import load_config; [load_config(p) for p in sorted(Path(CONFIG_ROOT).glob(\"*.json\"))]'",
+    "fit_after_approval": "python scripts/train_sequence.py --config CONFIG --data-root DATA_ROOT --split-manifest SPLIT_MANIFEST --output FIT_OUTPUT --profile-receipt APPROVED_PROFILE_RECEIPT",
+    "profile": "python scripts/train_sequence.py --config CONFIG --data-root DATA_ROOT --split-manifest SPLIT_MANIFEST --output PROFILE_OUTPUT --profile-updates 30"
+  },
+  "common_fit_contract": {
+    "architecture": "GRU256x2 with causal input_stem_kernel 16",
+    "batch_size": 32,
+    "checkpoint_retention": "all_epochs",
+    "chunk_rows": 1000,
+    "epochs": 6,
+    "fixed_endpoint": "configured_final_epoch_E6",
+    "full_valid_every_epoch": true,
+    "global_grad_clip": 1.0,
+    "min_lr_ratio": 0.1,
+    "normalization_scope": "all_fit",
+    "normalization_sequences": 10325,
+    "optimizer_schedule": "warmup_cosine_v2",
+    "peak_lr": 0.0003,
+    "precision_mode": "fp32",
+    "rows_per_update": 32000,
+    "teacher_or_initializer": null,
+    "total_updates": 38760,
+    "train_eval_sequences": 32,
+    "training_mask": "all_after_warmup",
+    "updates_per_epoch": 6460,
+    "warmup_updates": 1938,
+    "weight_decay": 0.01
+  },
+  "config_sha256": {
+    "muon_rnn_k16_s203301.json": "7b5e46e48d69694c653f2e3f4ae9f87550a758e2471e71e5c60033845ed9e6b3",
+    "muon_rnn_k16_s203302.json": "a58bd410e0b52b13073fb581d3f10fba83789b4d176ef6f73abc1010af762df4",
+    "since32_k16_s203301.json": "e5c820ce524aa305cd77cfa784492cb1aec2ac95eeb919a815894f63d10e7553",
+    "since32_k16_s203302.json": "42972bf72573bf84fd55a5086b2bece2412799a74f9070eaf09ca7b688aa0fdf"
+  },
+  "control": {
+    "configs": [
+      {
+        "e6_wp": 0.683019498,
+        "path": "configs/controls/k16_s203301.json",
+        "seed": 203301,
+        "sha256": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534"
+      },
+      {
+        "e6_wp": 0.682629372,
+        "path": "configs/controls/k16_s203302.json",
+        "seed": 203302,
+        "sha256": "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0"
+      }
+    ],
+    "never_refit_controls": true,
+    "reuse_completed_exact_same_seed_k16_controls": true,
+    "source_identity_sha256": "b9eddeb9a0733b8efa5a11bed24d03de53f94b83b03d72b5db09ab1adcd63188"
+  },
+  "data": {
+    "official_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "official_valid_fit_sequences": 0,
+    "preserve_whole_sequences": true,
+    "seq_ix_chronology": false,
+    "train_fit_sequences": 10325,
+    "valid_evaluation_rows": 3528273,
+    "valid_evaluation_sequences": 1873,
+    "validation_role": "complete official chronological validation, exposed development data"
+  },
+  "precision_environment": {
+    "NVIDIA_TF32_OVERRIDE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+    "record_both_override_environment_values": true,
+    "runtime_getter": "torch.backends.cudnn.rnn.fp32_precision",
+    "runtime_getter_fallback": "unavailable when the torch build has no cudnn.rnn.fp32_precision attribute"
+  },
+  "profile_admission": {
+    "fit_launcher_must_bind_profile_receipt_to_exact_candidate_identity": true,
+    "profile_each_candidate_config_with_its_exact_source_identity_and_data_split": true,
+    "profile_receipt_must_pass_before_fit": true,
+    "require_finite_losses_gradients_and_fp32_optimizer_state": true,
+    "require_nonzero_updates_and_complete_monitoring_identity": true,
+    "root_controller_owns_device_memory_headroom_gpu_uuid_and_output_caps": true,
+    "updates": 30
+  },
+  "readout": {
+    "all_epoch_valid_score": true,
+    "per_seed_paired_delta_before_mean": true,
+    "per_target_score": true,
+    "primary_metric": "global_wp_clip2_v1 on all 1,873 valid sequences and 3,528,273 scored rows",
+    "required_telemetry": [
+      "preclip norm",
+      "clipped flag",
+      "LR per optimizer group",
+      "nonfinite counts",
+      "updates/s",
+      "rows/s",
+      "GPU utilization/memory",
+      "host RAM",
+      "disk/output size"
+    ],
+    "selection_rule": "PR82 heuristic: mean E6 paired delta >= +0.0005 WP and both seed deltas positive; descriptive prioritization only",
+    "since_arm_valid_strata": [
+      "age < 32",
+      "age >= 32"
+    ]
+  },
+  "schema": "sequence-gru-followups-r1.v1",
+  "source": {
+    "archive": "C:\\Users\\admin\\Documents\\Codex\\artifacts\\cluster-all-experiments-20261112\\sequence-gru-followups-r1\\source-r1.tar.gz",
+    "archive_sha256": "7decf9c4adcecb80b1dfe5a156d95ca998fc2649c3b9700c9523f0d1fd458f79",
+    "git_commit": "7dd1327498c366ffe2bd42a7ae1cff079c46eeb3",
+    "source_files": 214,
+    "source_identity_sha256": "f2de086605e8b8f5964ddd5afd18a6bb13f567895dadb0fbf4bf7444d26e10db",
+    "source_manifest": "C:\\Users\\admin\\Documents\\Codex\\artifacts\\cluster-all-experiments-20261112\\sequence-gru-followups-r1\\SOURCE_MANIFEST.json",
+    "source_manifest_sha256": "b1fbff20f21520ef40e0d478a627e8968cb5201e6af9e6340f5511b009d63430"
+  },
+  "status": "ready_for_root_profile_admission",
+  "validation": {
+    "focused_pytest": "76 passed; galam-test-env Python 2.14.1 CPU, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1",
+    "gpu_profile_or_fit_launched_by_source_author": false,
+    "ruff": "All checks passed",
+    "source_config_loader_and_optimizer_construction": "all four configs parsed, models and optimizers built, contracts emitted; 38,760 updates each"
+  }
+}
