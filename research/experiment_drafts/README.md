@@ -1,6 +1,7 @@
 # Research-team experiment catalogue
 
 - [L4 GRU impact-10 (Vlad)](l4-impact10-vlad-20261111/README.md) — ten heterogeneous single-change screens on the PR79/PR80 K16 contract (Muon on GRU, train-only TL3C distillation, since-event weighting, auxiliary structure heads, 4000-row horizon, per-update EMA, causal regime channels, scale augmentation, class-routed readout, seed self-distillation); 20 planned L4 fits reusing PR80 controls, none executed.
+- [L4 all-experiments continuation (2026-11-12)](l4-all-20261112/README.md) — first eight-fit config-only cohort pinned to the exact PR80 receiver; train-only membership, full official-valid E6, exact K16 controls, fixed clock and finite follow-on queue.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
