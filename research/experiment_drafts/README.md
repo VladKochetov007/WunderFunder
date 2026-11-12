@@ -63,3 +63,7 @@ The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/exp
 ## Fixed-TL3 Transformer complement — 6 November 2026
 
 [Implemented four-fit packet](tl3-transformer-complement-20261106/README.md): label-only versus fixed-composition Transformer training, two paired seeds on the exact PR49 train-only source split. Both endpoints are0.9 clean TL3 + 0.1 Transformer; T768×24, context 1024, 30 epochs, Muon, BF16/BF16x9, eight B300s. Native 17-role ancestry, explicit composed scoring and receiver-only acceptance/profiles are implemented; all four fits and real GPU acceptance remain unrun. [Current portal/result audit](tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) distinguishes public best 0.66832 from clean-development 0.692377425. H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106. No CPU-ready ZIP or compact-KD result.
+
+## PR82 sequence GRU follow-ups - 12 November 2026
+
+[Frozen source and four-fit packet](sequence-gru-muon-20261112/README.md): recurrent Muon (#01, PR84 transfer) and causal since-event weighting (#03) are separate two-seed arms on the exact PR80 sequence receiver. Both reuse the fitted K16 controls, preserve the official train/valid boundary, and require ROOT's exact-config 30-update profile receipts before fit admission. Source and config hashes are in the packet manifest; no profile or fit has been launched for these arms.
