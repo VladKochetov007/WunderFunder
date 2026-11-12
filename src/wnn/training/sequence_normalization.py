@@ -124,6 +124,7 @@ def build_normalization_identity(
     members: Sequence[tuple[str, int]],
     scope: str,
     feature_count: int,
+    identity_extra: Mapping[str, object] | None = None,
 ) -> dict[str, Any]:
     """Build source-bound identity without model size or distributed-world fields."""
     if scope not in ("prefix", "all_fit"):
@@ -142,7 +143,7 @@ def build_normalization_identity(
     required_sources = {f"datasets/{member[0]}.parquet" for member in encoded_members}
     if not required_sources.issubset(fingerprints):
         raise ValueError("normalization cache is missing a fitting-source fingerprint")
-    return {
+    identity = {
         "algorithm": ALGORITHM,
         "feature_count": feature_count,
         "normalization_scope": scope,
@@ -151,6 +152,9 @@ def build_normalization_identity(
         "source_fingerprints": fingerprints,
         "split_sha256": split_sha256,
     }
+    if identity_extra is not None:
+        identity["identity_extra"] = dict(identity_extra)
+    return identity
 
 
 def _decode_cache(
@@ -212,11 +216,12 @@ def _write_cache_no_overwrite(path: Path, payload: bytes) -> bool:
             os.link(temporary, path)
         except FileExistsError:
             return False
-        directory_descriptor = os.open(path.parent, os.O_RDONLY)
-        try:
-            os.fsync(directory_descriptor)
-        finally:
-            os.close(directory_descriptor)
+        if os.name != "nt":
+            directory_descriptor = os.open(path.parent, os.O_RDONLY)
+            try:
+                os.fsync(directory_descriptor)
+            finally:
+                os.close(directory_descriptor)
         return True
     finally:
         temporary.unlink(missing_ok=True)
@@ -230,10 +235,16 @@ def load_or_compute_full_fit_moments(
     reader: Callable[[str, int], np.ndarray],
     *,
     feature_count: int = 112,
+    identity_extra: Mapping[str, object] | None = None,
 ) -> NormalizationMoments:
     """Reuse or atomically create fitting-only all-fit moments bound to exact ancestry."""
     identity = build_normalization_identity(
-        source_fingerprints, split_sha256, members, "all_fit", feature_count
+        source_fingerprints,
+        split_sha256,
+        members,
+        "all_fit",
+        feature_count,
+        identity_extra=identity_extra,
     )
     identity_sha = normalization_identity_sha256(identity)
     cache_path = cache_dir / f"{identity_sha}.json"

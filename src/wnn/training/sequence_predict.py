@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import torch
@@ -12,6 +12,8 @@ import torch.distributed as dist
 
 from wnn.data import SEQUENCE_LENGTH
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.sequence_blend import compose_prediction
+from wnn.training.sequence_blend_prediction import blend_producer, prediction_reference
 from wnn.training.sequence_data import SequenceRecords
 from wnn.training.sequence_epoch_prediction import (
     EPOCH_KIND,
@@ -21,11 +23,18 @@ from wnn.training.sequence_epoch_prediction import (
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_precision import forward_context
 
+if TYPE_CHECKING:
+    from wnn.training.sequence_reference_cache import ReferenceCache
+
 # Checkpoint payloads contain tensors and JSON-compatible provenance, validated on load.
 
 
 def load_endpoint(
-    checkpoint: Path, device: torch.device, admission: dict[str, Any] | None = None
+    checkpoint: Path,
+    device: torch.device,
+    admission: dict[str, Any] | None = None,
+    *,
+    allow_blend_head: bool = False,
 ) -> tuple[torch.nn.Module, dict[str, Any]]:
     """Load a fixed-final endpoint or an explicitly admitted retained epoch."""
     payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
@@ -34,6 +43,8 @@ def load_endpoint(
     elif payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
         raise ValueError("unsupported endpoint; native/legacy weights require an explicit adapter")
     config = payload["config"]
+    if config.get("blend_objective_alpha", 0) > 0 and not allow_blend_head:
+        raise ValueError("composite-trained head requires explicit reference-bound export")
     if admission is None and (
         payload["completed_epochs"] != config["epochs"] or payload["epoch"] != config["epochs"] - 1
     ):
@@ -64,7 +75,9 @@ def predict_sequence(
             prediction, hints, state = model(
                 x[start : start + chunk_rows].unsqueeze(0).to(device), state
             )
-        outputs.append(torch.cat((prediction.float(), hints.float()), -1).squeeze(0).cpu().numpy())
+        outputs.append(
+            torch.cat((prediction[..., :2].float(), hints.float()), -1).squeeze(0).cpu().numpy()
+        )
     values = np.concatenate(outputs).astype(np.float32, copy=False)
     if not np.isfinite(values).all():
         raise ValueError("nonfinite endpoint output")
@@ -73,7 +86,7 @@ def predict_sequence(
 
 def _producer(checkpoint: Path, payload: dict[str, Any]) -> dict[str, Any]:
     data = payload["data"]
-    return {
+    producer = {
         "checkpoint_sha256": file_sha256(checkpoint),
         "split_sha256": data["split_sha256"],
         "fit_members": data["fit_members"],
@@ -81,6 +94,16 @@ def _producer(checkpoint: Path, payload: dict[str, Any]) -> dict[str, Any]:
         "config": payload["config"],
         "provenance": payload["provenance"],
     }
+    if "reference" in data:
+        producer["reference"] = data["reference"]
+    return producer
+
+
+def verify_prediction_reference(reference: ReferenceCache, rank: int) -> bool:
+    """Check immutable shared reference bytes on rank zero and coordinate a success value."""
+    if rank == 0:
+        reference.verify_unchanged()
+    return True
 
 
 def export_predictions(args: argparse.Namespace) -> None:
@@ -88,6 +111,7 @@ def export_predictions(args: argparse.Namespace) -> None:
     # Import the shared runtime here to keep all precision policy in one implementation.
     from wnn.training.sequence_distributed import (
         collective_output_setup,
+        coordinated_call,
         initialize_distributed,
     )
 
@@ -109,7 +133,12 @@ def export_predictions(args: argparse.Namespace) -> None:
         ):
             raise ValueError("retained epochs are admitted only for inner evaluation")
         admission = epoch_admission(args.checkpoint, index_path, index_hash)
-    model, payload = load_endpoint(args.checkpoint, device, admission)
+    reference_path = getattr(args, "reference_cache", None)
+    if reference_path is not None and admission is not None:
+        raise ValueError("composite exports require the fixed-final endpoint, not epoch selection")
+    model, payload = load_endpoint(
+        args.checkpoint, device, admission, allow_blend_head=reference_path is not None
+    )
     if payload["data"]["split_sha256"] != split.sha256:
         raise ValueError("endpoint does not exclude this evaluation fold")
     fitting = [("train", g) for g in split.train_groups] + [
@@ -119,6 +148,9 @@ def export_predictions(args: argparse.Namespace) -> None:
         raise ValueError("endpoint fitting membership is not this source-qualified split")
     members = (
         fitting if args.membership == "fit" else [("valid", g) for g in split.evaluation_groups]
+    )
+    reference, alpha = prediction_reference(
+        reference_path, getattr(args, "blend_alpha", None), payload, split, members, args.membership
     )
     collective_output_setup(args.output, False, runtime)
     if world > 1:
@@ -130,6 +162,9 @@ def export_predictions(args: argparse.Namespace) -> None:
         values = predict_sequence(
             model, dataset[index]["x"], payload["config"]["chunk_rows"], device
         )
+        if reference is not None:
+            baseline, _ = reference.read(source, group, 0)
+            values = compose_prediction(torch.from_numpy(values[:, :2]), baseline, alpha).numpy()
         if args.membership == "evaluation":
             values = values[:, :2].copy()
         name = f"{source}-{group}.npy"
@@ -145,6 +180,12 @@ def export_predictions(args: argparse.Namespace) -> None:
     part.write_text(json.dumps(entries, sort_keys=True))
     if world > 1:
         dist.barrier()
+    if reference is not None:
+        coordinated_call(
+            lambda: verify_prediction_reference(reference, rank),
+            "reference cache stability after export",
+            runtime,
+        )
     if rank == 0:
         all_entries = [
             entry
@@ -155,6 +196,8 @@ def export_predictions(args: argparse.Namespace) -> None:
         if len(all_entries) != len(members) or set(entry_map) != set(members):
             raise ValueError("missing or duplicate export shards")
         producer = _producer(args.checkpoint, payload)
+        if reference is not None:
+            producer = blend_producer(producer, reference.identity, alpha)
         if admission is not None:
             producer.update({"kind": EPOCH_KIND, "epoch_admission": admission})
         manifest = {
@@ -189,6 +232,8 @@ def main() -> None:
     parser.add_argument("--membership", choices=("fit", "evaluation"), required=True)
     parser.add_argument("--epoch-index", type=Path)
     parser.add_argument("--epoch-index-sha256")
+    parser.add_argument("--reference-cache", type=Path)
+    parser.add_argument("--blend-alpha", type=float)
     args = parser.parse_args()
     if int(os.environ.get("WORLD_SIZE", "1")) < 1:
         parser.error("invalid distributed world size")

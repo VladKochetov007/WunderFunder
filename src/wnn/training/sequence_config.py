@@ -2,10 +2,21 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_auxiliary import validate_auxiliary_heads
+from wnn.training.sequence_blend import validate_blend_config
+from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
+from wnn.training.sequence_complement_monitor import validate_complement_monitor
+from wnn.training.sequence_config_model import validate_model_config
+from wnn.training.sequence_ensemble_config import validate_ensemble_objective
+from wnn.training.sequence_input_stem import validate_input_stem_kernel
+from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+from wnn.training.sequence_pretraining_contract import validate_future_training_config
+from wnn.training.sequence_runtime_context import runtime_context_contract
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
 DEFAULTS: dict[str, Any] = {
@@ -24,12 +35,16 @@ DEFAULTS: dict[str, Any] = {
     "adamw_beta1": 0.9,
     "adamw_beta2": 0.999,
     "adamw_eps": 1e-8,
+    "since_weight": 0.0,
+    "since_floor": 0.25,
     "grad_clip": 1.0,
     "warmup_fraction": 0.05,
     "schedule": "legacy_warmup_cosine",
     "min_lr_ratio": 0.0,
     "kd_weight": 0.0,
     "hint_weight": 0.0,
+    "aux_structure_weight": 0.0,
+    "aux_next_change_weight": 0.0,
     "hint_mode": "aligned",
     "normalization_sequences": 32,
     "training_mask": "is_scored",
@@ -52,13 +67,33 @@ MODEL_DEFAULTS: dict[str, Any] = {
     "hint_projection": "learned",
     "attention_backend": "math",
     "compile_blocks": False,
+    "auxiliary_heads": [],
 }
 
 
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    optional = {
+        "model",
+        "checkpoint_retention",
+        "checkpoint_endpoint_policy",
+        "blend_objective_alpha",
+        "monitoring",
+        "muon_batch_by_shape",
+        "objective_mode",
+        "correlation_prediction_std_floor",
+        "gradient_horizon_rows",
+        "optimizer_update_diagnostics_every",
+        "lr_role_factors",
+        "lr_head_factor",
+        "lr_body_factor",
+        "profile_reload",
+        "supervised_target",
+        "pretraining",
+        "parent_initializer",
+    }
+    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
@@ -66,13 +101,26 @@ def load_config(path: Path) -> dict[str, Any]:
         "all_epochs",
     ):
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
+    validate_checkpoint_endpoint_policy(raw)
     config = DEFAULTS | raw
+    if "profile_reload" in raw and type(raw["profile_reload"]) is not bool:
+        raise ValueError("profile_reload must be boolean")
+    supervised_target = raw.get("supervised_target")
+    if supervised_target is not None and (
+        type(supervised_target) is not int or supervised_target not in (0, 1)
+    ):
+        raise ValueError("supervised_target must be null, 0, or 1")
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
     model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    if set(model) - (set(MODEL_DEFAULTS) | {"input_stem_kernel"}):
         raise ValueError("unknown sequence model field")
+    input_stem_kernel = validate_input_stem_kernel(model.get("input_stem_kernel", 0))
+    if input_stem_kernel == 0:
+        model.pop("input_stem_kernel", None)
+    auxiliary_heads = validate_auxiliary_heads(model["auxiliary_heads"])
+    model["auxiliary_heads"] = list(auxiliary_heads)
     config["model"] = model
     for key in (
         "schema_version",
@@ -86,6 +134,15 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be a positive integer")
     if config["schema_version"] != 1 or config["chunk_rows"] > 20_000:
         raise ValueError("unsupported schema or chunk length")
+    if "gradient_horizon_rows" in config and (
+        type(config["gradient_horizon_rows"]) is not int or config["gradient_horizon_rows"] < 1
+    ):
+        raise ValueError("gradient_horizon_rows must be a positive integer")
+    if "optimizer_update_diagnostics_every" in config and (
+        type(config["optimizer_update_diagnostics_every"]) is not int
+        or config["optimizer_update_diagnostics_every"] < 1
+    ):
+        raise ValueError("optimizer_update_diagnostics_every must be a positive integer")
     if type(config["seed"]) is not int or not 0 <= config["seed"] < 2**32:
         raise ValueError("seed must be an unsigned 32-bit integer")
     for key in (
@@ -95,6 +152,10 @@ def load_config(path: Path) -> dict[str, Any]:
         "warmup_fraction",
         "kd_weight",
         "hint_weight",
+        "aux_structure_weight",
+        "aux_next_change_weight",
+        "since_weight",
+        "since_floor",
         "muon_ns_eps",
         "adamw_eps",
     ):
@@ -104,6 +165,18 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be nonnegative")
     if config["lr"] == 0 or config["grad_clip"] == 0 or config["warmup_fraction"] >= 1:
         raise ValueError("positive learning rate/clipping and warmup_fraction < 1 required")
+    if any(
+        isinstance(config[key], bool)
+        for key in (
+            "since_weight",
+            "since_floor",
+            "aux_structure_weight",
+            "aux_next_change_weight",
+        )
+    ):
+        raise ValueError("weight and floor settings must be numeric values, not booleans")
+    if config["since_floor"] <= 0 or config["since_floor"] > 1:
+        raise ValueError("since_floor must be in (0, 1]")
     if type(config["muon_ns_steps"]) is not int or config["muon_ns_steps"] <= 0:
         raise ValueError("muon_ns_steps must be a positive integer")
     for key in ("muon_ns_eps", "adamw_eps"):
@@ -130,33 +203,7 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("min_lr_ratio must be finite and in [0, 1]")
     if config["schedule"] == "legacy_warmup_cosine" and ratio != 0:
         raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
-    for key in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
-        if type(model[key]) is not int or model[key] < 1:
-            raise ValueError(f"model.{key} must be a positive integer")
-    if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
-        raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru"):
-        raise ValueError("architecture must be transformer or gru")
-    if model["attention_backend"] not in ("math", "efficient", "flex"):
-        raise ValueError("model.attention_backend must be math, efficient, or flex")
-    if model["architecture"] == "gru" and model["attention_backend"] != "math":
-        raise ValueError("attention backends are supported only by Transformer models")
-    if type(model["compile_blocks"]) is not bool:
-        raise ValueError("model.compile_blocks must be boolean")
-    if model["architecture"] == "gru" and model["compile_blocks"]:
-        raise ValueError("model.compile_blocks requires a Transformer model")
-    if config["optimizer"] == "muon" and model["architecture"] != "transformer":
-        raise ValueError("sequence Muon currently supports Transformer models only")
-    if model["hint_projection"] not in ("fixed", "learned"):
-        raise ValueError("hint_projection must be fixed or learned")
-    if model["dropout"] != 0 or type(model["checkpoint_blocks"]) is not bool:
-        raise ValueError("this paired runtime freezes dropout=0 and boolean checkpoint_blocks")
-    if model["architecture"] == "transformer" and model["hidden"] % (2 * model["heads"]):
-        raise ValueError("RoPE requires an even integral head dimension")
-    if config["hint_weight"] > 0 and (
-        model["hint_dim"] == 0 or model["hint_projection"] != "learned"
-    ):
-        raise ValueError("hint distillation requires a learned student projection")
+    validate_model_config(config, model, input_stem_kernel, supervised_target, auxiliary_heads)
     if config["hint_mode"] not in ("aligned", "component_permuted"):
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:
@@ -171,14 +218,26 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("required_world_size must be null or a positive integer")
     required_device = config["required_device"]
-    if required_device not in (None, "B300"):
-        raise ValueError("required_device must be null or B300")
+    if required_device not in (None, "B300", "L4"):
+        raise ValueError("required_device must be null, B300, or L4")
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
     # This runtime-only field lets fit and inference build the same precision-aware model.
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
+    validate_blend_config(config)
+    validate_complement_monitor(config)
+    validate_lr_factor_config(config)
+    validate_ensemble_objective(config)
+    validate_future_training_config(config)
+    runtime_context_contract(config)
+    if "muon_batch_by_shape" in config and (
+        type(config["muon_batch_by_shape"]) is not bool
+        or config["optimizer"] != "muon"
+        or model["architecture"] != "transformer"
+    ):
+        raise ValueError("muon_batch_by_shape requires a boolean and Transformer Muon recipe")
     return config
 
 
@@ -189,8 +248,10 @@ def validate_runtime_requirements(
     required_world_size = config["required_world_size"]
     if required_world_size is not None and world_size != required_world_size:
         raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
-    if config["required_device"] == "B300" and "B300" not in device_name.upper():
-        raise ValueError(f"recipe requires an NVIDIA B300 device, received {device_name!r}")
+    required_device = config["required_device"]
+    device_tokens = set(re.findall(r"[A-Z0-9]+", device_name.upper()))
+    if required_device is not None and required_device not in device_tokens:
+        raise ValueError(f"recipe requires a {required_device} device, received {device_name!r}")
     return True
 
 
