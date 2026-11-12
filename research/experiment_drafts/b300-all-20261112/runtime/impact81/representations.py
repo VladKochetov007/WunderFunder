@@ -10,6 +10,8 @@ N_FEATURES = 112
 PLE_KNOTS = 16
 PLE_GROUP_WIDTH = 4
 GROUP_TOKEN_WIDTH = 64
+# With four heads, one call expands to 64,000 batch-head entries at most.
+GROUP_ATTENTION_ROW_CHUNK = 16_000
 
 
 def _validate_values(values: Tensor) -> tuple[int, ...]:
@@ -161,7 +163,7 @@ class GroupInputProjection(nn.Module):
         )
         self.group_ids = nn.Embedding(len(groups), GROUP_TOKEN_WIDTH)
         self.attention_norm = nn.LayerNorm(GROUP_TOKEN_WIDTH)
-        self.attention = nn.MultiheadAttention(GROUP_TOKEN_WIDTH, 4, batch_first=True)
+        self.attention = nn.MultiheadAttention(GROUP_TOKEN_WIDTH, 4, dropout=0.0, batch_first=True)
         self.feedforward_norm = nn.LayerNorm(GROUP_TOKEN_WIDTH)
         self.feedforward = nn.Sequential(
             nn.Linear(GROUP_TOKEN_WIDTH, 128),
@@ -186,9 +188,28 @@ class GroupInputProjection(nn.Module):
         )
         tokens = tokens + self.group_ids.weight.unsqueeze(0)
         normalized = self.attention_norm(tokens)
-        attended, _ = self.attention(normalized, normalized, normalized, need_weights=False)
+        attended = _row_chunked_attention(self.attention, normalized, GROUP_ATTENTION_ROW_CHUNK)
         tokens = tokens + attended
         tokens = tokens + self.feedforward(self.feedforward_norm(tokens))
         pooled = tokens.mean(dim=1)
         branch = self.output_projection(pooled).reshape(*leading, self.base.out_features)
         return base_output + branch
+
+
+def _row_chunked_attention(
+    attention: nn.MultiheadAttention,
+    tokens: Tensor,
+    max_rows: int = GROUP_ATTENTION_ROW_CHUNK,
+) -> Tensor:
+    """Attend over feature groups in bounded batches of independent sequence rows."""
+    if tokens.ndim != 3 or tokens.shape[0] <= 0 or tokens.shape[1] <= 0:
+        raise ValueError("group attention expects nonempty [rows, groups, width] tokens")
+    if type(max_rows) is not int or max_rows <= 0:
+        raise ValueError("group attention row chunk must be a positive integer")
+    if tokens.shape[0] <= max_rows:
+        return attention(tokens, tokens, tokens, need_weights=False)[0]
+    attended = [
+        attention(chunk, chunk, chunk, need_weights=False)[0]
+        for chunk in tokens.split(max_rows, dim=0)
+    ]
+    return torch.cat(attended, dim=0)
