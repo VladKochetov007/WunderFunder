@@ -1,0 +1,219 @@
+{
+  "attempt_limits": {
+    "automatic_approval": false,
+    "automatic_dispatch": false,
+    "automatic_retries": 0,
+    "check_seconds": 3600,
+    "export_seconds": 7200,
+    "fit_seconds": 28800,
+    "prepare_seconds": 14400,
+    "profile_seconds": 3600,
+    "profile_updates": 50,
+    "score_seconds": 7200
+  },
+  "base_branch": "research-team",
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "canonical_pipeline_changes": false,
+  "cells": [
+    {
+      "id": "be_input_linear_s206201",
+      "native_config": "configs/native_s206201.json",
+      "native_sha256": "8764119991d24a58ca799491160fdb34477546bbef138bb8d3e4d02f51dc4318",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206201,
+      "variant": "input_linear"
+    },
+    {
+      "id": "be_input_linear_s206202",
+      "native_config": "configs/native_s206202.json",
+      "native_sha256": "9f98631c1d789c0a08d26b57a741562a365dfe220c5e43a440b8b939a1cf291e",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206202,
+      "variant": "input_linear"
+    },
+    {
+      "id": "be_input_bilinear_s206201",
+      "native_config": "configs/native_s206201.json",
+      "native_sha256": "8764119991d24a58ca799491160fdb34477546bbef138bb8d3e4d02f51dc4318",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206201,
+      "variant": "input_bilinear"
+    },
+    {
+      "id": "be_input_bilinear_s206202",
+      "native_config": "configs/native_s206202.json",
+      "native_sha256": "9f98631c1d789c0a08d26b57a741562a365dfe220c5e43a440b8b939a1cf291e",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206202,
+      "variant": "input_bilinear"
+    },
+    {
+      "id": "be_attention_softmax_s206201",
+      "native_config": "configs/native_s206201.json",
+      "native_sha256": "8764119991d24a58ca799491160fdb34477546bbef138bb8d3e4d02f51dc4318",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206201,
+      "variant": "attention_softmax"
+    },
+    {
+      "id": "be_attention_softmax_s206202",
+      "native_config": "configs/native_s206202.json",
+      "native_sha256": "9f98631c1d789c0a08d26b57a741562a365dfe220c5e43a440b8b939a1cf291e",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206202,
+      "variant": "attention_softmax"
+    },
+    {
+      "id": "be_attention_entmax_s206201",
+      "native_config": "configs/native_s206201.json",
+      "native_sha256": "8764119991d24a58ca799491160fdb34477546bbef138bb8d3e4d02f51dc4318",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206201,
+      "variant": "attention_entmax"
+    },
+    {
+      "id": "be_attention_entmax_s206202",
+      "native_config": "configs/native_s206202.json",
+      "native_sha256": "9f98631c1d789c0a08d26b57a741562a365dfe220c5e43a440b8b939a1cf291e",
+      "schema": "bilinear-entmax.cell.v1",
+      "seed": 206202,
+      "variant": "attention_entmax"
+    }
+  ],
+  "executed_fits": 0,
+  "experiment_wrapper_source_commit": "34b2beaf165eb7a224b792c17b99e41b5fd7384a",
+  "fit_sequences": 10325,
+  "historical_reused_fits": 0,
+  "launch_authorized": false,
+  "local_inference": false,
+  "local_model_profiles": false,
+  "local_tests": false,
+  "local_training": false,
+  "native_control_sha256": "e74f404f1ea7eefea98b23e2a0150356239ae2537286602b59d43c54486937c5",
+  "new_fits": 8,
+  "objective_mode": "standalone_labels_wmse_v2",
+  "optimization_changes": false,
+  "optimizer": "native PR75 Muon/AdamW; no recipe changes",
+  "planned_unique_fits": 8,
+  "precision": "bf16_bf16x9",
+  "pretraining_fits": 0,
+  "primary_metric": "global_wp_clip2_v1",
+  "profile_policy": {
+    "automatic_approval": false,
+    "full_shape_acceptance_schema": "bilinear-entmax.full-shape-acceptance.v1",
+    "profile_is_not_a_scientific_fit": true,
+    "required_for_each_cell": true,
+    "silent_downsizing": false,
+    "updates": 50
+  },
+  "profiles_executed": 0,
+  "publication": {
+    "fresh_compute_budget": null,
+    "launch_host": null,
+    "owner": "preparation owner only; receiver owner required at launch",
+    "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/91"
+  },
+  "resources": {
+    "check_gpus": 1,
+    "device_selection": "explicit IDs for actually free devices; receipt records IDs",
+    "export_gpus": 2,
+    "fit_concurrency": 1,
+    "fit_gpus": 2,
+    "gpu_model": "B300",
+    "host_ram_and_vram": "per-cell measured profile must fit named receiver allocation and human-reviewed caps"
+  },
+  "runtime_commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+  "runtime_manifest_sha256": "b6c2004cd5b916a8976973217b944d44f79464a557309b31c42f8912ef7711bf",
+  "schema": "bilinear-entmax.recipe.v1",
+  "seeds": [
+    206201,
+    206202
+  ],
+  "selection": {
+    "both_seeds_positive": true,
+    "confirm_before_submission": true,
+    "kind": "descriptive_allocation_heuristic_not_significance",
+    "mean_paired_wp_gain": 0.0005,
+    "target_regression_review_threshold": 0.001
+  },
+  "shared_controls": 0,
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "status": "implemented_pending_receiver_acceptance",
+  "student_fits": 0,
+  "studies": [
+    {
+      "compare_cli": "--study input-interaction --scores <four study score receipts>",
+      "contrast": "input_bilinear - input_linear",
+      "control_variant": "input_linear",
+      "family": "input_projection_interaction",
+      "historical_reused_controls": 0,
+      "id": "input-interaction",
+      "mechanism": "rank32_i0_i1_bilinear_residual",
+      "new_fits": 4,
+      "seeds": [
+        206201,
+        206202
+      ],
+      "shared_anchor_cells": 0,
+      "treatment_variant": "input_bilinear",
+      "variants": [
+        "input_linear",
+        "input_bilinear"
+      ]
+    },
+    {
+      "compare_cli": "--study attention-normalization --scores <four study score receipts>",
+      "contrast": "attention_entmax - attention_softmax",
+      "control_variant": "attention_softmax",
+      "family": "attention_normalization",
+      "historical_reused_controls": 0,
+      "id": "attention-normalization",
+      "mechanism": "fixed_alpha15_entmax_vs_softmax",
+      "new_fits": 4,
+      "seeds": [
+        206201,
+        206202
+      ],
+      "shared_anchor_cells": 0,
+      "treatment_variant": "attention_entmax",
+      "variants": [
+        "attention_softmax",
+        "attention_entmax"
+      ]
+    }
+  ],
+  "teacher_or_initializer": "none; all eight models train from scratch",
+  "training": {
+    "accumulate_chunks": 4,
+    "batch_per_rank": 128,
+    "chunk_rows": 256,
+    "compile_blocks": true,
+    "context_rows": 1024,
+    "dropout": 0.0,
+    "endpoint": "configured_final_epoch",
+    "epochs": 4,
+    "ff_multiplier": 4,
+    "gradient_horizon_rows": 256,
+    "heads": 12,
+    "hidden": 768,
+    "layers": 24,
+    "lr": 0.0003,
+    "min_lr_ratio": 0.1,
+    "normalization": "all_fit",
+    "precision_mode": "bf16_bf16x9",
+    "retention": "all_epochs",
+    "training_mask": "all_after_warmup",
+    "warmup_fraction": 0.05,
+    "weight_decay": 0.01,
+    "world_size": 2
+  },
+  "validation_exposure": "repeatedly_exposed_official_development_split",
+  "validation_scored_rows": 3528273,
+  "validation_sequences": 1873,
+  "variants": [
+    "input_linear",
+    "input_bilinear",
+    "attention_softmax",
+    "attention_entmax"
+  ]
+}

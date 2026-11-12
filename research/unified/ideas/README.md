@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Draft PR #91](https://github.com/VladKochetov007/WunderFunder/pull/91) — [B300 bilinear i0×i1 and entmax](../../experiment_drafts/bilinear-entmax-b300-20261112/README.md): two implemented matched architecture screens, eight fresh-seed configurations, pinned PR75 runtime and MIDAS metadata handoff. Receiver numerical acceptance and per-cell full-size profiles pending; no local model execution or measured quality gain.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
