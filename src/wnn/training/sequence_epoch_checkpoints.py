@@ -84,6 +84,11 @@ def save_epoch_checkpoint(
         "history": json_value(history),
         "checkpoint_policy": "all-safe-epochs-inference-only",
         "checkpoint_purpose": RETAINED_EPOCH_PURPOSE,
+        "inference_weight_source": (
+            "per_optimizer_update_ema"
+            if config.get("weight_ema") is not None
+            else "raw_optimizer_parameters"
+        ),
         "completed_epochs": completed_epochs,
         "global_updates": global_step,
         "precision": precision_identity(

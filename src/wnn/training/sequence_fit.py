@@ -45,6 +45,7 @@ from wnn.training.sequence_provenance import (
     source_identity,
     validate_profile_receipt,
 )
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 def _mapping(value: object, name: str) -> dict[str, Any]:
@@ -142,6 +143,11 @@ def run_sequence_fit(
             )
             data.provenance["initializer"] = parent_identity
         model = wrap_distributed(base_model, context)
+        weight_ema = (
+            SequenceWeightEMA(base_model, float(config["weight_ema"]["decay"]))
+            if config.get("weight_ema") is not None
+            else None
+        )
         seed_worker(int(config["seed"]), context.rank)
         fit_dataset = cast(SequenceDataset, data.fit)
         schedule_updates = total_updates(config, len(fit_dataset), context.world_size)
@@ -197,6 +203,7 @@ def run_sequence_fit(
                     profile_updates,
                     schedule_updates,
                     progress=(monitor.progress if monitor is not None else pretraining_progress),
+                    weight_ema=weight_ema,
                 )
                 if monitor is not None and monitor.progress is not None:
                     monitor.progress.phase("profile_completed", profile_updates, 0)
@@ -224,6 +231,7 @@ def run_sequence_fit(
                 profile_hash,
                 monitor=monitor,
                 progress=pretraining_progress,
+                weight_ema=weight_ema,
             )
             if config.get("pretraining") is not None:
                 coordinated_call(

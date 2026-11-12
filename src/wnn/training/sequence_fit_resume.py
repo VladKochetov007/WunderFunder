@@ -20,6 +20,7 @@ from wnn.training.sequence_fit_utils import (
     optimizer_states_are_finite_fp32,
     truncate_with_evidence,
 )
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 def load_resume(
@@ -32,6 +33,7 @@ def load_resume(
     rank_log: RankJsonlLog,
     output: Path,
     monitor: ComplementMonitor | None = None,
+    weight_ema: SequenceWeightEMA | None = None,
 ) -> tuple[int, int, list[dict[str, object]]]:
     """Restore model, optimizer, schedule, safe epoch, and this rank's RNG state."""
     state = load_training_state(state_path, identity, context)
@@ -49,12 +51,18 @@ def load_resume(
             "safe-boundary monitor restore",
             context,
         )
+    if weight_ema is None and "weight_ema" in state:
+        raise ValueError("resume checkpoint contains an unconfigured EMA state")
+    if weight_ema is not None and "weight_ema" not in state:
+        raise ValueError("EMA fit resume checkpoint is missing its EMA state")
 
     def restore() -> bool:
         """Restore this rank from the already validated safe checkpoint."""
         model.load_state_dict(state["model"], strict=True)
         optimizer.load_state_dict(state["optimizer"])
         scheduler.load_state_dict(state["scheduler"])
+        if weight_ema is not None:
+            weight_ema.load_state_dict(state["weight_ema"], model, global_step)
         restore_rng_state(rank_states[context.rank], context)
         return True
 

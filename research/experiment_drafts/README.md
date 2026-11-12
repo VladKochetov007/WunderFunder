@@ -67,3 +67,5 @@ The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/exp
 ## PR82 sequence GRU follow-ups - 12 November 2026
 
 [Frozen source and four-fit packet](sequence-gru-muon-20261112/README.md): recurrent Muon (#01, PR84 transfer) and causal since-event weighting (#03) are separate two-seed arms on the exact PR80 sequence receiver. Both reuse the fitted K16 controls, preserve the official train/valid boundary, and require ROOT's exact-config 30-update profile receipts before fit admission. Source and config hashes are in the packet manifest; no profile or fit has been launched for these arms.
+
+[PR82 #06 per-update weight EMA](sequence-gru-ema-20261112/README.md) is an isolated two-seed EMA screen on the train-only K16 sequence receiver. It requires a new exact-source profile/fit admission and fresh ROOT clock; no native runs are authorized by this draft.

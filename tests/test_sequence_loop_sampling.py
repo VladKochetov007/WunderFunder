@@ -5,6 +5,7 @@ from torch import nn
 
 from wnn.training import sequence_loop
 from wnn.training.sequence_distributed import DistributedContext
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 class _TinyModel(nn.Module):
@@ -66,6 +67,13 @@ def test_train_epoch_samples_actual_updates_one_fifty_and_one_hundred(monkeypatc
 
     monkeypatch.setattr(sequence_loop, "_backward_window", backward_window)
     model = _TinyModel()
+    weight_ema = SequenceWeightEMA(model, decay=0.9)
+    post_step_weights: list[float] = []
+
+    def update_ema() -> None:
+        post_step_weights.append(float(model.weight.detach().item()))
+        weight_ema.update(model)
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda _: 1.0)
     context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
@@ -91,6 +99,7 @@ def test_train_epoch_samples_actual_updates_one_fifty_and_one_hundred(monkeypatc
         log,
         epoch=0,
         global_step=0,
+        after_optimizer_update=update_ema,
     )
 
     assert result.complete and result.updates == 100
@@ -102,3 +111,5 @@ def test_train_epoch_samples_actual_updates_one_fifty_and_one_hundred(monkeypatc
     ]
     assert sampled == [1, 50, 100]
     assert scheduler.last_epoch == 100
+    assert len(post_step_weights) == weight_ema.updates == result.updates
+    assert post_step_weights[0] < 1.0

@@ -83,6 +83,11 @@ def write_final_outputs(
         "profile_receipt": {"path": str(profile_receipt), "sha256": profile_hash},
         "history": json_value(history),
         "fixed_checkpoint_policy": "configured-final-epoch",
+        "inference_weight_source": (
+            "per_optimizer_update_ema"
+            if config.get("weight_ema") is not None
+            else "raw_optimizer_parameters"
+        ),
         "checkpoint_purpose": FINAL_ENDPOINT_PURPOSE,
         "checkpoint_endpoint_policy": CONFIGURED_FINAL_EPOCH,
         "completed_epochs": epochs,

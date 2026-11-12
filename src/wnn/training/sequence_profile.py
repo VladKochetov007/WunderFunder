@@ -27,6 +27,7 @@ from wnn.training.sequence_fit_utils import (
 from wnn.training.sequence_loop import train_epoch
 from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_profile_reload import check_profile_reload
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -50,6 +51,7 @@ def run_profile(
     max_updates: int,
     *,
     progress: MonitorProgress | None = None,
+    weight_ema: SequenceWeightEMA | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
@@ -76,6 +78,9 @@ def run_profile(
             updates,
             profile_updates - updates,
             progress=progress,
+            after_optimizer_update=(
+                (lambda: weight_ema.update(model)) if weight_ema is not None else None
+            ),
         )
         updates += result.updates
         totals += result.totals
@@ -85,12 +90,14 @@ def run_profile(
         if result.updates == 0:
             break
     reload_check = (
-        check_profile_reload(model, optimizer, scheduler, context, output)
+        check_profile_reload(model, optimizer, scheduler, context, output, weight_ema)
         if config.get("objective_mode") or config.get("profile_reload", False)
         else None
     )
     optimizer_finite = all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context)
     errors = [] if optimizer_finite else ["optimizer state is not finite strict-FP32"]
+    if weight_ema is not None and not all_ranks_true(weight_ema.states_are_finite_fp32(), context):
+        errors.append("EMA state is not finite strict-FP32")
     valid_rows = int(totals[3].item())
     forwarded_rows = int(totals[4].item())
     real_rows = int(totals[5].item())
@@ -163,6 +170,14 @@ def run_profile(
         "scientific_checkpoint_written": False,
         "approval_note": "Review the engineering evidence and set approved=true before a full fit.",
     }
+    if weight_ema is not None:
+        if weight_ema.updates != updates:
+            raise RuntimeError("profile EMA update count differs from profile optimizer updates")
+        receipt["weight_ema"] = {
+            "decay": weight_ema.decay,
+            "updates": weight_ema.updates,
+            "state_roundtrip_checked": reload_check is not None,
+        }
     if config.get("pretraining") is not None:
         receipt["pretext"] = {
             "kind": config["pretraining"]["kind"],

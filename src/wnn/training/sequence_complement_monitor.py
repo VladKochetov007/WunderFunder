@@ -151,6 +151,14 @@ class ComplementMonitor:
                 "population and row mask"
             ),
             "metric_id": "global_wp_clip2_v1",
+            "evaluation_weight_source": (
+                {
+                    "kind": "per_optimizer_update_ema",
+                    "decay": float(config["weight_ema"]["decay"]),
+                }
+                if config.get("weight_ema") is not None
+                else {"kind": "raw_optimizer_parameters"}
+            ),
             "endpoint": (
                 "raw standalone z; no reference or blend"
                 if standalone_labels

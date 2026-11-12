@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any
@@ -174,6 +175,7 @@ def train_epoch(
     max_updates: int | None = None,
     *,
     progress: MonitorProgress | None = None,
+    after_optimizer_update: Callable[[], None] | None = None,
 ) -> EpochResult:
     """Run complete sequences in padded distributed order with fixed-window DDP scaling."""
     started = time.perf_counter()
@@ -266,6 +268,14 @@ def train_epoch(
                     float(config["grad_clip"]),
                     global_step + 1,
                     int(diagnostics_interval),
+                )
+            if after_optimizer_update is not None:
+                def update_parameters() -> bool:
+                    after_optimizer_update()
+                    return True
+
+                coordinated_call(
+                    update_parameters, "post-optimizer weight averaging update", context
                 )
             updates += 1
             global_step += 1

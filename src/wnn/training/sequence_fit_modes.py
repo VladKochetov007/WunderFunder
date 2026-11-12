@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +38,7 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_loop import train_epoch
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 def run_full_fit(
@@ -59,6 +61,7 @@ def run_full_fit(
     *,
     monitor: ComplementMonitor | None = None,
     progress: Any | None = None,
+    weight_ema: SequenceWeightEMA | None = None,
 ) -> None:
     """Resume or complete a fit, retaining inference snapshots only when requested."""
     if progress is None and monitor is not None:
@@ -82,8 +85,11 @@ def run_full_fit(
             rank_log,
             output,
             monitor,
+            weight_ema,
         )
     else:
+        if weight_ema is not None and weight_ema.updates != 0:
+            raise ValueError("fresh EMA state must begin at optimizer update zero")
         rank_log_offsets = gather_rank_log_offsets(rank_log.position(), context)
         if progress is not None:
             progress.phase("checkpoint", 0, 0)
@@ -101,26 +107,28 @@ def run_full_fit(
                 rank_log_offsets,
                 0,
                 monitor.offsets() if monitor is not None else None,
+                weight_ema,
             ),
             context,
         )
     if not 0 <= start_epoch <= int(config["epochs"]):
         raise ValueError("resume checkpoint next_epoch is outside the configured schedule")
     if retention == "all_epochs":
-        latest_index = reconcile_epoch_snapshots(
-            output,
-            base_model,
-            config,
-            identity,
-            normalization,
-            data_provenance,
-            profile_receipt,
-            profile_hash,
-            start_epoch,
-            global_step,
-            history,
-            context,
-        )
+        with weight_ema.apply(base_model) if weight_ema is not None else nullcontext():
+            latest_index = reconcile_epoch_snapshots(
+                output,
+                base_model,
+                config,
+                identity,
+                normalization,
+                data_provenance,
+                profile_receipt,
+                profile_hash,
+                start_epoch,
+                global_step,
+                history,
+                context,
+            )
     for epoch in range(start_epoch, int(config["epochs"])):
         if progress is not None:
             progress.phase("training", global_step, epoch)
@@ -136,21 +144,37 @@ def run_full_fit(
             epoch,
             global_step,
             progress=progress,
+            after_optimizer_update=(
+                (lambda: weight_ema.update(base_model)) if weight_ema is not None else None
+            ),
         )
         if not result.complete:
             raise RuntimeError("full fit ended before the complete epoch boundary")
         if not all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context):
             raise FloatingPointError("optimizer state is not finite strict-FP32 at epoch boundary")
+        if weight_ema is not None and not all_ranks_true(
+            weight_ema.states_are_finite_fp32(), context
+        ):
+            raise FloatingPointError("EMA state is not finite strict-FP32 at epoch boundary")
         global_step += result.updates
+        if weight_ema is not None and not all_ranks_true(
+            weight_ema.updates == global_step, context
+        ):
+            raise RuntimeError("EMA update count differs from the completed optimizer updates")
         summary = epoch_summary(result, config)
         history.append({"epoch": epoch, **summary})
         if progress is not None and config.get("pretraining") is not None:
             progress.pretraining_epoch(epoch + 1, global_step, float(summary["hint_loss"]))
         if monitor is not None:
+            def evaluate_report(current_epoch: int = epoch, current_step: int = global_step) -> bool:
+                """Score the configured raw or EMA endpoint on complete official validation."""
+                with weight_ema.apply(base_model) if weight_ema is not None else nullcontext():
+                    return monitor.evaluate(
+                        base_model, config, context, current_epoch, current_step
+                    )
+
             coordinated_call(
-                lambda current_epoch=epoch, current_step=global_step: monitor.evaluate(
-                    base_model, config, context, current_epoch, current_step
-                ),
+                evaluate_report,
                 "report-only full official valid evaluation",
                 context,
             )
@@ -190,31 +214,35 @@ def run_full_fit(
                 rank_log_offsets,
                 metrics_offset,
                 monitor.offsets() if monitor is not None else None,
+                weight_ema,
             ),
             context,
         )
         if retention == "all_epochs":
-            latest_index = publish_epoch_snapshot(
-                output,
-                base_model,
-                config,
-                identity,
-                normalization,
-                data_provenance,
-                profile_receipt,
-                profile_hash,
-                history,
-                epoch,
-                global_step,
-                latest_index,
-                context,
-                "safe-epoch inference snapshot publication",
-            )
+            with weight_ema.apply(base_model) if weight_ema is not None else nullcontext():
+                latest_index = publish_epoch_snapshot(
+                    output,
+                    base_model,
+                    config,
+                    identity,
+                    normalization,
+                    data_provenance,
+                    profile_receipt,
+                    profile_hash,
+                    history,
+                    epoch,
+                    global_step,
+                    latest_index,
+                    context,
+                    "safe-epoch inference snapshot publication",
+                )
     if progress is not None:
         progress.phase("checkpoint", global_step, int(config["epochs"]))
-    coordinated_call(
-        lambda: (
-            write_final_outputs(
+
+    def write_endpoint() -> bool:
+        """Write the configured raw or EMA model and restore live training weights."""
+        with weight_ema.apply(base_model) if weight_ema is not None else nullcontext():
+            return write_final_outputs(
                 output,
                 base_model,
                 config,
@@ -227,6 +255,10 @@ def run_full_fit(
                 global_step,
                 str(latest_index["index_sha256"]) if latest_index is not None else None,
             )
+
+    coordinated_call(
+        lambda: (
+            write_endpoint()
             if context.is_primary
             else True
         ),

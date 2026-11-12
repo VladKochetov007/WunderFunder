@@ -3,6 +3,7 @@ from __future__ import annotations
 import torch
 
 from wnn.training.sequence_checkpoint_policy import RESUME_STATE_PURPOSE
+from wnn.training.sequence_weight_ema import SequenceWeightEMA
 
 
 def training_state(
@@ -17,6 +18,7 @@ def training_state(
     rank_log_offsets: list[int],
     metrics_offset: int,
     monitor_offsets: dict[str, int] | None = None,
+    weight_ema: SequenceWeightEMA | None = None,
 ) -> dict[str, object]:
     """Serialize the same safe epoch state, optionally including report-only log offsets."""
     state = {
@@ -35,4 +37,6 @@ def training_state(
     }
     if monitor_offsets is not None:
         state["monitor_offsets"] = monitor_offsets
+    if weight_ema is not None:
+        state["weight_ema"] = weight_ema.state_dict()
     return state

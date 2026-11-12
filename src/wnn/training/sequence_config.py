@@ -90,6 +90,7 @@ def load_config(path: Path) -> dict[str, Any]:
         "supervised_target",
         "pretraining",
         "parent_initializer",
+        "weight_ema",
     }
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
@@ -258,6 +259,19 @@ def load_config(path: Path) -> dict[str, Any]:
         or config.get("parent_initializer") is not None
     ):
         raise ValueError("since weighting currently requires cold, two-head labels-only GRU training")
+    weight_ema = config.get("weight_ema")
+    if weight_ema is not None:
+        if (
+            not isinstance(weight_ema, dict)
+            or set(weight_ema) != {"decay"}
+            or isinstance(weight_ema["decay"], bool)
+            or not isinstance(weight_ema["decay"], (float, int))
+            or not math.isfinite(float(weight_ema["decay"]))
+            or not 0 <= float(weight_ema["decay"]) < 1
+        ):
+            raise ValueError("weight_ema requires one finite decay in [0, 1)")
+        if model["architecture"] != "gru":
+            raise ValueError("sequence weight EMA is admitted only for GRU recipes")
     if config["hint_mode"] not in ("aligned", "component_permuted"):
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:
