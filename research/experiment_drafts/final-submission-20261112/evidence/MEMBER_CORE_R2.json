@@ -1,0 +1,95 @@
+{
+  "measurement_scope": "Standalone ModelStepper.run on exact package member weights. W18 and LSTM measure their recurrent member cores. Tiedlead entries omit tied/lead tensors and encoder residual, so they are GRU-core baselines only; use separate FinalTl3Predictor full-mix versus W18-only wall timing for total non-W18 overhead.",
+  "members": [
+    {
+      "cell": "gru",
+      "effective_precision": "q8vnni",
+      "fast_activations": true,
+      "input_width": 211,
+      "kind": "standalone_fast_rnn_core_no_tiedlead_residual",
+      "mean_ns_per_step": 11768.721150000001,
+      "measured_samples": 2,
+      "median_ns_per_step": 11768.721150000001,
+      "output_checksum": 0.5333683490753174,
+      "role": "w18",
+      "sample_elapsed_ns": [
+        235415992,
+        235332854
+      ],
+      "steps_per_sample": 20000,
+      "warmup_samples": 1
+    },
+    {
+      "cell": "gru",
+      "effective_precision": "q8vnni",
+      "fast_activations": true,
+      "input_width": 263,
+      "kind": "standalone_fast_rnn_core_no_tiedlead_residual",
+      "mean_ns_per_step": 14255.393225,
+      "measured_samples": 2,
+      "median_ns_per_step": 14255.393225,
+      "output_checksum": 2.145576238632202,
+      "role": "tiedlead_s5",
+      "sample_elapsed_ns": [
+        285032966,
+        285182763
+      ],
+      "steps_per_sample": 20000,
+      "warmup_samples": 1
+    },
+    {
+      "cell": "gru",
+      "effective_precision": "q8vnni",
+      "fast_activations": true,
+      "input_width": 263,
+      "kind": "standalone_fast_rnn_core_no_tiedlead_residual",
+      "mean_ns_per_step": 13601.199274999999,
+      "measured_samples": 2,
+      "median_ns_per_step": 13601.199274999999,
+      "output_checksum": 1.9032917618751526,
+      "role": "tiedlead_s6",
+      "sample_elapsed_ns": [
+        272041722,
+        272006249
+      ],
+      "steps_per_sample": 20000,
+      "warmup_samples": 1
+    },
+    {
+      "cell": "lstm",
+      "effective_precision": "q8vnni",
+      "fast_activations": true,
+      "input_width": 112,
+      "kind": "standalone_fast_rnn_core_no_tiedlead_residual",
+      "mean_ns_per_step": 6764.001425,
+      "measured_samples": 2,
+      "median_ns_per_step": 6764.001425,
+      "output_checksum": 1.768349826335907,
+      "role": "source4_lstm",
+      "sample_elapsed_ns": [
+        135231207,
+        135328850
+      ],
+      "steps_per_sample": 20000,
+      "warmup_samples": 1
+    }
+  ],
+  "package": {
+    "fast_activations": true,
+    "native_isa_directory": "v3",
+    "native_module": "/tmp/fullmix-member-bench-mb5l1uq8/package/v3/wnn_native.abi3.so",
+    "path": "/data/epanov_s/tabdata-final-submission-20261112-r1/receiver-r1/payload/candidate.zip",
+    "precision": "q8vnni",
+    "sha256": "a0fb8b1e254dd8be94301f6553f11b9e1b1ae758c9543f38aae3f021c944894f"
+  },
+  "runtime": {
+    "blas_openmp_threads": 1,
+    "logical_cpu_count": 256,
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "processor": "x86_64",
+    "python": "3.11.18 (main, Oct 26 2026, 14:05:07) [Clang 23.1.3 ]"
+  },
+  "schema": "wnn.final-fullmix-standalone-member-core-benchmark.r1",
+  "status": "completed"
+}

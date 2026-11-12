@@ -1,0 +1,97 @@
+{
+  "time": 1794500975.1826003,
+  "result-loader-r3.json": {
+    "status": "built_profile_only",
+    "stages": {
+      "parity_test": {
+        "command": [
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/rust/bin/cargo",
+          "test",
+          "--release",
+          "--locked",
+          "--offline",
+          "--features",
+          "python",
+          "--manifest-path",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/project/native/Cargo.toml",
+          "tiedlead::tests::fast_gelu_simd_dispatch_matches_scalar_at_tied_branch_widths",
+          "--",
+          "--nocapture"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.16771316528320312
+      },
+      "profile_build": {
+        "command": [
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/maturin",
+          "build",
+          "--release",
+          "--locked",
+          "--offline",
+          "--features",
+          "extension-module,profile",
+          "--manifest-path",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/project/native/Cargo.toml",
+          "--out",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/wheels-loader-r3",
+          "--interpreter",
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python",
+          "--compatibility",
+          "linux"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 13.890931367874146
+      }
+    },
+    "binary": "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/v3-loader-r3/wnn_native.abi3.so",
+    "binary_bytes": 1382792,
+    "binary_sha256": "af81c997ec734d85f90d3dff83013d35785ee543f5f1eacbf9409d07f63f60f2",
+    "source_after_sha256": "9aa6b69f60d34dbe33dbcb1463ce474006159c7634ec5a53849a3c99e153342c",
+    "loader_path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/python/cpython-3.11.18-linux-x86_64-gnu/lib",
+    "baseline_zip_unchanged": true,
+    "started": 1794500832.0238988,
+    "elapsed_seconds": 14.198028564453125,
+    "scientific_fits": 0
+  },
+  "gelu-bitwise-test-loader-r3.json": {
+    "command": [
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/rust/bin/cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--offline",
+      "--features",
+      "python",
+      "--manifest-path",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/project/native/Cargo.toml",
+      "tiedlead::tests::fast_gelu_simd_dispatch_matches_scalar_at_tied_branch_widths",
+      "--",
+      "--nocapture"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 0.16771316528320312
+  },
+  "profile-build-loader-r3.json": {
+    "command": [
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/maturin",
+      "build",
+      "--release",
+      "--locked",
+      "--offline",
+      "--features",
+      "extension-module,profile",
+      "--manifest-path",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/project/native/Cargo.toml",
+      "--out",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/wheels-loader-r3",
+      "--interpreter",
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python",
+      "--compatibility",
+      "linux"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 13.890931367874146
+  },
+  "gelu-bitwise-test-loader-r3.log": "warning: unnecessary `unsafe` block\n   --> src/min_gru.rs:149:33\n    |\n149 |         let candidate_sigmoid = unsafe { sigmoid8(candidate_input) };\n    |                                 ^^^^^^ unnecessary `unsafe` block\n    |\n    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:154:21\n    |\n154 |         let write = unsafe { sigmoid8(gate_input) };\n    |                     ^^^^^^ unnecessary `unsafe` block\n\nwarning: `wnn_native` (lib test) generated 2 warnings\n    Finished `release` profile [optimized] target(s) in 0.10s\n     Running unittests src/lib.rs (/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/build/cargo/release/deps/wnn_native-ccc328fd93f380f5)\n\nrunning 1 test\ntest tiedlead::tests::fast_gelu_simd_dispatch_matches_scalar_at_tied_branch_widths ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 74 filtered out; finished in 0.00s\n\n",
+  "profile-build-loader-r3.log": "\ud83d\udc0d Found CPython 3.11 at /data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python\n\ud83d\udd17 Found pyo3 bindings with abi3-py3.11 support\n   Compiling wnn_native v0.1.0 (/data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/project/native)\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:149:33\n    |\n149 |         let candidate_sigmoid = unsafe { sigmoid8(candidate_input) };\n    |                                 ^^^^^^ unnecessary `unsafe` block\n    |\n    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:154:21\n    |\n154 |         let write = unsafe { sigmoid8(gate_input) };\n    |                     ^^^^^^ unnecessary `unsafe` block\n\nwarning: `wnn_native` (lib) generated 2 warnings\n    Finished `release` profile [optimized] target(s) in 13.40s\n\ud83d\udce6 Built wheel for abi3 Python \u2265 3.11 to /data/epanov_s/tabdata-final-submission-20261112-r1/builds/gelu-r2/wheels-loader-r3/wnn_native-0.1.0-cp311-abi3-linux_x86_64.whl\n"
+}

@@ -1,0 +1,254 @@
+{
+  "candidate": {
+    "active_members": [
+      "w18",
+      "tiedlead_s5",
+      "tiedlead_s6",
+      "source4_lstm"
+    ],
+    "build_receipt_sha256": "26b610c6b28f49dec341b93d334506e605824ba2e88d755bb3256a52a201e4f5",
+    "precision": "q8vnni",
+    "serving_policy": "full_mix",
+    "zip_bytes": 14804012,
+    "zip_sha256": "a0fb8b1e254dd8be94301f6553f11b9e1b1ae758c9543f38aae3f021c944894f"
+  },
+  "cpu_affinity": [
+    8
+  ],
+  "elapsed_wall_seconds": 76.2122829540167,
+  "independent_evaluation_sequences": 0,
+  "independent_score_claim": "forbidden",
+  "integrity_and_causality_checks_pass": true,
+  "isa_results": [
+    {
+      "callback_matches_served_member_blend_bitwise": true,
+      "callback_microseconds_per_row": 175.63071802724153,
+      "callback_seconds_20000_rows_by_sequence": [
+        3.523170127067715,
+        3.502058594021946
+      ],
+      "future_prefix_invariant_first_1000_rows": true,
+      "isa": "v2",
+      "linear_projection_seconds_1970x20000_rows_at_measured_median": 6919.850290273316,
+      "median_callback_seconds_20000_rows": 3.5126143605448306,
+      "member_pass_seconds_20000_rows_by_sequence": [
+        3.526387646095827,
+        3.523159595904872
+      ],
+      "native_library_import_path": "v2/wnn_native.abi3.so",
+      "native_library_sha256": "24212f03c6a71a16578bcb38c84f0f41f8a519b6c9d716d941741ae446e5985f",
+      "outputs_finite": true,
+      "passed": true,
+      "projection_comparison_w18_historical_seconds": 872.0,
+      "projection_is_official_runtime_gate": false,
+      "projection_ratio_to_historical_w18": 7.935608131047381,
+      "reset_replay_identical": true,
+      "sequence_ids": [
+        256678,
+        751005
+      ],
+      "served_q8_blend_vs_fp32_blend_drift": {
+        "allclose_atol_2e_4_rtol_2e_4": false,
+        "maximum_absolute": 0.013818368315696716,
+        "p99_absolute": 0.006437424346804617,
+        "rms": 0.0024303374677575435
+      },
+      "served_q8_vs_fp32_member_drift": {
+        "source4_lstm": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023724675178527832,
+          "p99_absolute": 0.011131229996681213,
+          "rms": 0.003754048478373528
+        },
+        "tiedlead_s5": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.031435415148735046,
+          "p99_absolute": 0.011684779524803159,
+          "rms": 0.004196866406342592
+        },
+        "tiedlead_s6": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.02166920155286789,
+          "p99_absolute": 0.011756658554077148,
+          "rms": 0.0042451601338141754
+        },
+        "w18": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023635417222976685,
+          "p99_absolute": 0.014332237243652343,
+          "rms": 0.0054485518756389045
+        }
+      },
+      "status": "passed_integrity_checks",
+      "timing_sample_basis": "official validation feature streams only; targets and masks were not read; engineering-only"
+    },
+    {
+      "callback_matches_served_member_blend_bitwise": true,
+      "callback_microseconds_per_row": 174.29169859969988,
+      "callback_seconds_20000_rows_by_sequence": [
+        3.4944863161072135,
+        3.477181627880782
+      ],
+      "future_prefix_invariant_first_1000_rows": true,
+      "isa": "avx2",
+      "linear_projection_seconds_1970x20000_rows_at_measured_median": 6867.092924828175,
+      "median_callback_seconds_20000_rows": 3.4858339719939977,
+      "member_pass_seconds_20000_rows_by_sequence": [
+        3.488453601952642,
+        3.4768623111303896
+      ],
+      "native_library_import_path": "avx2/wnn_native.abi3.so",
+      "native_library_sha256": "912a5f5dfb00a9fc1baead7b00526db1287c42ae228661721752266de6111c68",
+      "outputs_finite": true,
+      "passed": true,
+      "projection_comparison_w18_historical_seconds": 872.0,
+      "projection_is_official_runtime_gate": false,
+      "projection_ratio_to_historical_w18": 7.875106565169925,
+      "reset_replay_identical": true,
+      "sequence_ids": [
+        256678,
+        751005
+      ],
+      "served_q8_blend_vs_fp32_blend_drift": {
+        "allclose_atol_2e_4_rtol_2e_4": false,
+        "maximum_absolute": 0.014096498489379883,
+        "p99_absolute": 0.006415292322635643,
+        "rms": 0.0024194714282678204
+      },
+      "served_q8_vs_fp32_member_drift": {
+        "source4_lstm": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023724675178527832,
+          "p99_absolute": 0.011131229996681213,
+          "rms": 0.003754048478373528
+        },
+        "tiedlead_s5": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.031435415148735046,
+          "p99_absolute": 0.011617319881916029,
+          "rms": 0.004191247153698122
+        },
+        "tiedlead_s6": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.021367549896240234,
+          "p99_absolute": 0.01173750758171081,
+          "rms": 0.0042475018084937284
+        },
+        "w18": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023635417222976685,
+          "p99_absolute": 0.014332237243652343,
+          "rms": 0.0054485518756389045
+        }
+      },
+      "status": "passed_integrity_checks",
+      "timing_sample_basis": "official validation feature streams only; targets and masks were not read; engineering-only"
+    },
+    {
+      "callback_matches_served_member_blend_bitwise": true,
+      "callback_microseconds_per_row": 171.47752729943022,
+      "callback_seconds_20000_rows_by_sequence": [
+        3.438786298967898,
+        3.420314793009311
+      ],
+      "future_prefix_invariant_first_1000_rows": true,
+      "isa": "v3",
+      "linear_projection_seconds_1970x20000_rows_at_measured_median": 6756.214575597552,
+      "median_callback_seconds_20000_rows": 3.4295505459886044,
+      "member_pass_seconds_20000_rows_by_sequence": [
+        3.4501965341623873,
+        3.4328185620252043
+      ],
+      "native_library_import_path": "v3/wnn_native.abi3.so",
+      "native_library_sha256": "3417e17178a20c911f375d2bf7569c2069ee78e65ea838f0d38073701bc833e9",
+      "outputs_finite": true,
+      "passed": true,
+      "projection_comparison_w18_historical_seconds": 872.0,
+      "projection_is_official_runtime_gate": false,
+      "projection_ratio_to_historical_w18": 7.7479524949513205,
+      "reset_replay_identical": true,
+      "sequence_ids": [
+        256678,
+        751005
+      ],
+      "served_q8_blend_vs_fp32_blend_drift": {
+        "allclose_atol_2e_4_rtol_2e_4": false,
+        "maximum_absolute": 0.014096498489379883,
+        "p99_absolute": 0.006415292322635643,
+        "rms": 0.0024194714282678204
+      },
+      "served_q8_vs_fp32_member_drift": {
+        "source4_lstm": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023724675178527832,
+          "p99_absolute": 0.011131229996681213,
+          "rms": 0.003754048478373528
+        },
+        "tiedlead_s5": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.031435415148735046,
+          "p99_absolute": 0.011617319881916029,
+          "rms": 0.004191247153698122
+        },
+        "tiedlead_s6": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.021367549896240234,
+          "p99_absolute": 0.01173750758171081,
+          "rms": 0.0042475018084937284
+        },
+        "w18": {
+          "allclose_atol_2e_4_rtol_2e_4": false,
+          "maximum_absolute": 0.023635417222976685,
+          "p99_absolute": 0.014332237243652343,
+          "rms": 0.0054485518756389045
+        }
+      },
+      "status": "passed_integrity_checks",
+      "timing_sample_basis": "official validation feature streams only; targets and masks were not read; engineering-only"
+    }
+  ],
+  "limits": {
+    "address_space_bytes": 17179869184,
+    "cpu_cores": 1,
+    "wall_seconds": 900
+  },
+  "platform": "Linux-5.14.0-611.45.1.el9_7.x86_64-x86_64-with-glibc2.34",
+  "python": "3.11.18",
+  "reference": {
+    "basis": "official validation feature streams only; targets and masks were not read; engineering-only",
+    "checkpoint_sha256": {
+      "source4_lstm": "e134b79535f1f3c18dec4f8b18ed47137053990edf8c44b222a12b78d80e4ad4",
+      "tiedlead_s5": "7f19e81376e9c9f3f0ab87446c7aad0def081d01b58fb7638602a37380064318",
+      "tiedlead_s6": "567becffc737c6c08cebb2ee8e8c129eb52169cf241d831d8f147f08c96f0d03",
+      "w18": "70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8"
+    },
+    "fp32_reference_shape_per_sequence": [
+      20000,
+      4,
+      2
+    ],
+    "input_data_resolved_path": "/data/epanov_s/tabdata/data/datasets/valid.parquet",
+    "input_data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "labels_read": false,
+    "project_root": "/tmp/final-cpu-check-scd9u3fr/project-unpacked/project",
+    "reference_root": "/tmp/final-cpu-check-scd9u3fr/reference-checkpoints",
+    "rows_per_sequence": 20000,
+    "sequence_ids": [
+      256678,
+      751005
+    ],
+    "sequences": 2,
+    "source_file_count": 2
+  },
+  "runtime_interpretation": "feature-only engineering timing; no timing projection establishes official scorer runtime or candidate quality",
+  "schema": "wnn.final-tl3-cpu-integrity-check.v1",
+  "score_computed": false,
+  "serving_precision_numeric_drift": "reported per member and blend; no new pass threshold imposed",
+  "started_utc": "2026-11-12T15:51:51Z",
+  "status": "complete",
+  "supported_isa_variants": [
+    "v2",
+    "avx2",
+    "v3"
+  ]
+}

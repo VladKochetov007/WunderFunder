@@ -1,0 +1,122 @@
+{
+  "time": 1794501542.6415896,
+  "result.json": {
+    "status": "built_profile_only",
+    "stages": {
+      "patch_check": {
+        "command": [
+          "/data/epanov_s/tabdata-all-20261112-r1/tools/git-r2/usr/bin/git",
+          "apply",
+          "--check",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/patch-lf.diff"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.01838827133178711
+      },
+      "patch_apply": {
+        "command": [
+          "/data/epanov_s/tabdata-all-20261112-r1/tools/git-r2/usr/bin/git",
+          "apply",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/patch-lf.diff"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.018392086029052734
+      },
+      "residual_tests": {
+        "command": [
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/rust/bin/cargo",
+          "test",
+          "--release",
+          "--locked",
+          "--offline",
+          "--features",
+          "python",
+          "--manifest-path",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native/Cargo.toml",
+          "residual",
+          "--",
+          "--nocapture"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 25.90384602546692
+      },
+      "profile_build": {
+        "command": [
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/maturin",
+          "build",
+          "--release",
+          "--locked",
+          "--offline",
+          "--features",
+          "extension-module,profile",
+          "--manifest-path",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native/Cargo.toml",
+          "--out",
+          "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/wheels",
+          "--interpreter",
+          "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python",
+          "--compatibility",
+          "linux"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 14.03787350654602
+      }
+    },
+    "residual_tests_passed": 3,
+    "binary": "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/v3/wnn_native.abi3.so",
+    "binary_bytes": 1381000,
+    "binary_sha256": "085dfecd1c9eecf1287606222599f25c9c89edc63d285a3ea2bc82de224032b9",
+    "native_sources": {
+      "tiedlead.rs": "9aa6b69f60d34dbe33dbcb1463ce474006159c7634ec5a53849a3c99e153342c",
+      "rnn_fast.rs": "2871e9aa269aba2743a3bdfc05273c4129bcc135f206b3a3a3dec41f5160eddd",
+      "python.rs": "0ef3512f4434ede96a017e454020f9a43acf5ae5bf8206b47ab2c74e91ef573e"
+    },
+    "baseline_zip_unchanged": true,
+    "started": 1794501173.748142,
+    "elapsed_seconds": 40.20599102973938,
+    "scientific_fits": 0,
+    "cpu_cores": 4,
+    "gpu_count": 0
+  },
+  "residual-tests.json": {
+    "command": [
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/rust/bin/cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--offline",
+      "--features",
+      "python",
+      "--manifest-path",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native/Cargo.toml",
+      "residual",
+      "--",
+      "--nocapture"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 25.90384602546692
+  },
+  "profile-build.json": {
+    "command": [
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/maturin",
+      "build",
+      "--release",
+      "--locked",
+      "--offline",
+      "--features",
+      "extension-module,profile",
+      "--manifest-path",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native/Cargo.toml",
+      "--out",
+      "/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/wheels",
+      "--interpreter",
+      "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python",
+      "--compatibility",
+      "linux"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 14.03787350654602
+  },
+  "residual-tests.log": "   Compiling wnn_native v0.1.0 (/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native)\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:149:33\n    |\n149 |         let candidate_sigmoid = unsafe { sigmoid8(candidate_input) };\n    |                                 ^^^^^^ unnecessary `unsafe` block\n    |\n    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:154:21\n    |\n154 |         let write = unsafe { sigmoid8(gate_input) };\n    |                     ^^^^^^ unnecessary `unsafe` block\n\nwarning: `wnn_native` (lib test) generated 2 warnings\n    Finished `release` profile [optimized] target(s) in 25.72s\n     Running unittests src/lib.rs (/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/build/cargo/release/deps/wnn_native-ccc328fd93f380f5)\n\nrunning 3 tests\ntest rnn_fast::tests::q8vnni_encoder_residual_is_applied_and_replays_for_equal_width_gru ... ok\ntest rnn_fast::tests::encoder_residual_uses_equal_width_fast_path_and_matches_general_reference ... ok\ntest rnn_fast::tests::q8vnni_general_lstm_residual_is_applied_and_replays ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 72 filtered out; finished in 0.08s\n\n",
+  "profile-build.log": "\ud83d\udc0d Found CPython 3.11 at /data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/tools/build-env/bin/python\n\ud83d\udd17 Found pyo3 bindings with abi3-py3.11 support\n   Compiling wnn_native v0.1.0 (/data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/project/native)\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:149:33\n    |\n149 |         let candidate_sigmoid = unsafe { sigmoid8(candidate_input) };\n    |                                 ^^^^^^ unnecessary `unsafe` block\n    |\n    = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default\n\nwarning: unnecessary `unsafe` block\n   --> src/min_gru.rs:154:21\n    |\n154 |         let write = unsafe { sigmoid8(gate_input) };\n    |                     ^^^^^^ unnecessary `unsafe` block\n\nwarning: `wnn_native` (lib) generated 2 warnings\n    Finished `release` profile [optimized] target(s) in 13.49s\n\ud83d\udce6 Built wheel for abi3 Python \u2265 3.11 to /data/epanov_s/tabdata-final-submission-20261112-r1/builds/cache-order-r1/wheels/wnn_native-0.1.0-cp311-abi3-linux_x86_64.whl\n"
+}

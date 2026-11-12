@@ -1,0 +1,43 @@
+{
+  "schema": "wnn.final-submission-authority.v1",
+  "recorded_utc": "2026-11-12T15:07:03.802210+00:00",
+  "operator": "Codex/root for SemyonEpanov",
+  "user_request": "Select best supported submission from available submissions/experiments, fit properly on all supplied labels, upload to Connectome checker. Any necessary resources authorized.",
+  "allowed_hosts": [
+    "epanov_s@10.14.14.26",
+    "lc-epanov_s@10.61.10.209"
+  ],
+  "new_paid_resources": false,
+  "selection_protocol": "official ADR0044 train-only ancestry -> exposed independent later valid; global_wp_clip2_v1",
+  "final_fit_protocol": "ADR0045 all 10607 train +1873 valid =12480 whole sequences, no independent valid score or post-fit valid tuning",
+  "reuse_policy": "Reuse exact completed all-labeled qualified weights rather than duplicate expensive DAG. Verify ancestry/hashes and freeze before packaging.",
+  "upload_authorized": true,
+  "submission_target": "https://wundernn.io/connectome/submit",
+  "starting_public_best": {
+    "filename": "tl3.zip",
+    "id": "1LMEHFI3",
+    "wp": 0.66832,
+    "source": "PR76 SUBMISSION_STATUS_20261112_R1.json signed-in observation; source artifact retained"
+  },
+  "starting_latest": {
+    "filename": "tabdata-w18-final-20261103-r1.zip",
+    "id": "1H7KP3OQ",
+    "wp": 0.66453,
+    "sha256": "932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9"
+  },
+  "candidate_shortlist": [
+    "full all-labeled TL3 fixed .34/.33/.33",
+    "fixed .90 TL3 + .10 Source4 LSTM if served engineering check supports"
+  ],
+  "bounded_initial_checks": {
+    "cpu_workers": 8,
+    "threads_per_worker": 1,
+    "wall_limit_seconds": 7200,
+    "ram_limit_per_worker_gib": 16
+  },
+  "not_yet_launched": [
+    "scientific refits",
+    "CPU model checks",
+    "platform upload"
+  ]
+}
