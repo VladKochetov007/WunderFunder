@@ -1,0 +1,44 @@
+{
+  "archive_bytes": 183021,
+  "archive_path": "C:\\Users\\admin\\Documents\\Codex\\artifacts\\cluster-all-experiments-20261112\\b300-packet-r7-group-attention.tar.gz",
+  "archive_sha256": "eac64e75ac36b966d1b4144004a30cdbfc35d9a358b4aae7d8c06267f187f444",
+  "changed_packet_files": {
+    "GROUP_ATTENTION_CHUNK_R1.md": "aa5b8624d904f7aad0435df8cce107a06569d3d71a05663d702f8ee9870ec3ed",
+    "runtime/group_attention_chunk_stress.py": "3f7fece5ecc165dd68805604f32eb5d14d6d2c1704a23c87f2d531803d29a31c",
+    "runtime/impact81/representations.py": "f251efad51f66bb174b5a033f5434ef66c81d300f9b08ac7659f3a6bba3f687b"
+  },
+  "commit": "0c1fe5b06cf81d8a1fd97e305be198b905090fa6",
+  "execution_contract": {
+    "attention_dropout": 0.0,
+    "attention_heads": 4,
+    "attention_rows_per_call": 16000,
+    "feature_groups_per_row": 16,
+    "model_config_or_parameter_state_changed": false,
+    "row_causality_changed": false,
+    "sdpa_batch_head_entries_at_cap": 64000
+  },
+  "native_gpu_stress_command": "env CUDA_VISIBLE_DEVICES=<free-index> /data/epanov_s/tabdata/.venv/bin/python \"$RB/packet-r7/research/experiment_drafts/b300-all-20261112/runtime/group_attention_chunk_stress.py\" cuda-full --output \"$RB/evidence/group-attention-cuda-full-r1.json\"",
+  "prefix": "research/experiment_drafts/b300-all-20261112",
+  "purpose": "Bound GroupInputProjection attention calls over independent flattened rows after 65,536-row SDPA invalid-argument failure",
+  "revision": "r7-group-attention",
+  "schema": "wnn.b300-packet-revision.v1",
+  "validation": {
+    "archived_cpu_math_and_backward": {
+      "attention_parameter_gradient_delta": 1.7462298274040222e-10,
+      "finite": true,
+      "full_projection_input_gradient_delta": 0.0,
+      "full_projection_output_delta": 0.0,
+      "full_projection_parameter_gradient_delta": 1.7881393432617188e-07,
+      "input_gradient_delta": 0.0,
+      "output_delta": 0.0,
+      "receipt_path": "C:\\Users\\admin\\Documents\\Codex\\artifacts\\cluster-all-experiments-20261112\\group-attention-cpu-parity-r4-archive.json",
+      "receipt_sha256": "5bd3a3e3d0db03f07ae3aef0cf67db5cddca5026badb28513b6c12f863604a50",
+      "torch_version": "2.14.1+cpu"
+    },
+    "exact_archive_load_cell": "40 of 40 passed",
+    "git_diff_check": "passed",
+    "native_full_shape_gpu_stress": "packaged, not run; wait for a free B300 GPU",
+    "ruff": "passed",
+    "ruff_format": "passed"
+  }
+}

@@ -1,0 +1,589 @@
+{
+  "schema": "wnn.b300-impact-wave.v1",
+  "wave_id": "b300-all-20261112-r1",
+  "status": "prepared_receiver_and_profile_pending",
+  "base_pr81_head": "650c21e19cdaef4fd9605311098eab45f5316e40",
+  "canonical_transformer_runtime": "8626000a4b965763a70011a0291a891aa6535d7e",
+  "canonical_runtime_archive": "C:/Users/admin/Documents/Codex/artifacts/b300-qknorm-20261111/source-r1.tar.gz",
+  "canonical_runtime_archive_sha256": "08f8e31d18a523ba7c543fe71fa3b31799cfe1af566672d6b903e30beac639f5",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "primary_validation": {
+    "protocol": "official chronological train.parquet then independent valid.parquet",
+    "train_sequences": 10325,
+    "valid_sequences": 1873,
+    "valid_scored_rows": 3528273,
+    "metric": "global_wp_clip2_v1",
+    "validation_exposed": true,
+    "seq_ix_is_timestamp": false,
+    "fitting_ancestry": "training sequences only, including normalization and PLE knots"
+  },
+  "transformer_recipe": {
+    "model": "H768/L24/12 heads/FF4/context1024",
+    "epochs": 4,
+    "fixed_endpoint": "E4",
+    "precision": "BF16/BF16x9 forward with FP32 master parameters, gradients, loss and optimizer states",
+    "optimizer": "Muon/AdamW roles from PR75",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "gradient_clip": 1,
+    "warmup_fraction": 0.05,
+    "schedule": "warmup_cosine_v2, floor0.1",
+    "placement": "world_size=1, per-device sequence batch=256, accumulation=4, chunk_rows=256, horizon=256",
+    "global_sequences_per_microbatch": 256,
+    "effective_sequences_per_update": 1024,
+    "updates_per_epoch": 820,
+    "total_updates": 3280,
+    "old_reference": "world_size=2, per-rank sequence batch=128, accumulation=4",
+    "placement_equivalence": "same deterministic global sequence group per update; reduction order differs and needs fresh controls"
+  },
+  "fit_accounting": {
+    "active_cards": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10"
+    ],
+    "excluded_cards": [],
+    "new_control_fits": 20,
+    "new_treatment_fits": 20,
+    "reused_controls": 0,
+    "new_teacher_fits": 0,
+    "total_new_fits": 40,
+    "required_full_size_profiles": 40,
+    "initial_cohort_new_fits": 8,
+    "initial_cohort_cards": [
+      "01",
+      "02"
+    ],
+    "initial_cohort_seed": [
+      204101,
+      204102
+    ],
+    "complete_roster": [
+      {
+        "cell_id": "ip01_control_s204101",
+        "card": "01",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip01_control_s204101.json",
+        "cell_config_sha256": "dcb3ce5ad35fb39d30d3dc900ae5f56bcb17b3830ef312a580ee1ef606245ffe",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip01_treatment_s204101",
+        "card": "01",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip01_treatment_s204101.json",
+        "cell_config_sha256": "0055761aaed40c81f5abfae81dd6a64bdee8a848ef3a858413fcbb536c5028b5",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip01_control_s204102",
+        "card": "01",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip01_control_s204102.json",
+        "cell_config_sha256": "107a8db7dc702d2f50842918d45e8d4007beab1617ab75b3abfea79f1ece6095",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip01_treatment_s204102",
+        "card": "01",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip01_treatment_s204102.json",
+        "cell_config_sha256": "76ce58f16818d6ac310cf0cf10b30a344bf0e1c844b5aac3da39d7f5c3332090",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip02_control_s204101",
+        "card": "02",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip02_control_s204101.json",
+        "cell_config_sha256": "2b40909b1766c6844962a6ed178363d6a7d0eff2a470aa5850ba89c2fdcaaba8",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip02_treatment_s204101",
+        "card": "02",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip02_treatment_s204101.json",
+        "cell_config_sha256": "a03f0eb29cb54bd345765c30fd43e099eca746319f37d303935e9dc5d8a4d5b4",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip02_control_s204102",
+        "card": "02",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip02_control_s204102.json",
+        "cell_config_sha256": "7f7e7ea36501cb961b66ee01302677a504b6e073e2bb8623789766853f819cfd",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip02_treatment_s204102",
+        "card": "02",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip02_treatment_s204102.json",
+        "cell_config_sha256": "49d400aeb02b42f529f3312dc56f68d9edd9139d59c1324d4359e826cedbbf58",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip03_control_s204101",
+        "card": "03",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip03_control_s204101.json",
+        "cell_config_sha256": "5fe7542f4d594484974ddf826301ddbc4bf47cae8942755b84428f3a642ddc6e",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip03_treatment_s204101",
+        "card": "03",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip03_treatment_s204101.json",
+        "cell_config_sha256": "f940cdfdc2e88d3207511b68c59dbbb958a5704485b0a730f4f1c4559942f31f",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip03_control_s204102",
+        "card": "03",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip03_control_s204102.json",
+        "cell_config_sha256": "2afdaa766ddb3c913d9b5e4cd847b46db2cf80041492c2a581e0d4e11a11dd24",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip03_treatment_s204102",
+        "card": "03",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip03_treatment_s204102.json",
+        "cell_config_sha256": "265f46755b4b18ab15d0282ec1341fcfce5096135259bab0bd94c7ec6d3eb68c",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip04_control_s204101",
+        "card": "04",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip04_control_s204101.json",
+        "cell_config_sha256": "375e949ef7f5f0e70f68d1b7b1543e53250543a248e9cdf792b8b6d5c742734c",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip04_treatment_s204101",
+        "card": "04",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip04_treatment_s204101.json",
+        "cell_config_sha256": "f853b73ce8edb2ff3f9b9576a0c5912f67dda7f93f833ca8b0b9cf88d319affb",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip04_control_s204102",
+        "card": "04",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip04_control_s204102.json",
+        "cell_config_sha256": "7eefd48ff140bef6c5f8d367ab728b3f64ffe11e352723dcd1630f599272961e",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip04_treatment_s204102",
+        "card": "04",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip04_treatment_s204102.json",
+        "cell_config_sha256": "1e47b50fbe4a9b2af8435f47d74c58162b0894836a3fb5e985b4fa38f5a73858",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip05_control_s204101",
+        "card": "05",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip05_control_s204101.json",
+        "cell_config_sha256": "bc01ddf3ef3ea9c8c2bc6b30be0dc0a9226f93a857b333dfc94729f0dd02f2cc",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip05_treatment_s204101",
+        "card": "05",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip05_treatment_s204101.json",
+        "cell_config_sha256": "37edac3ff7c601e03c272f7e82ea45131f9d61a5970408ac4202f66769e1dba4",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip05_control_s204102",
+        "card": "05",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip05_control_s204102.json",
+        "cell_config_sha256": "da0914897e59e49353e3a63034f64eba9ee684ad76953a1e0d39f0bcbc851379",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip05_treatment_s204102",
+        "card": "05",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip05_treatment_s204102.json",
+        "cell_config_sha256": "458b3adc56a3f8db1a5d6d495db92d7c3225953098159daf62e9bf93af86dc17",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip06_control_s204101",
+        "card": "06",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip06_control_s204101.json",
+        "cell_config_sha256": "eb4ec399af94a58503245946bbe613d823d1b1edcbfd9969ed28b3b3680883d6",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip06_treatment_s204101",
+        "card": "06",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip06_treatment_s204101.json",
+        "cell_config_sha256": "6ecf42e87669b7cb328f7ce841bc190e8fa8678d184bf32de568c5837769885e",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip06_control_s204102",
+        "card": "06",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip06_control_s204102.json",
+        "cell_config_sha256": "bbe277c7475da74ca1d3e9e95e93b357eadb77ac418db38285ff8ca3a7e99ea8",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip06_treatment_s204102",
+        "card": "06",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip06_treatment_s204102.json",
+        "cell_config_sha256": "9bae26f6e26330ec3d13ac1d5b2a56d0b9d06f93398ab7dcc4e5a4c319b5d1b6",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip07_control_s204101",
+        "card": "07",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip07_control_s204101.json",
+        "cell_config_sha256": "9ef3cc9138209cb9e8f25f5f69f7c85b77fc816b6661c98eb487ffcc224741e4",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip07_treatment_s204101",
+        "card": "07",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip07_treatment_s204101.json",
+        "cell_config_sha256": "64ebf5d13e5cd5c7c6f9e469f051e46ca538f5ab23c2652efbfc4d2a76ea0e4a",
+        "native_config": "configs/native_s204101.json",
+        "native_config_sha256": "ad870ad211dfc63fa3e0a70c0f5f8360b633470169336c68ff2210e0afebade4"
+      },
+      {
+        "cell_id": "ip07_control_s204102",
+        "card": "07",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip07_control_s204102.json",
+        "cell_config_sha256": "d24ff4e1ca0a6a0c78232d07a66cfb0474ab7267413326afb789a35f84a31731",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip07_treatment_s204102",
+        "card": "07",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip07_treatment_s204102.json",
+        "cell_config_sha256": "bbe1a4b3eaf0d6f523d599664216da531d59bb9b66c7c1fe535a16d83efb0c80",
+        "native_config": "configs/native_s204102.json",
+        "native_config_sha256": "cbe1827229d94ce6bf005fd9f04e2838c00f8d48b20c71a80d7ebd4391998afa"
+      },
+      {
+        "cell_id": "ip08_control_s204101",
+        "card": "08",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip08_control_s204101.json",
+        "cell_config_sha256": "f8cf17fc33318973dc155fd19a6a01e8a80eee958322f6e950080eb81ae02efc",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip08_treatment_s204101",
+        "card": "08",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip08_treatment_s204101.json",
+        "cell_config_sha256": "9fa12184e5be8e1f1f3091e872429e74f90f4fe10f216b3cc0e5faa36bd6b9ab",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip08_control_s204102",
+        "card": "08",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip08_control_s204102.json",
+        "cell_config_sha256": "d718502b14ed536a52fbbe7f58c11e278ad95ed13f5b8f3c28fe1e951cdc4f23",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      },
+      {
+        "cell_id": "ip08_treatment_s204102",
+        "card": "08",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip08_treatment_s204102.json",
+        "cell_config_sha256": "cb3efe07df3c68e30b2a3c8276e68dd778752bde65d5615535001d3da6da136d",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      },
+      {
+        "cell_id": "ip09_control_s204101",
+        "card": "09",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip09_control_s204101.json",
+        "cell_config_sha256": "9ad44512972e66cd5bb902c78849d756ba425557b75e5e3118e195dd235be790",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip09_treatment_s204101",
+        "card": "09",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip09_treatment_s204101.json",
+        "cell_config_sha256": "09e54e842c31c02581470d4bbac30eb7d98c024c40dd3361739b1bd3923ce63e",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip09_control_s204102",
+        "card": "09",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip09_control_s204102.json",
+        "cell_config_sha256": "cb1cfadc5e099c130400957000125202978dcba13b56795636afbd89f0b5933c",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      },
+      {
+        "cell_id": "ip09_treatment_s204102",
+        "card": "09",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip09_treatment_s204102.json",
+        "cell_config_sha256": "12a01fe6e5dd27324e3c2d3f3d885b97230c212eaa538039fd08d34ed9d2eb5a",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      },
+      {
+        "cell_id": "ip10_control_s204101",
+        "card": "10",
+        "arm": "control",
+        "seed": 204101,
+        "cell_config": "configs/ip10_control_s204101.json",
+        "cell_config_sha256": "8b97a2c7501a53b56f548734f3729f10a4d28f62222b442c5f4c53a2e089dbec",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip10_treatment_s204101",
+        "card": "10",
+        "arm": "treatment",
+        "seed": 204101,
+        "cell_config": "configs/ip10_treatment_s204101.json",
+        "cell_config_sha256": "f2553fd9f77e8f35d848261b26a56d7841ee3bd3b751ccf678d6ee0f3140e943",
+        "native_config": "configs/native_gru_s204101.json",
+        "native_config_sha256": "8c699efbac2d76cf41ca17b5c7da819f461dfb206c57ef4561553dd8d7e3e337"
+      },
+      {
+        "cell_id": "ip10_control_s204102",
+        "card": "10",
+        "arm": "control",
+        "seed": 204102,
+        "cell_config": "configs/ip10_control_s204102.json",
+        "cell_config_sha256": "81926ef24635cd591f703722175f33216dacb04ceaecf0defe67731dcb1e4afd",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      },
+      {
+        "cell_id": "ip10_treatment_s204102",
+        "card": "10",
+        "arm": "treatment",
+        "seed": 204102,
+        "cell_config": "configs/ip10_treatment_s204102.json",
+        "cell_config_sha256": "b4b910bf7b639e130a61052a78edd813df7439b37f780b10b8f0554720238a6c",
+        "native_config": "configs/native_gru_s204102.json",
+        "native_config_sha256": "bea8ae93b068918e1ef85b216e33ab41da98af0e852db91233a13039162cd6d3"
+      }
+    ],
+    "fit_cutoff_utc": "2026-11-12T07:20:19.060462Z",
+    "wave_cutoff_utc": "2026-11-12T08:20:19.060462Z",
+    "initial_cohort_cells": [
+      "ip01_control_s204101",
+      "ip01_treatment_s204101",
+      "ip01_control_s204102",
+      "ip01_treatment_s204102",
+      "ip02_control_s204101",
+      "ip02_treatment_s204101",
+      "ip02_control_s204102",
+      "ip02_treatment_s204102"
+    ],
+    "stages": [
+      {
+        "stage": 1,
+        "purpose": "two complete, matched two-seed screens",
+        "cards": [
+          "01",
+          "02"
+        ],
+        "cells": [
+          "ip01_control_s204101",
+          "ip01_treatment_s204101",
+          "ip01_control_s204102",
+          "ip01_treatment_s204102",
+          "ip02_control_s204101",
+          "ip02_treatment_s204101",
+          "ip02_control_s204102",
+          "ip02_treatment_s204102"
+        ],
+        "new_fits": 8
+      },
+      {
+        "stage": 2,
+        "purpose": "next two complete mechanism screens",
+        "cards": [
+          "03",
+          "04"
+        ],
+        "cells": [
+          "ip03_control_s204101",
+          "ip03_treatment_s204101",
+          "ip03_control_s204102",
+          "ip03_treatment_s204102",
+          "ip04_control_s204101",
+          "ip04_treatment_s204101",
+          "ip04_control_s204102",
+          "ip04_treatment_s204102"
+        ],
+        "new_fits": 8
+      },
+      {
+        "stage": 3,
+        "purpose": "third two complete mechanism screens",
+        "cards": [
+          "05",
+          "06"
+        ],
+        "cells": [
+          "ip05_control_s204101",
+          "ip05_treatment_s204101",
+          "ip05_control_s204102",
+          "ip05_treatment_s204102",
+          "ip06_control_s204101",
+          "ip06_treatment_s204101",
+          "ip06_control_s204102",
+          "ip06_treatment_s204102"
+        ],
+        "new_fits": 8
+      },
+      {
+        "stage": 4,
+        "purpose": "fourth two complete mechanism screens",
+        "cards": [
+          "07",
+          "08"
+        ],
+        "cells": [
+          "ip07_control_s204101",
+          "ip07_treatment_s204101",
+          "ip07_control_s204102",
+          "ip07_treatment_s204102",
+          "ip08_control_s204101",
+          "ip08_treatment_s204101",
+          "ip08_control_s204102",
+          "ip08_treatment_s204102"
+        ],
+        "new_fits": 8
+      },
+      {
+        "stage": 5,
+        "purpose": "final two complete mechanism screens",
+        "cards": [
+          "09",
+          "10"
+        ],
+        "cells": [
+          "ip09_control_s204101",
+          "ip09_treatment_s204101",
+          "ip09_control_s204102",
+          "ip09_treatment_s204102",
+          "ip10_control_s204101",
+          "ip10_treatment_s204101",
+          "ip10_control_s204102",
+          "ip10_treatment_s204102"
+        ],
+        "new_fits": 8
+      }
+    ],
+    "card10_admission": "Both arms require the frozen train-only prevalence gate: each tail at least 100 eligible rows and 32 train sequences per target. If infeasible, preserve the receipt and omit both card10 fits."
+  },
+  "admission": {
+    "all_fit_membership_and_config_checks": "must pass on receiving host before profiles",
+    "profile": "50 updates per selected full-size cell; inspect actual throughput, reload, RAM and VRAM before fit admission",
+    "profiles_are_quality_results": false,
+    "fit_receipt": "fixed endpoint E4, full official valid at every epoch, complete train/evaluation/resource diagnostics and resume checkpoints",
+    "fit_deadline_authority": "external campaign/CLOCK_R1.json; hash 0181e9889a45d0636e3b9981ddb15e17fb5cd26429068bb0ee37f78d09d71270",
+    "no_auto_retry": true
+  }
+}
