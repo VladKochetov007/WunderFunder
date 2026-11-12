@@ -2,6 +2,12 @@
 
 Published as [draft PR76](https://github.com/VladKochetov007/WunderFunder/pull/76) into `research-team`.
 
+[12 November review](SUBMISSION_REVIEW_20261112_R1.md) refreshes portal history,
+leaderboard, HF and the latest research candidates. PR76 is still unsubmitted;
+the frozen ZIP and receiver remain **PACKAGED_NOT_EXECUTED**. Use the R2 handoff.
+[Structured snapshot](SUBMISSION_STATUS_20261112_R1.json) keeps the new observation
+separate from the original November10 dedup record.
+
 Receiver revision2 removes redundant per-row blend recomputation during full
 validation and stores scored rows only; the initial profile defaults to two
 complete sequences. See [the receiver revision](RECEIVER_R2.md).
