@@ -154,6 +154,18 @@ def test_runtime_identity_records_driver_uuid_and_device_capacity(
     ]
 
 
+def test_runtime_identity_marks_missing_cudnn_rnn_precision_api() -> None:
+    from wnn.training.sequence_provenance import _cudnn_rnn_fp32_precision
+
+    assert _cudnn_rnn_fp32_precision(SimpleNamespace()) == "unavailable"
+    assert (
+        _cudnn_rnn_fp32_precision(
+            SimpleNamespace(rnn=SimpleNamespace(fp32_precision="ieee"))
+        )
+        == "ieee"
+    )
+
+
 def _profile_receipt() -> tuple[dict[str, object], dict[str, object]]:
     identity: dict[str, object] = {
         "world_size": 1,

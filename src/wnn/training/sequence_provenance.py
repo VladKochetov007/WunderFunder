@@ -55,6 +55,14 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _cudnn_rnn_fp32_precision(backend: object | None = None) -> str:
+    """Return the backend's RNN FP32 mode or an explicit marker on older PyTorch."""
+    cudnn_backend = torch.backends.cudnn if backend is None else backend
+    rnn_backend = getattr(cudnn_backend, "rnn", None)
+    value = getattr(rnn_backend, "fp32_precision", None)
+    return str(value) if value is not None else "unavailable"
+
+
 def source_identity(source_root: Path, entrypoint: Path) -> dict[str, object]:
     """Hash every source file under src plus the public entrypoint for exact resume."""
     root = source_root.resolve()
@@ -101,7 +109,7 @@ def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
         "matmul_precision": torch.get_float32_matmul_precision(),
         "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
         "cudnn_tf32": torch.backends.cudnn.allow_tf32,
-        "cudnn_rnn_fp32_precision": torch.backends.cudnn.rnn.fp32_precision,
+        "cudnn_rnn_fp32_precision": _cudnn_rnn_fp32_precision(),
         "nvidia_tf32_override": os.environ.get("NVIDIA_TF32_OVERRIDE"),
         "torch_allow_tf32_cublas_override": os.environ.get(
             "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE"
