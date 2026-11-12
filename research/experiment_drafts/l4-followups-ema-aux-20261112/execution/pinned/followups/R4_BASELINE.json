@@ -1,0 +1,47 @@
+{
+  "clock_sha256": "0181e9889a45d0636e3b9981ddb15e17fb5cd26429068bb0ee37f78d09d71270",
+  "diff_from_R3_fit_controller": [
+    "Controller/control/first-fit receipts use R4 namespace.",
+    "After validating admission-bound raw profiles and contention evidence, write separate approved copies with approved=true plus ROOT admission SHA and raw receipt SHA. Verify each copy preserves the raw identity; pass approved-copy path to train_sequence.",
+    "Record raw and approved receipt hashes in R4 dispatch, per-fit claim, and per-fit result receipts."
+  ],
+  "profile_inputs": {
+    "approval_binds": [
+      "fit admission SHA256",
+      "raw profile receipt SHA256",
+      "original identity"
+    ],
+    "approved_copy_dir": "receipts/approved-profiles-r4",
+    "producer": "ROOT profile-controller R3, with fixed source-manifest placement and new R3 controller receipts",
+    "raw_receipt_paths": "runs/<cell>/profile/profile_receipt.json",
+    "raw_receipts_mutated": false
+  },
+  "r2_original_handoff": {
+    "archive_sha256": "f205fc463d9435ff06365ff428f7656f67dd15f582bb14d336f7b58745f0abb8",
+    "manifest_sha256": "72b23d9c52ebbdf33b3105c065b424d39efcb644517ba16de696eb0f01ab1877",
+    "note": "Preserve the deployed initial R2 packet. Its first profile receiver failed before GPU work because SOURCE_MANIFEST.json had not been placed in source-r2."
+  },
+  "r3_controller_issue": "R3 passed the raw profile receipt (approved=false) to train_sequence; its real receipt validator requires approved=true for a full fit. ROOT caught this before any R3 fit started.",
+  "schema": "wnn.l4-followups-r4-fit-amendment-provenance.v1",
+  "source_commit": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+  "source_identity_sha256": "29fb45164667e69a71d4be2c696731d9824884d2d51674f37d2a633bd17d9511",
+  "verification": {
+    "approved_copy_test": "1 passed; real sequence_profile_receipt.validate_profile_receipt accepts approved copy and rejects raw receipt",
+    "argv_test": "R4-built trainer argv parsed by actual scripts/train_sequence.py build_parser and points to the approved copy",
+    "epoch_index_fixture": {
+      "completed_epochs": 6,
+      "entries": 6,
+      "entry_completed_epochs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "global_step": 38760,
+      "path": "C:/Users/admin/Documents/Codex/artifacts/l4-next70-20261110/live-dashboard/native/l4-k16_s203301-fit/epoch_index.json"
+    },
+    "ruff": "passed for controller and admission test"
+  }
+}

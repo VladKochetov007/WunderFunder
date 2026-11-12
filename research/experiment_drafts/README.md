@@ -66,4 +66,8 @@ The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/exp
 
 ## PR82 sequence GRU follow-ups - 12 November 2026
 
-[Frozen source and four-fit packet](sequence-gru-muon-20261112/README.md): recurrent Muon (#01, PR84 transfer) and causal since-event weighting (#03) are separate two-seed arms on the exact PR80 sequence receiver. Both reuse the fitted K16 controls, preserve the official train/valid boundary, and require ROOT's exact-config 30-update profile receipts before fit admission. Source and config hashes are in the packet manifest; no profile or fit has been launched for these arms.
+[Muon and since-event source packet](sequence-gru-muon-20261112/README.md): recurrent Muon (#01, PR84 transfer) and causal since-event weighting (#03) were fitted as separate two-seed arms on the exact PR80 sequence receiver. All four fits reached the six-epoch endpoint; execution and canonical readout receipts are in the combined packet below.
+
+- [PR82 #06 per-update weight EMA](sequence-gru-ema-20261112/README.md): same-source raw K16 controls completed E6; the two EMA treatments reached the update schedule but timed out during final E6 evaluation, leaving only E1-E5 checkpoints. They are partial, not E6-complete.
+- [PR82 #04 auxiliary-head packet](l4-auxiliary-heads-20261112/README.md): matched configs and code are present; no native profile or fit was run in this wave.
+- [Combined L4 execution and readout packet](l4-followups-ema-aux-20261112/README.md): includes byte-pinned controllers, admissions, cutoff/owner receipts, and first R3 full-valid readouts. Remaining canonical readouts are still in progress.
