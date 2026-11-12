@@ -4,7 +4,10 @@ from collections.abc import Mapping
 
 import torch
 
-from wnn.training.sequence_ensemble_config import MIXTURE_MODE
+from wnn.training.sequence_ensemble_config import (
+    MIXTURE_MODE,
+    STANDALONE_LABELS_KD_MODE,
+)
 
 
 def objective_metrics(
@@ -13,7 +16,10 @@ def objective_metrics(
     """Report actual update-mean objective terms; keep pooled WMSE separately in label_loss."""
     if config.get("objective_mode") is None or totals is None:
         return {}
-    rho0, rho1, correlation_loss, wmse, count = totals.detach().cpu().tolist()
+    values = totals.detach().cpu().tolist()
+    rho0, rho1, correlation_loss, wmse = values[:4]
+    kd_wmse = values[4] if len(values) > 5 else 0.0
+    count = values[5] if len(values) > 5 else values[4]
     if count <= 0:
         return {}
     correlation_loss, wmse = correlation_loss / count, wmse / count
@@ -32,6 +38,15 @@ def objective_metrics(
     if config.get("supervised_target") is not None:
         result["supervised_target"] = config["supervised_target"]
         result["objective_wmse_scope"] = "selected target numerator / both-target denominator"
+    if config.get("objective_mode") == STANDALONE_LABELS_KD_MODE:
+        kd_weight = float(config["kd_weight"])
+        result.update(
+            objective_label_wmse=wmse,
+            objective_kd_wmse=kd_wmse / count,
+            objective_kd_weight=kd_weight,
+            objective_shared_denominator="sum_abs_clipped_label_targets",
+            total_loss=wmse + kd_weight * kd_wmse / count,
+        )
     if treatment:
         result.update(
             microbatch_correlation_surrogate_t0=rho0 / count,

@@ -9,7 +9,11 @@ import torch
 
 from wnn.training.sequence_data import SequenceData, SequenceRecords
 from wnn.training.sequence_distributed import DistributedContext
-from wnn.training.sequence_ensemble_config import STANDALONE_LABELS_MODE
+from wnn.training.sequence_ensemble_config import (
+    RAW_STUDENT_MODES,
+    STANDALONE_LABELS_KD_MODE,
+    STANDALONE_LABELS_MODE,
+)
 from wnn.training.sequence_monitor_evaluation import evaluate_monitoring_sets
 from wnn.training.sequence_monitor_events import MONITOR_EVENT_FILENAME, MonitorEventWriter
 from wnn.training.sequence_monitor_identity import membership_sha256
@@ -67,9 +71,14 @@ def validate_complement_monitor(config: Mapping[str, object]) -> None:
             raise ValueError(f"monitoring.{key} must be in [1, {maximum}]")
     if monitor.get("train_eval_selection", "prefix") not in ("prefix", "hash_rank_v1"):
         raise ValueError("monitoring.train_eval_selection must be prefix or hash_rank_v1")
-    if config.get("objective_mode") == STANDALONE_LABELS_MODE:
+    mode = config.get("objective_mode")
+    if mode == STANDALONE_LABELS_MODE:
         if config.get("blend_objective_alpha", 0) != 0 or config["kd_weight"] != 0:
             raise ValueError("standalone-label monitoring requires raw z without blend or KD")
+        return
+    if mode == STANDALONE_LABELS_KD_MODE:
+        if config.get("blend_objective_alpha", 0) != 0 or config["hint_weight"] != 0:
+            raise ValueError("standalone label+KD monitoring forbids blend and hidden hints")
         return
     if config.get("blend_objective_alpha", 0.1) != 0.1 or config["kd_weight"] != 0:
         raise ValueError("receiving monitoring reports the fixed alpha=0.1 endpoint without KD")
@@ -95,13 +104,16 @@ class ComplementMonitor:
         evaluation = data.evaluation.members
         if len(members) != 10325 or len(evaluation) != 1873:
             raise ValueError("complement monitor requires the complete official memberships")
-        standalone_labels = config.get("objective_mode") == STANDALONE_LABELS_MODE
-        if standalone_labels and reference_root is not None:
-            raise ValueError(
-                "standalone-label monitoring rejects --monitor-reference-root; "
-                "use an offline fixed readout for TL3 diagnostics"
-            )
-        if not standalone_labels and reference_root is None:
+        raw_student = config.get("objective_mode") in RAW_STUDENT_MODES
+        standalone_kd = config.get("objective_mode") == STANDALONE_LABELS_KD_MODE
+        if raw_student and reference_root is not None:
+            if config.get("objective_mode") == STANDALONE_LABELS_MODE:
+                raise ValueError(
+                    "standalone-label monitoring rejects --monitor-reference-root; "
+                    "use an offline fixed readout for TL3 diagnostics"
+                )
+            raise ValueError("standalone label+KD monitoring rejects --monitor-reference-root")
+        if not raw_student and reference_root is None:
             raise ValueError("historical complement monitoring requires --monitor-reference-root")
         settings = config["monitoring"]
         self.batch_size = int(settings["eval_batch_size"])
@@ -118,10 +130,21 @@ class ComplementMonitor:
             ):
                 raise ValueError("monitor fit and valid references differ")
         trained_reference = data.provenance.get("reference")
-        if standalone_labels and trained_reference is not None:
+        if config.get("objective_mode") == STANDALONE_LABELS_MODE and trained_reference is not None:
             raise ValueError("standalone labels cannot have training reference ancestry")
-        if trained_reference is not None and (
-            fit_reference is None or trained_reference != fit_reference.identity
+        if standalone_kd and trained_reference is not None:
+            raise ValueError("standalone label+KD monitoring cannot have blend-reference ancestry")
+        trained_teacher = data.provenance.get("teacher")
+        if standalone_kd and trained_teacher is None:
+            raise ValueError(
+                "standalone label+KD monitoring requires the validated fit teacher cache"
+            )
+        if config.get("objective_mode") == STANDALONE_LABELS_MODE and trained_teacher is not None:
+            raise ValueError("standalone label-only monitoring rejects teacher-cache ancestry")
+        if (
+            not raw_student
+            and trained_reference is not None
+            and (fit_reference is None or trained_reference != fit_reference.identity)
         ):
             raise ValueError("monitoring reference differs from the training objective reference")
         selection = str(settings.get("train_eval_selection", "prefix"))
@@ -152,14 +175,16 @@ class ComplementMonitor:
             ),
             "metric_id": "global_wp_clip2_v1",
             "endpoint": (
-                "raw standalone z; no reference or blend"
-                if standalone_labels
+                "raw student z; label plus fit-cache KD; no reference or blend"
+                if standalone_kd
+                else "raw standalone z; no reference or blend"
+                if config.get("objective_mode") == STANDALONE_LABELS_MODE
                 else "0.9 * clean_tl3 + 0.1 * z; no component preclipping"
             ),
             "checkpoint_selection": f"fixed final epoch {config['epochs']}; monitoring is report only",
             "evaluation_exposure": "development exposed; official source boundary",
         }
-        if not standalone_labels:
+        if not raw_student:
             assert fit_reference is not None and valid_reference is not None
             self.context.update(
                 reference_sha256=fit_reference.identity["reference_sha256"],
@@ -167,7 +192,7 @@ class ComplementMonitor:
                 evaluation_reference_manifest_sha256=valid_reference.identity["manifest_sha256"],
             )
         # Both ranks bind reporting inputs before run identity is computed. They do
-        # not become inputs to the label-only objective or fitting normalization.
+        # not become inputs to either raw-student objective or fit normalization.
         data.provenance["report_only_monitor"] = self.context
         self.writer = (
             MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume)
@@ -197,7 +222,7 @@ class ComplementMonitor:
             str(config["precision_mode"]),
             context,
             self.batch_size,
-            blend_alpha=None if config.get("objective_mode") == STANDALONE_LABELS_MODE else 0.1,
+            blend_alpha=None if config.get("objective_mode") in RAW_STUDENT_MODES else 0.1,
             report_standalone=config.get("objective_mode") is not None,
             since_diagnostics=float(config.get("since_weight", 0.0)) > 0,
         )

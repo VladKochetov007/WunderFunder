@@ -12,11 +12,11 @@ from torch.utils.data import Dataset
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, WARMUP
 from wnn.splits import MAX_CAMPAIGN_SPLIT_BYTES, CampaignSplit, load_campaign_split
+from wnn.training import sequence_ensemble_config as ensemble_config
 from wnn.training.datasets import Sequences
 from wnn.training.environment import InputConfiguration, TrainingEnvironment
 from wnn.training.sequence_blend import fit_reference
 from wnn.training.sequence_cache import TeacherCache
-from wnn.training.sequence_ensemble_config import objective_contract
 from wnn.training.sequence_normalization import (
     NormalizationMoments,
     build_normalization_identity,
@@ -210,7 +210,7 @@ def build_data(
     members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]
     pretraining = config.get("pretraining") is not None
-    needed = (config["kd_weight"] > 0 or config["hint_weight"] > 0) and not pretraining
+    needed = ensemble_config.requires_teacher_cache(config, pretraining)
     if needed and teacher_cache is None:
         raise ValueError("distillation requires a source-bound teacher cache")
     if teacher_cache is not None and not needed:
@@ -271,7 +271,7 @@ def build_data(
         "hint_mode": config["hint_mode"],
         "hint_members": None if hint_members is None else [list(member) for member in hint_members],
     }
-    declared_objective = objective_contract(config)
+    declared_objective = ensemble_config.objective_contract(config)
     if declared_objective is not None:
         provenance["objective_contract"] = declared_objective
     if declared_objective is not None or P5_RUNTIME_KEYS.intersection(config):

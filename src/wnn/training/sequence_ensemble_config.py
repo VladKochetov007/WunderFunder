@@ -5,6 +5,8 @@ from collections.abc import Mapping
 LABELS_MODE = "labels_wmse_v1"
 MIXTURE_MODE = "mixture_wmse_pearson_v1"
 STANDALONE_LABELS_MODE = "standalone_labels_wmse_v2"
+STANDALONE_LABELS_KD_MODE = "standalone_labels_kd_wmse_v1"
+RAW_STUDENT_MODES = frozenset((STANDALONE_LABELS_MODE, STANDALONE_LABELS_KD_MODE))
 P5_CONFIG_FIELDS = frozenset(
     (
         "gradient_horizon_rows",
@@ -18,7 +20,25 @@ P5_CONFIG_FIELDS = frozenset(
 
 def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None:
     """Describe the new standalone-label objective before it enters run identity."""
-    if config.get("objective_mode") != STANDALONE_LABELS_MODE:
+    mode = config.get("objective_mode")
+    if mode == STANDALONE_LABELS_KD_MODE:
+        return {
+            "kind": "standalone_label_plus_kd_weighted_mse",
+            "mode": STANDALONE_LABELS_KD_MODE,
+            "target_clip": [-2.0, 2.0],
+            "target_weight": "abs(clipped_label_target)",
+            "kd_target_clip": [-2.0, 2.0],
+            "kd_weight": config["kd_weight"],
+            "aggregation": "global_joint_weighted_wmse_per_actual_optimizer_window",
+            "shared_denominator": "sum_abs_clipped_label_targets",
+            "distillation_weight_scope": "numerator_only; denominator is shared and unchanged",
+            "endpoint": "raw student z; no teacher reference or output blend",
+            "since_weight_scope": "disabled for this one-parameter KD contrast",
+            "hint_objective": "none",
+            "reference_training_ancestry": "none",
+            "teacher_cache_membership": "exact official fitting membership only",
+        }
+    if mode != STANDALONE_LABELS_MODE:
         return None
     contract: dict[str, object] = {
         "kind": "standalone_label_weighted_mse",
@@ -37,6 +57,15 @@ def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None
             denominator="sum_abs_clipped_t0_t1_over_mask",
         )
     return contract
+
+
+def requires_teacher_cache(config: Mapping[str, object], pretraining: bool) -> bool:
+    """Require a cache for positive auxiliaries or the source-matched standalone KD mode."""
+    return not pretraining and (
+        config["kd_weight"] > 0
+        or config["hint_weight"] > 0
+        or config.get("objective_mode") == STANDALONE_LABELS_KD_MODE
+    )
 
 
 def validate_ensemble_objective(config: Mapping[str, object]) -> None:
@@ -64,6 +93,35 @@ def validate_ensemble_objective(config: Mapping[str, object]) -> None:
             raise ValueError("standalone labels require all-fit normalization and all-after-warmup")
         if not isinstance(config.get("monitoring"), Mapping):
             raise ValueError("standalone labels require full official-valid report-only monitoring")
+        return
+    if mode == STANDALONE_LABELS_KD_MODE:
+        model = config["model"]
+        if (
+            config["hint_weight"] != 0
+            or model["hint_dim"] != 0
+            or config.get("blend_objective_alpha", 0) != 0
+            or "correlation_prediction_std_floor" in config
+            or config.get("supervised_target") is not None
+            or config.get("pretraining") is not None
+            or config.get("parent_initializer") is not None
+            or config.get("since_weight", 0) != 0
+            or model["architecture"] != "gru"
+            or config["precision_mode"] != "fp32"
+        ):
+            raise ValueError(
+                "standalone label+KD requires a cold FP32 two-target GRU without hints, blend, or since weighting"
+            )
+        if (
+            config["normalization_scope"] != "all_fit"
+            or config["training_mask"] != "all_after_warmup"
+        ):
+            raise ValueError(
+                "standalone label+KD requires all-fit normalization and all-after-warmup"
+            )
+        if not isinstance(config.get("monitoring"), Mapping):
+            raise ValueError(
+                "standalone label+KD requires raw-student full official-valid monitoring"
+            )
         return
     if mode not in (LABELS_MODE, MIXTURE_MODE):
         raise ValueError("unsupported explicit ensemble objective mode")

@@ -29,6 +29,7 @@ from wnn.training.sequence_models import detach_state
 from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_objectives import (
     detached_sums,
+    global_window_denominators,
     objective_numerators,
     scaled_objective,
     since_event_row_weights,
@@ -49,6 +50,10 @@ class EpochResult:
     totals: torch.Tensor
     elapsed_seconds: float
     objective_totals: torch.Tensor | None = None
+
+
+def _window_denominators(target: torch.Tensor, mask: torch.Tensor, hint_target: torch.Tensor) -> torch.Tensor:
+    return window_denominators(target, mask, hint_target)
 
 
 def _chunks(row_count: int, chunk_rows: int) -> list[tuple[int, int]]:
@@ -142,25 +147,6 @@ def _backward_window(
     return state, local_stats
 
 
-def _window_denominators(
-    target: torch.Tensor,
-    mask: torch.Tensor,
-    hints: torch.Tensor,
-    intervals: list[tuple[int, int]],
-    context: DistributedContext,
-) -> torch.Tensor:
-    """Reduce both objective denominators across every rank before any window backward."""
-    local = torch.zeros(2, dtype=torch.float32, device=context.device)
-    for start, stop in intervals:
-        local += window_denominators(
-            target[:, start:stop], mask[:, start:stop], hints[:, start:stop]
-        )
-    global_denominators = global_sum(local, context)
-    if not all_ranks_true(bool(torch.isfinite(global_denominators).all()), context):
-        raise FloatingPointError("nonfinite objective denominator detected across torchrun ranks")
-    return global_denominators
-
-
 def train_epoch(
     dataset: SequenceDataset,
     model: torch.nn.Module,
@@ -189,7 +175,7 @@ def train_epoch(
     )
     total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
     objective_totals = (
-        torch.zeros(5, dtype=torch.float64, device=context.device)
+        torch.zeros(6, dtype=torch.float64, device=context.device)
         if config.get("objective_mode")
         else None
     )
@@ -227,7 +213,9 @@ def train_epoch(
                 )
             window_started = time.perf_counter()
             intervals = chunk_intervals[window_start : window_start + accumulation]
-            denominators = _window_denominators(target, mask, hints, intervals, context)
+            denominators = global_window_denominators(
+                target, mask, hints, intervals, context, window_denominator=_window_denominators
+            )
             optimizer.zero_grad(set_to_none=True)
             rates = optimizer_learning_rates(optimizer)
             lr = float(optimizer.param_groups[0]["lr"])
@@ -274,7 +262,8 @@ def train_epoch(
             total_count[6:] += denominators
             if objective_stats is not None:
                 objective_stats[3] = global_stats[0] / denominators[0].clamp_min(1e-8)
-                objective_stats[4] = 1
+                objective_stats[4] = global_stats[1] / denominators[0].clamp_min(1e-8)
+                objective_stats[5] = 1
                 objective_totals += objective_stats
             elapsed = time.perf_counter() - window_started
             record = _window_record(

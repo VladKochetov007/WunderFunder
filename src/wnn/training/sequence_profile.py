@@ -59,7 +59,7 @@ def run_profile(
     updates, epochs_seen = 0, 0
     totals = torch.zeros(8, dtype=torch.float64, device=context.device)
     objective_totals = (
-        torch.zeros(5, dtype=torch.float64, device=context.device)
+        torch.zeros(6, dtype=torch.float64, device=context.device)
         if config.get("objective_mode")
         else None
     )

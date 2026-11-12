@@ -2,13 +2,22 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from typing import Callable
 
 import torch
 
 from wnn.features import causal_since_i0px_torch
 from wnn.training.sequence_blend import compose_prediction
-from wnn.training.sequence_distributed import DistributedContext, all_ranks_true
-from wnn.training.sequence_ensemble_config import MIXTURE_MODE, STANDALONE_LABELS_MODE
+from wnn.training.sequence_distributed import (
+    DistributedContext,
+    all_ranks_true,
+    global_sum,
+)
+from wnn.training.sequence_ensemble_config import (
+    MIXTURE_MODE,
+    STANDALONE_LABELS_KD_MODE,
+    STANDALONE_LABELS_MODE,
+)
 from wnn.training.sequence_ensemble_correlation import weighted_microbatch_correlation
 
 
@@ -34,9 +43,30 @@ def window_denominators(
     return torch.stack((label_mass, hint_mass))
 
 
-def since_event_row_weights(
-    inputs: torch.Tensor, tau: float, floor: float
+def global_window_denominators(
+    target: torch.Tensor,
+    mask: torch.Tensor,
+    hint_target: torch.Tensor,
+    intervals: list[tuple[int, int]],
+    context: DistributedContext,
+    *,
+    window_denominator: Callable[[torch.Tensor, torch.Tensor, torch.Tensor], torch.Tensor]
+    | None = None,
 ) -> torch.Tensor:
+    """Reduce shared loss denominators over every chunk and rank before backward."""
+    local = torch.zeros(2, dtype=torch.float32, device=context.device)
+    denominator_fn = window_denominator or window_denominators
+    for start, stop in intervals:
+        local += denominator_fn(
+            target[:, start:stop], mask[:, start:stop], hint_target[:, start:stop]
+        )
+    denominators = global_sum(local, context)
+    if not all_ranks_true(bool(torch.isfinite(denominators).all()), context):
+        raise FloatingPointError("nonfinite objective denominator detected across torchrun ranks")
+    return denominators
+
+
+def since_event_row_weights(inputs: torch.Tensor, tau: float, floor: float) -> torch.Tensor:
     """Compute causal, input-only main-label weights from the current i0 price-event age."""
     if (
         isinstance(tau, bool)
@@ -67,6 +97,11 @@ def objective_numerators(
     label_row_weights: torch.Tensor | None = None,
 ) -> ObjectiveNumerators:
     """Return clipped weighted label/KD sums and a masked elementwise hint sum."""
+    if objective_mode == STANDALONE_LABELS_KD_MODE:
+        if blend_objective_alpha != 0 or hint_prediction.shape[-1] or hint_target.shape[-1]:
+            raise ValueError("standalone label+KD objective forbids blends and hidden hints")
+        if any(value.dtype != torch.float32 for value in (prediction, target, teacher)):
+            raise TypeError("standalone label+KD objective requires strict FP32 tensors")
     if supervised_target is not None:
         if type(supervised_target) is not int or supervised_target not in (0, 1):
             raise ValueError("supervised_target must be null, 0, or 1")
@@ -76,6 +111,8 @@ def objective_numerators(
     if objective_mode is not None:
         selected = mask[..., None]
         finite = bool(torch.isfinite(prediction[mask]).all() and torch.isfinite(target[mask]).all())
+        if objective_mode == STANDALONE_LABELS_KD_MODE:
+            finite = finite and bool(torch.isfinite(teacher[mask]).all())
         if context is None or not all_ranks_true(finite, context):
             raise FloatingPointError(
                 "new objective requires finite selected raw values on every rank"
@@ -119,7 +156,7 @@ def objective_numerators(
         label_error = (
             compose_prediction(prediction, teacher, blend_objective_alpha) - clipped
         ) / blend_objective_alpha
-    teacher_error = prediction.float() - teacher.float().clamp(-2.0, 2.0)
+    teacher_error = prediction.float() - teacher.detach().float().clamp(-2.0, 2.0)
     hint_error = hint_prediction.float() - hint_target.float()
     hint_weight = mask.to(dtype=torch.float32)[..., None]
     return ObjectiveNumerators(
