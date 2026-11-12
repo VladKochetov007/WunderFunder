@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Causal attention and FFN routing on B300](../../experiment_drafts/causal-routing-b300-20261111/README.md): two implemented mechanism screens, ten unique fresh fits including two shared plain anchors, pinned PR75 runtime and MIDAS evidence handoff. Source-bound B300 acceptance and all measurements remain pending; canonical pipeline and optimization recipes are unchanged.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**

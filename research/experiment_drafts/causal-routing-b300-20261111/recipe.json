@@ -1,0 +1,207 @@
+{
+  "schema": "signal-routes.recipe.v1",
+  "objective_mode": "competition",
+  "status": "implemented_pending_receiver_acceptance",
+  "launch_authorized": false,
+  "base_branch": "research-team",
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "runtime_commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "fit_sequences": 10325,
+  "validation_sequences": 1873,
+  "validation_scored_rows": 3528273,
+  "primary_metric": "global_wp_clip2_v1",
+  "validation_exposure": "repeatedly_exposed_official_development_split",
+  "teacher_or_initializer": "none; all cells train from scratch",
+  "seeds": [
+    205201,
+    205202
+  ],
+  "studies": [
+    {
+      "id": "SR-A",
+      "mechanism": "signed_half_head_attention",
+      "variants": [
+        "plain",
+        "attention_additive",
+        "attention_differential"
+      ],
+      "primary_contrast": "attention_differential - plain",
+      "mechanism_contrast": "attention_differential - attention_additive",
+      "cells": 6,
+      "shared_anchor_cells": 2
+    },
+    {
+      "id": "SR-F",
+      "mechanism": "token_conditioned_ffn_partition_routing",
+      "variants": [
+        "plain",
+        "ffn_static",
+        "ffn_conditional"
+      ],
+      "primary_contrast": "ffn_conditional - plain",
+      "mechanism_contrast": "ffn_conditional - ffn_static",
+      "cells": 6,
+      "shared_anchor_cells": 2
+    }
+  ],
+  "planned_unique_fits": 10,
+  "shared_fresh_anchor_fits": 2,
+  "historical_reused_fits": 0,
+  "pretraining_fits": 0,
+  "student_fits": 0,
+  "executed_fits": 0,
+  "profiles_executed": 0,
+  "precision": "bf16_bf16x9",
+  "optimizer": "native PR75 Muon/AdamW; no recipe changes",
+  "training": {
+    "epochs": 4,
+    "endpoint": "configured_final_epoch",
+    "retention": "all_epochs",
+    "world_size": 2,
+    "batch_per_rank": 128,
+    "accumulate_chunks": 4,
+    "chunk_rows": 256,
+    "context_rows": 1024,
+    "hidden": 768,
+    "layers": 24,
+    "heads": 12,
+    "ff_multiplier": 4,
+    "lr": 0.0003,
+    "warmup_fraction": 0.05,
+    "min_lr_ratio": 0.1
+  },
+  "mechanism_contract": "signal-routes.mechanisms.v1",
+  "attention": {
+    "half_head_qk": true,
+    "split_after_canonical_rope": true,
+    "shared_full_width_values": true,
+    "lambda": 0.5,
+    "head_rms_epsilon": 1e-06,
+    "post_rms_scale": 0.5,
+    "same_cache": true,
+    "additive_and_differential_equal_parameters": true
+  },
+  "ffn": {
+    "expert_partitions": 2,
+    "total_ff_width_unchanged": true,
+    "gate_temperature": 1.0,
+    "initial_router": "zero matrix and bias; uniform mixture",
+    "combination": "2 * sum(gate_i * expert_i) + one output bias",
+    "static_input": "all-zero normalized hidden",
+    "conditional_input": "current normalized hidden only",
+    "sparse_dispatch": false,
+    "auxiliary_loss": false
+  },
+  "attempt_limits": {
+    "prepare_seconds": 14400,
+    "check_seconds": 3600,
+    "profile_seconds": 3600,
+    "profile_updates": 50,
+    "fit_seconds": 28800,
+    "export_seconds": 7200,
+    "score_seconds": 7200,
+    "fit_gpu_hours_upper_bound": 160,
+    "profile_gpu_hours_upper_bound": 20,
+    "automatic_retries": 0
+  },
+  "selection": {
+    "kind": "descriptive_allocation_heuristic_not_significance",
+    "mean_paired_wp_gain": 0.0005,
+    "both_seeds_positive": true,
+    "target_regression_review_threshold": 0.001,
+    "confirm_before_submission": true
+  },
+  "publication": {
+    "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/90",
+    "owner": "Ivan / Codex preparation; receiver owner required at launch"
+  },
+  "cells": [
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_attention_additive_s205201",
+      "variant": "attention_additive",
+      "seed": 205201,
+      "native_config": "configs/native_s205201.json",
+      "native_sha256": "042ea9b944f1ca055ee4786cdf4d17e6b40ae81a1a0158d39a74927fe49e2bfe"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_attention_additive_s205202",
+      "variant": "attention_additive",
+      "seed": 205202,
+      "native_config": "configs/native_s205202.json",
+      "native_sha256": "975111e4df11b07b230ef0fd1a0aa19ba5539f041c9632a03c29bc3b560ca0bd"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_attention_differential_s205201",
+      "variant": "attention_differential",
+      "seed": 205201,
+      "native_config": "configs/native_s205201.json",
+      "native_sha256": "042ea9b944f1ca055ee4786cdf4d17e6b40ae81a1a0158d39a74927fe49e2bfe"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_attention_differential_s205202",
+      "variant": "attention_differential",
+      "seed": 205202,
+      "native_config": "configs/native_s205202.json",
+      "native_sha256": "975111e4df11b07b230ef0fd1a0aa19ba5539f041c9632a03c29bc3b560ca0bd"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_ffn_conditional_s205201",
+      "variant": "ffn_conditional",
+      "seed": 205201,
+      "native_config": "configs/native_s205201.json",
+      "native_sha256": "042ea9b944f1ca055ee4786cdf4d17e6b40ae81a1a0158d39a74927fe49e2bfe"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_ffn_conditional_s205202",
+      "variant": "ffn_conditional",
+      "seed": 205202,
+      "native_config": "configs/native_s205202.json",
+      "native_sha256": "975111e4df11b07b230ef0fd1a0aa19ba5539f041c9632a03c29bc3b560ca0bd"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_ffn_static_s205201",
+      "variant": "ffn_static",
+      "seed": 205201,
+      "native_config": "configs/native_s205201.json",
+      "native_sha256": "042ea9b944f1ca055ee4786cdf4d17e6b40ae81a1a0158d39a74927fe49e2bfe"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_ffn_static_s205202",
+      "variant": "ffn_static",
+      "seed": 205202,
+      "native_config": "configs/native_s205202.json",
+      "native_sha256": "975111e4df11b07b230ef0fd1a0aa19ba5539f041c9632a03c29bc3b560ca0bd"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_plain_s205201",
+      "variant": "plain",
+      "seed": 205201,
+      "native_config": "configs/native_s205201.json",
+      "native_sha256": "042ea9b944f1ca055ee4786cdf4d17e6b40ae81a1a0158d39a74927fe49e2bfe"
+    },
+    {
+      "schema": "signal-routes.cell.v1",
+      "id": "sr_plain_s205202",
+      "variant": "plain",
+      "seed": 205202,
+      "native_config": "configs/native_s205202.json",
+      "native_sha256": "975111e4df11b07b230ef0fd1a0aa19ba5539f041c9632a03c29bc3b560ca0bd"
+    }
+  ],
+  "local_tests": false,
+  "local_training": false,
+  "local_inference": false,
+  "local_model_profiles": false,
+  "optimization_changes": false,
+  "canonical_pipeline_changes": false
+}

@@ -1,5 +1,7 @@
 # Research evidence index
 
+[Causal attention and FFN routing on B300](research/experiment_drafts/causal-routing-b300-20261111/README.md): two implemented mechanism screens, ten unique fresh fits including two shared plain anchors, pinned PR75 runtime and MIDAS evidence handoff. Source-bound B300 acceptance and all measurements remain pending; canonical pipeline and optimization recipes are unchanged.
+
 Use [current project state](specs/current-state.md) for the latest status and
 effective scope. The [unified research library](research/unified/README.md) is
 the maintained topic index for ideas, methods, reviews, sources, models,
