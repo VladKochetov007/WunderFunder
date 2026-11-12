@@ -6,13 +6,12 @@ import re
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_auxiliary import validate_auxiliary_heads
 from wnn.training.sequence_blend import validate_blend_config
 from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
 from wnn.training.sequence_complement_monitor import validate_complement_monitor
-from wnn.training.sequence_ensemble_config import (
-    STANDALONE_LABELS_MODE,
-    validate_ensemble_objective,
-)
+from wnn.training.sequence_config_model import validate_model_config
+from wnn.training.sequence_ensemble_config import validate_ensemble_objective
 from wnn.training.sequence_input_stem import validate_input_stem_kernel
 from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
@@ -44,6 +43,8 @@ DEFAULTS: dict[str, Any] = {
     "min_lr_ratio": 0.0,
     "kd_weight": 0.0,
     "hint_weight": 0.0,
+    "aux_structure_weight": 0.0,
+    "aux_next_change_weight": 0.0,
     "hint_mode": "aligned",
     "normalization_sequences": 32,
     "training_mask": "is_scored",
@@ -66,6 +67,7 @@ MODEL_DEFAULTS: dict[str, Any] = {
     "hint_projection": "learned",
     "attention_backend": "math",
     "compile_blocks": False,
+    "auxiliary_heads": [],
 }
 
 
@@ -117,6 +119,8 @@ def load_config(path: Path) -> dict[str, Any]:
     input_stem_kernel = validate_input_stem_kernel(model.get("input_stem_kernel", 0))
     if input_stem_kernel == 0:
         model.pop("input_stem_kernel", None)
+    auxiliary_heads = validate_auxiliary_heads(model["auxiliary_heads"])
+    model["auxiliary_heads"] = list(auxiliary_heads)
     config["model"] = model
     for key in (
         "schema_version",
@@ -148,6 +152,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "warmup_fraction",
         "kd_weight",
         "hint_weight",
+        "aux_structure_weight",
+        "aux_next_change_weight",
         "since_weight",
         "since_floor",
         "muon_ns_eps",
@@ -159,8 +165,16 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be nonnegative")
     if config["lr"] == 0 or config["grad_clip"] == 0 or config["warmup_fraction"] >= 1:
         raise ValueError("positive learning rate/clipping and warmup_fraction < 1 required")
-    if isinstance(config["since_weight"], bool) or isinstance(config["since_floor"], bool):
-        raise ValueError("since_weight and since_floor must be numeric values, not booleans")
+    if any(
+        isinstance(config[key], bool)
+        for key in (
+            "since_weight",
+            "since_floor",
+            "aux_structure_weight",
+            "aux_next_change_weight",
+        )
+    ):
+        raise ValueError("weight and floor settings must be numeric values, not booleans")
     if config["since_floor"] <= 0 or config["since_floor"] > 1:
         raise ValueError("since_floor must be in (0, 1]")
     if type(config["muon_ns_steps"]) is not int or config["muon_ns_steps"] <= 0:
@@ -189,75 +203,7 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("min_lr_ratio must be finite and in [0, 1]")
     if config["schedule"] == "legacy_warmup_cosine" and ratio != 0:
         raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
-    for key in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
-        if type(model[key]) is not int or model[key] < 1:
-            raise ValueError(f"model.{key} must be a positive integer")
-    if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
-        raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru"):
-        raise ValueError("architecture must be transformer or gru")
-    if input_stem_kernel and model["architecture"] != "gru":
-        raise ValueError("input_stem_kernel is currently supported only for GRU models")
-    if model["attention_backend"] not in ("math", "efficient", "flex"):
-        raise ValueError("model.attention_backend must be math, efficient, or flex")
-    if model["architecture"] == "gru" and model["attention_backend"] != "math":
-        raise ValueError("attention backends are supported only by Transformer models")
-    if type(model["compile_blocks"]) is not bool:
-        raise ValueError("model.compile_blocks must be boolean")
-    if model["architecture"] == "gru" and model["compile_blocks"]:
-        raise ValueError("model.compile_blocks requires a Transformer model")
-    if config["optimizer"] == "muon" and model["architecture"] not in (
-        "transformer",
-        "gru",
-    ):
-        raise ValueError("sequence Muon requires a Transformer or GRU model")
-    if model["hint_projection"] not in ("fixed", "learned"):
-        raise ValueError("hint_projection must be fixed or learned")
-    dropout = model["dropout"]
-    if (
-        isinstance(dropout, bool)
-        or not isinstance(dropout, (int, float))
-        or not math.isfinite(float(dropout))
-        or not 0 <= dropout < 1
-    ):
-        raise ValueError("model.dropout must be finite and in [0, 1)")
-    if type(model["checkpoint_blocks"]) is not bool:
-        raise ValueError("checkpoint_blocks must be boolean")
-    if model["architecture"] != "gru" and dropout != 0:
-        raise ValueError("this paired runtime freezes non-GRU dropout=0")
-    if model["architecture"] == "gru" and dropout not in (0, 0.1):
-        raise ValueError("this successor runtime supports GRU dropout=0 or 0.1")
-    if model["architecture"] == "gru" and dropout > 0 and model["layers"] < 2:
-        raise ValueError("GRU dropout requires at least two recurrent layers")
-    if model["architecture"] == "transformer" and model["hidden"] % (2 * model["heads"]):
-        raise ValueError("RoPE requires an even integral head dimension")
-    if config["hint_weight"] > 0 and (
-        model["hint_dim"] == 0 or model["hint_projection"] != "learned"
-    ):
-        raise ValueError("hint distillation requires a learned student projection")
-    if supervised_target is not None and (
-        config["kd_weight"] > 0
-        or config["hint_weight"] > 0
-        or model["hint_dim"] != 0
-        or config.get("blend_objective_alpha", 0) != 0
-        or config.get("objective_mode") != STANDALONE_LABELS_MODE
-        or "correlation_prediction_std_floor" in config
-    ):
-        raise ValueError(
-            "single-target supervision requires two-head label-only training without mix or auxiliaries"
-        )
-    if config["since_weight"] > 0 and (
-        model["architecture"] != "gru"
-        or config["kd_weight"] != 0
-        or config["hint_weight"] != 0
-        or model["hint_dim"] != 0
-        or config.get("objective_mode") not in (None, STANDALONE_LABELS_MODE)
-        or config.get("blend_objective_alpha", 0) != 0
-        or supervised_target is not None
-        or config.get("pretraining") is not None
-        or config.get("parent_initializer") is not None
-    ):
-        raise ValueError("since weighting currently requires cold, two-head labels-only GRU training")
+    validate_model_config(config, model, input_stem_kernel, supervised_target, auxiliary_heads)
     if config["hint_mode"] not in ("aligned", "component_permuted"):
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:

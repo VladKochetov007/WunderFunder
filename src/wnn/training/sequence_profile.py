@@ -63,6 +63,11 @@ def run_profile(
         if config.get("objective_mode")
         else None
     )
+    auxiliary_totals = (
+        torch.zeros(4, dtype=torch.float64, device=context.device)
+        if config["model"].get("auxiliary_heads")
+        else None
+    )
     while updates < profile_updates and epochs_seen < int(config["epochs"]):
         result = train_epoch(
             dataset,
@@ -81,6 +86,8 @@ def run_profile(
         totals += result.totals
         if objective_totals is not None:
             objective_totals += result.objective_totals
+        if auxiliary_totals is not None:
+            auxiliary_totals += result.auxiliary_totals
         epochs_seen += int(result.complete)
         if result.updates == 0:
             break
@@ -117,6 +124,18 @@ def run_profile(
     label_loss = float(totals[0].item()) / label_denom if label_denom > 0 else 0.0
     kd_loss = float(totals[1].item()) / label_denom if label_denom > 0 else 0.0
     hint_loss = float(totals[2].item()) / hint_denom if hint_denom > 0 else 0.0
+    auxiliary_losses: dict[str, float] = {}
+    if auxiliary_totals is not None:
+        structure_denom = float(auxiliary_totals[2].item())
+        next_denom = float(auxiliary_totals[3].item())
+        structure_loss = (
+            float(auxiliary_totals[0].item()) / structure_denom if structure_denom > 0 else 0.0
+        )
+        next_loss = float(auxiliary_totals[1].item()) / next_denom if next_denom > 0 else 0.0
+        auxiliary_losses = {
+            "aux_structure": structure_loss,
+            "aux_next_change": next_loss,
+        }
     elapsed = time.perf_counter() - started
     if updates != profile_updates:
         errors.append("profile stopped before its requested optimizer update count")
@@ -145,7 +164,11 @@ def run_profile(
             "hint": hint_loss,
             "total": label_loss
             + float(config["kd_weight"]) * kd_loss
-            + float(config["hint_weight"]) * hint_loss,
+            + float(config["hint_weight"]) * hint_loss
+            + float(config["aux_structure_weight"]) * auxiliary_losses.get("aux_structure", 0.0)
+            + float(config["aux_next_change_weight"])
+            * auxiliary_losses.get("aux_next_change", 0.0),
+            **auxiliary_losses,
         },
         **(
             {"blend_objective": blend_loss_metrics(config, label_loss)}
@@ -173,7 +196,10 @@ def run_profile(
         }
     if terms:
         receipt["objective_terms"] = terms
-        receipt["losses"]["total"] = terms["total_loss"]
+        receipt["losses"]["total"] = terms["total_loss"] + (
+            float(config["aux_structure_weight"]) * auxiliary_losses.get("aux_structure", 0.0)
+            + float(config["aux_next_change_weight"]) * auxiliary_losses.get("aux_next_change", 0.0)
+        )
     if reload_check is not None:
         receipt["engineering_reload"] = reload_check
     coordinated_call(
@@ -198,7 +224,7 @@ def run_profile(
                 hint_loss,
                 valid_rows,
                 forwarded_rows,
-                terms.get("total_loss"),
+                float(receipt["losses"]["total"]),
             )
             if context.is_primary and recorder is not None
             else True

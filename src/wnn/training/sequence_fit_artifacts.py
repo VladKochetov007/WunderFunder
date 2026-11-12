@@ -47,6 +47,19 @@ def epoch_summary(
         **blend_loss_metrics(config, label_loss),
         **objective_metrics(config, result.objective_totals),
     }
+    if result.auxiliary_totals is not None:
+        auxiliary = result.auxiliary_totals
+        structure_denom, next_denom = float(auxiliary[2].item()), float(auxiliary[3].item())
+        structure_loss = (
+            float(auxiliary[0].item()) / structure_denom if structure_denom > 0 else 0.0
+        )
+        next_loss = float(auxiliary[1].item()) / next_denom if next_denom > 0 else 0.0
+        summary["aux_structure_loss"] = structure_loss
+        summary["aux_next_change_loss"] = next_loss
+        summary["total_loss"] += (
+            float(config["aux_structure_weight"]) * structure_loss
+            + float(config["aux_next_change_weight"]) * next_loss
+        )
     if config.get("pretraining") is not None:
         summary["pretext_loss"] = hint_loss
         summary["pretext_training_target_rows"] = int(totals[3].item())

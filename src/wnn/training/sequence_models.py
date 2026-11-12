@@ -9,6 +9,7 @@ from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
+from wnn.training.sequence_auxiliary import auxiliary_output_width
 from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_gru import GRUSequenceAdapter
 from wnn.training.sequence_input_stem import RAW_INPUT_WIDTH, validate_input_stem_kernel
@@ -195,6 +196,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     precision_mode = config.get("precision_mode", "fp32")
     attention_backend = config.get("attention_backend", "math")
     compile_blocks = config.get("compile_blocks", False)
+    auxiliary_heads = config.get("auxiliary_heads", [])
     if type(checkpoint_blocks) is not bool:
         raise TypeError("model config 'checkpoint_blocks' must be boolean")
     if hint_mode not in ("learned", "fixed"):
@@ -227,7 +229,10 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
             hint_mode,
             precision_mode,
             input_stem_kernel,
+            auxiliary_output_width(auxiliary_heads),
         )
+    if auxiliary_output_width(auxiliary_heads) != 2:
+        raise ValueError("auxiliary prediction heads are supported only by GRU models")
     if input_stem_kernel:
         raise ValueError("input_stem_kernel is supported only for GRU models")
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:

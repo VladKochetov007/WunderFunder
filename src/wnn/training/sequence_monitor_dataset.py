@@ -44,9 +44,7 @@ def evaluate_dataset(
     selected_values = 0
     selected_rows = 0
     since_accumulators = (
-        {"lt32": GlobalAccumulator(), "gte32": GlobalAccumulator()}
-        if since_diagnostics
-        else None
+        {"lt32": GlobalAccumulator(), "gte32": GlobalAccumulator()} if since_diagnostics else None
     )
     for batch_start in range(0, len(dataset), evaluation_batch_size):
         batch_indices = list(
@@ -64,7 +62,7 @@ def evaluate_dataset(
             with forward_context(precision_mode, context.device.type):
                 prediction, _, next_state = model(values, state)
             state = detach_state(next_state)
-            prediction_chunks.append(prediction.float())
+            prediction_chunks.append(prediction[..., :2].float())
         # One host copy per sequence batch; all head diagnostics reuse this forward.
         raw_prediction_tensor = torch.cat(prediction_chunks, dim=1).cpu()
         target = targets.numpy()
@@ -140,7 +138,5 @@ def evaluate_dataset(
             metrics[f"{prefix}/wp/since_{label}"] = float(result["wp"])
             metrics[f"{prefix}/wp/since_{label}/t0"] = float(result["t0"])
             metrics[f"{prefix}/wp/since_{label}/t1"] = float(result["t1"])
-            metrics[f"{prefix}/wp/since_{label}/selected_rows"] = int(
-                result["selected_rows"]
-            )
+            metrics[f"{prefix}/wp/since_{label}/selected_rows"] = int(result["selected_rows"])
     return metrics

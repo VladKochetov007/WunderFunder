@@ -75,7 +75,9 @@ def predict_sequence(
             prediction, hints, state = model(
                 x[start : start + chunk_rows].unsqueeze(0).to(device), state
             )
-        outputs.append(torch.cat((prediction.float(), hints.float()), -1).squeeze(0).cpu().numpy())
+        outputs.append(
+            torch.cat((prediction[..., :2].float(), hints.float()), -1).squeeze(0).cpu().numpy()
+        )
     values = np.concatenate(outputs).astype(np.float32, copy=False)
     if not np.isfinite(values).all():
         raise ValueError("nonfinite endpoint output")

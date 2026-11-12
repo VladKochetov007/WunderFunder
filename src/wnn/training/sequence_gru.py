@@ -30,8 +30,11 @@ class GRUSequenceAdapter(RNNModel):
         hint_mode: str,
         precision_mode: str,
         input_stem_kernel: int = 0,
+        output_width: int = 2,
     ) -> None:
-        super().__init__(112, hidden, layers, dropout, n_out=2, cell="gru", enc="linear")
+        if output_width < 2:
+            raise ValueError("GRU sequence output width must include the two target heads")
+        super().__init__(112, hidden, layers, dropout, n_out=output_width, cell="gru", enc="linear")
         self.precision_mode = precision_mode
         self.input_stem_kernel = validate_input_stem_kernel(input_stem_kernel)
         self.input_stem = CausalInputStem(input_stem_kernel) if input_stem_kernel else None
