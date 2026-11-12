@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import torch
 
+from wnn.features import causal_since_i0px_torch
 from wnn.training.sequence_blend import compose_prediction
 from wnn.training.sequence_distributed import DistributedContext, all_ranks_true
 from wnn.training.sequence_ensemble_config import MIXTURE_MODE, STANDALONE_LABELS_MODE
@@ -32,6 +34,23 @@ def window_denominators(
     return torch.stack((label_mass, hint_mass))
 
 
+def since_event_row_weights(
+    inputs: torch.Tensor, tau: float, floor: float
+) -> torch.Tensor:
+    """Compute causal, input-only main-label weights from the current i0 price-event age."""
+    if (
+        isinstance(tau, bool)
+        or isinstance(floor, bool)
+        or not math.isfinite(tau)
+        or not math.isfinite(floor)
+        or tau <= 0
+        or not 0 < floor <= 1
+    ):
+        raise ValueError("since-event weighting requires positive tau and floor in (0, 1]")
+    age = causal_since_i0px_torch(inputs).float()
+    return torch.clamp(1.0 / (1.0 + age / tau), min=floor)
+
+
 def objective_numerators(
     prediction: torch.Tensor,
     hint_prediction: torch.Tensor,
@@ -45,6 +64,7 @@ def objective_numerators(
     context: DistributedContext | None = None,
     correlation_prediction_std_floor: float = 0.01,
     supervised_target: int | None = None,
+    label_row_weights: torch.Tensor | None = None,
 ) -> ObjectiveNumerators:
     """Return clipped weighted label/KD sums and a masked elementwise hint sum."""
     if supervised_target is not None:
@@ -67,10 +87,23 @@ def objective_numerators(
         hint_target = torch.where(selected, hint_target, 0)
     clipped = target.float().clamp(-2.0, 2.0)
     weight = clipped.abs() * mask.to(dtype=torch.float32)[..., None]
+    label_weight = weight
+    if label_row_weights is not None:
+        if (
+            label_row_weights.shape != mask.shape
+            or label_row_weights.device != mask.device
+            or not torch.is_floating_point(label_row_weights)
+            or not bool(torch.isfinite(label_row_weights).all())
+            or bool((label_row_weights < 0).any())
+            or bool((label_row_weights > 1).any())
+        ):
+            raise ValueError("label row weights must be finite [B,T] values in [0, 1]")
+        label_weight = weight * label_row_weights.float()[..., None]
     if supervised_target is not None:
         target_selector = torch.zeros_like(weight)
         target_selector[..., supervised_target] = 1
         weight = weight * target_selector
+        label_weight = label_weight * target_selector
     label_error = prediction.float() - clipped
     correlation, correlation_loss = None, None
     if objective_mode == MIXTURE_MODE:
@@ -90,7 +123,7 @@ def objective_numerators(
     hint_error = hint_prediction.float() - hint_target.float()
     hint_weight = mask.to(dtype=torch.float32)[..., None]
     return ObjectiveNumerators(
-        (label_error.square() * weight).sum(),
+        (label_error.square() * label_weight).sum(),
         (teacher_error.square() * weight).sum(),
         (hint_error.square() * hint_weight).sum(),
         correlation,

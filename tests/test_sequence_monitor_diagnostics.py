@@ -7,6 +7,7 @@ import pytest
 import torch
 from torch import nn
 
+from wnn.data import I0
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_monitor_evaluation import evaluate_dataset, evaluate_monitoring_sets
 from wnn.training.sequence_monitor_head_metrics import HeadMetrics, TargetMoments, add_score_aliases
@@ -360,6 +361,47 @@ def test_standalone_without_blend_reports_no_reference_or_mixture() -> None:
     )
     assert "train_eval/z/wp" in metrics
     assert not any("/reference/" in key or "/mixture/" in key for key in metrics)
+
+
+def test_since_diagnostics_report_full_valid_age_strata_without_changing_primary_wp() -> None:
+    class Dataset:
+        def __init__(self) -> None:
+            inputs = torch.zeros(40, 112)
+            inputs[2:, I0.bid_px.start] = 1.0
+            inputs[2:, I0.ask_px.start] = 1.0
+            target = torch.stack(
+                (torch.arange(40, dtype=torch.float32) / 20, torch.arange(40).float().sin()),
+                dim=-1,
+            )
+            self.items = [
+                {
+                    "x": inputs,
+                    "y": target,
+                    "mask": torch.ones(40, dtype=torch.bool),
+                    "teacher": torch.zeros_like(target),
+                    "hints": torch.zeros(40, 0),
+                }
+            ]
+
+        def __len__(self) -> int:
+            return len(self.items)
+
+        def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
+            return self.items[index]
+
+    dataset = Dataset()
+    context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
+    model = _CountingModel()
+    primary = evaluate_dataset(model, dataset, "valid", 8, "fp32", context, 1)
+    diagnostics = evaluate_dataset(
+        model, dataset, "valid", 8, "fp32", context, 1, since_diagnostics=True
+    )
+
+    assert diagnostics["valid/wp"] == primary["valid/wp"]
+    assert diagnostics["valid/wp/since_lt32/selected_rows"] == 34
+    assert diagnostics["valid/wp/since_gte32/selected_rows"] == 6
+    assert "valid/wp/since_lt32/t0" in diagnostics
+    assert "valid/wp/since_gte32/t1" in diagnostics
 
 
 def test_streaming_diagnostics_ignore_unselected_nans_and_reject_selected_nans() -> None:

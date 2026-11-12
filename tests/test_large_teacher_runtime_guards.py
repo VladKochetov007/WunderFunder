@@ -129,11 +129,19 @@ def test_runtime_identity_records_driver_uuid_and_device_capacity(
     )
     monkeypatch.setattr(sequence_provenance.torch.backends.cuda.matmul, "allow_tf32", False)
     monkeypatch.setattr(sequence_provenance.torch.backends.cudnn, "allow_tf32", False)
+    monkeypatch.setenv("NVIDIA_TF32_OVERRIDE", "0")
+    monkeypatch.setenv("TORCH_ALLOW_TF32_CUBLAS_OVERRIDE", "0")
     context = DistributedContext(0, 0, 1, sequence_provenance.torch.device("cuda", 0), False)
 
     runtime = sequence_provenance.runtime_identity(context)
 
     assert runtime["nvidia_driver"] == "590.00"
+    assert (
+        runtime["cudnn_rnn_fp32_precision"]
+        == sequence_provenance.torch.backends.cudnn.rnn.fp32_precision
+    )
+    assert runtime["nvidia_tf32_override"] == "0"
+    assert runtime["torch_allow_tf32_cublas_override"] == "0"
     assert runtime["devices"] == [
         {
             "rank": 0,

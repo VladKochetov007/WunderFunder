@@ -31,6 +31,7 @@ from wnn.training.sequence_objectives import (
     detached_sums,
     objective_numerators,
     scaled_objective,
+    since_event_row_weights,
     window_denominators,
 )
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
@@ -71,6 +72,7 @@ def _backward_window(
     hint_target: torch.Tensor,
     mask: torch.Tensor,
     x: torch.Tensor,
+    label_row_weights: torch.Tensor | None,
     intervals: list[tuple[int, int]],
     real_sequence_count: int,
     denominators: torch.Tensor,
@@ -113,6 +115,9 @@ def _backward_window(
                     config.get("correlation_prediction_std_floor", 0.01)
                 ),
                 supervised_target=config.get("supervised_target"),
+                label_row_weights=(
+                    label_row_weights[:, start:stop] if label_row_weights is not None else None
+                ),
             )
             loss = scaled_objective(
                 numerators,
@@ -207,6 +212,12 @@ def train_epoch(
             batch["hints"],
             batch["x"],
         )
+        label_row_weights = None
+        since_weight = float(config.get("since_weight", 0.0))
+        if since_weight > 0:
+            label_row_weights = since_event_row_weights(
+                x, since_weight, float(config.get("since_floor", 0.25))
+            )
         real_sequence_count = sum(index >= 0 for index in batch_ids)
         state: Any = None
         for window_start in range(0, len(chunk_intervals), accumulation):
@@ -232,6 +243,7 @@ def train_epoch(
                 hints,
                 mask,
                 x,
+                label_row_weights,
                 intervals,
                 real_sequence_count,
                 denominators,

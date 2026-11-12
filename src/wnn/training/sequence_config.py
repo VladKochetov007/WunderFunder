@@ -36,6 +36,8 @@ DEFAULTS: dict[str, Any] = {
     "adamw_beta1": 0.9,
     "adamw_beta2": 0.999,
     "adamw_eps": 1e-8,
+    "since_weight": 0.0,
+    "since_floor": 0.25,
     "grad_clip": 1.0,
     "warmup_fraction": 0.05,
     "schedule": "legacy_warmup_cosine",
@@ -146,6 +148,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "warmup_fraction",
         "kd_weight",
         "hint_weight",
+        "since_weight",
+        "since_floor",
         "muon_ns_eps",
         "adamw_eps",
     ):
@@ -155,6 +159,10 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be nonnegative")
     if config["lr"] == 0 or config["grad_clip"] == 0 or config["warmup_fraction"] >= 1:
         raise ValueError("positive learning rate/clipping and warmup_fraction < 1 required")
+    if isinstance(config["since_weight"], bool) or isinstance(config["since_floor"], bool):
+        raise ValueError("since_weight and since_floor must be numeric values, not booleans")
+    if config["since_floor"] <= 0 or config["since_floor"] > 1:
+        raise ValueError("since_floor must be in (0, 1]")
     if type(config["muon_ns_steps"]) is not int or config["muon_ns_steps"] <= 0:
         raise ValueError("muon_ns_steps must be a positive integer")
     for key in ("muon_ns_eps", "adamw_eps"):
@@ -198,8 +206,11 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("model.compile_blocks must be boolean")
     if model["architecture"] == "gru" and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
-    if config["optimizer"] == "muon" and model["architecture"] != "transformer":
-        raise ValueError("sequence Muon currently supports Transformer models only")
+    if config["optimizer"] == "muon" and model["architecture"] not in (
+        "transformer",
+        "gru",
+    ):
+        raise ValueError("sequence Muon requires a Transformer or GRU model")
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
     dropout = model["dropout"]
@@ -235,6 +246,18 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError(
             "single-target supervision requires two-head label-only training without mix or auxiliaries"
         )
+    if config["since_weight"] > 0 and (
+        model["architecture"] != "gru"
+        or config["kd_weight"] != 0
+        or config["hint_weight"] != 0
+        or model["hint_dim"] != 0
+        or config.get("objective_mode") not in (None, STANDALONE_LABELS_MODE)
+        or config.get("blend_objective_alpha", 0) != 0
+        or supervised_target is not None
+        or config.get("pretraining") is not None
+        or config.get("parent_initializer") is not None
+    ):
+        raise ValueError("since weighting currently requires cold, two-head labels-only GRU training")
     if config["hint_mode"] not in ("aligned", "component_permuted"):
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:

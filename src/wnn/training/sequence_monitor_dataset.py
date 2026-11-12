@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from torch import nn
 
+from wnn.features import causal_since_i0px_torch
 from wnn.gmetric import GlobalAccumulator
 from wnn.training.sequence_blend import compose_prediction
 from wnn.training.sequence_distributed import DistributedContext
@@ -25,6 +26,7 @@ def evaluate_dataset(
     *,
     blend_alpha: float | None = None,
     report_standalone: bool = False,
+    since_diagnostics: bool = False,
 ) -> dict[str, int | float]:
     """Compute primary pooled metrics and optional same-forward component diagnostics."""
     if not len(dataset) or chunk_rows <= 0 or evaluation_batch_size <= 0:
@@ -41,6 +43,11 @@ def evaluate_dataset(
     clipped_count = 0
     selected_values = 0
     selected_rows = 0
+    since_accumulators = (
+        {"lt32": GlobalAccumulator(), "gte32": GlobalAccumulator()}
+        if since_diagnostics
+        else None
+    )
     for batch_start in range(0, len(dataset), evaluation_batch_size):
         batch_indices = list(
             range(batch_start, min(batch_start + evaluation_batch_size, len(dataset)))
@@ -77,6 +84,10 @@ def evaluate_dataset(
         else:
             predicted_tensor = raw_prediction_tensor
         predicted = predicted_tensor.numpy()
+        if since_accumulators is not None:
+            since_age = causal_since_i0px_torch(inputs).numpy()
+            since_accumulators["lt32"].add(target, predicted, scored & (since_age < 32))
+            since_accumulators["gte32"].add(target, predicted, scored & (since_age >= 32))
         if mixture_metrics is not None:
             mixture_metrics.add(target, predicted, scored)
         accumulator.add(target, predicted, scored)
@@ -118,4 +129,13 @@ def evaluate_dataset(
         metrics.update(reference.metrics(prefix, "reference"))
     if mixture_metrics is not None:
         metrics.update(mixture_metrics.metrics(prefix, "mixture"))
+    if since_accumulators is not None:
+        for label, accumulator_for_age in since_accumulators.items():
+            result = accumulator_for_age.result()
+            metrics[f"{prefix}/wp/since_{label}"] = float(result["wp"])
+            metrics[f"{prefix}/wp/since_{label}/t0"] = float(result["t0"])
+            metrics[f"{prefix}/wp/since_{label}/t1"] = float(result["t1"])
+            metrics[f"{prefix}/wp/since_{label}/selected_rows"] = int(
+                result["selected_rows"]
+            )
     return metrics

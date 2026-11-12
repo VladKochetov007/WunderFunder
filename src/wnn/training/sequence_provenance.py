@@ -101,6 +101,11 @@ def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
         "matmul_precision": torch.get_float32_matmul_precision(),
         "matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
         "cudnn_tf32": torch.backends.cudnn.allow_tf32,
+        "cudnn_rnn_fp32_precision": torch.backends.cudnn.rnn.fp32_precision,
+        "nvidia_tf32_override": os.environ.get("NVIDIA_TF32_OVERRIDE"),
+        "torch_allow_tf32_cublas_override": os.environ.get(
+            "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE"
+        ),
         "autocast": False,
         "amp_scaler": False,
         "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
@@ -134,7 +139,16 @@ def runtime_identity(context: DistributedContext) -> dict[str, object]:
         raise RuntimeError("could not collect runtime identity from every rank")
     common_fields = (
         ("python", "platform", "torch", "cuda_runtime", "cudnn", "nvidia_driver")
-        + ("visible_devices", "world_size", "matmul_precision", "matmul_tf32", "cudnn_tf32")
+        + (
+            "visible_devices",
+            "world_size",
+            "matmul_precision",
+            "matmul_tf32",
+            "cudnn_tf32",
+            "cudnn_rnn_fp32_precision",
+            "nvidia_tf32_override",
+            "torch_allow_tf32_cublas_override",
+        )
         + ("autocast", "amp_scaler", "cublas_workspace_config")
     )
     baseline = workers[0]

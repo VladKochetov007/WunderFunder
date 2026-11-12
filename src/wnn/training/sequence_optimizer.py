@@ -1,4 +1,4 @@
-"""Strict-FP32 Muon groups for causal Transformer sequence fits."""
+"""Strict-FP32 Muon groups for causal sequence fits."""
 
 from __future__ import annotations
 
@@ -117,11 +117,72 @@ def _group_specs(model: nn.Module) -> list[dict[str, object]]:
     return specs
 
 
+def _gru_group_specs(model: nn.Module) -> list[dict[str, object]]:
+    """Assign each GRU gate matrix to Muon and every other parameter to AdamW."""
+    gru = getattr(model, "gru", None)
+    if not isinstance(gru, nn.GRU) or gru.bidirectional:
+        raise ValueError("sequence GRU Muon requires a unidirectional model.gru")
+    named_parameters = [
+        (name, parameter) for name, parameter in model.named_parameters() if parameter.requires_grad
+    ]
+    if not named_parameters:
+        raise ValueError("sequence model has no trainable parameters")
+
+    expected_recurrent_names = {
+        f"gru.weight_{kind}_l{layer}"
+        for layer in range(gru.num_layers)
+        for kind in ("ih", "hh")
+    }
+    roles: dict[str, list[tuple[str, torch.Tensor]]] = defaultdict(list)
+    for name, parameter in named_parameters:
+        if name in expected_recurrent_names:
+            if parameter.ndim != 2 or parameter.shape[0] != 3 * gru.hidden_size:
+                raise ValueError(f"{name} must contain three stacked GRU gate matrices")
+            roles["muon_rnn"].append((name, parameter))
+        else:
+            roles["adamw"].append((name, parameter))
+    actual_recurrent_names = {name for name, _ in roles.get("muon_rnn", [])}
+    if actual_recurrent_names != expected_recurrent_names:
+        raise ValueError("every GRU layer must expose input and hidden gate matrices")
+
+    expected_ids = {id(parameter) for _, parameter in named_parameters}
+    owned_ids = [id(parameter) for entries in roles.values() for _, parameter in entries]
+    if len(owned_ids) != len(set(owned_ids)) or set(owned_ids) != expected_ids:
+        raise ValueError("sequence Muon groups must own every trainable parameter exactly once")
+
+    specs: list[dict[str, object]] = []
+    for role in ("muon_rnn", "adamw"):
+        entries = roles.get(role, [])
+        if not entries:
+            continue
+        muon = role == "muon_rnn"
+        specs.append(
+            {
+                "params": [parameter for _, parameter in entries],
+                "param_names": [name for name, _ in entries],
+                "role": role,
+                "group_name": role,
+                "optimizer_implementation": "wnn.optim.MuonAdamW",
+                "optimizer_group_schema": "wnn.sequence-gru-muon-group.v1",
+                "muon": muon,
+                "blocks": 3 if muon else 1,
+                "weight_decay_enabled": True,
+                "strict_fp32": True,
+            }
+        )
+    spec_ids = [id(parameter) for group in specs for parameter in group["params"]]
+    if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != expected_ids:
+        raise ValueError(
+            "sequence optimizer groups must own every trainable parameter exactly once"
+        )
+    return specs
+
+
 def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]) -> MuonAdamW:
-    """Create one resumable Muon/AdamW optimizer for a strict-FP32 Transformer.
+    """Create one resumable Muon/AdamW optimizer for a strict-FP32 sequence model.
 
     Args:
-        model: A built sequence Transformer with named causal attention blocks.
+        model: A built sequence Transformer or unidirectional GRU.
         config: Validated sequence recipe with Muon, AdamW, and shared learning-rate settings.
 
     Returns:
@@ -144,10 +205,13 @@ def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]
     model_config = config.get("model")
     if not isinstance(model_config, Mapping):
         raise TypeError("sequence Muon config requires a model mapping")
-    if model_config.get("architecture") != "transformer":
-        raise ValueError("sequence Muon is scoped to Transformer models")
-
-    groups = _group_specs(model)
+    architecture = model_config.get("architecture")
+    if architecture == "transformer":
+        groups = _group_specs(model)
+    elif architecture == "gru":
+        groups = _gru_group_specs(model)
+    else:
+        raise ValueError("sequence Muon requires a Transformer or GRU model")
     for group in groups:
         role = str(group["role"])
         muon = bool(group["muon"])

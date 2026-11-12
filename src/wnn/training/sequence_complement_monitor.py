@@ -199,6 +199,7 @@ class ComplementMonitor:
             self.batch_size,
             blend_alpha=None if config.get("objective_mode") == STANDALONE_LABELS_MODE else 0.1,
             report_standalone=config.get("objective_mode") is not None,
+            since_diagnostics=float(config.get("since_weight", 0.0)) > 0,
         )
         if valid["valid/sequence_count"] != 1873 or valid["valid/selected_rows"] != 3_528_273:
             raise RuntimeError("full official valid monitoring coverage is incomplete")

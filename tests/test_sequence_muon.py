@@ -146,6 +146,73 @@ def test_sequence_muon_groups_split_qkv_and_own_every_trainable_parameter() -> N
     assert qkv["betas"][0] == pytest.approx(0.95)
 
 
+def _gru_config() -> dict[str, object]:
+    return {
+        "architecture": "gru",
+        "hidden": 8,
+        "layers": 2,
+        "heads": 2,
+        "ff_multiplier": 2,
+        "context_rows": 8,
+        "dropout": 0.0,
+        "checkpoint_blocks": False,
+        "hint_dim": 0,
+        "hint_projection": "learned",
+    }
+
+
+def test_sequence_gru_muon_uses_three_gate_blocks_and_owns_all_parameters() -> None:
+    model_config = _gru_config()
+    config = _muon_config() | {"model": model_config}
+    model = build_sequence_model(model_config)
+    optimizer = build_sequence_muon_optimizer(model, config)
+    by_role = {str(group["role"]): group for group in optimizer.param_groups}
+    recurrent = by_role["muon_rnn"]
+    adamw = by_role["adamw"]
+    expected_names = [
+        f"gru.weight_{kind}_l{layer}"
+        for layer in range(2)
+        for kind in ("ih", "hh")
+    ]
+
+    assert recurrent["param_names"] == expected_names
+    assert recurrent["blocks"] == 3
+    assert recurrent["muon"] is True
+    assert recurrent["optimizer_group_schema"] == "wnn.sequence-gru-muon-group.v1"
+    assert all(parameter.shape[0] == 3 * model.gru.hidden_size for parameter in recurrent["params"])
+    assert adamw["muon"] is False
+    assert adamw["weight_decay"] == pytest.approx(0.01)
+    assert all(not name.startswith("gru.weight_") for name in adamw["param_names"])
+    owners = [parameter for group in optimizer.param_groups for parameter in group["params"]]
+    trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    assert len(owners) == len(trainable)
+    assert {id(parameter) for parameter in owners} == {id(parameter) for parameter in trainable}
+
+
+def test_sequence_gru_muon_config_load_and_one_update(tmp_path: Path) -> None:
+    recipe = tmp_path / "sequence.json"
+    recipe.write_text(json.dumps({"optimizer": "muon", "model": {"architecture": "gru"}}))
+    config = load_config(recipe)
+    assert config["optimizer"] == "muon"
+    assert config["adamw_beta2"] == pytest.approx(0.95)
+
+    model_config = _gru_config()
+    model = build_sequence_model(model_config)
+    optimizer, _ = make_optimizer(
+        model,
+        _muon_config()
+        | {"optimizer": "muon", "model": model_config, "warmup_fraction": 0.05},
+        total_updates=100,
+    )
+    for parameter in model.parameters():
+        if parameter.requires_grad:
+            parameter.grad = torch.ones_like(parameter)
+    optimizer.step()
+
+    assert isinstance(optimizer, MuonAdamW)
+    assert optimizer_states_are_finite_fp32(optimizer)
+
+
 def test_strict_newton_schulz_keeps_every_matmul_fp32(monkeypatch: pytest.MonkeyPatch) -> None:
     observed: list[tuple[torch.dtype, torch.dtype]] = []
     original_matmul = torch.Tensor.__matmul__
@@ -328,11 +395,10 @@ def test_muon_optimizer_and_schedule_state_round_trip() -> None:
     assert optimizer_states_are_finite_fp32(next_optimizer)
 
 
-def test_config_rejects_muon_for_gru_and_bad_coefficients(tmp_path: Path) -> None:
+def test_config_accepts_gru_muon_and_rejects_bad_coefficients(tmp_path: Path) -> None:
     recipe = tmp_path / "sequence.json"
     recipe.write_text(json.dumps({"optimizer": "muon", "model": {"architecture": "gru"}}))
-    with pytest.raises(ValueError, match="Transformer models only"):
-        load_config(recipe)
+    assert load_config(recipe)["optimizer"] == "muon"
 
     recipe.write_text(json.dumps({"muon_momentum": 1.0}))
     with pytest.raises(ValueError, match="muon_momentum"):

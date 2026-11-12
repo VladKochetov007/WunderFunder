@@ -105,6 +105,7 @@ def evaluate_monitoring_sets(
     evaluation_prefix: str = "valid",
     blend_alpha: float | None = None,
     report_standalone: bool = False,
+    since_diagnostics: bool = False,
 ) -> tuple[dict[str, int | float], dict[str, int | float]]:
     """Evaluate both declared cohorts while restoring model mode, buffers, and RNG."""
     modes = [(module, module.training) for module in model.modules()]
@@ -125,6 +126,7 @@ def evaluate_monitoring_sets(
                 evaluation_batch_size,
                 blend_alpha=blend_alpha,
                 report_standalone=report_standalone,
+                since_diagnostics=since_diagnostics,
             )
             train_metrics["timing/train_eval_seconds"] = time.perf_counter() - train_started
             valid_started = time.perf_counter()
@@ -138,6 +140,7 @@ def evaluate_monitoring_sets(
                 evaluation_batch_size,
                 blend_alpha=blend_alpha,
                 report_standalone=report_standalone,
+                since_diagnostics=since_diagnostics,
             )
             valid_metrics[f"timing/{evaluation_prefix}_seconds"] = (
                 time.perf_counter() - valid_started
