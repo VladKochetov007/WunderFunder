@@ -61,7 +61,9 @@ def check_future_objective_helpers(
     end_sums = future_objective_sums(
         torch.zeros((2, 10, 3, 2), dtype=torch.float32, device=device), target, mask, 70, 80
     )
-    expected_end = torch.tensor([[18, 18], [0, 0], [0, 0]], dtype=torch.int64, device=device)
+    # The injected +inf at target[1, 76, 0] is in the one-step endpoint window
+    # and is correctly excluded by the production finite-label mask.
+    expected_end = torch.tensor([[17, 18], [0, 0], [0, 0]], dtype=torch.int64, device=device)
     if not torch.equal(end_sums.eligible_count, expected_end):
         raise RuntimeError("future targets crossed the end of a fitting sequence")
 
