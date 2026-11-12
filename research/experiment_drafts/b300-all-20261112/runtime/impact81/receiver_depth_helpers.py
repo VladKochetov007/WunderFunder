@@ -140,7 +140,10 @@ def _check_optimizer_ownership(
     from wnn.training.sequence_fit_utils import make_optimizer
 
     config["model"] = model_config
-    optimizer, scheduler = make_optimizer(model, config, 1)
+    # This check only verifies parameter ownership; keep a minimal valid v2
+    # schedule fixture without changing the production recipe's warmup.
+    config["warmup_fraction"] = 0.0
+    optimizer, scheduler = make_optimizer(model, config, 2)
     expected = [parameter for parameter in model.parameters() if parameter.requires_grad]
     actual = [parameter for group in optimizer.param_groups for parameter in group["params"]]
     expected_ids = {id(parameter) for parameter in expected}
