@@ -62,3 +62,31 @@ E-424 reports learned-route deltas −0.0000543 against uniform and −0.000198 
 hash routing. E-425 is marked completed with no supported gain; its three
 conditional paired intervals include zero. Those outcomes are preserved rather
 than counted as evidence for the new FFN mechanism.
+
+
+## Publication refresh: PR87–89
+
+The additional read-only review on 12 November supersedes the earlier execution
+snapshot for PR81; it does not change this packet's ten prepared / zero executed
+fits. The latest producer comments report that the bounded execution has stopped.
+Stale dashboard rows labelled `training` are not evidence of a current live job.
+
+| PR | Latest reported evidence | Scope and collision assessment |
+|---|---|---|
+| [#87](https://github.com/VladKochetov007/WunderFunder/pull/87#issuecomment-6818527358) | Fixed-E6 depth1 deltas +.000329/+.000409; depth3 −.000476/−.000986; horizon2k −.000120/−.000149; horizon4k −.000054/+.001263. | GRU depth/horizon, no attention-map or FFN-routing collision. Exposed validation; mixed horizon evidence remains mixed. |
+| [#88 / PR81 final readout](https://github.com/VladKochetov007/WunderFunder/pull/81#issuecomment-6818841548) | Numeric PLE at E3, seed204101: .682872728 vs .682569317, delta +.000303410, all 1,873 sequences / 3,528,273 rows. Fixed E4 unavailable. | Report-only E3 from preserved checkpoints, one seed, not a completed primary endpoint. Group-row attention failed its full-shape CUDA profile; the later row-chunk repair is not a quality result. These are existing PR81 mechanisms. |
+| [#89](https://github.com/VladKochetov007/WunderFunder/pull/89#issuecomment-6818869466) | Final accounting: 14 L4 fixed-E6 endpoints, eight partial B300 E3 monitors and two partial EMA E5 checkpoints. Since-event32 .686306013/.685903598 vs controls .683019498/.682629372. | Same-source zero-weight control still needed for the event-weighting interpretation. EMA E6 is unavailable. Recurrent follow-ups do not duplicate SR-A/SR-F. |
+
+PR88's lifecycle, scheduler-fixture and feature-group attention issues were reviewed
+against this packet. The current Signal Routes adapters use the pinned canonical
+APIs and do not include the feature-group flattening operator. No additional
+definite shared source blocker was found; numerical receiver acceptance is still
+pending. The B300 environment must already provide Git for source admission.
+No repair or optimization from PR88 was silently applied to the canonical runtime.
+
+PR76 remains at `f95f5b5671e7b6d55342192dccae78c2f37eb045`, with no issue comments,
+reviews or new CPU-score evidence found. The private HF archive's current inventory
+could not be verified: CLI authentication is absent, its unauthenticated API returns
+401, and Chrome had no existing archive tab or supported background-tab visibility.
+No foreground tab was opened and no weights were downloaded. New HF weights remain
+**unknown**, not absent.

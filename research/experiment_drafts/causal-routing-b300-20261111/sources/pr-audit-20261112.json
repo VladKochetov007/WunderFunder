@@ -80,6 +80,44 @@
         "prior adversarial validation AUC 0.984",
         "proposes leave-regime-out fold comparison for PR80 K16 and a train-only distilled student"
       ]
+    },
+    {
+      "number": 87,
+      "head_sha": "cd1afe4e78f556f238ce812c6f2d69934190fd76",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/87",
+      "evidence_url": "https://github.com/VladKochetov007/WunderFunder/pull/87#issuecomment-6818527358",
+      "status": "fixed_E6_producer_reports",
+      "reported_claims": [
+        "depth1 paired WP deltas +0.000329/+0.000409",
+        "depth3 -0.000476/-0.000986; horizon2k -0.000120/-0.000149; horizon4k -0.000054/+0.001263"
+      ],
+      "overlap": "none; GRU depth/gradient horizon, not Transformer attention/FFN routing"
+    },
+    {
+      "number": 88,
+      "head_sha": "d7aca22297bea1c276468007d8371f92380e4c65",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/88",
+      "evidence_url": "https://github.com/VladKochetov007/WunderFunder/pull/81#issuecomment-6818841548",
+      "status": "bounded_execution_stopped; E3_report_only; fixed_E4_unavailable",
+      "reported_claims": [
+        "numeric PLE seed204101 E3 WP 0.6828727277950333 vs control 0.6825693173678833; paired delta +0.00030341042715",
+        "full 1873 validation sequences and 3528273 scored rows",
+        "feature-group attention profile failed before fit; subsequent row-chunk repair is engineering evidence, not quality evidence"
+      ],
+      "overlap": "existing PR81 mechanisms only; feature-group row attention differs from temporal signed attention maps",
+      "shared_runtime_review": "No additional definite PR75 API mismatch found in PR90; provisioned Git must be available on the receiver."
+    },
+    {
+      "number": 89,
+      "head_sha": "882eaf865e9df3a56157772dbf957a45df0a6001",
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/89",
+      "evidence_url": "https://github.com/VladKochetov007/WunderFunder/pull/89#issuecomment-6818869466",
+      "status": "execution_stopped; 14_L4_fixed_E6_endpoints; 8_B300_partial; 2_EMA_partial",
+      "reported_claims": [
+        "since-event32 WP 0.686306013/0.685903598 vs controls 0.683019498/0.682629372; same-source zero-weight control still required",
+        "EMA E6 checkpoints unavailable; E5 partials preserved"
+      ],
+      "overlap": "none; recurrent optimizer/event weighting/EMA/auxiliary-head studies"
     }
   ],
   "novelty": {
@@ -90,5 +128,18 @@
     "collision_found": false,
     "nearest_adjacency": "PR82 causal class-routed readout and regime channels; these are output/input paths, not internal Transformer attention or FFN routing",
     "scope_note": "PR82-86 do not propose the selected internal Transformer mechanisms; historical metrics are PR-reported and not independently revalidated by this audit"
+  },
+  "latest_refresh_utc": "2026-11-12T12:32:02.646927+00:00",
+  "pr76_refresh": {
+    "head_sha": "f95f5b5671e7b6d55342192dccae78c2f37eb045",
+    "new_cpu_score_evidence_found": false,
+    "comments_and_reviews": "empty"
+  },
+  "hf_refresh": {
+    "repository": "hft-kagglers/wnn-challenge2-model-archive",
+    "current_inventory_verified": false,
+    "reason": "CLI not logged in and unauthenticated API HTTP401; no existing Chrome HF tab, background visibility capability unavailable",
+    "new_weights_status": "unknown",
+    "weights_downloaded": false
   }
 }

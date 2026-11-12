@@ -2,7 +2,8 @@
 
 These commands are prepared, not executed. Use new checkouts and persistent output;
 keep existing jobs on their original source. Substitute provisioned paths, an owner
-and actually free B300 devices. Do not change dependencies or rent new hardware.
+and actually free B300 devices. The provisioned environment must already include
+Git in PATH for source admission. Do not change dependencies or rent new hardware.
 
 ```bash
 export WF_REPO=/path/to/new-signal-routes-checkout

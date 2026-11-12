@@ -1,5 +1,7 @@
 # Causal routing experiments for B300
 
+Published as [draft PR #90](https://github.com/VladKochetov007/WunderFunder/pull/90) targeting `research-team`.
+
 Two Transformer mechanisms are implemented as packet-local model adapters. The
 canonical PR75 dataset, training loop, WMSE objective, optimizer, schedule,
 checkpointing, monitoring and scorer remain unchanged. Ten fresh fits are prepared;
@@ -27,8 +29,10 @@ deadline. PR81 already covers ten other mechanisms. Those studies are not rerun.
 The latest review also covers #82–86: ten new GRU screens, reported Muon gains,
 negative TabM/NorMuon/view-mask screens, the train-only distillation track, and
 leave-regime-out validation. SR-F differs from #82's class-conditioned output
-head: its gates operate inside the Transformer FFNs. None of these reported
-results supplies a fresh held-out score for this packet.
+head: its gates operate inside the Transformer FFNs. The publication refresh also
+records #87–89, including PR81 numeric PLE E3 +0.000303410 at one seed; its fixed
+E4 endpoint is unavailable. These later execution reports supersede the earlier
+PR81 preparation-only snapshot. None supplies a fresh held-out score for this packet.
 
 SR-A changes the interaction between attention maps, rather than their recency
 bias, QK normalization or output gate. SR-F is a continuation of conditional
