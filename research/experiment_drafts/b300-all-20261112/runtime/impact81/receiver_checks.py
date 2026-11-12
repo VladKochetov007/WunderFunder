@@ -34,6 +34,10 @@ from impact81.receiver_probes import (
 # JSON configs and receipts are heterogeneous runtime-boundary metadata.
 SEED = 204101
 VARIANTS = ("plain", "ple", "groups", "target_adapters")
+# Keep synthetic efficient-SDPA probes at an aligned head width. Production
+# cell configs retain their independently frozen architecture and dimensions.
+PROBE_HIDDEN = 64
+PROBE_HEADS = 4
 
 
 def _config(artifact: dict[str, Any], artifact_sha256: str, variant: str) -> dict[str, Any]:
@@ -41,9 +45,9 @@ def _config(artifact: dict[str, Any], artifact_sha256: str, variant: str) -> dic
     return {
         "model": {
             "architecture": "transformer",
-            "hidden": 48,
+            "hidden": PROBE_HIDDEN,
             "layers": 2,
-            "heads": 4,
+            "heads": PROBE_HEADS,
             "ff_multiplier": 2.0,
             "context_rows": 16,
             "dropout": 0.0,

@@ -50,7 +50,9 @@ def _setup(
     )
     config["model"].update(
         {
-            "hidden": 48,
+            # Keep the synthetic efficient-SDPA model kernel-aligned; this
+            # receiver parity probe does not change the frozen production cell.
+            "hidden": 64,
             "layers": 2,
             "heads": 4,
             "ff_multiplier": 2,

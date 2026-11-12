@@ -25,9 +25,11 @@ from impact81.receiver_depth_helpers import (
 # Artifact and receipt metadata are heterogeneous canonical JSON mappings.
 SEED = 204101
 VARIANTS = ("plain", "deep_supervision", "copied_depth", "tied_depth")
+# The small receiver-only model keeps efficient-SDPA head width kernel-aligned;
+# full-size cell configs and training architecture are unchanged.
 DEPTH_CONFIG: dict[str, object] = {
     "architecture": "transformer",
-    "hidden": 48,
+    "hidden": 64,
     "layers": 24,
     "heads": 4,
     "ff_multiplier": 2.0,

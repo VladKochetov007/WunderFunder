@@ -13,9 +13,11 @@ from torch import Tensor, nn
 # Check receipts and artifact/config values are heterogeneous JSON metadata.
 SEED = 204101
 OFFSETS = (1, 16, 64)
+# Keep the synthetic efficient-SDPA probe's head width kernel-aligned; the
+# production card07 model remains pinned in its native cell configuration.
 MODEL_CONFIG: dict[str, Any] = {
     "architecture": "transformer",
-    "hidden": 48,
+    "hidden": 64,
     "layers": 24,
     "heads": 4,
     "ff_multiplier": 2.0,
