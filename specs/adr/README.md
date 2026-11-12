@@ -72,3 +72,6 @@ For a new decision, copy [the template](template.md), choose the next unused num
 
 - [ADR0043: fast screens and large Transformer teachers](0043-fast-screens-and-transformer-teacher-scale.md) replaces mandatory CP30 for future drafts with4–6 total new fits per initial screen, explicit cached-control and teacher/student accounting, and targeted follow-up. Sets the8×B300 causal-Transformer→GRU priority while preserving FP32, ancestry, historical protocols and existing compute/start boundaries.
 - [ADR0042: discretionary DataSphere execution](0042-discretionary-datasphere-execution.md) records the user's open allocation authority for ranked25 within existing balance and actual quotas, superseding the numeric-budget wait while retaining bounded jobs, no top-ups and the Beleriand one-GPU limit.
+
+- [ADR0044: chronological primary validation](0044-chronological-primary-validation.md) records the standing official earlier-train/later-valid protocol and whole-sequence/clean-ancestry requirement.
+- [ADR0045: submission-only all-labeled fitting](0045-submission-only-all-labeled-final-fit.md) permits explicit final-corpus fitting while forbidding independent-score and post-fit valid-selection claims.

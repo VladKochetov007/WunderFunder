@@ -1,5 +1,7 @@
 # Unified research library
 
+12 November final submission: [frozen full-corpus TL3/LSTM package](../experiment_drafts/final-submission-20261112/README.md) reuses18 completed fits, verifies full-label ancestry and repairs a Source4 training-counter guard. The14.8MB exact candidate passes feature-only determinism/causality checks but remains blocked by measured one-core runtime; a cache-order patch improves quick timing by about20% and passes actual bitwise parity but still needs runtime admission. No final independent score or new platform upload is claimed.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).
@@ -18,14 +20,14 @@ remains historical authority for unrelated work. This index distinguishes
 measured results, implementation drafts and historical plans.
 
 Latest policy and design: [fast screens / large teacher ADR](../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)
-sets4–6 total new fits per initial idea comparison. The
+sets4вЂ“6 total new fits per initial idea comparison. The
 [large causal Transformer proposal](ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
 specifies0.68B/1.65B capacity recipes, optional3.17B scaling, dynamics embeddings,
 FP32 Muon/WSD/DDP, causal long memory and measured GRU transfer. Sources and
 independent design criticism are indexed; no new fit, B300 profile or gain exists.
 
 Latest broad campaign closeout: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
-— summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.
+вЂ” summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.
 
 The October 19 [B300 PR review](reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)
 records partial width/depth and geometry scores from stopped research-team jobs.
@@ -34,13 +36,13 @@ geometry bundle, and no scored age/innovation pairs. These exposed-fold partials
 do not promote a model or establish transfer.
 
 Previous: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
-[Latest bounded idea screen, R15](../campaign_2026-10-19/idea_screens_r15/RESULTS.md) trains explicit sparse/dense dictionaries with retained residuals. The sparse pipeline gains0.002568WP, below its fixed0.005 spending gate; both targets positive but component/drop-one signs are mixed. Four756-update fits complete on the exposed R3 panel; no factor-identity/GRU/public claim. All R1–R15/F3 are finished; [continuation](../campaign_2026-10-19/idea_screens_r15/CONTINUATION.md) records no R16 admission.
+[Latest bounded idea screen, R15](../campaign_2026-10-19/idea_screens_r15/RESULTS.md) trains explicit sparse/dense dictionaries with retained residuals. The sparse pipeline gains0.002568WP, below its fixed0.005 spending gate; both targets positive but component/drop-one signs are mixed. Four756-update fits complete on the exposed R3 panel; no factor-identity/GRU/public claim. All R1вЂ“R15/F3 are finished; [continuation](../campaign_2026-10-19/idea_screens_r15/CONTINUATION.md) records no R16 admission.
 
-[Latest bounded idea screen, R14](../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests matched-pole/span conditioning directly. Orthonormal impulse coordinates leave larger128-step objective gaps for both targets; secondary WP is slightly higher, so optimization and prediction evidence remain distinct. All R1–R14/F3 are finished; see [current continuation](../campaign_2026-10-19/idea_screens_r14/CONTINUATION.md).
+[Latest bounded idea screen, R14](../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests matched-pole/span conditioning directly. Orthonormal impulse coordinates leave larger128-step objective gaps for both targets; secondary WP is slightly higher, so optimization and prediction evidence remain distinct. All R1вЂ“R14/F3 are finished; see [current continuation](../campaign_2026-10-19/idea_screens_r14/CONTINUATION.md).
 
 [Synthesis after thirteen screens](ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) retains three conditional leads, closes only exact negative variants and preserves untested mechanisms. No R14 job or model is admitted; this evidence review adds no data/model execution or empirical result.
 
-[Latest bounded idea screen, R13](../campaign_2026-10-19/idea_screens_r13/RESULTS.md) closes one immutable first99-row mean side-context recipe: WP0.462646 versus current bypass0.499683 and zero0.507387, same initialization/updates. All R1–R13 and original F3 are finished; no new GPU or old-queue cell. See the [current continuation](../campaign_2026-10-19/idea_screens_r13/CONTINUATION.md).
+[Latest bounded idea screen, R13](../campaign_2026-10-19/idea_screens_r13/RESULTS.md) closes one immutable first99-row mean side-context recipe: WP0.462646 versus current bypass0.499683 and zero0.507387, same initialization/updates. All R1вЂ“R13 and original F3 are finished; no new GPU or old-queue cell. See the [current continuation](../campaign_2026-10-19/idea_screens_r13/CONTINUATION.md).
 
 [Current user-authorized EDA/simple-model screen](../campaign_2026-10-19/idea_screens_r1/RESULTS.md):48whole sequences, nine fixed ridge views, component-aware interpretation and a status map for all25cards. EMA's pooled gain reverses after dropping the largest evaluation component; i0-only remains worth a fit-only regularization/data-size check. Existing GRUs are much stronger on the same selected rows, with different fit budgets. This supersedes the earlier discussion-only hold for bounded EDA/simple probes, not for a full campaign.
 
@@ -58,11 +60,11 @@ pilot has its own bounded fitting authority.
 This index distinguishes measured results, implementation drafts and historical plans.
 
 Latest research-reset follow-up: [R2 measured exception impact and prediction dynamics](../campaign_2026-10-17/research_reset_r2/README.md)
-— full census, fixed-output interventions, mathematical decomposition and25
+вЂ” full census, fixed-output interventions, mathematical decomposition and25
 revised decisions. No training or new inference in this packet.
 
 Earlier: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
-— deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
+вЂ” deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
 and event-lag EDA, primary literature, and independent criticism. No new fits.
 
 ## October 18 direct quality-gap investigation
@@ -132,14 +134,14 @@ Independent second review: [first-principles verdict and plan](reviews/FIRST_PRI
 - [Reviews and audit receipts](reviews/README.md)
 - [Imported source writeups](sources/README.md)
 - [Model families and training](models/README.md)
-- [Private HF model archive](models/huggingface/README.md) — checkpoint/run lookup, descriptions, exact local-to-Hub paths and private transfer evidence.
+- [Private HF model archive](models/huggingface/README.md) вЂ” checkpoint/run lookup, descriptions, exact local-to-Hub paths and private transfer evidence.
 - [Validation and public transfer](validation/README.md)
 - [Interactive results dashboard](validation/RESULTS_DASHBOARD_20261012.html)
 - [Submission choices and scores](submissions/README.md)
 - [Inference, quantization, and runtime](inference/README.md)
 - [Execution, incidents, and preservation](operations/README.md)
 - [Dated October 12 archive](archive/2026-10-12/README.md)
-- [Shared templates](templates/README.md) — narrative notes and experiment draft PR descriptions.
+- [Shared templates](templates/README.md) вЂ” narrative notes and experiment draft PR descriptions.
 
 ## How records fit together
 
