@@ -1,0 +1,150 @@
+{
+    "schema":  "l4-all-first-cohort.v1",
+    "branch":  "experiment/l4-all-20261112",
+    "repository_head":  "c0dc2e7b85847d45e088e6090cd1bffad5fdf549",
+    "source":  {
+                   "commit":  "6b10dfe71fb0ebec9b0fc76788e2de0fd13d1dba",
+                   "source_identity_sha256":  "38d6dd71ec29fb8d23b9df801a448f23fb8b78c1e0832883dda1d6f25095643d",
+                   "archive":  "C:/Users/admin/Documents/Codex/artifacts/l4-stem-successors-20261111/source-r1.tar.gz",
+                   "archive_sha256":  "a48b6eccbd68b8eaf2a1fc67338861301185f2ff72df6dd3c8256c3e8263af9c",
+                   "source_manifest_sha256":  "e2220d547dc92f791509e48762f164f70a3c064d01a4136156f8cc541dfb43d"
+               },
+    "data":  {
+                 "official_split_sha256":  "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+                 "fit_train_sequences":  10325,
+                 "fit_official_valid_sequences":  0,
+                 "evaluation_valid_sequences":  1873,
+                 "evaluation_valid_rows":  3528273,
+                 "primary":  "official full valid, fixed E6; exposed development endpoint"
+             },
+    "contract":  {
+                     "epochs":  6,
+                     "optimizer":  "adamw",
+                     "lr":  0.0003,
+                     "weight_decay":  0.01,
+                     "grad_clip":  1,
+                     "warmup_fraction":  0.05,
+                     "schedule":  "warmup_cosine_v2",
+                     "min_lr_ratio":  0.1,
+                     "precision_mode":  "fp32",
+                     "training_mask":  "all_after_warmup",
+                     "normalization_scope":  "all_fit",
+                     "normalization_sequences":  10325,
+                     "input_stem_kernel":  16,
+                     "seeds":  [
+                                   203301,
+                                   203302
+                               ],
+                     "required_world_size":  1,
+                     "required_device":  "L4",
+                     "checkpoint_retention":  "all_epochs",
+                     "fixed_endpoint":  "configured_final_epoch",
+                     "rows_per_update":  32000
+                 },
+    "precision_environment":  {
+                                  "NVIDIA_TF32_OVERRIDE":  "0",
+                                  "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE":  "0",
+                                  "log_getter":  "torch.backends.cudnn.rnn.fp32_precision",
+                                  "do_not_add_unrecorded_direct_ieee_setting":  true
+                              },
+    "control_source_identity_sha256":  "b9eddeb9a0733b8efa5a11bed24d03de53f94b83b03d72b5db09ab1adcd63188",
+    "controls":  [
+                     {
+                         "path":  "configs/controls/k16_s203301.json",
+                         "sha256":  "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534",
+                         "seed":  203301,
+                         "role":  "reuse exact completed K16 control; do not refit"
+                     },
+                     {
+                         "path":  "configs/controls/k16_s203302.json",
+                         "sha256":  "a6672a34223f88d5bebfe9712ed3fb09192df6176239de5aeaf3dce2bd527bc0",
+                         "seed":  203302,
+                         "role":  "reuse exact completed K16 control; do not refit"
+                     }
+                 ],
+    "arms":  [
+                 {
+                     "arm_id":  "pr82_card05_horizon4000",
+                     "change":  "batch_size 32→8; chunk_rows 1000→4000; gradient_horizon_rows 1000→4000",
+                     "rationale":  "PR82 card 05; rows per update preserved at 32,000",
+                     "fits":  [
+                                  {
+                                      "path":  "configs/horizon4000_k16_s203301.json",
+                                      "sha256":  "19abe6d8fcd9f898f0fa2b0ab0114733e20c32c09f73fae17456169f5bc0a65b",
+                                      "seed":  203301
+                                  },
+                                  {
+                                      "path":  "configs/horizon4000_k16_s203302.json",
+                                      "sha256":  "d8b4a4768ea7d466bde7b387366e480235fd6a108e3281d436c12a151b547aa4",
+                                      "seed":  203302
+                                  }
+                              ]
+                 },
+                 {
+                     "arm_id":  "horizon2000_dose_control",
+                     "change":  "batch_size 32→16; chunk_rows 1000→2000; gradient_horizon_rows 1000→2000",
+                     "rationale":  "declared dose-response extension to PR82 card 05; rows per update preserved at 32,000",
+                     "fits":  [
+                                  {
+                                      "path":  "configs/horizon2000_k16_s203301.json",
+                                      "sha256":  "582ab53ac124dac45500f6d2dcd7a74a264149cc80030281e9cb872ff7f84609",
+                                      "seed":  203301
+                                  },
+                                  {
+                                      "path":  "configs/horizon2000_k16_s203302.json",
+                                      "sha256":  "93396501ca19d9d26589bc6b5d0ae0ca35de743d1072e41741b5f6bfffc090d6",
+                                      "seed":  203302
+                                  }
+                              ]
+                 },
+                 {
+                     "arm_id":  "gru256_depth1",
+                     "change":  "model.layers 2→1",
+                     "rationale":  "new matched six-epoch depth screen; K16 stem and all other fields fixed",
+                     "fits":  [
+                                  {
+                                      "path":  "configs/gru256_layer1_k16_s203301.json",
+                                      "sha256":  "324321739069ceb7fa165120c88798b4e890299fdaacc889ecaeae447bf34778",
+                                      "seed":  203301
+                                  },
+                                  {
+                                      "path":  "configs/gru256_layer1_k16_s203302.json",
+                                      "sha256":  "327fcd8e4b9f0769025d67ec1d106c55f50e70cc33a1f78bb1fb27f7376bdef3",
+                                      "seed":  203302
+                                  }
+                              ]
+                 },
+                 {
+                     "arm_id":  "gru256_depth3",
+                     "change":  "model.layers 2→3",
+                     "rationale":  "new matched six-epoch depth screen; K16 stem and all other fields fixed",
+                     "fits":  [
+                                  {
+                                      "path":  "configs/gru256_layer3_k16_s203301.json",
+                                      "sha256":  "55e945b23ff6c558052610a42b239c6b74ae7e6f1894910478682aeabfa6c3c9",
+                                      "seed":  203301
+                                  },
+                                  {
+                                      "path":  "configs/gru256_layer3_k16_s203302.json",
+                                      "sha256":  "835b82ad6a7cab45957bc9bf8bedf2c1abaa17798f5dcb08213990d2eb335e69",
+                                      "seed":  203302
+                                  }
+                              ]
+                 }
+             ],
+    "admission_clock":  {
+                            "schema":  "CLOCK_R1",
+                            "sha256":  "0181e9889a45d0636e3b9981ddb15e17fb5cd26429068bb0ee37f78d09d71270",
+                            "first_fit_epoch":  1794453619.060462,
+                            "fit_deadline_epoch":  1794468019.060462,
+                            "wave_deadline_epoch":  1794471619.060462,
+                            "output_cap_bytes":  1000000000,
+                            "owner":  "ROOT"
+                        },
+    "readiness":  {
+                      "source_and_configs_frozen":  true,
+                      "source_changed":  false,
+                      "profiles":  "ROOT profile receiver, max six distinct 30-update profiles; fit requires matching approved receipt",
+                      "launch":  "ROOT only"
+                  }
+}
