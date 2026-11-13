@@ -1,0 +1,165 @@
+{
+  "schema": "wnn.f3-pr49-distillation-panel.r2",
+  "runtime_source": {
+    "commit": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+    "source_identity_sha256": "29fb45164667e69a71d4be2c696731d9824884d2d51674f37d2a633bd17d9511",
+    "supported_mechanisms": [
+      "since_weight",
+      "kd_weight",
+      "sequence-teacher-cache-v1"
+    ]
+  },
+  "split": {
+    "sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "official_valid_evaluation_sequences": 1873,
+    "excluded_linked_train_sequences": 282,
+    "normalization_scope": "all_fit"
+  },
+  "design": {
+    "initial_fits": "6 matched fits: plain K16 labels / K16+PR49 KD0.2 / K16+PR49 KD0.5, seeds203401/203402",
+    "targeted_controls": "2 since32 K16 label-only confirmation fits already running",
+    "initializer": "none; scratch initialization in every cell",
+    "fixed_endpoint": "6 epochs, configured final epoch 5; all epochs retained",
+    "interaction_tested": false
+  },
+  "teacher": {
+    "run": "tl3c_fbc1k_s5",
+    "checkpoint_sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496",
+    "provenance_sha256": "b157c12556ec0f8cb60fc108a4e6ea28474ed9083d57032fa345a88e3818448c",
+    "source_commit": "188c0788e571c6f981cdc6827fef0d50bd38cf14",
+    "source_identity_manifest_sha256": "6f05b492a1413bebc919a57cdc8f2702b02a676a88ae8ea44bb4eff1b999cc67",
+    "source_files_receipt_sha256": "82ce57ff2db9c7ca001ef62d2f655d58a0010267fa18ba84950a37cb498572a9",
+    "trainer_implementation_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+    "membership_normalization_source_pins": {
+      "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+      "src/wnn/training/data_membership.py": "9c6a6e5167e25ef2d4b0e45960665cfbce9696e36f05add6e6e9d282f2bfcdf1",
+      "src/wnn/training/setup_preprocessing.py": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940",
+      "src/wnn/training/normalization.py": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c"
+    },
+    "legacy_train_cache_sha256": "7c62ced373417fe54b09296761018bf9eb9360e648c7d211670af229f64e6628",
+    "legacy_cache_rows": 10607,
+    "student_cache_rows": 10325,
+    "historical_official_validation": {
+      "wp": 0.6913549829197305,
+      "t0_wp": 0.6878423809882285,
+      "t1_wp": 0.6948675848512327,
+      "selected_rows": 3528273,
+      "endpoint_epoch": 3,
+      "status": "exposed development evidence; fixed endpoint, not an unseen estimate"
+    },
+    "conversion_adapter": "../prepare_pr49_teacher_cache_r1.py",
+    "lineage": [
+      {
+        "run": "tl3c_fin256_s3",
+        "checkpoint_sha256": "12f4735667cb7145d785b5f1662e921eaa7e53ec4dc918189bd3f2cb132bdb57",
+        "provenance_sha256": "9a24ccc4f240d068bfed650776aa4c72d3356a79b5838120f737dabbe6d04f24",
+        "fit_train": 10325,
+        "fit_valid": 0,
+        "init": "",
+        "distill": ""
+      },
+      {
+        "run": "tl3c_fin256_s4",
+        "checkpoint_sha256": "be2f4a6b2a398d3c1fd01818ef913b12a59837fc0d96ea02ac04e2885f11cb69",
+        "provenance_sha256": "85cf341aa099267735c91766bd6633adfc45d089e72141bf752fab83371578d9",
+        "fit_train": 10325,
+        "fit_valid": 0,
+        "init": "",
+        "distill": ""
+      }
+    ]
+  },
+  "cells": [
+    {
+      "cell": "label_since32_k16_seed203401",
+      "config": "configs/label_since32_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 32.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_controls",
+      "config_sha256": "5bcc2cf5011f778ff47356bd550b1aaf007a2fe81070250b54fcce7afb617399"
+    },
+    {
+      "cell": "pr49_kd020_k16_seed203401",
+      "config": "configs/pr49_kd020_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 0.0,
+      "kd_weight": 0.2,
+      "teacher_cache_required": true,
+      "role": "initial_fits",
+      "config_sha256": "cdb7b2c6deda3b9e59238ff6defb41306c07731ba7398a700cc9f7fd03e602ff"
+    },
+    {
+      "cell": "pr49_kd050_k16_seed203401",
+      "config": "configs/pr49_kd050_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 0.0,
+      "kd_weight": 0.5,
+      "teacher_cache_required": true,
+      "role": "initial_fits",
+      "config_sha256": "23c3741df4e124203553be81c9179bbefd9cceb772934d48d0df71b34bf2b861"
+    },
+    {
+      "cell": "zero_since_control_k16_seed203401",
+      "config": "configs/zero_since_control_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 0.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "initial_fits",
+      "config_sha256": "59a320496827bef8d3b440688cbf6221cfca4bf216459a60413f33a87e979d4a"
+    },
+    {
+      "cell": "label_since32_k16_seed203402",
+      "config": "configs/label_since32_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 32.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_controls",
+      "config_sha256": "dd42ce9f5b9373f7280bc4c76bb019caf72b047627df7cabf9aaa11e0fbda466"
+    },
+    {
+      "cell": "pr49_kd020_k16_seed203402",
+      "config": "configs/pr49_kd020_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 0.0,
+      "kd_weight": 0.2,
+      "teacher_cache_required": true,
+      "role": "initial_fits",
+      "config_sha256": "c8af3091c4cb2593901ee60ddadf61e12530843a1c05e0a6f65c4f616b19f265"
+    },
+    {
+      "cell": "pr49_kd050_k16_seed203402",
+      "config": "configs/pr49_kd050_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 0.0,
+      "kd_weight": 0.5,
+      "teacher_cache_required": true,
+      "role": "initial_fits",
+      "config_sha256": "1480f718b2c07173218d846d8f75dccb06601e0b9fcf9c1ac8e866d5acc2264e"
+    },
+    {
+      "cell": "zero_since_control_k16_seed203402",
+      "config": "configs/zero_since_control_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 0.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "initial_fits",
+      "config_sha256": "bf9a4940d019eccc7cc5a576dc1fcbff6e58dba4f1b378ace1e11ac48b098267"
+    }
+  ],
+  "config_templates": {
+    "since32_k16_seed203301.json": "e5c820ce524aa305cd77cfa784492cb1aec2ac95eeb919a815894f63d10e7553",
+    "zero_since_k16_seed203301.json": "55a6f952f13d923817eda6c3dbf7a002934ff8e481f6367c6c1c82d8e754a534",
+    "source_packet": "sequence-gru-followups-r2; commit 390c846cbdacd8e0e06e6079dd3b04312fa6bcc5"
+  },
+  "supersedes_before_fit": {
+    "manifest_sha256": "44fdf3c1d5017c744b3070a5f8dac35fdb95b0ebb8721792e2d19f943267c33d",
+    "reason": "Actual loader rejects since-weighting together with KD; no KD scientific fit started. Keep ongoing labels/since fits unchanged; test KD against exact current zero-since controls."
+  }
+}

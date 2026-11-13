@@ -1,0 +1,72 @@
+{
+  "schema": "wnn.f3-since-scale-followup.r1",
+  "source_commit": "390c846cbdacd8e0e06e6079dd3b04312fa6bcc5",
+  "cells": [
+    {
+      "cell": "age8_k16_seed203401",
+      "config": "configs/age8_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 8.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_followup",
+      "config_sha256": "247062a5d2ae50d1d9660da813f57545652d0bfa13642e819e495ebffc85c9fb",
+      "matched_since32_config_sha256": "996204e336c77dc2b2c27bbd2094c14a7ad05084a89ad81a116c197c40320226",
+      "changed_fields": [
+        "since_weight"
+      ]
+    },
+    {
+      "cell": "age128_k16_seed203401",
+      "config": "configs/age128_k16_seed203401.json",
+      "seed": 203401,
+      "since_weight": 128.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_followup",
+      "config_sha256": "01717021a9be78c6a252242a93b842df0a6d673fe1247765a88d13e3a8b50254",
+      "matched_since32_config_sha256": "996204e336c77dc2b2c27bbd2094c14a7ad05084a89ad81a116c197c40320226",
+      "changed_fields": [
+        "since_weight"
+      ]
+    },
+    {
+      "cell": "age8_k16_seed203402",
+      "config": "configs/age8_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 8.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_followup",
+      "config_sha256": "28835f1026de694e80031710ce797caca6d2e2c4d7a26ddca05a8ccf60ff3c96",
+      "matched_since32_config_sha256": "7ed0d8d6fc9dba5095fd9361bfbb84b981b0efd4d53b420266bccca2dc97bfe3",
+      "changed_fields": [
+        "since_weight"
+      ]
+    },
+    {
+      "cell": "age128_k16_seed203402",
+      "config": "configs/age128_k16_seed203402.json",
+      "seed": 203402,
+      "since_weight": 128.0,
+      "kd_weight": 0.0,
+      "teacher_cache_required": false,
+      "role": "targeted_followup",
+      "config_sha256": "64ed65046aad913a99f639438659f72a4b96ccfa7f04b73656d43961bcac0ef6",
+      "matched_since32_config_sha256": "7ed0d8d6fc9dba5095fd9361bfbb84b981b0efd4d53b420266bccca2dc97bfe3",
+      "changed_fields": [
+        "since_weight"
+      ]
+    }
+  ],
+  "fixed_endpoint": "6 epochs; final epoch index5; all checkpoints retained",
+  "allocation": "four new labels-only fits, GPU4-7, replaces rejected KD slots",
+  "primary_validation": "official split 10325 fitting /1873 valid;282 linked train excluded",
+  "reason": "test the causal age-weight scale around since32 using the same paired seeds",
+  "limitations": "exposed validation; two seeds; no independent significance claim",
+  "failed_kd_plans": [
+    "../pr49-distillation-r1",
+    "../pr49-distillation-r2"
+  ],
+  "budget": "unchanged CLOCK_R1; no extra time and no changes to active fits"
+}

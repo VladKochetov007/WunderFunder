@@ -1,0 +1,41 @@
+{
+  "schema": "wnn.final-quality-authority.r1",
+  "objective_mode": "competition",
+  "user_scope": "Select and fit the strongest supported submission; use necessary owned resources; latest steering explicitly asks why B300 and L4 are idle",
+  "closed_previous_waves_remain_closed": true,
+  "fresh_wave_max_hours": 8,
+  "new_primary_fits": {
+    "B300": {
+      "study": "PR91 input additive versus bilinear, two paired seeds",
+      "fits": 4,
+      "gpu_per_fit": 2,
+      "epochs": 4,
+      "source_commit": "190d04be8d722daca598db3efd97728c1c29b32d"
+    },
+    "L4": {
+      "study": "compact GRU since32 with clean PR49 output KD",
+      "initial_fits": 6,
+      "targeted_since_zero_confirmation_fits": 2,
+      "epochs": 6,
+      "status": "preparing_exact_cache_and_source_admission"
+    }
+  },
+  "validation": {
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_sequences": 10325,
+    "valid_sequences": 1873,
+    "scored_rows": 3528273,
+    "valid_exposed": true,
+    "endpoint": "configured_final_epoch",
+    "all_labeled_final_weights_not_used_for_primary_validation": true
+  },
+  "resources": {
+    "no_paid_rentals": true,
+    "foreign_processes_not_signalled": true,
+    "B300_max_owned_host_ram_gib": 512,
+    "B300_max_output_gib": 128,
+    "B300_min_free_gib": 128,
+    "L4_disk_and_foreign_gpu_occupancy_require_live_admission": true
+  },
+  "submission": "CPU-qualified candidate only; portal upload authority already explicit"
+}

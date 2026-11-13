@@ -49,3 +49,8 @@ A separate local fixed-GRU replay on 16 selected exposed-F0 groups found +0.0003
 ## Large dynamics Transformer teacher — October19 R2
 
 The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2) proposes a four-fit 0.68B/1.65B teacher-scale comparison, strict-FP32 Muon, WSD, profiled DDP and later matched GRU transfer. It includes analytical capacity/ETA code and independent criticism; the distributed trainer, source/data bindings and actual B300 profile remain unimplemented. Branch/PR publication is recorded when it exists. The [canonical design](../unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) and ADR0043 explain the new 4–6-total-fit policy.
+
+
+## 12 November 2026 ? final-quality execution
+
+[Final-quality execution packet](final-quality-execution-20261112/README.md) records the PR91 B300 linear-versus-bilinear input panel and L4 since-weight/age-scale fits on the official chronological train/valid boundary. It includes exact source/config/controller hashes, fixed-clock amendments, compact native telemetry, rejected KD profile evidence, and the public PR91 progress receipt. At the 18:47 UTC snapshot, four L4 fits had completed E6 and eight fits were active; candidate selection and final scoring were pending. The official valid is exposed development evidence, and this packet does not claim an independent holdout or portal upload.
