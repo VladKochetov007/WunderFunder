@@ -1,0 +1,213 @@
+{
+  "schema_version": "midas.task-preview.v1",
+  "policy_version": "2026-08-28.v7",
+  "product_catalog_version": "2026-08-28.v2",
+  "product_catalog_sha256": "2d976a784eb986a767a1031210ab21df98b70f089ec2996e7e22a8cba7defcdb",
+  "request_sha256": "20200d0f9d57a0f7e76d1384bed05bab21f3707c596652b0a7e9feb60eafc4aa",
+  "definition_of_done_provided": true,
+  "workspace": {
+    "path": "/Users/alfa/Documents/WunderFunder_worktrees/b300-attention-head-count-20261113",
+    "label": "b300-attention-head-count-20261113",
+    "required": true
+  },
+  "depth": "thorough",
+  "launchable_remotely": false,
+  "approval_required": true,
+  "candidate_products": [
+    {
+      "product_id": "research",
+      "title": "MIDAS Research",
+      "route": "research",
+      "score": null
+    }
+  ],
+  "product_id": "research",
+  "product": {
+    "schema_version": "midas.product.v2",
+    "product_id": "research",
+    "title": "MIDAS Research",
+    "summary": "Собирает факты, разделяет анализ и критику, затем синтезирует вывод.",
+    "route": "research",
+    "command": "research",
+    "harness": "Исследовательская команда",
+    "flow": "поиск → анализ → критика → синтез",
+    "risk": "code_execution",
+    "capabilities": [
+      "network_read",
+      "local_files",
+      "local_code_execution",
+      "model_agents",
+      "provider_network",
+      "external_model_data"
+    ],
+    "model_profile_id": "sol_gpt_5_6_standard",
+    "model_policy_sha256": "0a3b5bbb1583d403af052c0df78a761dcf90503f9bbf05041fbedbec4b178294",
+    "status": "registered",
+    "runtime_readiness": "not_preflighted",
+    "selection": "deterministic_or_owner",
+    "launch_surface": "local_terminal_only",
+    "external_effects": "separate_native_workflow",
+    "product_sha256": "011c875165a20e5300460136cfc2f735617cc92972bb3aeb8d43a68c1c0c0eff"
+  },
+  "model_profile_id": "sol_gpt_5_6_standard",
+  "model_policy": {
+    "schema_version": "midas.model-policy.v1",
+    "profile_id": "sol_gpt_5_6_standard",
+    "profile_version": "2026-08-28.v1",
+    "backend": "codex",
+    "model": "gpt-5.6-sol",
+    "role_effort_policy_id": "midas.sol.role-effort.v1",
+    "effort_by_task_depth": {
+      "fast": "medium",
+      "balanced": "high",
+      "thorough": "xhigh"
+    },
+    "verbosity_policy_id": "midas.sol.verbosity.v1",
+    "verbosity_by_task_depth": {
+      "fast": "low",
+      "balanced": "medium",
+      "thorough": "high"
+    },
+    "service_tier": "standard",
+    "data_policy": {
+      "policy_id": "midas.external-model-data.v1",
+      "context_destination": "openai_codex_service",
+      "context_scope": "selected_task_and_workspace",
+      "secret_task_fields": "reject",
+      "workspace_secret_scrubbing": "not_asserted",
+      "provider_retention": "not_asserted_by_midas"
+    },
+    "model_policy_sha256": "0a3b5bbb1583d403af052c0df78a761dcf90503f9bbf05041fbedbec4b178294"
+  },
+  "model_execution": {
+    "schema_version": "midas.model-execution.v1",
+    "profile_id": "sol_gpt_5_6_standard",
+    "profile_version": "2026-08-28.v1",
+    "model_policy_sha256": "0a3b5bbb1583d403af052c0df78a761dcf90503f9bbf05041fbedbec4b178294",
+    "task_depth": "thorough",
+    "backend": "codex",
+    "model": "gpt-5.6-sol",
+    "role_effort_policy_id": "midas.sol.role-effort.v1",
+    "reasoning_effort": "xhigh",
+    "verbosity_policy_id": "midas.sol.verbosity.v1",
+    "verbosity": "high",
+    "service_tier": "standard",
+    "data_policy_id": "midas.external-model-data.v1"
+  },
+  "state": "READY_LOCAL_HANDOFF",
+  "route": "research",
+  "harness": "Исследовательская команда",
+  "flow": "поиск → анализ → критика → синтез",
+  "risk": "code_execution",
+  "capabilities_required": [
+    "network_read",
+    "local_files",
+    "local_code_execution",
+    "model_agents",
+    "provider_network",
+    "external_model_data"
+  ],
+  "reason": "Собирает факты, разделяет анализ и критику, затем синтезирует вывод.",
+  "decision_trace": [
+    {
+      "policy_version": "2026-08-28.v7",
+      "mechanism": "explicit_owner_choice",
+      "outcome": "research",
+      "passed": true,
+      "reason": "explicit task kind",
+      "evidence": [
+        {
+          "kind": "research"
+        }
+      ]
+    },
+    {
+      "policy_version": "midas.decision.v2",
+      "mechanism": "hard_veto",
+      "outcome": "allow",
+      "passed": true,
+      "reason": "no veto triggered",
+      "evidence": [
+        {
+          "id": "external_or_irreversible_effect",
+          "veto": false
+        }
+      ]
+    },
+    {
+      "policy_version": "midas.decision.v2",
+      "mechanism": "all_of",
+      "outcome": "ready",
+      "passed": true,
+      "reason": "all prerequisites passed",
+      "evidence": [
+        {
+          "id": "route_bound",
+          "passed": true
+        },
+        {
+          "id": "workspace_bound",
+          "passed": true
+        },
+        {
+          "id": "model_policy_bound",
+          "passed": true
+        },
+        {
+          "id": "capabilities_compatible",
+          "passed": true
+        },
+        {
+          "id": "external_effects_absent",
+          "passed": true
+        },
+        {
+          "id": "parser_contract_checked",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "route_bound",
+      "state": "pass",
+      "label": "Маршрут зафиксирован"
+    },
+    {
+      "id": "workspace_bound",
+      "state": "pass",
+      "label": "Рабочая папка зафиксирована"
+    },
+    {
+      "id": "definition_of_done",
+      "state": "pass",
+      "label": "Критерий готовности определён"
+    },
+    {
+      "id": "sandbox",
+      "state": "required",
+      "label": "Песочница остаётся включена"
+    },
+    {
+      "id": "verification",
+      "state": "required",
+      "label": "Исполняемая проверка результата"
+    },
+    {
+      "id": "task_acceptance",
+      "state": "required",
+      "label": "Отдельная исполняемая приёмка конкретной задачи"
+    },
+    {
+      "id": "external_effects",
+      "state": "required",
+      "label": "Внешние действия не авторизованы; агент обязан остановиться"
+    }
+  ],
+  "suggested_argv": null,
+  "suggested_command": null,
+  "preview_sha256": "94faee97337f6c32d738dd8c9daa64e97b5afba5e0939bb01875d20d7d83ba78",
+  "task_sha256": "94faee97337f6c32d738dd8c9daa64e97b5afba5e0939bb01875d20d7d83ba78",
+  "handoff_state": "task_intent_required"
+}
