@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Fixed-width B300 attention heads](../../experiment_drafts/b300-attention-head-count-20261113/README.md) compares six 128-dimensional heads against twelve 64-dimensional heads using four source-bound E4 fits. [Team idea review](../../experiment_drafts/b300-attention-head-count-20261113/IDEAS.md).
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
