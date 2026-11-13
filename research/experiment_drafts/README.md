@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [L4 GRU impact batch 2 (Vlad)](l4-impact-batch2-vlad-20261112/README.md) — ten screens built on the since32 result (+0.0033 on the PR80 contract): since curve, hard event mask, since x distillation, Muon at LR 1e-3 with saturation precheck, event-clock auxiliary target, GRU-D event decay, minGRU full-horizon, volatility-scaled head, SAM, validator null test; 21 planned fits, none executed.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
