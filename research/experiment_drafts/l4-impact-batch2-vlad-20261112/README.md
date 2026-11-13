@@ -1,6 +1,6 @@
 # L4 GRU impact batch 2: ten screens built on the since32 result
 
-**Status: proposal, no fits executed.** Preparation owner: Vlad / Claude Code. Receiving and
+**B03 is implemented for a Linux L4 receiver.** [B03 design and controls](b03/README.md) · [GPU commands](b03/GPU_COMMANDS.md). Eight matched student fits are prepared. No B03 profile or fit has run. The remaining cards retain their original proposal status. Preparation owner: Vlad / Claude Code. Receiving and
 launch owner: Semyon. Same contract as [PR #82](https://github.com/VladKochetov007/WunderFunder/pull/82)
 (PR80 K16 recipe, L4, fixed E6, train 10,325 / full valid 1,873 / 3,528,273 rows, split
 `0c4de3a2…`, seeds 203301/203302, mean paired gain ≥ +0.0005 with both seeds positive).
@@ -33,8 +33,7 @@ statistics appended, not replacing inputs) but its prior should be lowered accor
 ## Cards
 
 All cards add two treatment fits at seeds 203301/203302 unless stated; **controls** are the
-PR80 K16 fits, or the same-code since32 fits where the card says "on since32". Code changes are
-named per card; none are implemented in this PR.
+PR80 K16 fits, or the same-code since32 fits where the card says "on since32". B03 now has the isolated implementation linked below. The other cards retain the scopes described here.
 
 ### B01. Since-weight curve: τ 8 and τ 128 (exploit the winner, map its shape)
 Changed: since τ 32 → 8 and → 128 (floor 0.25). **4 fits.** Control: since32. Predicts an
@@ -48,6 +47,8 @@ version of since-weighting and also cuts the effective rows per epoch. Falsifier
 (deep rows still carry signal).
 
 ### B03. Since32 × distillation interaction on this runtime
+
+[Receiver implementation and fixed-endpoint comparison](b03/README.md). This packet supplies all four factorial arms at both card seeds. Earlier results lack a matched eight-cell panel at teacher fraction 0.5.
 Changed: since32 **and** PR #82 card 02 distillation (PR49 `tl3c_fbc1k_s5` teacher, α 0.5).
 Controls: since32 alone and distillation alone (card 02 fits, when run). Predicts a gain well
 below the sum (E-351 substitution). Decides whether the production chain needs both or whether
@@ -103,7 +104,7 @@ long wave of small deltas. **1 fit**, no control.
 ## Budget
 
 B01 4 fits, B02–B09 2 fits each (16), B10 1 fit: **21 new L4 fits**, plus the B04 zero-fit
-precheck. Teacher predictions for B03 come from the PR #82 card 02 export.
+precheck. Teacher predictions for B03 come from the PR #82 card 02 teacher. The original 21-fit batch estimate credited existing controls. The executable B03 panel budgets its two combination fits plus six same-source controls, eight total. This handoff schedules only B03 and claims no allocation.
 
 ## Sources
 

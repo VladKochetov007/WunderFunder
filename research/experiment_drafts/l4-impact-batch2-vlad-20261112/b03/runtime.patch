@@ -1,0 +1,281 @@
+diff --git a/src/wnn/training/sequence_ensemble_config.py b/src/wnn/training/sequence_ensemble_config.py
+--- a/src/wnn/training/sequence_ensemble_config.py
++++ b/src/wnn/training/sequence_ensemble_config.py
+@@ -6,7 +6,9 @@
+ MIXTURE_MODE = "mixture_wmse_pearson_v1"
+ STANDALONE_LABELS_MODE = "standalone_labels_wmse_v2"
+ STANDALONE_LABELS_KD_MODE = "standalone_labels_kd_wmse_v1"
+-RAW_STUDENT_MODES = frozenset((STANDALONE_LABELS_MODE, STANDALONE_LABELS_KD_MODE))
++B03_MODE = "standalone_b03_convex_kd_wmse_v1"
++FIT_CACHE_MODES = frozenset((STANDALONE_LABELS_KD_MODE, B03_MODE))
++RAW_STUDENT_MODES = FIT_CACHE_MODES | {STANDALONE_LABELS_MODE}
+ P5_CONFIG_FIELDS = frozenset(
+     (
+         "gradient_horizon_rows",
+@@ -21,6 +23,21 @@
+ def objective_contract(config: Mapping[str, object]) -> dict[str, object] | None:
+     """Describe the new standalone-label objective before it enters run identity."""
+     mode = config.get("objective_mode")
++    if mode == B03_MODE:
++        return {
++            "kind": "convex_teacher_target_wmse",
++            "mode": B03_MODE,
++            "target_clip": [-2.0, 2.0],
++            "target": "(1-alpha)*clip(label)+alpha*clip(detached_teacher)",
++            "target_alpha": config["kd_weight"],
++            "since_weight": config["since_weight"],
++            "since_floor": config["since_floor"],
++            "since_weight_scope": "whole blended-target numerator only",
++            "shared_denominator": "sum_abs_clipped_label_targets",
++            "aggregation": "global_joint_weighted_wmse_per_actual_optimizer_window",
++            "endpoint": "raw student z",
++            "teacher_cache_membership": "exact official fitting membership only",
++        }
+     if mode == STANDALONE_LABELS_KD_MODE:
+         return {
+             "kind": "standalone_label_plus_kd_weighted_mse",
+@@ -64,7 +81,7 @@
+     return not pretraining and (
+         config["kd_weight"] > 0
+         or config["hint_weight"] > 0
+-        or config.get("objective_mode") == STANDALONE_LABELS_KD_MODE
++        or config.get("objective_mode") in FIT_CACHE_MODES
+     )
+
+
+@@ -94,7 +111,14 @@
+         if not isinstance(config.get("monitoring"), Mapping):
+             raise ValueError("standalone labels require full official-valid report-only monitoring")
+         return
+-    if mode == STANDALONE_LABELS_KD_MODE:
++    if mode in FIT_CACHE_MODES:
++        if mode == B03_MODE and (
++            type(config["kd_weight"]) not in (int, float)
++            or config["kd_weight"] not in (0.0, 0.5)
++            or config["since_weight"] not in (0.0, 32.0)
++            or config["since_floor"] != 0.25
++        ):
++            raise ValueError("B03 requires target alpha 0/.5, age tau 0/32 and floor .25")
+         model = config["model"]
+         if (
+             config["hint_weight"] != 0
+@@ -104,12 +128,12 @@
+             or config.get("supervised_target") is not None
+             or config.get("pretraining") is not None
+             or config.get("parent_initializer") is not None
+-            or config.get("since_weight", 0) != 0
++            or (mode == STANDALONE_LABELS_KD_MODE and config.get("since_weight", 0) != 0)
+             or model["architecture"] != "gru"
+             or config["precision_mode"] != "fp32"
+         ):
+             raise ValueError(
+-                "standalone label+KD requires a cold FP32 two-target GRU without hints, blend, or since weighting"
++                "standalone KD requires a cold FP32 two-target GRU and the declared age policy"
+             )
+         if (
+             config["normalization_scope"] != "all_fit"
+diff --git a/src/wnn/training/sequence_config.py b/src/wnn/training/sequence_config.py
+--- a/src/wnn/training/sequence_config.py
++++ b/src/wnn/training/sequence_config.py
+@@ -10,6 +10,7 @@
+ from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
+ from wnn.training.sequence_complement_monitor import validate_complement_monitor
+ from wnn.training.sequence_ensemble_config import (
++    B03_MODE,
+     STANDALONE_LABELS_MODE,
+     validate_ensemble_objective,
+ )
+@@ -246,18 +247,24 @@
+         raise ValueError(
+             "single-target supervision requires two-head label-only training without mix or auxiliaries"
+         )
+-    if config["since_weight"] > 0 and (
+-        model["architecture"] != "gru"
+-        or config["kd_weight"] != 0
+-        or config["hint_weight"] != 0
+-        or model["hint_dim"] != 0
+-        or config.get("objective_mode") not in (None, STANDALONE_LABELS_MODE)
+-        or config.get("blend_objective_alpha", 0) != 0
+-        or supervised_target is not None
+-        or config.get("pretraining") is not None
+-        or config.get("parent_initializer") is not None
+-    ):
+-        raise ValueError("since weighting currently requires cold, two-head labels-only GRU training")
++    if (
++        config["since_weight"] > 0
++        and config.get("objective_mode") != B03_MODE
++        and (
++            model["architecture"] != "gru"
++            or config["kd_weight"] != 0
++            or config["hint_weight"] != 0
++            or model["hint_dim"] != 0
++            or config.get("objective_mode") not in (None, STANDALONE_LABELS_MODE)
++            or config.get("blend_objective_alpha", 0) != 0
++            or supervised_target is not None
++            or config.get("pretraining") is not None
++            or config.get("parent_initializer") is not None
++        )
++    ):
++        raise ValueError(
++            "since weighting currently requires cold, two-head labels-only GRU training"
++        )
+     if config["hint_mode"] not in ("aligned", "component_permuted"):
+         raise ValueError("unsupported hint control")
+     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:
+diff --git a/src/wnn/training/sequence_complement_monitor.py b/src/wnn/training/sequence_complement_monitor.py
+--- a/src/wnn/training/sequence_complement_monitor.py
++++ b/src/wnn/training/sequence_complement_monitor.py
+@@ -10,8 +10,8 @@
+ from wnn.training.sequence_data import SequenceData, SequenceRecords
+ from wnn.training.sequence_distributed import DistributedContext
+ from wnn.training.sequence_ensemble_config import (
++    FIT_CACHE_MODES,
+     RAW_STUDENT_MODES,
+-    STANDALONE_LABELS_KD_MODE,
+     STANDALONE_LABELS_MODE,
+ )
+ from wnn.training.sequence_monitor_evaluation import evaluate_monitoring_sets
+@@ -76,7 +76,7 @@
+         if config.get("blend_objective_alpha", 0) != 0 or config["kd_weight"] != 0:
+             raise ValueError("standalone-label monitoring requires raw z without blend or KD")
+         return
+-    if mode == STANDALONE_LABELS_KD_MODE:
++    if mode in FIT_CACHE_MODES:
+         if config.get("blend_objective_alpha", 0) != 0 or config["hint_weight"] != 0:
+             raise ValueError("standalone label+KD monitoring forbids blend and hidden hints")
+         return
+@@ -105,7 +105,7 @@
+         if len(members) != 10325 or len(evaluation) != 1873:
+             raise ValueError("complement monitor requires the complete official memberships")
+         raw_student = config.get("objective_mode") in RAW_STUDENT_MODES
+-        standalone_kd = config.get("objective_mode") == STANDALONE_LABELS_KD_MODE
++        standalone_kd = config.get("objective_mode") in FIT_CACHE_MODES
+         if raw_student and reference_root is not None:
+             if config.get("objective_mode") == STANDALONE_LABELS_MODE:
+                 raise ValueError(
+diff --git a/src/wnn/training/sequence_fit_admission.py b/src/wnn/training/sequence_fit_admission.py
+--- a/src/wnn/training/sequence_fit_admission.py
++++ b/src/wnn/training/sequence_fit_admission.py
+@@ -4,8 +4,8 @@
+ from pathlib import Path
+
+ from wnn.training.sequence_ensemble_config import (
++    FIT_CACHE_MODES,
+     RAW_STUDENT_MODES,
+-    STANDALONE_LABELS_KD_MODE,
+     STANDALONE_LABELS_MODE,
+ )
+
+@@ -19,7 +19,7 @@
+     """Reject reference inputs that a recipe would ignore before runtime or data setup."""
+     objective_mode = config.get("objective_mode")
+     standalone_labels = objective_mode == STANDALONE_LABELS_MODE
+-    standalone_kd = objective_mode == STANDALONE_LABELS_KD_MODE
++    standalone_kd = objective_mode in FIT_CACHE_MODES
+     raw_student_monitor = objective_mode in RAW_STUDENT_MODES
+     single_target = config.get("supervised_target") is not None
+     if raw_student_monitor and "monitoring" not in config:
+diff --git a/src/wnn/training/sequence_objectives.py b/src/wnn/training/sequence_objectives.py
+--- a/src/wnn/training/sequence_objectives.py
++++ b/src/wnn/training/sequence_objectives.py
+@@ -14,8 +14,9 @@
+     global_sum,
+ )
+ from wnn.training.sequence_ensemble_config import (
++    B03_MODE,
++    FIT_CACHE_MODES,
+     MIXTURE_MODE,
+-    STANDALONE_LABELS_KD_MODE,
+     STANDALONE_LABELS_MODE,
+ )
+ from wnn.training.sequence_ensemble_correlation import weighted_microbatch_correlation
+@@ -95,9 +96,10 @@
+     correlation_prediction_std_floor: float = 0.01,
+     supervised_target: int | None = None,
+     label_row_weights: torch.Tensor | None = None,
++    target_alpha: float = 0.0,
+ ) -> ObjectiveNumerators:
+     """Return clipped weighted label/KD sums and a masked elementwise hint sum."""
+-    if objective_mode == STANDALONE_LABELS_KD_MODE:
++    if objective_mode in FIT_CACHE_MODES:
+         if blend_objective_alpha != 0 or hint_prediction.shape[-1] or hint_target.shape[-1]:
+             raise ValueError("standalone label+KD objective forbids blends and hidden hints")
+         if any(value.dtype != torch.float32 for value in (prediction, target, teacher)):
+@@ -111,7 +113,7 @@
+     if objective_mode is not None:
+         selected = mask[..., None]
+         finite = bool(torch.isfinite(prediction[mask]).all() and torch.isfinite(target[mask]).all())
+-        if objective_mode == STANDALONE_LABELS_KD_MODE:
++        if objective_mode in FIT_CACHE_MODES:
+             finite = finite and bool(torch.isfinite(teacher[mask]).all())
+         if context is None or not all_ranks_true(finite, context):
+             raise FloatingPointError(
+@@ -141,6 +143,20 @@
+         target_selector[..., supervised_target] = 1
+         weight = weight * target_selector
+         label_weight = label_weight * target_selector
++    if objective_mode == B03_MODE:
++        if type(target_alpha) not in (float, int) or target_alpha not in (0.0, 0.5):
++            raise ValueError("B03 target alpha must be 0 or 0.5")
++        # PR49 forms the target before squaring; native since32 applies only
++        # to the whole primary numerator. The optimizer window retains its
++        # un-aged label-magnitude denominator, even at alpha zero.
++        target_mix = clipped
++        if target_alpha:
++            teacher_target = teacher.detach().float().clamp(-2.0, 2.0)
++            target_mix = (1.0 - target_alpha) * clipped + target_alpha * teacher_target
++        mixed_sum = ((prediction.float() - target_mix).square() * label_weight).sum()
++        zero = prediction.new_zeros(())
++        return ObjectiveNumerators(mixed_sum, zero, zero)
++
+     label_error = prediction.float() - clipped
+     correlation, correlation_loss = None, None
+     if objective_mode == MIXTURE_MODE:
+diff --git a/src/wnn/training/sequence_loop.py b/src/wnn/training/sequence_loop.py
+--- a/src/wnn/training/sequence_loop.py
++++ b/src/wnn/training/sequence_loop.py
+@@ -17,6 +17,7 @@
+     global_sum,
+     local_sequence_indices,
+ )
++from wnn.training.sequence_ensemble_config import B03_MODE
+ from wnn.training.sequence_ensemble_reporting import objective_metrics
+ from wnn.training.sequence_fit_utils import (
+     SEQUENCE_ROWS,
+@@ -117,6 +118,9 @@
+                 mask[:, start:stop],
+                 blend_objective_alpha=float(config.get("blend_objective_alpha", 0.0)),
+                 objective_mode=config.get("objective_mode"),
++                target_alpha=float(config["kd_weight"])
++                if config.get("objective_mode") == B03_MODE
++                else 0.0,
+                 context=context,
+                 correlation_prediction_std_floor=float(
+                     config.get("correlation_prediction_std_floor", 0.01)
+diff --git a/src/wnn/training/sequence_ensemble_reporting.py b/src/wnn/training/sequence_ensemble_reporting.py
+--- a/src/wnn/training/sequence_ensemble_reporting.py
++++ b/src/wnn/training/sequence_ensemble_reporting.py
+@@ -5,6 +5,7 @@
+ import torch
+
+ from wnn.training.sequence_ensemble_config import (
++    B03_MODE,
+     MIXTURE_MODE,
+     STANDALONE_LABELS_KD_MODE,
+ )
+@@ -38,6 +39,15 @@
+     if config.get("supervised_target") is not None:
+         result["supervised_target"] = config["supervised_target"]
+         result["objective_wmse_scope"] = "selected target numerator / both-target denominator"
++    if config.get("objective_mode") == B03_MODE:
++        result.update(
++            objective_target_alpha=config["kd_weight"],
++            objective_blended_target_wmse=wmse,
++            objective_since_tau=config["since_weight"],
++            objective_since_floor=config["since_floor"],
++            objective_shared_denominator="sum_abs_clipped_label_targets",
++            objective_separate_kd_loss=False,
++        )
+     if config.get("objective_mode") == STANDALONE_LABELS_KD_MODE:
+         kd_weight = float(config["kd_weight"])
+         result.update(
