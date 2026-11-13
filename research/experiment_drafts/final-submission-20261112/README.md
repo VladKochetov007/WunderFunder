@@ -37,3 +37,7 @@ Original artifacts remain in PR54 / its W18 release and PR76; source checkout fo
 [Packet file inventory](PACKET_FILES_R1.json) binds the initial published evidence/source bytes; later evidence will be added as successor receipts.
 
 The scoped `.gitattributes` preserves imported source/receipt bytes so Git line-ending normalization cannot invalidate their SHA256 pins.
+
+## Later actual upload,13 November2026
+
+[The user-directed platform trial](submission-attempt-20261113-r1/README.md) was uploaded once despite the host-runtime projection. The signed-in platform confirmed upload success and a new PENDING record for the exact14.8MB R2 ZIP at14:53,1/5 today and109 total. Earlier not-uploaded/Desktop-unavailable observations above are historical. Checker outcome, actual runtime and public score are pending; this upload does not turn the runtime projection into a passed gate.
