@@ -651,3 +651,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 ## 12 November 2026 ? final-quality wave
 
 [Final-quality execution packet](../../experiment_drafts/final-quality-execution-20261112/README.md) links the exact PR91 and L4 source/config/controller set, fixed clock and runtime amendments, compact 18:47 UTC native receipts, and preserved KD pre-fit failures. Four L4 since32/zero fits completed their fixed E6 endpoint; four since8/since128 fits and four B300 input-map fits remained active at the recorded cutoff. PR91 E2 deltas are interim, the L4 validation is exposed, no candidate is selected, and no portal upload is recorded here.
+
+- [Complete final-quality results,13 November](../../experiment_drafts/final-quality-execution-20261112/results-20261113-r1/README.md) records16/16 completed fits, two positive seed-paired GRU contrasts, negative Transformer/input and since-scale contrasts, source/checkpoint hashes and raw monitor evidence. New fullmix remains unsubmitted because CPU runtime admission is unresolved; browser access is now restored. This is exposed development evidence, not a public gain.
