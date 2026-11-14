@@ -5,7 +5,7 @@ O=$(dirname "$(readlink -f "$0")"); W=/home/vlad/development/wunder/research_tmp
 D=$W/research/experiment_drafts/local-gpu-kd-since-20261114
 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python "$O/make_results.py"
 mkdir -p "$D"
-cp "$O"/*.md "$O"/*.sh "$O"/*.py "$O"/queue.txt "$O"/queue.log "$O"/*.fit.log "$D"/
+cp "$O"/*.md "$O"/*.sh "$O"/*.py "$O"/queue.txt "$O"/queue.log "$O"/*.log "$D"/
 [ -e "$O/thermal_guard.log" ] && cp "$O/thermal_guard.log" "$D"/
 cd "$W" && git add -A research/experiment_drafts && git diff --cached --quiet && { echo "no changes"; exit 0; }
 git commit -q -m "$1

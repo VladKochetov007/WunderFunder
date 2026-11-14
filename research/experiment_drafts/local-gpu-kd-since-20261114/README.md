@@ -25,14 +25,33 @@ stem, auxiliary heads on. Numbers here are not directly comparable with PR #95/#
 
 ## Findings so far (seed 3, see RESULTS.md for every epoch)
 
-- **Cold one-stage distillation works: +0.0038** (0.69047 vs 0.68671). It beats our Oct 29 two-stage chain
-  (parent → distilled child, 0.68997) in one 40-minute fit and sits 0.001 below its teacher.
-- **Distillation removes the last-epoch regression** that label-only runs show (0.6874 → 0.6867).
-- **since32 is worth +0.0008 on this Muon recipe** without a teacher (0.68671 vs 0.68591), less than the
-  +0.0029 on the AdamW contract (PR #95).
-- **With a teacher, since32 adds more, not less** at epochs 1–3 (+0.0018, +0.0019, see RESULTS.md); the
-  final cell of the 2×2 lands with `l14_kd50_nosince_s3`.
+Since × distillation 2×2, fixed epoch 4, full valid:
+
+| | labels only | + distillation α 0.5 |
+|---|---|---|
+| no since | 0.68591 | 0.68808 |
+| since32 | 0.68671 | **0.69047** |
+
+- **The two do not substitute here; they reinforce.** Distillation alone +0.0022, since32 alone +0.0008,
+  together +0.0046; interaction +0.0016. One seed: the interaction is about the size of seed noise, so the
+  second-seed 2×2 (seed 4) is queued before anything is claimed. This is the opposite sign to our older
+  E-351 (substitution, −0.0012), which used a warm-started child.
+- **Cold one-stage distillation** beats our Oct 29 two-stage chain (parent → distilled child, 0.68997) in one
+  40-minute fit and sits 0.001 below its teacher (0.69142).
+- **Distillation removes the last-epoch regression** that label-only runs show.
 - Zero-fit: the three local teachers' residuals correlate 0.995, so a three-teacher mean target is not run.
+- Zero-fit (`blend_check.py`): the distilled student correlates 0.9956 with the served TL3C blend; adding it
+  at weight 0.2 gives +0.0001 on valid, so no four-member ZIP is built.
+
+## Submission ZIPs (human upload only)
+
+| ZIP | Members | Valid | Checks |
+|---|---|---|---|
+| `submissions/local_20261114/kd50_s3_single.zip` (SHA `e5790b71…`, 4.6 MB) | `l14_kd50_s3@ep3`, train-only | Torch 0.69047 | team INT8 runtime; native vs Torch on a 64-sequence valid panel 0.66546 vs 0.66545 (RMS diff 0.6%); ABI, CRC, A-B-A reset pass; 0.42 s/sequence on the laptop |
+
+Built with the Oct 26 `package_tool.py` (`export`, `build`, `replay`) and `score_panel.py` here. A train+valid
+refit of the same recipe (`l14_final_kd50_s3`) is queued for a second ZIP. Reference pair for transfer:
+tiedlead-s5 single, valid 0.69143, public 0.66246.
 
 ## Operations
 
