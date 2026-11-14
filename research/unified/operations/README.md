@@ -1,7 +1,10 @@
 # Execution, incidents, and preservation
 
+- [Передача сессии 14 ноября](SESSION_HANDOFF_20261114_R1.md): полное текущее состояние для новой сессии — готовые ZIP/public, strict/teacher results, пути и SHA, GPU hold, командные PR, бюджет и порядок продолжения. Свежий статус Kaggle ERROR до обучения; логи сохранены, ремонт отложен по просьбе пользователя. Новых fits/ZIP нет.
+
 - [November14 local GPU hold](../../campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json): user reserves GPU for PHCapital while CPU checks continue. All owned GPU/thermal units stopped; launch wrappers check a durable marker. Two teacher exports complete, two S6 partials preserved ungraded, zero new student fits. Recovery wall508.186s plus initial413.513s is charged; existing queued Kaggle panel unchanged.
 
+- [November15 TL3+W18-final candidates](../../campaign_2026-11-15/tl3_w18_r1/README.md) — CPU-only fixed recombination of original team tl3.zip (public best .66832) with teammate full-data W18-final: `tl3_w18swap` (.34 W18/.33/.33) and `tl3_s5w18` (.17 S5/.17 W18/.33/.33). Byte-preserved runtime/weights, 16-sequence Python3.11 parity, exact A-B-A reset, ≤1.5e-7 linear reconstruction; ≈39/52 min projected. Basis: public shows every newer line below tl3; train-only PR52 W18 pool .692377 vs fbc TL3C .692336 (exposed, CI crosses 0). No held-out score, no upload.
 - [November14 public receipts R2](../../campaign_2026-11-14/local_r1/PUBLIC_RECEIPTS_R2.json) — user reports KD90 single .66193 and final KD50 pair .66510 (25m12s), with3/5 daily submissions used. Pair trails fullmix by .00033; the +.00402 versus train-only single mixes data and ensemble effects. Local hashes are filename associations, not portal-verified hashes. See the updated [submission handoff](../../campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md).
 
 - [VS Code cpptools load and two laptop resets, Oct 25](VSCODE_CPPTOOLS_AND_RESETS_20261025_R1.md) — cpptools indexed 18k third-party C/C++ headers (5.9 GB, >100% CPU) after each boot; workspace excludes and path pins cut it to 31 MB idle. Two resets interrupted the clip panel (one clean, one abrupt with no logged cause); guards tightened to 92 °C.
