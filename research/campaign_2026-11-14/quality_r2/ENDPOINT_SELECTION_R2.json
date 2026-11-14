@@ -1,0 +1,24 @@
+{
+  "status": "frozen before corrected cloud endpoint results",
+  "supersedes": "ENDPOINT_PANEL_R1.json (old seed4 stopped without fixed endpoint)",
+  "source": "48776fba8af26b16b7e6813def7ccf571f56c1ac",
+  "evaluation": "full official valid, exposed; unchanged global_wp_clip2_v1 and independent reference",
+  "primary_recipe_gate": {
+    "a90": "mean paired gain versus same-source cloud a50 >=0.0005 with both seeds positive, unchanged original rule",
+    "boot8": "mean paired gain versus same-source cloud a90 >=0.0003 with both seeds positive, plus mean gain >=0.0005 versus a50",
+    "none_eligible": "no automatic final refits; preserve checked prior packages and report the negative or inconclusive panel"
+  },
+  "complete_endpoints": {
+    "pair_for_each_arm": "equal seeds3/4 for a50, a90, boot8: three endpoints",
+    "mixed3_for_each_arm": "equal new seeds3/4 plus frozen l14_kd50_s3: three endpoints, legacy member precision explicitly retained",
+    "weights": "fixed equal weights before prediction inspection, no coefficient optimization"
+  },
+  "final_recipe": "Among gate-eligible arms select the strongest measured complete endpoint. Train its two seed counterparts with the same alpha/boot flags on train+valid. The existing l14_final_kd50_s3 supplies a declared mixed3 slot; no third final fit.",
+  "quality_selection": "Recommend a new pair only if it beats both same-source a50 pair and historical kd50 pair. Recommend mixed3 only if it also beats its own pair. Compare TL3C separately with ancestry and serving caveats; lack of public confirmation is not a release rejection.",
+  "local_pure_teacher": "paired local alpha1-vs-alpha.9 seed3 is exploratory. One seed cannot satisfy the two-seed automatic final-refit rule.",
+  "final_data_score": "no held-out claim; native parity only",
+  "serving": "Python3.11 ABI, CRC, finite values, deterministic resets, <=20MB and measured 1CPU runtime margin; INT8-versus-FP32 numerical parity",
+  "selection_exposure": "six fixed complete cloud endpoints plus prior models, after prior repeated validation use; no public score forecast",
+  "new_fits_from_composition": 0,
+  "final_fits_max": 2
+}

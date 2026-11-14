@@ -2,6 +2,8 @@
 
 ## November 14: quality-first research resumed
 
+**Precision correction:** an independent audit plus saved optimizer state show that the legacy PR49 Muon constructor used BF16 Newton–Schulz while the model kernels were FP32. The incomplete confirmation and initial automatic delivery are stopped. Corrected source48776fba8 passes real-CUDA checks and a120-update full-recipe profile. [R2 amendment](../research/campaign_2026-11-14/quality_r2/PRECISION_AMENDMENT_R2.json) replaces the panel with six corrected-source cloud fits (.5/.9/.9+boot8 ×s3/s4), a local .9/1.0 seed3 pair and conditional final refits. Old results keep their scores with corrected precision identity; no new quality gain is inferred from this engineering repair.
+
 The user explicitly requests stronger submissions and more hypotheses with conduct-creative-research. The [new bounded wave](../research/campaign_2026-11-14/quality_r2/README.md) is active: alpha .9 seed-4 confirmation, a four-fit Kaggle alpha .9/boot-h8 panel at seeds 5/6, and a pure-teacher pilot. Six total screening fits, two conditional final-data refits and two reserved confirmations share an eight-local-GPU-hour cap; cloud reservation is eight device GPU-hours from 30 verified free hours. One local GPU worker, strict FP32, thermal guard, no paid compute or automatic upload. Final refits require both alpha .9 seed deltas positive and their mean at least .0005 versus alpha .5. [Contract](../research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json), [live frontier](../research/campaign_2026-11-14/quality_r2/FRONTIER.md). Earlier idle/paused snapshots below are history.
 
 ## November 14: local queue complete, submission collection

@@ -1,5 +1,7 @@
 [November 14 KD source/ideation packet](../../campaign_2026-11-14/quality_r2/SOURCES_R1.md): inspected primary papers distinguish student fidelity from generalization and motivate train-only future-teacher targets; independent native/Grok cards and Kaggle quota receipts, proposed empirical effects unmeasured.
 
+[PR92–97 refresh](../../campaign_2026-11-14/quality_r2/TEAM_REFRESH_R1.md) preserves current source heads and producer reports: L4 KD/since gains, negative neighboring-scale/bilinear comparisons and unrun head-count proposals; the user's newer fullmix score supersedes the PR's pending upload status.
+
 # Imported sources
 
 - [Astra fundamentals source receipt](../../campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/SOURCE_RECEIPT_R1.json) and [seeded library selection](../../campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/RANDOM_SOURCE_SELECTION_R1.json) — 38 local source/metadata hashes, primary irregular-observation/GRU-D/multi-fidelity references and a no-reroll seed20261024 draw from12 actual library items. Rogii contributes conditional ensemble value; Santander contributes anonymous-number diagnostics. The [report](../../campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/FUNDAMENTALS_AND_MISSING_TESTS_R1.md) states analogy limits and excludes noncausal/transductive recipes; no external result is treated as a Challenge2 gain.

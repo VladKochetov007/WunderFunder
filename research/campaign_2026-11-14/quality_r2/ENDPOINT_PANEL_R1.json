@@ -1,0 +1,38 @@
+{
+  "status": "declared before q14_kd90_s4 prediction inspection",
+  "metric": "global_wp_clip2_v1",
+  "exposure": "same repeatedly inspected full valid; fixed recipe composition, no coefficient optimization",
+  "control": {
+    "name": "kd50_pair",
+    "members": {
+      "l14_kd50_s3": 0.5,
+      "l14_kd50_s4": 0.5
+    }
+  },
+  "candidates": [
+    {
+      "name": "kd90_pair",
+      "members": {
+        "l14_kd90_s3": 0.5,
+        "q14_kd90_s4": 0.5
+      }
+    },
+    {
+      "name": "mixed3",
+      "members": {
+        "l14_kd90_s3": 0.3333333333333333,
+        "q14_kd90_s4": 0.3333333333333333,
+        "l14_kd50_s3": 0.3333333333333333
+      }
+    }
+  ],
+  "production_mapping": {
+    "l14_kd90_s3": "q14_final_kd90_s3",
+    "q14_kd90_s4": "q14_final_kd90_s4",
+    "l14_kd50_s3": "l14_final_kd50_s3",
+    "l14_kd50_s4": "l14_final_kd50_s4"
+  },
+  "gate": "Final KD90 fits still require original two-seed mean delta rule. Only a complete blend beating kd50_pair is recommended for quality; mixed3 additionally must beat kd90_pair and pass size/runtime/native parity. Alpha90 single can remain a speed endpoint. No fitted-data ranking.",
+  "serving_prior": "3x measured public 15m27 single ~46m21; indicative only, actual replay and margin required",
+  "new_fits": 0
+}

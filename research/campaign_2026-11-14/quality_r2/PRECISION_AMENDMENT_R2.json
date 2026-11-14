@@ -1,0 +1,31 @@
+{
+  "reason": "actual saved optimizer groups strict_fp32=False; legacy PR49 factory omitted flag and used BF16 Newton-Schulz despite FP32 GRU/TF32-off",
+  "legacy_source": "188c0788e571c6f981cdc6827fef0d50bd38cf14",
+  "fixed_source": "48776fba8af26b16b7e6813def7ccf571f56c1ac",
+  "old_fit_status": "q14_kd90_s4 stopped after two complete epochs and partial epoch2; checkpoints preserved; no fixed endpoint, no scientific rejection",
+  "old_delivery": "wnn-q14-deliver stopped; old alpha90-refit scripts are superseded and not to be restarted",
+  "precision_scope": "All historical legacy Muon recipe scores remain measured results of model FP32 with BF16 NS; labels claiming all-math strict FP32 are corrected. FP32 TL3-Muon teacher factory takes its strict flag separately.",
+  "local_gpu_hours_cap_total_including_interruption_profiles_exports_final": 8,
+  "cloud_device_gpu_hours_cap": 8,
+  "cloud_kernel_wall_cap_seconds": 13500,
+  "screen_attempts_total_cap": 9,
+  "screen_accounting": {
+    "interrupted_legacy": 1,
+    "cloud_alpha50_alpha90_alpha90boot8_seed3_seed4": 6,
+    "local_alpha90_vs_alpha1_seed3_reserved_pair": 2
+  },
+  "final_data_fits_cap": 2,
+  "new_teacher_fits": 0,
+  "matched_controls": "all six cloud comparisons share corrected source, T4 hardware, exactsplit, teacher, seeds3/4; alpha90 vs pureteacher local pair uses same corrected source andseed3",
+  "admission": "same original alpha90 gate (+.0005 mean, bothpositive) now computed from newly corrected cloud alpha50/90 endpoints only; never mix legacyNS controls. Boot8 judged against its matched alpha90 endpoints; no precision change mid-fit.",
+  "invariants": [
+    "official metric/mask unchanged",
+    "source and grade hashes frozen",
+    "no paid compute",
+    "no portal upload",
+    "one local GPU worker",
+    "strict FP32 including Muon intermediates",
+    "valid exposed, final-data score not heldout"
+  ],
+  "same_user_authority": "quality-first research and morehypotheses; explicit bounded corrective reallocation, not hidden additional trials"
+}

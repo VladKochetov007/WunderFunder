@@ -1,5 +1,7 @@
 # November 14 submission handoff
 
+**Later precision correction:** the [November14 audit](../quality_r2/PRECISION_AUDIT_R1.md) establishes that the legacy Muon fits used FP32 model kernels but BF16 Newton–Schulz optimizer intermediates. Any all-math strict-FP32 wording in the original packet is superseded. Scores, checkpoint identities and native ZIP checks remain the recorded observations; corrected-source new fits are a separate [wave](../quality_r2/PRECISION_AMENDMENT_R2.json).
+
 The user requested current status and submissions from the strongest available variants, and supplied four portal receipts. All 18 queued fits completed before collection. This handoff uses existing fixed-epoch checkpoints; no new fitting or portal upload. Source: local fit logs, run provenance and exported predictions under `/home/vlad/development/wunder/research_tmp/chrono_root/`; package runtime is the SHA-pinned original team TL3 engine.
 
 ## Deliverables, in upload priority order

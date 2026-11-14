@@ -2,7 +2,7 @@
 
 ## November 14: quality-first research resumed
 
-Latest user: "делай лучшие по качеству сабмиту, больше гипотез пробуй. $conduct-creative-research". This explicitly resumes local/Kaggle research after collecting the completed 18-fit queue and checked submission ZIPs. Read [quality-wave contract](research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json) and [frontier](research/campaign_2026-11-14/quality_r2/FRONTIER.md). Alpha .9 seed-4 confirmation is running; final-data refits are conditional on the frozen paired gate. No paid compute or automatic competition upload. Preserve the earlier stop/pause records as history.
+Latest user: "делай лучшие по качеству сабмиту, больше гипотез пробуй. $conduct-creative-research". This explicitly resumes local/Kaggle research after collecting the completed 18-fit queue and checked submission ZIPs. Read [quality-wave contract](research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json), [effective precision amendment](research/campaign_2026-11-14/quality_r2/PRECISION_AMENDMENT_R2.json) and [frontier](research/campaign_2026-11-14/quality_r2/FRONTIER.md). Legacy PR49 Muon omitted its strict flag and used BF16 Newton–Schulz; old scores remain actual mixed-precision observations. Corrected source48776fba8, new matched controls and conditional final refits replace the stopped initial confirmation/delivery. No paid compute or automatic competition upload. Preserve the earlier stop/pause records as history.
 
 ## November 14: completed local queue, submission collection
 

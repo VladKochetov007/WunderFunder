@@ -1,5 +1,7 @@
 [November 14 quality-first resume](../../campaign_2026-11-14/quality_r2/README.md): new user-authorized wave with bounded compute and independent scouts/critics; alpha .9 confirmation first, strongest supported recipes refitted for submission. New mechanism results pending.
 
+[November 14 objective/increment zero-fit gates](../../campaign_2026-11-14/quality_r2/target_geometry_r1/README.md): on 200 fixed sequences, scored-coordinate WMSE/official-score gradient cosine is .997901; the apparent all-row mismatch comes from the official mask. Uniform increment matching has weak alignment. Both proposed fits are deferred for lack of support, with output-space and exposed-sample limits explicit. [Precision repair and amended panel](../../campaign_2026-11-14/quality_r2/PRECISION_AMENDMENT_R2.json) replace old BF16-NS controls prospectively without discarding their measured scores.
+
 # Ideas and hypotheses
 
 - [Teacher-quality track, October 29](../../campaign_2026-10-29/teacher_track_r1/README.md) — E-TEACHER29-R1: distill PR49 teachers (fbc1k_s5, reproduced locally) into the fixed Muon H256×2 child under the train-only/full-valid protocol; adopt at ≥ +0.001 over max(P 0.68671, C0 0.67562). Status: D1/D2 seed-3 pilots landing (paused campaign); PR49 checkpoint release indexed in the track README.

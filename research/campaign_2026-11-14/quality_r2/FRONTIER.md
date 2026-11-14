@@ -1,5 +1,13 @@
 # Active frontier
 
+## Effective R2 precision correction
+
+The entries below this section describe the superseded initial execution. [Amendment](PRECISION_AMENDMENT_R2.json): legacy Muon had BF16 Newton–Schulz; q14_kd90_s4 was stopped after two epochs plus part of epoch2, preserving checkpoints and 30m41s wall cost. Old wnn-q14-deliver and its thermal guard are stopped. Do not restart that delivery script.
+
+Fixed source48776fba8 passes the bug-specific negative/positive CUDA checks and a 120-update full-recipe profile at20.67seq/s. **Running:** wnn-q14-fit-strict-local-pair serializes q14s_local_kd90_s3 then q14s_local_kd100_s3, with wnn-q14-thermal-r2. **Preparing:** six corrected-source Kaggle fits alpha .5/.9/.9+boot8 ×s3/s4; eight-device-hour cloud cap, no upload yet. Conditional final refits must use the new paired cloud evidence and corrected source. No new ZIP yet in this wave.
+
+## Historical initial execution
+
 - First admitted fit: q14_kd90_s4, fixed ep3 vs l14_kd50_s4; RUNNING in wnn-q14-fit-kd90-s4. Epoch 0 complete, finite updates; strict runtime identity verified.
 - If paired improvement supports alpha .9, final-data s3/s4 refits and native packages are the production path.
 - Independent scouts/critics: bounded proposals and recipe checks; no delegate owns GPU launch.

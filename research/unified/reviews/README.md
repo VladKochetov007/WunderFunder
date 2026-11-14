@@ -1,5 +1,9 @@
 [November 14 quality-wave recipe critic](../../campaign_2026-11-14/quality_r2/CRITIC_R1.md): independent bootstrap/EMA semantics and final-fit exposure review. Actual running configuration identity separately verified; no public-performance approval.
 
+[November 14 precision audit and repair](../../campaign_2026-11-14/quality_r2/precision_fix_r1/README.md): source audit plus saved optimizer state expose BF16 Newton–Schulz behind the legacy FP32 label. Original results remain measured mixed-precision observations; isolated source48776fba8 passes negative/positive CUDA checks and 120 finite profile updates. Replaced controls and explicit trial/cost amendment precede further quality selection.
+
+[November 14 independent blend audit](../../campaign_2026-11-14/quality_r2/blend_audit_r1/README.md): five complete endpoints, exact source-qualified score reconstruction and 579-component paired resampling. TL3C leads the current pair; KD90/teacher averaging improves either member. Exposed-panel sensitivity only, with original TL3C membership-hash mismatch and seed uncertainty retained.
+
 # Reviews and audit receipts
 
 - [November 14 cold-distillation collection and submission handoff](../../campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md) — all 18 endpoints collected; two-seed KD gain +0.0030, since×KD synergy fails replication, fixed seed pair valid 0.691423, alpha .9 single 0.691442. [Campaign](../../campaign_2026-11-14/README.md), [review status and limits](../../campaign_2026-11-14/local_r1/SUBMISSION_AUDIT_R1.md), and [ZIP/source/parity receipts](../../campaign_2026-11-14/local_r1/submission_checks/README.md). Final-data pair/single are technically checked and have no held-out score; train-only public single 0.66108 is user-reported. PR #98 holds the shared handoff.
