@@ -33,3 +33,26 @@ possible; fitted-valid diagnostics only detect broken training.
 
 Running as `wnn-q15-tlead` since 22:16 UTC Nov 14; s7 at 12.8 seq/s ≈ 65 min per fit. GPU 3.7 GB/75°C,
 CPU package 89°C at start.
+
+## Recipe audit (independent, read-only)
+
+Resolved args match `q14t_tlead_s5` except the intended all-data membership, no-eval and teacher swap;
+valid-row KD targets load from aligned `pred_*_valid.npy` (`datasets.py:140-160`, `data_loaders.py:82-102`);
+`model_ep3.pt` holds EMA weights; strict FP32 confirmed. Low risks: fold-bound teacher sidecar checks are
+skipped in the all-data path (teacher valid caches hash-checked manually: both match), teacher fit is in-sample
+on train rows only. Trainer is the PR49 source (legacy BF16 Newton–Schulz inside tl3-muon), faithful to how
+the original team TLeads were produced.
+
+## CPU evidence on train-only twins (exposed full valid, 1,873 seq / 3,528,273 rows)
+
+[seed_law.py](seed_law.py) → [SEED_LAW_R1.json](SEED_LAW_R1.json): TLead s5 .691415, s6 .690949, equal pair
+.691857 (ρ .994), TL3C-torch .692340 (matches native .692336). Pair gain .000675 fits c=.222 in the
+k-member law: 3rd seed +.00022, 4th +.00011 on the TLead-only part. Heterogeneity (FBC) adds +.00048 to the pair.
+
+[fourth_member.py](fourth_member.py) → [FOURTH_MEMBER_R1.json](FOURTH_MEMBER_R1.json): fixed .25×4 = TL3C
+members + X, all 8 X reported (selection exposure 8): KD90 strict +.000165, KD100 +.000147, legacy KD90
++.000133, KD50 s4/s3 +.000107/+.000094, fbc1k +.000092, fin256 s3/s4 −.00038/−.00060. All gains ~1e-4, far
+below the ~.004 public all-data shift; they cannot be distinguished on public.
+
+Decision: after s7, `queue2.sh` (`wnn-q15-queue2`) fits all-data strict KD90 s3 (`q15f_kd90_s3`), then TLead
+s8/s9. Linear-GRU NPZ export verified natively: KD90 corr .99997/.99996 ([PARITY_TORCH_kd90.json](PARITY_TORCH_kd90.json)).

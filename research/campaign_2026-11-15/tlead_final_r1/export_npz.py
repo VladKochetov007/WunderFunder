@@ -1,16 +1,17 @@
-"""Export an H256x2 tiedlead GRU checkpoint to the TL3 wnn_cpp member NPZ layout (FP32, 2 main head rows)."""
+"""Export an H256x2 tiedlead or linear-encoder GRU checkpoint to the TL3 wnn_cpp member NPZ layout (FP32, 2 main head rows)."""
 import hashlib, json, sys
 from pathlib import Path
 import numpy as np, torch
 
 RUNS = Path("/home/vlad/development/wunder/research_tmp/chrono_root/artifacts/runs")
-REF = Path("/home/vlad/development/wunder/research_tmp/q15_best_r1/tl3/weights_tl5.npz")
+REFS = {"tiedlead": Path("/home/vlad/development/wunder/research_tmp/q15_best_r1/tl3/weights_tl5.npz"),
+        "linear": Path("/home/vlad/development/wunder/research_tmp/q15_best_r1/tl3/weights_s5.npz")}
 
 def main(run: str, epoch: str, out: str) -> None:
     ck = torch.load(RUNS / run / f"model_ep{epoch}.pt", map_location="cpu", weights_only=False)
     a, state = ck["args"], ck["model"]
-    assert a["arch"] == "gru" and a["enc"] == "tiedlead" and int(a["hidden"]) == 256 and int(a["layers"]) == 2
-    ref = np.load(REF)
+    assert a["arch"] == "gru" and a["enc"] in REFS and int(a["hidden"]) == 256 and int(a["layers"]) == 2
+    ref = np.load(REFS[a["enc"]])
     assert set(state) == set(ref.files), sorted(set(state) ^ set(ref.files))
     arrays = {}
     for k in ref.files:
