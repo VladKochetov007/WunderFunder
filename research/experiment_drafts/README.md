@@ -1,5 +1,6 @@
 # Research-team experiment catalogue
 
+- [Local GPU research log, from Nov 14 (Vlad)](local-gpu-kd-since-20261114/README.md) — live log of 40-minute cold GRU cells: one-stage distillation +0.0038 on top of since32, since × distillation factorial, external ideation triage, code and per-epoch results. Running.
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

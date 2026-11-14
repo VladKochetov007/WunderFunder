@@ -1,0 +1,16 @@
+{
+  "status": "both fits complete; actual saved strict optimizer state verified; prediction export running",
+  "source_commit": "48776fba8af26b16b7e6813def7ccf571f56c1ac",
+  "fixed_epoch": 3,
+  "new_completed_fits": 2,
+  "kd90_seed3": 0.691544385307459,
+  "kd100_seed3": 0.6915276969552111,
+  "pure_teacher_minus_kd90": -0.00001668835224788423,
+  "pure_teacher_confirmation_trigger": false,
+  "unit_wall_seconds": 5757.969,
+  "unit_cpu_seconds": 7308.318,
+  "unit_memory_peak": "16GiB",
+  "state_checks": ["q14s_local_kd90_s3.state_check.json", "q14s_local_kd100_s3.state_check.json"],
+  "interpretation": "Pure teacher is effectively tied with KD90 on this exposed panel and single child seed; the predeclared +.0003 confirmation trigger is not met. This closes this local confirmation path, not every teacher-target mechanism.",
+  "scope": "Train-only10325,full-valid1873 groups/3528273 scored rows,common fixed teacher; no new fold or public score claim."
+}

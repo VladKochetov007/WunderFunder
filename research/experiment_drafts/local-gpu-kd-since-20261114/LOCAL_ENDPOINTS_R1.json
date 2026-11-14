@@ -1,0 +1,88 @@
+{
+  "status": "complete_exposed_local_seed3_grade",
+  "scores": {
+    "q14s_local_kd90_s3": 0.6915443853053551,
+    "q14s_swa23_kd90_s3": 0.6915238703355132,
+    "q14s_local_kd100_s3": 0.6915276969553704,
+    "q14s_swa23_kd100_s3": 0.691563618656678
+  },
+  "pure_teacher_minus_kd90": -1.6688349984694817e-05,
+  "swa23_minus_raw": {
+    "kd90": -2.0514969841900488e-05,
+    "kd100": 3.5921701307617404e-05
+  },
+  "pure_teacher_confirmation_trigger": false,
+  "useful_mean_arms": [],
+  "proposed_confirmation_runs": [],
+  "confirmation_is_launched": false,
+  "resource_admission_required": true,
+  "final_refit_admitted": false,
+  "source_inputs": {
+    "q14s_local_kd90_s3": {
+      "prediction_sha256": "47baa06e7353304bbefe2108532d9b1bc25cb1100121ab5c01e1d9bf1e4728a2",
+      "checkpoint_sha256": "ad708e9bf67f3157b9b6b9b8d9160cd940f7a6220de73d2a360a085b8d3ec9cd",
+      "provenance_sha256": "9b9b6036516a827bc37e2403898df2349c15dde64754499517ffccc8d448692a",
+      "derivation": null
+    },
+    "q14s_swa23_kd90_s3": {
+      "prediction_sha256": "7c85ad4f3ba060125af98e6a3059b35bf19dfc7e309573b65d9be06f34ee4f74",
+      "checkpoint_sha256": "5dd120b7d4c93774b8e8886b1cc9216afbff1936833ec31de0cd2960289de1cb",
+      "provenance_sha256": "51881856aa804228d05a8c68fbeb87e48a8b94dbb44c0050393afe7f6fa319cc",
+      "derivation": {
+        "kind": "fixed_within_trajectory_parameter_mean",
+        "parent_run": "q14s_local_kd90_s3",
+        "parent_provenance_sha256": "9b9b6036516a827bc37e2403898df2349c15dde64754499517ffccc8d448692a",
+        "parent_epochs": [
+          2,
+          3
+        ],
+        "parent_checkpoint_sha256": [
+          "e947c59ed471077f78219d96dda89809e9b95a642adecfb93457494bc8515f12",
+          "ad708e9bf67f3157b9b6b9b8d9160cd940f7a6220de73d2a360a085b8d3ec9cd"
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "new_fit_count": 0,
+        "quality": "not evaluated",
+        "epoch_field_semantics": "terminal parent boundary3; tensor state is mean of epochs2/3"
+      }
+    },
+    "q14s_local_kd100_s3": {
+      "prediction_sha256": "795aabac3f38a8bcb5560c6d3da997178d46924f35c2bae18deb9278cdd395b5",
+      "checkpoint_sha256": "7c56574d634289efe7b5c50c607cd8998bd229006152dd27523597d3616b0077",
+      "provenance_sha256": "c6f78572fb43c616607229eaa3004858ab677ae5ac402ead904eb855ac93c767",
+      "derivation": null
+    },
+    "q14s_swa23_kd100_s3": {
+      "prediction_sha256": "3f756a83e04e6cc48c9049a32b93c3a27874c771ec7b19c1c927e0e364855690",
+      "checkpoint_sha256": "ffb89fe0a25a3e980b22200d2f1e3e440f5d60b7f8ba436283c4d3830b3ad3a3",
+      "provenance_sha256": "36a1ec38dab7fdedb30883800dc08f1ee5f6b8ed48b97938458a3958ec32af3b",
+      "derivation": {
+        "kind": "fixed_within_trajectory_parameter_mean",
+        "parent_run": "q14s_local_kd100_s3",
+        "parent_provenance_sha256": "c6f78572fb43c616607229eaa3004858ab677ae5ac402ead904eb855ac93c767",
+        "parent_epochs": [
+          2,
+          3
+        ],
+        "parent_checkpoint_sha256": [
+          "0ef11de6b57b3a9c49cdf6c9be5a7fc6bffad321b6352402947ac47e5263b718",
+          "7c56574d634289efe7b5c50c607cd8998bd229006152dd27523597d3616b0077"
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "new_fit_count": 0,
+        "quality": "not evaluated",
+        "epoch_field_semantics": "terminal parent boundary3; tensor state is mean of epochs2/3"
+      }
+    }
+  },
+  "scored_rows": 3528273,
+  "metric": "global_wp_clip2_v1; independent reference checked",
+  "rule_sha256": "81280199d7716d63e4cb8adcab71674ad2d6d590d92c56c93ed81831c9cb2722",
+  "scope": "One child seed, full valid repeatedly exposed; no final production or public improvement claim."
+}

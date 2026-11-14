@@ -98,7 +98,11 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
     if not is_grouped:
         if args.optim == "muon":
-            return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
+            return MuonAdamW(
+                muon_param_groups(model, args.muon_scope),
+                strict_fp32=getattr(args, "precision", "fp16") == "fp32",
+                **common,
+            )
         return torch.optim.AdamW(
             [p for p in model.parameters() if p.requires_grad],
             fused=bool(args.fused_adam),
@@ -127,7 +131,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
                 }
             )
     if args.optim == "muon":
-        return MuonAdamW(split, **common)
+        return MuonAdamW(split, strict_fp32=getattr(args, "precision", "fp16") == "fp32", **common)
     return torch.optim.AdamW(split, fused=bool(args.fused_adam), **common)
 
 
@@ -165,7 +169,10 @@ def build_scheduler(
         raise ValueError("warmup fraction must be finite and in [0,1)")
     if args.sched == "wsd":
         return torch.optim.lr_scheduler.LambdaLR(
-            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt"))
+            opt,
+            wsd_lambda(
+                total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt")
+            ),
         )
     if args.sched == "sgdr":
         return torch.optim.lr_scheduler.LambdaLR(
