@@ -36,6 +36,9 @@ Since × distillation 2×2, fixed epoch 4, full valid:
   together +0.0046; interaction +0.0016. One seed: the interaction is about the size of seed noise, so the
   second-seed 2×2 (seed 4) is queued before anything is claimed. This is the opposite sign to our older
   E-351 (substitution, −0.0012), which used a warm-started child.
+- **Seed 4 control** (`l14_ctrl_s4`, since32, labels): 0.68818 against 0.68671 at seed 3; seed spread on this
+  recipe is about 0.0015. (Its queue entry says FAILED because `run_cell.sh` was edited in place while it
+  ran; the fit itself completed and logged its fixed endpoint.)
 - **Six epochs do not help the distilled recipe:** `l14_kd50_e6_s3` ends at 0.68887 (best epoch 0.68935)
   against 0.69047 for four epochs. Keep four.
 - **The interaction builds up during training.** Per epoch, I = both − kd − since + labels is
@@ -52,6 +55,7 @@ Since × distillation 2×2, fixed epoch 4, full valid:
 | ZIP | Members | Valid | Checks |
 |---|---|---|---|
 | `submissions/local_20261114/kd50_s3_single.zip` (SHA `e5790b71…`, 4.6 MB) | `l14_kd50_s3@ep3`, train-only | Torch 0.69047 | team INT8 runtime; native vs Torch on a 64-sequence valid panel 0.66546 vs 0.66545 (RMS diff 0.6%); ABI, CRC, A-B-A reset pass; 0.42 s/sequence on the laptop |
+| `submissions/local_20261114/final_kd50_s3_single.zip` (SHA `ba871f49…`, 4.6 MB) | `l14_final_kd50_s3@ep3`, same recipe on train + all valid (12,479 sequences) | none (valid is in the fit) | ABI, CRC, A-B-A reset pass; 0.41 s/sequence; predictions correlate 0.982 with the train-only ZIP on the 64-sequence panel, same scale (std ratio 0.99), all finite |
 
 Built with the Oct 26 `package_tool.py` (`export`, `build`, `replay`) and `score_panel.py` here. A train+valid
 refit of the same recipe (`l14_final_kd50_s3`, 12,479 sequences, launched by `final_launch.py`, which

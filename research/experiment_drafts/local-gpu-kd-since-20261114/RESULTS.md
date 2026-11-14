@@ -7,8 +7,10 @@
 | l14_nosince_s3 | `--since-weight 0` | 0.67782 → 0.68401 → 0.68663 → 0.68591 | 0.68591 | -0.00080 | done |
 | l14_kd50_nosince_s3 | `--since-weight 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68192 → 0.68646 → 0.68766 → 0.68808 | 0.68808 | +0.00137 | done |
 | l14_kd50_e6_s3 | `--epochs 6 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68391 → 0.68784 → 0.68932 → 0.68891 → 0.68935 → 0.68887 | 0.68887 | +0.00216 | done |
-| l14_ctrl_s4 | `recipe default` | 0.68139 → 0.68568 | — | — | running |
+| l14_ctrl_s4 | `recipe default` | 0.68139 → 0.68568 → 0.68892 → 0.68818 | 0.68818 | — | done |
+| l14_final_kd50_s3 | `FINAL --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` |  | — | — | done |
+| l14_kd50_s4 | `--distill tt29rep_fbc1k_s5 --distill-alpha 0.5` |  | — | — | running |
 
-Pending in queue order: l14_final_kd50_s3, l14_kd50_s4, l14_nosince_s4, l14_kd50_nosince_s4, l14_kdfar_s3, l14_kd90_s3, l14_kd50_noaux_s3, l14_ba2_s3, l14_kd50_h384_s3, l14_kd50_since8_s3, l14_data50_s3, l14_data75_s3.
+Pending in queue order: l14_nosince_s4, l14_kd50_nosince_s4, l14_kdfar_s3, l14_kd90_s3, l14_kd50_noaux_s3, l14_ba2_s3, l14_kd50_h384_s3, l14_kd50_since8_s3, l14_data50_s3, l14_data75_s3.
 
 One seed per cell unless a seed-4 pair is listed; valid is repeatedly inspected development data.
