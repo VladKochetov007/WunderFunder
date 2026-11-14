@@ -14,4 +14,8 @@ The private bundle declares 3,000,000,000-byte GPU operating and 5,000,000,000-b
 
 Root verified all sealed hashes and the six paired arguments ([preflight](ROOT_PREFLIGHT_R2.json)), uploaded the private1.58GB bundle and pushed kernel version1 with the outer13,500-second timeout ([push receipt](PUSH_R2.log)). Initial provider status is [QUEUED](STATUS_LAUNCH_R2.txt), not a completed fit or a score. Dataset files are visible with matching sizes ([listing](DATASET_FILES_R2.csv)); the separate status endpoint returned403 ([error](DATASET_STATUS_ERROR_R2.txt)) despite successful private creation and kernel acceptance. No retry or public/competition upload was performed.
 
-Packet construction and local preflight only. `push_private.sh` is the reviewable root launch command and is intentionally not run here. R1 is preserved as a separate unlaunched legacy recipe and is not an input to this packet.
+The builder stage ended at local preflight; root subsequently executed `push_private.sh` as recorded above. R1 is preserved as a separate unlaunched legacy recipe and is not an input to this packet.
+
+[Sealed worker specs](specs/README.md) link every cell and preserve the source/data/output contract.
+
+[Result receiver](COLLECTION_README.md) validates all six outputs before endpoint grading. [Root receiver preflight](COLLECTION_PREFLIGHT_R2.json), reproduced by [check_collection.py](check_collection.py), tests actual producer metadata and rejects altered membership. Root corrected summary initialization, source-qualified group comparisons, CLI-to-runtime normalization and score withholding on state-check failure. No cloud scores have been received.

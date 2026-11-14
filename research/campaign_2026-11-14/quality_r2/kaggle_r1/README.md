@@ -35,3 +35,5 @@ Kaggle's runtime split loader rechecks parquet footer identity, including the fr
 ## Current status
 
 Preparation started from [the scratch inventory](../../../../../research_tmp/q14_kaggle/INITIAL_PROGRESS_R1.md). Build and launch receipts are recorded separately; no score is claimed until worker outputs are collected and graded locally.
+
+[Sealed worker specs](specs/README.md) link every cell and preserve the source/data/output contract.

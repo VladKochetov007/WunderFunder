@@ -114,6 +114,11 @@ def expected_cli_values(spec: dict, actual_args: dict) -> None:
             wanted = float(raw)
         else:
             wanted = raw
+        # setup_lineage rewrites the CLI alias when a campaign split is supplied.
+        if key == "eval_source" and "--split-manifest" in argv and raw == "dev":
+            wanted = "vfold"
+        if key == "split_manifest":
+            wanted = str(PurePosixPath(spec["environment"]["WNN_PROJECT_ROOT"]) / raw)
         if observed != wanted:
             raise CollectionError(
                 f"{spec['name']}: saved arg {key}={observed!r}, expected {wanted!r}"
@@ -210,6 +215,12 @@ def check_provenance(
     train_groups = fit_groups.get("train") if isinstance(fit_groups, dict) else None
     valid_groups = fit_groups.get("valid") if isinstance(fit_groups, dict) else None
     evaluation_groups = provenance.get("evaluation_row_groups")
+    split_path = (
+        PACKET.parents[2] / "campaign_2026-10-29/teacher_track_r1/chronological_primary.json"
+    )
+    if sha256_file(split_path) != SPLIT_SHA256:
+        raise CollectionError("local frozen split identity differs")
+    split = read_json(split_path)
     if (
         not isinstance(train_groups, list)
         or len(train_groups) != 10_325
@@ -218,7 +229,8 @@ def check_provenance(
         or not isinstance(evaluation_groups, list)
         or len(evaluation_groups) != 1_873
         or len(set(evaluation_groups)) != 1_873
-        or set(train_groups) & set(evaluation_groups)
+        or set(train_groups) != set(split["fit"]["train"])
+        or set(evaluation_groups) != set(split["evaluation"]["valid"])
     ):
         raise CollectionError(f"{name}: train-only fit/evaluation membership differs")
 
@@ -427,6 +439,7 @@ def collect(output_root: Path) -> tuple[dict, int]:
         failed = summary_path.exists()
 
     incomplete = summary is None
+    finished_by_name = {}
     if isinstance(summary, dict):
         if "incident" not in summary or summary.get("incident") is not None:
             failed = True
@@ -456,10 +469,7 @@ def collect(output_root: Path) -> tuple[dict, int]:
     elif summary is not None:
         failed = True
         report["issues"].append("runner summary is not a JSON object")
-    else:
-        finished_by_name = {}
-
-        records = {}
+    records = {}
     for name in RUNS:
         run_dir = results_root / name
         result_path = run_dir / "result.json"
@@ -576,6 +586,8 @@ def collect(output_root: Path) -> tuple[dict, int]:
     ) as error:
         report["status"] = "failed"
         report["issues"].append(str(error))
+        for run in report["runs"].values():
+            run.pop("score", None)
         return report, 1
     complete_report = build_complete_report(records, group_counts)
     return complete_report, 0

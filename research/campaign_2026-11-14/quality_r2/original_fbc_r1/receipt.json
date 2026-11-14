@@ -1,0 +1,284 @@
+{
+  "arithmetic": {
+    "dynamic_int8": true,
+    "fast_activations": true,
+    "half_weights": false,
+    "quant_backend": "auto"
+  },
+  "artifact": {
+    "path": "original_fbc_only.zip",
+    "bytes": 4653598,
+    "sha256": "896ac552094a04163a8f5a9fe91e833f9eb7c200f1580132e929c5b497c9fd67"
+  },
+  "candidate": "original_fbc_only_zero_fit_diagnostic",
+  "created_at": null,
+  "environment": {
+    "platform": "Linux-7.2.11-200.fc44.x86_64-x86_64-with-glibc2.43",
+    "python": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]"
+  },
+  "gate_status": "pending",
+  "input_manifest": {
+    "bytes": 10754,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/tl3c_pr49_20261029/inputs.json",
+    "sha256": "5a8d89daac1d4edb9e97d5855528124c4b28d730ebe9c477483ee0d42f0ec650"
+  },
+  "known_parity_risk": "tiedlead training evaluation resets raw deltas at each 4000-row chunk",
+  "lineage_scope": "declared parent/initializer bytes verified; teacher-cache consumption unproven",
+  "members": [
+    {
+      "ancestors": [
+        {
+          "checkpoint": {
+            "bytes": 3994399,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fin256_s3/model_ep3.pt",
+            "sha256": "36a99a47cde014f053f4cb8163ec7f3e1580a149c6d32a5db9c4d8045e9efef1"
+          },
+          "provenance": {
+            "bytes": 171761,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fin256_s3/provenance.json",
+            "sha256": "9a24ccc4f240d068bfed650776aa4c72d3356a79b5838120f737dabbe6d04f24"
+          },
+          "run": "tl3c_fin256_s3",
+          "training_source_sha256": "cec4d6b3ad5fceefc5aa3b27b3badbaf4ff9c5555abc8358564cf0fb62f7bb1b"
+        },
+        {
+          "checkpoint": {
+            "bytes": 3995167,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fin256_s4/model_ep3.pt",
+            "sha256": "3ce40c6f6a00e09cecfba0ac35566aa76c5791ddf761cb8a67cafbf1a38ae3d6"
+          },
+          "provenance": {
+            "bytes": 172438,
+            "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fin256_s4/provenance.json",
+            "sha256": "85cf341aa099267735c91766bd6633adfc45d089e72141bf752fab83371578d9"
+          },
+          "run": "tl3c_fin256_s4",
+          "training_source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889"
+        }
+      ],
+      "checkpoint": {
+        "bytes": 3996383,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fbc1k_s5/model_ep3.pt",
+        "sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496"
+      },
+      "coef": 1.0,
+      "family": "event211",
+      "provenance": {
+        "bytes": 173765,
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/runs/tl3c_fbc1k_s5/provenance.json",
+        "sha256": "b157c12556ec0f8cb60fc108a4e6ea28474ed9083d57032fa345a88e3818448c"
+      },
+      "run": "tl3c_fbc1k_s5",
+      "snapshot": "model_ep3 already contains scored EMA weights; first 2 of 23 head rows",
+      "tensors": {
+        "gru.bias_hh_l0": {
+          "bytes": 3072,
+          "dtype": "float32",
+          "sha256": "84a6b3b5cb3856c28ca5f01034226b38a428f219189d722e1d9567dc7ecab1ff",
+          "shape": [
+            768
+          ]
+        },
+        "gru.bias_hh_l1": {
+          "bytes": 3072,
+          "dtype": "float32",
+          "sha256": "41c2ff7d533a5bfb2f23e449c97e8ec79a9b780aea61a2316f30a561582407ca",
+          "shape": [
+            768
+          ]
+        },
+        "gru.bias_ih_l0": {
+          "bytes": 3072,
+          "dtype": "float32",
+          "sha256": "cdc7c43bd17e810588b44ed3a3f5f858bbb80c6e71fc452a1db4a1d39169fe2f",
+          "shape": [
+            768
+          ]
+        },
+        "gru.bias_ih_l1": {
+          "bytes": 3072,
+          "dtype": "float32",
+          "sha256": "bf6501ba781087a51e6a4a614c55cc9b6909d6ffe4378fa5c8a9db7ab737bb43",
+          "shape": [
+            768
+          ]
+        },
+        "gru.weight_hh_l0": {
+          "bytes": 786432,
+          "dtype": "float32",
+          "sha256": "0932cd403c99e09f748a19ae23bbf43f10a1c8283bebffab19c72f2d6035c449",
+          "shape": [
+            768,
+            256
+          ]
+        },
+        "gru.weight_hh_l1": {
+          "bytes": 786432,
+          "dtype": "float32",
+          "sha256": "32927bdea87f4777e8f1125b52e61c8fc280a6c0367b6cd14729e75b5ea4827b",
+          "shape": [
+            768,
+            256
+          ]
+        },
+        "gru.weight_ih_l0": {
+          "bytes": 786432,
+          "dtype": "float32",
+          "sha256": "e6fbeec51d041090ecf289f7e23abc18b735f24001996a9a31116ab156ced08e",
+          "shape": [
+            768,
+            256
+          ]
+        },
+        "gru.weight_ih_l1": {
+          "bytes": 786432,
+          "dtype": "float32",
+          "sha256": "3fd00d53dcf4f1281f16954b9b153910eea21fde32cfb298f29d5ba1cf0ed79b",
+          "shape": [
+            768,
+            256
+          ]
+        },
+        "head.0.bias": {
+          "bytes": 1024,
+          "dtype": "float32",
+          "sha256": "9d78b056c19b2252a826fca57ec51d7c1baf6f68e88bbc6b5dc8f143c74bee9d",
+          "shape": [
+            256
+          ]
+        },
+        "head.0.weight": {
+          "bytes": 524288,
+          "dtype": "float32",
+          "sha256": "09b35c2c1fc28d1cb9ede5f77f97895b4a5104852fddbd837ab6aafaa6d58459",
+          "shape": [
+            256,
+            512
+          ]
+        },
+        "head.2.bias": {
+          "bytes": 8,
+          "dtype": "float32",
+          "sha256": "f455936582da3844dd0ee532ecd0043ce8c8129177786f151681c1d318ca7b22",
+          "shape": [
+            2
+          ]
+        },
+        "head.2.weight": {
+          "bytes": 2048,
+          "dtype": "float32",
+          "sha256": "4cc1586079c7b0c2da5f50e7ed434bab6c4e7ccee24826ad68eb7998ae7ad6e4",
+          "shape": [
+            2,
+            256
+          ]
+        },
+        "inp.bias": {
+          "bytes": 1024,
+          "dtype": "float32",
+          "sha256": "280f0b6ca5501c7a346277ce709412cb04dfffeb2b0a23a383ab5b1f01043967",
+          "shape": [
+            256
+          ]
+        },
+        "inp.weight": {
+          "bytes": 216064,
+          "dtype": "float32",
+          "sha256": "0bcf8a4c871f635379f7a5ad1d3ad7c3034844276a351148865e38ea490c66bc",
+          "shape": [
+            256,
+            211
+          ]
+        },
+        "mean": {
+          "bytes": 844,
+          "dtype": "float32",
+          "sha256": "b308e5ae4665faf6321fd125979c9b8abbd1cc6cdc259a677f9e07ffa8f65677",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes": 844,
+          "dtype": "float32",
+          "sha256": "063f5cf97985ff4905cd8ec6d6c9338b05f32ed9ed5806ef443a277cf2ecdbea",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "training_source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+      "weight_file": "tl3c_fbc1k_s5.npz",
+      "weight_sha256": "1863883d4006e50b355ec6fed9d84174f281bce1866fdb87d0606dbdf3196f28"
+    }
+  ],
+  "metrics": null,
+  "mode": "dynamic_int8",
+  "native_libraries": [
+    {
+      "bytes": 874656,
+      "path": "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db"
+    },
+    {
+      "bytes": 879032,
+      "path": "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717"
+    },
+    {
+      "bytes": 883320,
+      "path": "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+    }
+  ],
+  "native_semantics": "opaque historical binary; schema compatibility is not numerical parity",
+  "pending_gates": [
+    "python311_abi",
+    "opaque_native_semantics",
+    "chunk4000_parity",
+    "full_valid_score",
+    "teacher_prediction_consumption_lineage",
+    "sequence_reset_and_causality",
+    "cpu_1vcpu_budget",
+    "rss_16gb",
+    "portal_result"
+  ],
+  "runtime_archive": {
+    "bytes": 12538394,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/team_tl3_original_20261018.zip",
+    "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+  },
+  "schema": "tl3c-submission-candidate-v1",
+  "source_sha256": {
+    "build_candidate.py": "72fd3ee38f5813e09cb793916c5c3ac9bba70cf7fa365c3ba784d38138ed60a7",
+    "candidate_contract.py": "17a8428468d6dc125ad7df5147b56aa156a86bc8896befae3f5a2b35eefacddf",
+    "candidate_io.py": "bd8cfa69f7d2f5edb432467805e4fd3674fac461c99623e1e71bd7863d574230",
+    "checkpoint_export.py": "f64f464ed5f0155071563f704c28fd6fe719ba9c7b24a8b77ba4a34c0521e45b",
+    "create_manifest.py": "2ac695aadc654d131a3b11426d008143f0109bf5a574f1fcb7761ac4c36a3b2a",
+    "export_reference.py": "1d583bf9be75458232efb3187a67e28a0869c1d8b32b71da2738f3089b3b5b3a",
+    "reference_source.py": "c9e8716a79bcfd339d50b67a48c5356e3b35d5a09ca0d528347f3b48d74d6c47",
+    "solution.py": "0d9eda9df63227fd14707dab4fdf725ed05d99172184037e369a82e800032f44",
+    "validate_candidate.py": "0d14565502ea009a56f27b1ad138b7b1c356e3d17b4ab48e96e8a37e85ddd31a",
+    "validation_io.py": "e2b7e32daa331b29d2643fb530aa098a79be8da1c520742570a97630408e9918",
+    "validation_runtime.py": "1ab85670f83732a72471df910e8a9f4a463fcaef0225cb66c15cd2a8d385b819"
+  },
+  "split_manifest": {
+    "bytes": 1016026,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/pr49_tl3c_checkpoints_20261029/extracted/shared/chronological_primary.json",
+    "sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+  },
+  "structural_checks": {
+    "max_zip_bytes": 20000000,
+    "python311_source_syntax": "pass",
+    "size_limit": "pass",
+    "zip_crc": "pass",
+    "zip_layout": "pass"
+  },
+  "training_reference_commit": "188c0788e571c6f981cdc6827fef0d50bd38cf14",
+  "parent_artifact": {
+    "bytes": 12534960,
+    "path": "submission.zip",
+    "sha256": "8f93972655cf3c0858376b7d53daba72745a6f17f81fc6c45a54053fdeb5cac8"
+  },
+  "creation_scope": "2026-11-14 quality_r2; same original weights/native runtime; only member inventory and coefficient changed"
+}

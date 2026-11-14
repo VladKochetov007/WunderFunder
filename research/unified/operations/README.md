@@ -456,3 +456,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [SSD swap setup applied](../../campaign_2026-10-21/next_cycle_r1/SWAP_TMP_APPLIED_R2.json): user executed the helper; independently verified16GiB disk swap priority200/fstab persistence, tmp.mount masked and empty zram boot override. Current fit still drains; reboot deferred. Supersedes the pending-admin status in the [inspection note](SWAP_AND_DISK_TMP_20261022_R1.md).
 
 - [October24 ledger compatibility repair](../../campaign_2026-10-24/resume4h_r1/LEDGER_COMPATIBILITY_R1.md) — two historical experiment identifier aliases are read without rewriting append-only history; seven tests and independent review pass. Failed R1 and repaired R2 catalog receipts remain traceable.
+
+[November14 thermal watcher repair](../../campaign_2026-11-14/quality_r2/THERMAL_MONITOR_REPAIR_R3.json): startup failed on a relative script path, so the earlier active-guard claim was wrong. Replaced by an absolute-path watcher and verified its running state; past peak temperature is not recovered from the absent monitoring.
