@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## November 14: completed local queue, submission collection
+
+User requests current status and submission ZIPs from the best available variants. The 18-fit November 14 queue is complete. Fixed train-only kd50 pair valid 0.691423; best single kd90 0.691442 (one seed); positive since×KD interaction did not replicate. Final-data pair and s3 single, plus exploratory train-only kd90, are packaged with native parity and provenance checks. [Handoff](research/campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md), [campaign](research/campaign_2026-11-14/README.md); shared draft PR #98. No new fits or automatic uploads were started by this collection. Earlier dated status entries below are historical.
+
 ## October 29 session: TabM-style GRU, custom Muon, idea triage
 
 User: "think about custom optimization, about TabM like architecture but for this competition with recurrency" plus an idea-triage reflection; 30 GB RAM, 5 GB VRAM, all Kaggle. Done: TabM-mini GRU (`--ensemble-k`, `--ensemble-init`), NorMuon (`--muon-update normuon`) and train-only column view masks (`--view-mask-p`) all **screen_failed** on the cold Muon panel (12 new fits); the k-member blend law ensemble−mean member ≈ 0.336·(1−1/k)·(1−ρ̄) holds exactly, and only seeds/small variants sit below break-even deficit < 2·0.168·(1−ρ). Reframe (Opus + Grok) cards triaged against prior evidence; quadratic output defect closed. [Campaign](research/campaign_2026-10-29/README.md) · [triage reflection](research/unified/methods/IDEA_TRIAGE_REFLECTION_20261029_R1.md). Loop stopped. Next lever: teacher quality (coordinate with teammate PRs 46/47/49). `wnn-campaign.slice` raised to 28G/30G/10 cores.

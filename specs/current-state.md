@@ -1,5 +1,9 @@
 # Current project state
 
+## November 14: local queue complete, submission collection
+
+All 18 fits from the November 14 queue completed; GPU is idle. User requested status and best submission ZIPs. Fixed train-only kd50 seed pair scores 0.691423 on exposed official valid (+0.000949 over mean single); alpha .9 single scores 0.691442 (one seed). KD improves both seeds; since×KD interaction changes sign, so synergy is not confirmed. Two final-data kd50 models are available for an equal pair and single; validation was fitted and provides parity only. Public kd50 train-only single: 0.66108, 15m27s, user portal receipt 1qn2bx0q. [Handoff/checks](../research/campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md), [campaign](../research/campaign_2026-11-14/README.md), shared draft PR #98. This collection starts no new fits or uploads.
+
 ## October 29: paused by user, teacher-track pilots landing
 
 TabM-mini GRU, NorMuon and column view masks screen-failed (12 fits; blend law holds). Validation audit: official valid is a regime-shifted block (adversarial AUC 0.984, multivariate drivers), replicating E-094; protocol in [robust validation](../research/unified/methods/ROBUST_VALIDATION_20261029_R1.md). Teacher track under train-only/full-valid protocol: parent P 0.68671, labels-only child C0 0.67562 (overfits); PR49 teachers reproduced locally; D1/D2 distillation pilots landing. [Campaign](../research/campaign_2026-10-29/README.md), [pause receipt](../research/campaign_2026-10-29/PAUSE_R1.json). No new submission.
