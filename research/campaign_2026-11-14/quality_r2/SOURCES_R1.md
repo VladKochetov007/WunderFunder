@@ -1,0 +1,16 @@
+# Sources and bounded ideation
+
+- [Stanton et al., Does Knowledge Distillation Really Work? (NeurIPS 2021)](https://arxiv.org/abs/2106.05945): student/teacher fidelity depends on optimization and distillation inputs, and higher fidelity need not improve generalization. Motivates measuring teacher fit and official score separately; no direct gain prediction for this GRU.
+- [Karlsson et al., Using time-series privileged information for provably efficient learning of prediction models (AISTATS 2022)](https://proceedings.mlr.press/v151/k-a-karlsson22a.html): privileged intermediate trajectories can improve sample efficiency under stated linear-Gaussian assumptions. Our boot-h8 target uses later teacher outputs only in supervised training and only inside a constant-label run; its effect is empirical, not covered by that proof.
+- OpenReview ICLR2024 tiny paper JBSMl0nAFa (Knowledge Distillation Through Time for Future Event Prediction) appeared in search, but the page returned browser verification. Not treated as inspected full-paper evidence.
+- Native Luna/max specification critic and fresh-context ideator received disjoint tasks; completed [critic](CRITIC_R1.md) and [cards](IDEAS_R1.md) are independent reasoning, not fresh validation data. Recipe identity was then checked against the actual running log.
+- Grok CLI receives only [anonymized task](GROK_TASK_R1.txt), no code, identifiers or data. [Response](GROK_IDEAS_R1.md), stderr and actual access result retained. This is an additional model-family lens; quality is tested by executable checks.
+- [Kaggle quota](KAGGLE_QUOTA_R1.json): live CLI reports 30 GPU-hours remaining; a four-fit paired bootstrap panel is being prepared. Reserve <=8 device GPU-hours, no paid compute. Every cloud candidate has same-device controls; local and cloud scalar levels are not paired directly.
+
+## Predeclared zero-fit complete-endpoint check
+
+Re-evaluate teacher/student blends with the correct official mask on full valid. Check fixed 50/50 (kd90 + fbc1k) and fixed replacement of fbc1k's 0.34 slot in TL3C by kd90, retaining tiedlead weights .33/.33. No coefficient search. Compare to existing TL3C .692336. High teacher residual correlation alone is not a rejection criterion: shared target noise can dominate it. Clean train-only membership applies; full valid is exposed discovery evidence.
+
+## Grok triage against code/data
+
+Grok completed one no-tool response; exact model version not emitted by this CLI invocation. Its clipped-target card is a no-op: the actual distillation loss already clips labels and teacher outputs at ±2. Its proposed chronological 80/20 train split cannot be assumed valid because raw sequence IDs are not reliable global time. Its residual-correlation dismissal and universal 0.0015 blend bar are not adopted. The held-out fixed teacher+student 50/50 check actually scores 0.691898 vs 0.691442 student / 0.691420 teacher ([receipt](ZEROFIT_TEACHER_STUDENT_R1.json)); this is same exposed valid and not evidence for all heterogeneous averages. Quiet hidden-state holding is distinct from posthoc output smoothing, but overlaps PR93 event-clock architectures and needs a matched trained implementation before deployment.

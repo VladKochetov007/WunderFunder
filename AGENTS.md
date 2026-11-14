@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## November 14: quality-first research resumed
+
+Latest user: "делай лучшие по качеству сабмиту, больше гипотез пробуй. $conduct-creative-research". This explicitly resumes local/Kaggle research after collecting the completed 18-fit queue and checked submission ZIPs. Read [quality-wave contract](research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json) and [frontier](research/campaign_2026-11-14/quality_r2/FRONTIER.md). Alpha .9 seed-4 confirmation is running; final-data refits are conditional on the frozen paired gate. No paid compute or automatic competition upload. Preserve the earlier stop/pause records as history.
+
 ## November 14: completed local queue, submission collection
 
 User requests current status and submission ZIPs from the best available variants. The 18-fit November 14 queue is complete. Fixed train-only kd50 pair valid 0.691423; best single kd90 0.691442 (one seed); positive since×KD interaction did not replicate. Final-data pair and s3 single, plus exploratory train-only kd90, are packaged with native parity and provenance checks. [Handoff](research/campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md), [campaign](research/campaign_2026-11-14/README.md); shared draft PR #98. No new fits or automatic uploads were started by this collection. Earlier dated status entries below are historical.

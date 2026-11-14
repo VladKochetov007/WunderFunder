@@ -1,0 +1,104 @@
+{
+  "objective_mode": "competition",
+  "user_instruction": "\u0434\u0435\u043b\u0430\u0439 \u043b\u0443\u0447\u0448\u0438\u0435 \u043f\u043e \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0443 \u0441\u0430\u0431\u043c\u0438\u0442\u0443, \u0431\u043e\u043b\u044c\u0448\u0435 \u0433\u0438\u043f\u043e\u0442\u0435\u0437 \u043f\u0440\u043e\u0431\u0443\u0439; conduct-creative-research",
+  "deliverable": "strongest supported single and fixed blend, deterministic Python3.11 native ZIP <=20MB; user uploads",
+  "verification_tier": "C for public transfer; deterministic serving A; exposed-valid repeated empirical measurements B-like, not private holdout",
+  "baseline": {
+    "kd50_seeds": [
+      0.6904662147,
+      0.690481734
+    ],
+    "kd50_pair": 0.691422906,
+    "kd90_seed3": 0.69144225,
+    "best_existing_team_public": 0.66832,
+    "new_train_only_public": 0.66108
+  },
+  "compute_assumption": "bounded first wave under continuing local/Kaggle authorization; no paid compute",
+  "budgets": {
+    "local_gpu_hours_cap": 8,
+    "new_train_only_fits_cap": 6,
+    "final_data_fits_cap": 2,
+    "confirmation_reserve_fits": 2,
+    "ram_bytes": 30000000000,
+    "vram_bytes": 5000000000,
+    "cpu_cores_cap": 10,
+    "operational_cpu_quota": "200% fit + <=100% support",
+    "gpu_workers": 1,
+    "money": 0,
+    "scratch_root": "/home/vlad/development/wunder/research_tmp",
+    "thermal_freeze_celsius": 92,
+    "thermal_resume_celsius": 84
+  },
+  "first_fit": {
+    "run": "q14_kd90_s4",
+    "source": "same frozen PR49 188c0788e trainer and Oct29/Nov14 recipe",
+    "seed": 4,
+    "distill_alpha": 0.9,
+    "endpoint": "ep3",
+    "control": "l14_kd50_s4 ep3",
+    "cost_basis_minutes": 41
+  },
+  "promotion": {
+    "kd90": "mean paired delta >=.0005 and both seeds >0 justifies final-data s3/s4; borderline endpoints may get reserved confirmation not significance claim",
+    "new_arms": "each pilot freezes parent and one change; run two seeds where affordable; fixed endpoint and equal-member blends",
+    "blend": "fixed coefficients before evaluation; compare complete endpoint; no LB coefficient fitting"
+  },
+  "invariants": [
+    "global_wp_clip2_v1 unchanged",
+    "strict IEEE FP32 TF32/autocast off",
+    "causal serving and reset",
+    "clean train-only teacher ancestry for local comparisons",
+    "final data validation is fitted diagnostics only",
+    "preserve source/grader hashes and earlier artifacts"
+  ],
+  "exploration": [
+    "teacher-target temporal structure/bootstrapping",
+    "trajectory averaging interaction with KD",
+    "heterogeneous teacher target and residual-complementarity probe",
+    "fresh-context representation ideas after ledger dedup"
+  ],
+  "stopping": [
+    "terminate new admission at 8 local GPU hours or 6 train-only+2 final-data+2 reserved fits whichever first",
+    "stop faulty path on ancestry/identity/numerical issue, preserve evidence, bounded repair",
+    "freeze owned units at sustained92C; do not touch other projects"
+  ],
+  "human_gates": [
+    "competition upload",
+    "paid compute or billing change"
+  ],
+  "confirmation": "distinct paired training seeds; all valid exposed, public transfer pending",
+  "owner": "Codex controller",
+  "controls_reused": [
+    "l14_kd50_s3",
+    "l14_kd50_s4",
+    "l14_kd90_s3"
+  ],
+  "selection_budget_note": "Six train-only fits total initially; confirmation reserve and final-data costs separately bounded inside eight GPU hours.",
+  "cloud_amendment": {
+    "verified_gpu_remaining_hours": 30,
+    "reserved_device_gpu_hours_cap": 8,
+    "panel": "alpha .9 vs alpha .9 + boot_h8, seeds5/6; 4 new fits, included in six screening fits cap",
+    "authority": "existing all-Kaggle user authorization, live quota verified",
+    "status": "preparation only until exact artifact portability passes"
+  },
+  "screen_panel": [
+    {
+      "name": "q14_kd90_s4",
+      "n": 1,
+      "question": "replicate alpha.9 vs .5 on seed4",
+      "control": "l14_kd50_s4"
+    },
+    {
+      "name": "cloud_kd90_boot8_seeds5_6",
+      "n": 4,
+      "question": "future-teacher target vs same-device alpha.9 controls",
+      "control": "2 new matched alpha.9 controls included"
+    },
+    {
+      "name": "q14_kd100_s3",
+      "n": 1,
+      "question": "pure teacher vs alpha.9; separates label suppression from future-teacher mechanism",
+      "control": "l14_kd90_s3"
+    }
+  ]
+}

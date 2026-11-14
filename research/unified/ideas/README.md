@@ -1,3 +1,5 @@
+[November 14 quality-first resume](../../campaign_2026-11-14/quality_r2/README.md): new user-authorized wave with bounded compute and independent scouts/critics; alpha .9 confirmation first, strongest supported recipes refitted for submission. New mechanism results pending.
+
 # Ideas and hypotheses
 
 - [Teacher-quality track, October 29](../../campaign_2026-10-29/teacher_track_r1/README.md) — E-TEACHER29-R1: distill PR49 teachers (fbc1k_s5, reproduced locally) into the fixed Muon H256×2 child under the train-only/full-valid protocol; adopt at ≥ +0.001 over max(P 0.68671, C0 0.67562). Status: D1/D2 seed-3 pilots landing (paused campaign); PR49 checkpoint release indexed in the track README.

@@ -1,5 +1,9 @@
 # Current project state
 
+## November 14: quality-first research resumed
+
+The user explicitly requests stronger submissions and more hypotheses with conduct-creative-research. The [new bounded wave](../research/campaign_2026-11-14/quality_r2/README.md) is active: alpha .9 seed-4 confirmation, a four-fit Kaggle alpha .9/boot-h8 panel at seeds 5/6, and a pure-teacher pilot. Six total screening fits, two conditional final-data refits and two reserved confirmations share an eight-local-GPU-hour cap; cloud reservation is eight device GPU-hours from 30 verified free hours. One local GPU worker, strict FP32, thermal guard, no paid compute or automatic upload. Final refits require both alpha .9 seed deltas positive and their mean at least .0005 versus alpha .5. [Contract](../research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json), [live frontier](../research/campaign_2026-11-14/quality_r2/FRONTIER.md). Earlier idle/paused snapshots below are history.
+
 ## November 14: local queue complete, submission collection
 
 All 18 fits from the November 14 queue completed; GPU is idle. User requested status and best submission ZIPs. Fixed train-only kd50 seed pair scores 0.691423 on exposed official valid (+0.000949 over mean single); alpha .9 single scores 0.691442 (one seed). KD improves both seeds; since×KD interaction changes sign, so synergy is not confirmed. Two final-data kd50 models are available for an equal pair and single; validation was fitted and provides parity only. Public kd50 train-only single: 0.66108, 15m27s, user portal receipt 1qn2bx0q. [Handoff/checks](../research/campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md), [campaign](../research/campaign_2026-11-14/README.md), shared draft PR #98. This collection starts no new fits or uploads.

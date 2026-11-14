@@ -1,3 +1,5 @@
+[November 14 quality-wave recipe critic](../../campaign_2026-11-14/quality_r2/CRITIC_R1.md): independent bootstrap/EMA semantics and final-fit exposure review. Actual running configuration identity separately verified; no public-performance approval.
+
 # Reviews and audit receipts
 
 - [November 14 cold-distillation collection and submission handoff](../../campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md) — all 18 endpoints collected; two-seed KD gain +0.0030, since×KD synergy fails replication, fixed seed pair valid 0.691423, alpha .9 single 0.691442. [Campaign](../../campaign_2026-11-14/README.md), [review status and limits](../../campaign_2026-11-14/local_r1/SUBMISSION_AUDIT_R1.md), and [ZIP/source/parity receipts](../../campaign_2026-11-14/local_r1/submission_checks/README.md). Final-data pair/single are technically checked and have no held-out score; train-only public single 0.66108 is user-reported. PR #98 holds the shared handoff.
