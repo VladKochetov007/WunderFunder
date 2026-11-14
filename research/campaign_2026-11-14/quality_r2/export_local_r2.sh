@@ -3,6 +3,7 @@
 set -euo pipefail
 R=/home/vlad/development/wunder/wnn_connectome_starterpack
 O=$R/research/campaign_2026-11-14/quality_r2
+test ! -e "$O/LOCAL_GPU_HOLD"
 C=/home/vlad/development/wunder/research_tmp/chrono_root
 test ! -e "$O/STOP"
 if systemctl --user is-active --quiet wnn-q14-fit-strict-local-pair.service; then

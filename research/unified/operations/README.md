@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [November14 local GPU hold](../../campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json): user reserves GPU for PHCapital while CPU checks continue. All owned GPU/thermal units stopped; launch wrappers check a durable marker. Two teacher exports complete, two S6 partials preserved ungraded, zero new student fits. Recovery wall508.186s plus initial413.513s is charged; existing queued Kaggle panel unchanged.
+
 - [November14 public receipts R2](../../campaign_2026-11-14/local_r1/PUBLIC_RECEIPTS_R2.json) — user reports KD90 single .66193 and final KD50 pair .66510 (25m12s), with3/5 daily submissions used. Pair trails fullmix by .00033; the +.00402 versus train-only single mixes data and ensemble effects. Local hashes are filename associations, not portal-verified hashes. See the updated [submission handoff](../../campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md).
 
 - [VS Code cpptools load and two laptop resets, Oct 25](VSCODE_CPPTOOLS_AND_RESETS_20261025_R1.md) — cpptools indexed 18k third-party C/C++ headers (5.9 GB, >100% CPU) after each boot; workspace excludes and path pins cut it to 31 MB idle. Two resets interrupted the clip panel (one clean, one abrupt with no logged cause); guards tightened to 92 °C.
@@ -464,3 +466,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [November14 Kaggle queue diagnosis](../../campaign_2026-11-14/quality_r2/kaggle_r2/QUEUE_DIAGNOSTIC_R2.md): private kernel accepted but no execution evidence yet; public SDK status/metadata lack a cancellable session ID. Upstream issues disagree on version/session identity, so no guessed cancellation or duplicate panel was launched. Local work continues.
 
 [November14 joint thermal response](../../campaign_2026-11-14/quality_r2/THERMAL_RESPONSE_R4.json): observed93C caused the fit freezer to engage, while native CPU work continued heating the laptop. R4 pauses both owned execution paths and resumed them at80C; native quota is80%, and interrupted runtime evidence is explicitly qualified.
+
+- [November14 shared-GPU collision](../../campaign_2026-11-14/quality_r2/teacher_pool_r3/RESOURCE_RECOVERY_R1.json) — an unrelated PHCapital worker consumed~4.1GiB and caused the third teacher export to OOM; first two outputs remain complete. One bounded batch4 recovery uses~428MiB with the same precision/model and original memory reserve. No student fit is admitted while training VRAM is unavailable; failed partial preserved.

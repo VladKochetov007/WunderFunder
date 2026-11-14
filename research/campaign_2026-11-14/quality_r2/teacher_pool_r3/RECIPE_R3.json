@@ -1,0 +1,61 @@
+{
+  "status": "frozen_preparation; not admitted or run",
+  "source_commit": "48776fba8af26b16b7e6813def7ccf571f56c1ac",
+  "source_root": "/home/vlad/development/wunder/research_tmp/q14_strict_source",
+  "data_root": "/home/vlad/development/wunder/research_tmp/chrono_root",
+  "teacher_cli": "q14t_fbc_s5*1.02,q14t_tlead_s5*0.99,q14t_tlead_s6*0.99",
+  "effective_teacher_coefficients": [
+    0.34,
+    0.33,
+    0.33
+  ],
+  "student_alpha": 0.9,
+  "student_pool_clipping": "pool clipped to[-2,2] only after member mixing, by unchanged training/losses.py",
+  "control_teacher": "tt29rep_fbc1k_s5",
+  "new_students": [
+    {
+      "name": "q14p_pool_s3",
+      "seed": 3,
+      "teacher": "fixed_pool"
+    },
+    {
+      "name": "q14p_control_s5",
+      "seed": 5,
+      "teacher": "single_FBC"
+    },
+    {
+      "name": "q14p_pool_s5",
+      "seed": 5,
+      "teacher": "fixed_pool"
+    }
+  ],
+  "reused_exact_control": "q14s_local_kd90_s3",
+  "unchanged_recipe": "quality_r2/run_strict_fit.sh and Oct29 recipe_args.sh; fourepochs/fixedep3/H256x2/WMSE/since32/auxiliaries/strictFP32",
+  "teacher_target_check": {
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "WNN_CPU_QUOTA": "50%",
+      "WNN_MEM_MAX": "4G"
+    },
+    "argv": [
+      "scripts/limited",
+      ".venv/bin/python",
+      "research/campaign_2026-11-14/quality_r2/teacher_pool_r3/check_train_target.py"
+    ]
+  },
+  "before_any_fit": [
+    "TEACHER_GRADE_R1.json target_quality_trigger true",
+    "TRAIN_TARGET_CHECK_R1.json verified actual canonical train targets",
+    "all3 cached teacher input hashes frozen",
+    "live GPU and RAM availability plus one owned GPU worker",
+    "measured remaining8h budget preserves complete matched comparison and >=1final+package reserve"
+  ],
+  "selection": "ALLOCATION_R3.json; equalpoolstudentpair and equalpoolstudent-s3/legacyKD50-s3 endpoints, no coefficient search",
+  "prohibited_claims": [
+    "no transferred clean score for final-data teachers",
+    "no new public score inferred",
+    "no new fitting-seed uncertainty from fixed predictions"
+  ],
+  "fit_command": "WNN_Q14_TEACHER=<frozen teacher_cli or control_teacher> /bin/bash research/campaign_2026-11-14/quality_r2/run_strict_fit.sh <name> <seed> .9",
+  "fit_command_note": "Run only after root resource/scientific admission, inside the owned limited systemd unit; the environment selects one explicit teacher argument without duplicate CLI overrides."
+}

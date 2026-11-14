@@ -1,6 +1,8 @@
 # Quality-first follow-up, November 14
 
-**Latest completed pair:** [strict local KD90/KD100](STRICT_LOCAL_PAIR_R2.json) gives .6915443853/.6915276970, pure-teacher delta −.00001669. Actual saved FP32 optimizer states pass verification; no pure-teacher seed5 confirmation is admitted. The two frozen trajectory means are derived and four full-valid exports are running in `wnn-q14-export-local`, CPU100%, with active guard `wnn-q14-thermal-r5` using the R4 script. Fresh team PR/release scouting follows the user's quality-first GitHub steering.
+**Current:** local GPU is [held for PHCapital](LOCAL_GPU_HOLD_R1.json); owned GPU/thermal units are stopped and partial S6 predictions remain ungraded. CPU grading completed the [equal FBC/TLead target](teacher_pool_r3/TWO_TEACHER_RESULT_R1.md): .692260448 versus .691420480, +.000839968, both targets positive on exposed full valid. This is teacher evidence, not a new student or ZIP. The three-teacher gate remains unassessed, train caches absent, student fits unlaunched. Six cloud fits still queue. The latest GitHub refresh found [implementation-only PR99](team_refresh_r3/PR99_READOUT_R1.md).
+
+**Completed local probes:** [strict KD90/KD100](STRICT_LOCAL_PAIR_R2.json) gives .6915443853/.6915276970, pure-teacher delta −.00001669. Saved FP32 optimizer states pass verification. Four complete exports show fixed epoch2/3 averaging deltas −.00002051/+.00003592; neither pure teacher nor weight averaging earns follow-up. The remaining running descriptions below are historical; use the [frontier](FRONTIER.md).
 
 **Effective amendment:** [precision correction R2](PRECISION_AMENDMENT_R2.json) supersedes the original execution panel below. The legacy PR49 Muon factory used BF16 Newton–Schulz despite FP32 model kernels. The incomplete confirmation and old automatic delivery are stopped; [independent audit and tested fix](precision_fix_r1/README.md) preserve the evidence. Corrected-source cloud panel is alpha .5 / .9 / .9+boot8 × seeds3/4 (six fits sharing exact controls); a local alpha .9/1.0 seed3 pair uses the two reserved fits. Interrupted cost remains charged; there is one extra interrupted attempt, explicitly counted. No old mixed-precision control is substituted for a new strict comparison.
 
@@ -11,6 +13,8 @@
 The user resumes research for stronger submissions and more hypotheses, invoking conduct-creative-research. The [original contract](CONTRACT_R1.json) is retained with the effective R2 amendment above: eight local GPU-hours including the interrupted attempt, six cloud fits and two local reserved fits, up to two conditional final refits. All earlier mixed-precision scores retain their original evidence scope.
 
 Strict FP32, one local GPU worker, 30 GB RAM / 5 GB VRAM, no paid compute or automatic upload. Full official valid remains exposed. [Frontier](FRONTIER.md).
+
+- [PR54 final FBC teacher audit](team_refresh_r3/FINAL_TEACHER_AUDIT_R1.md): verifies all 13 archive roles and distinguishes the hyperparameter-aligned all-data refit from the clean train-only score. The final model has no independent score; strict cuDNN RNN precision is not certified. The full-data teacher has not entered the root's separate clean three-teacher target diagnostic.
 
 [Sources and independent ideation](SOURCES_R1.md), [frozen source hashes](SOURCE_PINS_R1.txt), `run_fit.sh` and `thermal_guard.sh` preserve the superseded initial execution. Their old four-fit cloud plan is replaced by R2 above.
 

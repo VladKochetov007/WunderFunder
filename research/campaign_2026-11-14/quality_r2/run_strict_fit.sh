@@ -4,8 +4,10 @@ set -euo pipefail
 R=/home/vlad/development/wunder/wnn_connectome_starterpack
 O=$R/research/campaign_2026-11-14/quality_r2
 S=/home/vlad/development/wunder/research_tmp/q14_strict_source
+test ! -e "$O/LOCAL_GPU_HOLD"
 source "$R/research/campaign_2026-10-29/teacher_track_r1/recipe_args.sh"
 name=$1; seed=$2; alpha=$3; shift 3
+teacher=${WNN_Q14_TEACHER:-tt29rep_fbc1k_s5}
 if [[ " $* " == *" --profile-steps "* ]]; then
   BASE=${BASE/--save-training-state/}
 fi
@@ -18,5 +20,5 @@ export TMPDIR=/home/vlad/development/wunder/research_tmp
 test ! -e "artifacts/runs/$name/model_ep3.pt"
 "$R/.venv/bin/python" -u "$R/research/campaign_2026-10-29/teacher_track_r1/strict_launch.py" \
   "$S" $BASE $PARENT --name "$name" --seed "$seed" \
-  --distill tt29rep_fbc1k_s5 --distill-alpha "$alpha" "$@" > "$O/$name.fit.log" 2>&1
+  --distill "$teacher" --distill-alpha "$alpha" "$@" > "$O/$name.fit.log" 2>&1
 echo "STRICT_FIT_DONE $name"

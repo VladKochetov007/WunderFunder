@@ -4,6 +4,7 @@ set -euo pipefail
 R=/home/vlad/development/wunder/wnn_connectome_starterpack
 O=$R/research/campaign_2026-11-14/quality_r2
 S=/home/vlad/development/wunder/research_tmp/q14_strict_source
+test ! -e "$O/LOCAL_GPU_HOLD"
 source "$R/research/campaign_2026-10-29/teacher_track_r1/recipe_args.sh"
 name=$1; seed=$2; alpha=$3; boot=$4
 test "$(git -C "$S" rev-parse HEAD)" = 48776fba8af26b16b7e6813def7ccf571f56c1ac

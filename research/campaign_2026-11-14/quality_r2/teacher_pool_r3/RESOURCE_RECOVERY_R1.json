@@ -1,0 +1,26 @@
+{
+  "status": "stopped_by_user_local_gpu_hold; incomplete S6 ungraded",
+  "failure": "Third full-valid teacher export OOM after an unrelated PHCapital/kagri-rl worker appeared with~4.1GiB VRAM. First two exports complete.",
+  "initial_unit": "wnn-q14-export-teacher-valid",
+  "initial_wall_seconds": 413.513,
+  "initial_cpu_seconds": 199.723,
+  "initial_memory_peak": "3.9GiB",
+  "external_process_scope": "/home/vlad/development/PHCapital, VSCode app scope; not owned by this campaign",
+  "recovery": "Frozen exporter/model reused with independent-sequence batch4; live-memory-aware allocator and1GB reserve retained. No source/model or precision change.",
+  "recovery_unit": "wnn-q14-export-teacher-s6-b4",
+  "recovery_bounds": {
+    "cpu": "50%",
+    "ram": "4GiB",
+    "swap": 0,
+    "wall_seconds": 1200
+  },
+  "observed_recovery_vram_mib": 428,
+  "guard": "wnn-q14-thermal-r7, existingR4 thresholds; pauses may reflect shared heat",
+  "partial_preserved": "chrono_root/cache/pred_q14t_tlead_s6_valid.npy.partial.oom_r1",
+  "scientific_interpretation": "Resource failure, not a bad model score. No student fit starts while VRAM cannot satisfy the preflight.",
+  "allocation": "413.513+1200max remains inside prior1800s target-export admission; all wall including thermal pauses is charged.",
+  "initial_status": "bounded_small_batch_recovery_running; new training not admitted",
+  "terminal_receipt": "../LOCAL_GPU_HOLD_R1.json",
+  "recovery_actual_wall_seconds": 508.186,
+  "combined_wall_seconds": 921.699
+}

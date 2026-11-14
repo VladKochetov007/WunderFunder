@@ -1,5 +1,11 @@
 # Project agent instructions
 
+## November 14: local GPU reserved for PHCapital
+
+Latest user: **"Пока оставь GPU PHCapital; продолжай доступные проверки Wunder"**. This restricts local GPU work only; bounded CPU/read-only checks and the existing queued Kaggle panel remain authorized. All owned local GPU/thermal units are stopped, partial S6 predictions preserved ungraded, and local wrappers check [hold marker](research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD). No automatic local GPU restart. [Receipt](research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json).
+
+The completed [CPU teacher-pair diagnostic](research/campaign_2026-11-14/quality_r2/teacher_pool_r3/TWO_TEACHER_RESULT_R1.md) scores .692260448 versus current single teacher .691420480 (+.000839968), both targets positive, on exposed full valid. It is not student improvement, the frozen three-teacher gate, or a new ZIP. Three prospective student fits remain unlaunched. [New PR99](research/campaign_2026-11-14/quality_r2/team_refresh_r3/PR99_READOUT_R1.md) provides structured causal perturbation code/design only; no scores/weights. Earlier running descriptions below are execution history; use the current [frontier](research/campaign_2026-11-14/quality_r2/FRONTIER.md).
+
 ## November 14: quality-first research resumed
 
 Latest user: "делай лучшие по качеству сабмиту, больше гипотез пробуй. $conduct-creative-research". This explicitly resumes local/Kaggle research after collecting the completed 18-fit queue and checked submission ZIPs. Read [quality-wave contract](research/campaign_2026-11-14/quality_r2/CONTRACT_R1.json), [effective precision amendment](research/campaign_2026-11-14/quality_r2/PRECISION_AMENDMENT_R2.json) and [frontier](research/campaign_2026-11-14/quality_r2/FRONTIER.md). Legacy PR49 Muon omitted its strict flag and used BF16 Newton–Schulz; old scores remain actual mixed-precision observations. Corrected source48776fba8, new matched controls and conditional final refits replace the stopped initial confirmation/delivery. No paid compute or automatic competition upload. Preserve the earlier stop/pause records as history.

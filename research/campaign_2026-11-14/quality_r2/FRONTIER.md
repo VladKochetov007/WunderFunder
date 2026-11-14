@@ -1,8 +1,16 @@
 # Active frontier
 
-## Latest direction, after completed local probes
+## Current authority and completed CPU result
 
-All four strict local endpoints are graded: pure teacher −.00001669 versus KD90; fixed weight means −.00002051/+.00003592. No pure/SWA follow-up qualifies. [Teacher-pool R3](teacher_pool_r3/README.md) is now the active quality direction: original released FBC/TLead5/TLead6 tensors imported with explicit split-equivalence/ancestor evidence; three full-valid exports active in `wnn-q14-export-teacher-valid`, CPU65%,8GiB,1800s, guarded by `wnn-q14-thermal-r6`. Three new matched student fits are prospective only, pending target score/review/resource admission. Shared8h local/8device-h cloud caps stay; R3 protects at least one final refit plus serving checks. Kaggle still QUEUED, no cloud result. [Latest public receipts](../local_r1/PUBLIC_RECEIPTS_R2.json): finalKD50 pair .66510, KD90single .66193,3/5 slots used. No automatic upload.
+Local GPU is reserved for PHCapital by explicit user instruction. All owned GPU and thermal units are stopped; [hold receipt](LOCAL_GPU_HOLD_R1.json) and [marker](LOCAL_GPU_HOLD) prevent wrapper restarts. Two complete teacher exports are preserved; both partial S6 attempts remain ungraded. Recovery used508.186s wall after initial413.513s, including thermal idle. No new student fit launched; no other-project process was signalled.
+
+The additional preregistered fixed **equal FBC/TLead-s5 target scores .6922604481**, versus current teacher .6914204799, **+.0008399682** with both targets positive. [Result](teacher_pool_r3/TWO_TEACHER_RESULT_R1.md) binds predictions, checkpoints, membership and reference metric. This exposed-valid diagnostic does not satisfy the separate three-teacher admission gate or establish student/public gain. The third full-valid export, all train caches and canonical train-target check are outstanding; no local GPU work resumes automatically.
+
+All four strict local endpoints are complete: pure teacher −.00001669 versus KD90; fixed weight means −.00002051/+.00003592. Neither earns follow-up. Prepared [teacher-pool student recipe](teacher_pool_r3/RECIPE_R3.json) remains3 new fits with1 exact reused control, inside unchanged8local-GPU-hour/8cloud-device-hour limits and final-serving reserve. Six Kaggle fits remain QUEUED without outputs. [Public receipts](../local_r1/PUBLIC_RECEIPTS_R2.json): finalKD50pair .66510, KD90single .66193,3/5 slots used in user snapshot; no automatic upload.
+
+A later GitHub refresh found [PR99](team_refresh_r3/PR99_READOUT_R1.md): structured causal perturbations for a B300 Transformer, code/design only, no weights/results. It updates the earlier no-new-push observation. Full-data teacher audit and independent clean import review are complete; their provenance findings do not establish full-data held-out quality.
+
+## Historical execution snapshots
 
 ## Latest execution,16:17 Kyiv
 

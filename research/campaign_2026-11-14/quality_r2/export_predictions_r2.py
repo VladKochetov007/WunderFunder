@@ -13,6 +13,7 @@ SOURCE = Path("/home/vlad/development/wunder/research_tmp/q14_strict_source")
 
 def main() -> None:
     """Forward prediction arguments without changing the frozen exporter or grader."""
+    assert not (Path(__file__).resolve().parent / "LOCAL_GPU_HOLD").exists()
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
     torch.backends.cudnn.rnn.fp32_precision = "ieee"

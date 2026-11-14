@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.final-teacher-receipt-audit.v1",
+  "created": "2026-11-14",
+  "scope": "read-only receipt/source audit; no model load, fit, profile, provider action, or remote write",
+  "archive": {
+    "path": "/home/vlad/development/wunder/research_tmp/q14_team_artifacts_r3/tabdata-w18-final-13-role-evidence-20261103-r1.zip",
+    "sha256": "2dc00d8a16f316775ddb979382312ee8a1d60b3c3555128726b8c4a44786c29e",
+    "delivery_manifest_sha256": "d24715f7c15de929b55c35b0de84275a9ebd953774099e5260327af738be2d2f",
+    "manifest_files_verified": 43,
+    "lineage_role_counts": {
+      "delivery_manifest": 13,
+      "archive_manifest": 13,
+      "final_model_receipt": 13,
+      "identities_match": true
+    }
+  },
+  "final_fbc1k_s5": {
+    "run": "tl3final_fbc1k_s5",
+    "command_sha256": "7a87eab97778e7f9c784b87a6dc1a8f7247c2e4cecc484808e1ee35b2aebf4ea",
+    "fit_process_receipt_sha256": "05a5fb3f133af28ad1b90a0d3abce4ae94889b3c7816c5deae6a651cc227c7fc",
+    "checkpoint": "model_ep3.pt",
+    "checkpoint_sha256": "d012e69e2617847cf89775161d7c2180d557cc1c7395f1432c8c19183013fdd9",
+    "membership_manifest_sha256": "3f766945e00a2fa5edc6230d9c0bed125da112584f11e3d82458167a011bf543",
+    "fit_groups": {
+      "train": 10607,
+      "valid": 1873,
+      "total": 12480
+    },
+    "independent_evaluation_groups": 0,
+    "score_computed": false,
+    "independent_score_claim": "forbidden"
+  },
+  "clean_counterpart": {
+    "run": "tt29rep_fbc1k_s5",
+    "source_commit": "188c0788e571c6f981cdc6827fef0d50bd38cf14",
+    "trainer_implementation_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889",
+    "selected_epoch": 3,
+    "completed_updates": 25760,
+    "fit_groups": 10325,
+    "evaluation_groups": 1873,
+    "exposed_valid_score": 0.6914204799,
+    "score_scope": "clean train-only run on exposed official valid; not transferable to final-data checkpoint"
+  },
+  "compatibility": {
+    "core_hyperparameters_and_ema_endpoint": "aligned",
+    "exact_source_identity": false,
+    "fit_membership_and_parent_weights": "different as expected for final-data refit",
+    "tl3_muon_newton_schulz": "FP32 selected by precision=fp32 in retained factory source path",
+    "final_cudnn_rnn_ieee_mode": "not certified; Torch 2.14 lock, no explicit RNN fp32_precision override or runtime telemetry in receipt",
+    "classification": "hyperparameter-aligned final-data refit; no independent quality score"
+  },
+  "root_steering": {
+    "full_data_teacher_used_in_new_clean_three_teacher_diagnostic": false,
+    "next_owner": "root",
+    "local_gpu_hour_cap_changed": false,
+    "cap_hours": 8
+  }
+}

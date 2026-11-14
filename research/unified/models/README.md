@@ -1,5 +1,9 @@
 # Model families and training
 
+- [Equal FBC/TLead teacher target](../../campaign_2026-11-14/quality_r2/teacher_pool_r3/TWO_TEACHER_RESULT_R1.md), E-Q14-TWO-TEACHER-R1: fixed .5/.5 original PR49 teachers score .692260448 versus current reproduced FBC .691420480 (+.000839968), both targets improve. Hash-bound CPU/reference grade, zero fits, repeatedly exposed full valid; no student transfer, three-teacher admission or new serving winner. Import/ancestry review and original archive identities are linked in the packet.
+
+- [PR54 final FBC teacher audit](../../campaign_2026-11-14/quality_r2/team_refresh_r3/FINAL_TEACHER_AUDIT_R1.md) — verifies the 13-role full-data checkpoint closure and compares `tl3final_fbc1k_s5` with clean `tt29rep_fbc1k_s5`. Core hyperparameters and EMA endpoint align, while source identity, membership and teacher ancestry differ; the final-data checkpoint has no independent score, and its strict cuDNN RNN precision is not certified.
+
 - [TL3 H512 member packager](../../campaign_2026-10-20/submission_delivery_r1/tl3_member_packager_r1/README.md) — reuses checkpoint/archive helpers to replace only the plain student, preserving original native libraries, tied members and coefficients. Static review and a17.1MBengineering fixture pass. Python3.11 native reset checks pass; a bounded alternating panel costs1.303×originalTL3. The fixture uses weak historical weights and must not be submitted; actual candidate quality/runtime remain unmeasured.
 
 - [Active H512 follow-up](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md) — one admitted coldF0/seed1003 strict-FP32 six-epoch fit derived from partial PR25width evidence; fixedCP5 and predeclaredSWA345 endpoints/75–25blends. Current model is running, no score; all-data final training remains conditional.

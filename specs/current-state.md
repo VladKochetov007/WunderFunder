@@ -1,5 +1,13 @@
 # Current project state
 
+## November 14: CPU checks continue; local GPU held for PHCapital
+
+The user's latest instruction reserves GPU for PHCapital. All owned local GPU/thermal services are stopped; launch wrappers respect the [hold](../research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json). Existing six-fit Kaggle panel is unchanged and still queued without outputs. No automatic local restart, paid compute or competition upload.
+
+The [fixed equal FBC/TLead-s5 target](../research/campaign_2026-11-14/quality_r2/teacher_pool_r3/TWO_TEACHER_RESULT_R1.md) scores **.692260448**, current FBC **.691420480**, delta **+.000839968** with both targets positive. Complete predictions, exact train/eval membership and checkpoint bytes are bound; official/reference metric agreement passes. Full valid remains exposed. This is teacher-quality evidence only; three-teacher evaluation, train caches and three prospective student fits remain incomplete/unlaunched. No new stronger submission is established. Pure-teacher KD and fixed weight averaging gave no useful gain.
+
+The final team refresh found [new PR99](../research/campaign_2026-11-14/quality_r2/team_refresh_r3/PR99_READOUT_R1.md), a causal Transformer perturbation implementation and ten-fit design with zero measured fits/results. Earlier scouts' no-new-push wording is dated. PR49/54 released artifacts were recovered and audited; PR79 K16 shows paired gains on a different recipe but lacks downloadable weight/prediction payloads. [Current frontier](../research/campaign_2026-11-14/quality_r2/FRONTIER.md). Historical running snapshots follow.
+
 ## November 14: quality-first research resumed
 
 Latest user steering prioritizes maximum quality and asks to inspect team GitHub pushes. [Public receipts R2](../research/campaign_2026-11-14/local_r1/PUBLIC_RECEIPTS_R2.json): final KD50 pair .66510 versus teammate fullmix .66543; KD90 single .66193 versus old KD50 single .66108. Three of five slots used in the user's snapshot. Recent receipts do not replace the separately dated historical team-best record. Read-only PR/release scouting runs alongside the existing bounded quality wave; no paid compute or automatic upload is added.
