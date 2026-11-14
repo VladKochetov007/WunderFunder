@@ -1,5 +1,7 @@
 # November 14 submission handoff
 
+**Public update:** the user reports the delivered final KD50 pair at **0.66510**,25m12s,641MB and KD90 single at **0.66193**,15m31s,628MB. [Receipts R2](PUBLIC_RECEIPTS_R2.json) bind the reported filenames to local delivery hashes with the portal-hash limitation explicit. The pair is .00033 below teammate fullmix; KD90 is .00085 above the earlier train-only KD50 single. Three of five daily slots are used in this snapshot. The original upload-priority table below is historical; both its first and third entries have now been submitted by the user.
+
 **Later precision correction:** the [November14 audit](../quality_r2/PRECISION_AUDIT_R1.md) establishes that the legacy Muon fits used FP32 model kernels but BF16 Newton–Schulz optimizer intermediates. Any all-math strict-FP32 wording in the original packet is superseded. Scores, checkpoint identities and native ZIP checks remain the recorded observations; corrected-source new fits are a separate [wave](../quality_r2/PRECISION_AMENDMENT_R2.json).
 
 The user requested current status and submissions from the strongest available variants, and supplied four portal receipts. All 18 queued fits completed before collection. This handoff uses existing fixed-epoch checkpoints; no new fitting or portal upload. Source: local fit logs, run provenance and exported predictions under `/home/vlad/development/wunder/research_tmp/chrono_root/`; package runtime is the SHA-pinned original team TL3 engine.
@@ -49,6 +51,8 @@ All three delivered hashes pass ZIP CRC, native ABI under Python 3.11, finite ou
 
 | Portal ID | Artifact | WP | Duration | Memory |
 |---|---|---:|---|---:|
+| `2publky5` | train-only kd90 s3 | 0.66193 | 15m31s | 628 MB |
+| `0b8njz9v` | final kd50 s3/s4 pair | 0.66510 | 25m12s | 641 MB |
 | `1qn2bx0q` | train-only kd50 s3, SHA e5790b71… | 0.66108 | 15m27s | 628 MB |
 | `1y4rw9o7` | teammate final fullmix | 0.66543 | 60m22s | 651 MB |
 | `1h7kp3oq` | teammate w18 final | 0.66453 | 14m32s | 627 MB |

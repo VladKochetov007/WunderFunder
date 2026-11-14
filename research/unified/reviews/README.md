@@ -1,3 +1,5 @@
+[November14 trajectory-mean independent review](../../campaign_2026-11-14/quality_r2/trajectory_mean_r1/INDEPENDENT_REVIEW_R1.md): identified three missing grading bindings; root fixed them before the complete grade and actual-producer adversarial fixtures passed. Means gave −.000021/+.000036, so neither earned confirmation. Review did not independently replay models or approve the later patch.
+
 [November 14 quality-wave recipe critic](../../campaign_2026-11-14/quality_r2/CRITIC_R1.md): independent bootstrap/EMA semantics and final-fit exposure review. Actual running configuration identity separately verified; no public-performance approval.
 
 [November 14 precision audit and repair](../../campaign_2026-11-14/quality_r2/precision_fix_r1/README.md): source audit plus saved optimizer state expose BF16 Newton–Schulz behind the legacy FP32 label. Original results remain measured mixed-precision observations; isolated source48776fba8 passes negative/positive CUDA checks and 120 finite profile updates. Replaced controls and explicit trial/cost amendment precede further quality selection.

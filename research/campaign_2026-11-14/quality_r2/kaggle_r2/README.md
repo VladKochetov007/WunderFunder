@@ -19,3 +19,5 @@ The builder stage ended at local preflight; root subsequently executed `push_pri
 [Sealed worker specs](specs/README.md) link every cell and preserve the source/data/output contract.
 
 [Result receiver](COLLECTION_README.md) validates all six outputs before endpoint grading. [Root receiver preflight](COLLECTION_PREFLIGHT_R2.json), reproduced by [check_collection.py](check_collection.py), tests actual producer metadata and rejects altered membership. Root corrected summary initialization, source-qualified group comparisons, CLI-to-runtime normalization and score withholding on state-check failure. No cloud scores have been received.
+
+[Queue/cancellation diagnosis](QUEUE_DIAGNOSTIC_R2.md) records the still-queued status, lack of worker logs and the missing exact session ID in the public API. No unverified cancellation, kernel deletion or duplicate launch was performed.

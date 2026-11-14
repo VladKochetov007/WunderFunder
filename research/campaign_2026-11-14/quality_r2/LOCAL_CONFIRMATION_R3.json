@@ -1,0 +1,18 @@
+{
+  "status": "prospective conditional allocation; no new fit launched",
+  "basis": "User explicitly requests stronger submissions and more hypotheses. Finish complete local comparisons while the cloud panel remains queued; use fresh seed5 rather than duplicating its seeds3/4.",
+  "preserves": "Original cloud six-fit panel, same strict source, data/teacher lineage, official metric, eight local GPU-hour and eight cloud-device-hour caps; all interrupted and thermal-idle costs remain charged.",
+  "triggers_before_seed3_final_prediction_grades": {
+    "pure_teacher": "If fixed local alpha1 seed3 minus same-source alpha.9 seed3 >=0.0003, admit alpha.9 and alpha1 seed5 as an exact local matched confirmation pair.",
+    "late_weight_mean": "If a frozen epoch2/3 mean improves its own raw seed3 endpoint by >=0.0002 AND exceeds the strongest strict raw seed3 endpoint, admit that objective's seed5 parent. Reuse the alpha.9 seed5 control if needed for a complete comparison; at most two total new seed5 parent fits across all triggers.",
+    "none": "No new local confirmation fit if neither trigger is met. Negative/weak results remain evidence, not a refutation of every descendant."
+  },
+  "new_fits_max": 2,
+  "new_runs_if_admitted": ["q14s_local_kd90_s5", "q14s_local_kd100_s5"],
+  "recipe": "Unchanged strict source48776fba8, fixed four epochs/ep3, same chronological split/teacher; only seed5 and declared alpha differ. Any trajectory mean still uses fixed equal epochs2/3, no search.",
+  "attempt_accounting_max": "1 interrupted legacy +6 cloud +2 original local +2 conditional local confirmation =11 screen attempts; up to2 shared conditional final fits,13 total attempts. This explicitly extends the prior9-screen-attempt cap by2, without increasing GPU-hour caps.",
+  "compute_admission": "Use measured completed-fit wall time, including thermal pauses, and reserve sufficient remaining budget for two final fits plus exports before admitting confirmation. If complete delivery cannot fit, defer confirmation rather than spending the production reserve.",
+  "confirmation_interpretation": "Distinct child fitting seeds3/5, shared fixed teacher and exposed full-valid panel. Not a new fold, unseen validation or independent teacher replication.",
+  "final_selection": "The original cloud gates remain unchanged. Local pure-teacher production requires mean paired gain >=0.0005 over alpha.9 with both seed deltas positive and a winning complete equal pair. A trajectory mean requires a positive contribution on both fitting seeds and mean contribution>=0.0002, plus a complete equal-pair improvement over relevant raw controls. Root compares all qualified complete endpoints before allocating the shared maximum2 final refits. No script may promote from seed3 alone.",
+  "scope": "No paid compute, no competition upload, no new cloud job, no guessed cancellation ID; no simultaneous local GPU workers."
+}

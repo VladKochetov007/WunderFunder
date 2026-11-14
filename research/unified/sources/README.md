@@ -1,3 +1,5 @@
+[November14 wider GitHub refresh](../../campaign_2026-11-14/quality_r2/team_refresh_r3/README.md): PR46–97, comments, research-team head and released teacher artifacts inspected; no post-R1 pushes. PR79 K16 improves two small-AdamW seeds but payloads are absent; PR49/54 released tensors and receipts support a concrete teacher-pool/final-teacher audit. Reports distinguish clean research models, full-data fits, measured gains and unresolved source matching.
+
 [November 14 KD source/ideation packet](../../campaign_2026-11-14/quality_r2/SOURCES_R1.md): inspected primary papers distinguish student fidelity from generalization and motivate train-only future-teacher targets; independent native/Grok cards and Kaggle quota receipts, proposed empirical effects unmeasured.
 
 [PR92–97 refresh](../../campaign_2026-11-14/quality_r2/TEAM_REFRESH_R1.md) preserves current source heads and producer reports: L4 KD/since gains, negative neighboring-scale/bilinear comparisons and unrun head-count proposals; the user's newer fullmix score supersedes the PR's pending upload status.

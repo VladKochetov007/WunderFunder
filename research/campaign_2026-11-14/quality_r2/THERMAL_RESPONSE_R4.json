@@ -1,0 +1,23 @@
+{
+  "status": "running_with_thermal_duty_control",
+  "observed_event": "R3 froze local fit at CPU93C (journal15:50:56); CPU native container continued and package stayed92C",
+  "response": "root paused only owned wnn-q14-replacement container, replaced watcher with thermal_guard_r4.sh, and reduced its CPU quota from100% to80%",
+  "resume": "R4 observed80C and resumed both the paired-fit unit and native container at15:56:27",
+  "guard": "wnn-q14-thermal-r4 active; three >=92C/unknown readings pause owned fit/export units plus owned native containers, resume only<=84C",
+  "cost": "thermal idle time remains inside local unit wall accounting; no optimizer update was admitted during freezer pause",
+  "native_timing_limit": "actual replacement loop/callback wall includes pause and changing quota; compare quality directly but do not present its wall time as a clean dedicated-one-CPU benchmark",
+  "source_script": "thermal_guard_r4.sh",
+  "second_response": {
+    "reason": "R4 observed another92C event and later sensor reading93C; repeated pauses reduce useful progress",
+    "fit_cpu_quota": "150% (down from200%)",
+    "native_cpu_quota": "65% (down from80%)",
+    "model_semantics": "unchanged; slower/duty-cycled execution only",
+    "native_progress_at_adjustment": "approximately538/1873 complete; exact completion still requires report/hash",
+    "budget": "unchanged GPU-hour and engineering wall deadlines; reevaluate conditional-fit costs using actual slower throughput"
+  },
+  "terminal_cpu_response": "Owned replacement native container stopped after repeated heat; keep strict GPU fit and guard active. Guard quota25% to avoid delayed short control operations.",
+  "later_observed_peak": "R4 journal16:11:51 records CPU96C; frozen fit resumed at81C16:13:06. Another93C16:14:22 event resumed at83C16:14:53.",
+  "final_fit_response": "Root lowered paired-fit CPU quota to100% at approximately16:16 Kyiv. It completed16:16:47; no new training semantics.",
+  "export_response": "Four sequential GPU exports started16:17:15 in wnn-q14-export-local withCPU100%,Memory16GiB,swap0,3600s timeout. Old watcher exited after fits; wnn-q14-thermal-r5 starts the same R4 script at16:17 and was verified active.",
+  "export_quota_amendment": "Root lowered export CPU quota100% to65% after94C spot reading and93C sustained trigger; R5 froze16:18:52 and resumed81C16:19:38. Later spot86C; no claim about unobserved maximum."
+}

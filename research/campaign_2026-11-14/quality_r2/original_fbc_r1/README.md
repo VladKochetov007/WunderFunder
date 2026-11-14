@@ -1,3 +1,5 @@
+**Current disposition:** [thermal deferral](THERMAL_DEFERRAL_R1.json). The actual replacement native run was stopped after repeated92–93C under concurrent work. Its tiny proxy delta does not justify delaying the primary strict-fit panel. The prepared candidate is not recommended; partial native predictions are ungraded, and no negative completed score is claimed.
+
 # Original TL3C member replacement diagnostic
 
 This zero-fit diagnostic was admitted before seeing its full-valid outputs. It tests the fixed .34 KD90 + .33 original tiedlead-s5 + .33 original tiedlead-s6 endpoint against the original TL3C .34 fbc1k/.33/.33 endpoint. No coefficient search, fitting, or upload. Full official valid is exposed development evidence; original TL3C training-membership equality with the local reproduction is unverified.
@@ -21,3 +23,7 @@ The original team TL3 ZIP and the PR51 TL3C ZIP contain the same three native-li
 [Proxy result](REPLACEMENT_PROXY_R1.json): TL3C .6923359001, original native fbc1k .6913220877, replacement proxy .6923634150; delta +.0000275 with a 95% paired-component interval [−.0001855,+.0002365]. This tiny point difference is not an established improvement and may be erased by native arithmetic. [Actual candidate receiver](run_replacement_cpu.sh) therefore evaluates the frozen ZIP on full valid, with one CPU/4GB and a 5,300-second engineering timeout. No new fit or coefficient choice is involved. Original fbc replay passed A-B-A/warmup checks at 555.9MB peak RSS and 1,269.8 seconds on this host.
 
 [Exact candidate output directory](replacement_full_valid/README.md) documents the in-progress native replay and its completion guard.
+
+[grade_native_replacement.py](grade_native_replacement.py) is the prepared final receiver grade: actual native output versus the preserved TL3C baseline, independent metric reconstruction, 2,000 paired component resamples, actual-minus-proxy difference and measured runtime/reset evidence. It must only run after the actual receiver finishes; no result is claimed from this preparation.
+
+**Runtime amendment:** [joint thermal response](../THERMAL_RESPONSE_R4.json) paused this candidate replay and reduced its quota from100% to80%, resuming after cooling. The eventual wall-time report includes interruption and a changed quota; it cannot be advertised as a clean dedicated-one-CPU serving benchmark. Prediction quality and deterministic state checks remain applicable.

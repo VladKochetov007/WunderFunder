@@ -1,10 +1,18 @@
 # Active frontier
 
+## Latest direction, after completed local probes
+
+All four strict local endpoints are graded: pure teacher −.00001669 versus KD90; fixed weight means −.00002051/+.00003592. No pure/SWA follow-up qualifies. [Teacher-pool R3](teacher_pool_r3/README.md) is now the active quality direction: original released FBC/TLead5/TLead6 tensors imported with explicit split-equivalence/ancestor evidence; three full-valid exports active in `wnn-q14-export-teacher-valid`, CPU65%,8GiB,1800s, guarded by `wnn-q14-thermal-r6`. Three new matched student fits are prospective only, pending target score/review/resource admission. Shared8h local/8device-h cloud caps stay; R3 protects at least one final refit plus serving checks. Kaggle still QUEUED, no cloud result. [Latest public receipts](../local_r1/PUBLIC_RECEIPTS_R2.json): finalKD50 pair .66510, KD90single .66193,3/5 slots used. No automatic upload.
+
+## Latest execution,16:17 Kyiv
+
+Both strict local fits completed; KD100 .6915276970 versus KD90 .6915443853. Pure-teacher confirmation trigger is false. Saved strict states verified. Fixed epoch2/3 means derived; four sequential full-valid exports are active in `wnn-q14-export-local` (CPU100%,Memory16GiB,swap0,3600s timeout), monitored by `wnn-q14-thermal-r5` running the R4 guard. Paired-fit wall5757.969s is charged. Six cloud cells remain QUEUED with no execution evidence. The latest user asks maximum quality and fresh GitHub inspection; two bounded read-only scouts inspect measured PR evidence and reusable teacher artifacts.
+
 ## Effective R2 precision correction
 
 The entries below this section describe the superseded initial execution. [Amendment](PRECISION_AMENDMENT_R2.json): legacy Muon had BF16 Newton–Schulz; q14_kd90_s4 was stopped after two epochs plus part of epoch2, preserving checkpoints and 30m41s wall cost. Old wnn-q14-deliver and its thermal guard are stopped. Do not restart that delivery script.
 
-Fixed source48776fba8 passes the bug-specific negative/positive CUDA checks and a 120-update full-recipe profile at20.67seq/s. **Running:** wnn-q14-fit-strict-local-pair completed q14s_local_kd90_s3 (.6915443853 at fixed ep3), now runs q14s_local_kd100_s3, with repaired wnn-q14-thermal-r3 (R2 watcher failed at startup; see THERMAL_MONITOR_REPAIR_R3.json). **Queued:** private Kaggle kernel version1 with six corrected-source fits alpha .5/.9/.9+boot8 ×s3/s4; eight-device-hour cloud cap. Provider accepted launch; no cloud fit/result yet. Conditional final refits must use the new paired cloud evidence and corrected source. No new ZIP yet in this wave.
+Fixed source48776fba8 passes the bug-specific negative/positive CUDA checks and a 120-update full-recipe profile at20.67seq/s. **Running:** wnn-q14-fit-strict-local-pair completed q14s_local_kd90_s3 (.6915443853 at fixed ep3), now runs q14s_local_kd100_s3, with wnn-q14-thermal-r4 (R2 startup failure repaired; R4 also controls native CPU replay after measured93C event). **Queued:** private Kaggle kernel version1 with six corrected-source fits alpha .5/.9/.9+boot8 ×s3/s4; eight-device-hour cloud cap. Provider accepted launch; no cloud fit/result yet. Conditional final refits must use the new paired cloud evidence and corrected source. No new ZIP yet in this wave.
 
 ## Historical initial execution
 
@@ -26,4 +34,4 @@ Fixed source48776fba8 passes the bug-specific negative/positive CUDA checks and 
 
 ## Current analytical support
 
-Original TL3C fbc1k-only native replay completed: .6913220877,1269.8s,555.9MB RSS,reset checks pass. The 3-slot proxy is +.0000275 versus TL3C, with interval crossing zero; actual candidate ZIP full-valid replay now runs in wnn-q14-replacement (one CPU,4GB,5300s). The Kaggle result receiver now passes real-producer metadata and invalid-membership fixtures; completed cloud state verification still awaits outputs. The exposed-validation blend audit and target-geometry probe are complete and indexed in the parent README.
+Original TL3C fbc1k-only native replay completed: .6913220877,1269.8s,555.9MB RSS,reset checks pass. The 3-slot proxy is +.0000275 versus TL3C, with interval crossing zero; actual candidate native replay was stopped incomplete after repeated92–93C; tiny proxy gain did not justify its thermal opportunity cost. Partial predictions are ungraded. See original_fbc_r1/THERMAL_DEFERRAL_R1.json. The Kaggle result receiver now passes real-producer metadata and invalid-membership fixtures; completed cloud state verification still awaits outputs. The exposed-validation blend audit and target-geometry probe are complete and indexed in the parent README.

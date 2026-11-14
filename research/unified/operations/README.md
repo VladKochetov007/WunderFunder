@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [November14 public receipts R2](../../campaign_2026-11-14/local_r1/PUBLIC_RECEIPTS_R2.json) — user reports KD90 single .66193 and final KD50 pair .66510 (25m12s), with3/5 daily submissions used. Pair trails fullmix by .00033; the +.00402 versus train-only single mixes data and ensemble effects. Local hashes are filename associations, not portal-verified hashes. See the updated [submission handoff](../../campaign_2026-11-14/local_r1/SUBMISSIONS_R1.md).
+
 - [VS Code cpptools load and two laptop resets, Oct 25](VSCODE_CPPTOOLS_AND_RESETS_20261025_R1.md) — cpptools indexed 18k third-party C/C++ headers (5.9 GB, >100% CPU) after each boot; workspace excludes and path pins cut it to 31 MB idle. Two resets interrupted the clip panel (one clean, one abrupt with no logged cause); guards tightened to 92 °C.
 
 - [Session freezes and strict process control, October 24 evening](SESSION_FREEZES_STRICT_PROCESS_CONTROL_20261024_R1.md) — two laptop freeze/reboots during the evening review/optimizer session (one killed the first optimizer grid mid-fit; only adamw_s0 survived, partials preserved). Records the user-mandated session posture: zero subagents, one strictly gated synchronous process at a time (thermal <84 °C and MemAvailable ≥8 GB pre-checks, 700 MB/1-core/330 s cgroup caps, 60 s cool-downs). Analysis plus the bounded synthetic optimizer screen only; no competition-data fits or uploads.
@@ -458,3 +460,7 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [October24 ledger compatibility repair](../../campaign_2026-10-24/resume4h_r1/LEDGER_COMPATIBILITY_R1.md) — two historical experiment identifier aliases are read without rewriting append-only history; seven tests and independent review pass. Failed R1 and repaired R2 catalog receipts remain traceable.
 
 [November14 thermal watcher repair](../../campaign_2026-11-14/quality_r2/THERMAL_MONITOR_REPAIR_R3.json): startup failed on a relative script path, so the earlier active-guard claim was wrong. Replaced by an absolute-path watcher and verified its running state; past peak temperature is not recovered from the absent monitoring.
+
+[November14 Kaggle queue diagnosis](../../campaign_2026-11-14/quality_r2/kaggle_r2/QUEUE_DIAGNOSTIC_R2.md): private kernel accepted but no execution evidence yet; public SDK status/metadata lack a cancellable session ID. Upstream issues disagree on version/session identity, so no guessed cancellation or duplicate panel was launched. Local work continues.
+
+[November14 joint thermal response](../../campaign_2026-11-14/quality_r2/THERMAL_RESPONSE_R4.json): observed93C caused the fit freezer to engage, while native CPU work continued heating the laptop. R4 pauses both owned execution paths and resumed them at80C; native quota is80%, and interrupted runtime evidence is explicitly qualified.

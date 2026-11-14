@@ -1,5 +1,7 @@
 # Quality-first follow-up, November 14
 
+**Latest completed pair:** [strict local KD90/KD100](STRICT_LOCAL_PAIR_R2.json) gives .6915443853/.6915276970, pure-teacher delta −.00001669. Actual saved FP32 optimizer states pass verification; no pure-teacher seed5 confirmation is admitted. The two frozen trajectory means are derived and four full-valid exports are running in `wnn-q14-export-local`, CPU100%, with active guard `wnn-q14-thermal-r5` using the R4 script. Fresh team PR/release scouting follows the user's quality-first GitHub steering.
+
 **Effective amendment:** [precision correction R2](PRECISION_AMENDMENT_R2.json) supersedes the original execution panel below. The legacy PR49 Muon factory used BF16 Newton–Schulz despite FP32 model kernels. The incomplete confirmation and old automatic delivery are stopped; [independent audit and tested fix](precision_fix_r1/README.md) preserve the evidence. Corrected-source cloud panel is alpha .5 / .9 / .9+boot8 × seeds3/4 (six fits sharing exact controls); a local alpha .9/1.0 seed3 pair uses the two reserved fits. Interrupted cost remains charged; there is one extra interrupted attempt, explicitly counted. No old mixed-precision control is substituted for a new strict comparison.
 
 [Kaggle R2 packet and launch](kaggle_r2/README.md): private exact-source/teacher bundle, six shared-control configurations, source/footer verification and a13,500-second kernel timeout. Version1 is accepted and initially queued. [Legacy Kaggle R1](kaggle_r1/README.md) is retained as unlaunched superseded preparation.
@@ -31,3 +33,15 @@ Strict FP32, one local GPU worker, 30 GB RAM / 5 GB VRAM, no paid compute or aut
 [Temperature-monitor repair](THERMAL_MONITOR_REPAIR_R3.json): the R2 watcher failed at startup because its relative path used the wrong working directory. R3 uses an absolute path and was verified running; the prior operating-guard claim is corrected. Latest pre-repair reading was90C, with no historical maximum established by that failed monitor.
 
 [Completed-state verifier](verify_local_state.py) and [KD90 actual state receipt](q14s_local_kd90_s3.state_check.json) bind fixed ep3, four completed epochs, source hashes, both strict Muon groups and FP32 floating optimizer state. These complement the live precision regression check.
+
+[Fixed last-two-epoch weight averaging](trajectory_mean_r1/README.md) adds two prospective zero-fit single-GRU endpoints (KD90 and pure-teacher seed3; epochs2/3, equal weights). No epoch search or new fit; useful-gain threshold +.0002 versus each raw endpoint. Derivation/export waits for the local fit pair and does not alter the cloud/final-refit gates.
+
+[Joint thermal response R4](THERMAL_RESPONSE_R4.json), implemented in [thermal_guard_r4.sh](thermal_guard_r4.sh): after a measured93C trigger, pause both GPU training and owned native CPU replay, then resume at80C; replay quota reduced to80%. Actual replacement timing includes this interruption/quota change and is not a clean dedicated-one-CPU benchmark. Training update order is preserved.
+
+[Conditional local confirmation R3](LOCAL_CONFIRMATION_R3.json) prospectively admits at most two fresh-seed5 parents only after useful pure-teacher or frozen-weight-mean seed3 effects. This explicitly extends the attempt cap by2 while preserving the eight-hour local cap and shared two-final-fit reserve; cloud seeds3/4 are not duplicated. No confirmation fit is launched yet.
+
+After a repeated thermal trigger, the active local fit quota was lowered to150% and native replay to65%; [response receipt](THERMAL_RESPONSE_R4.json). Model math is unchanged; measured slower wall costs must be used for subsequent fit admission.
+
+## Latest quality direction after completed probes
+
+Pure teacher and fixed late-weight means did not meet their predeclared useful thresholds; [complete scores and review](trajectory_mean_r1/README.md). No new single-seed ZIP follows. The user explicitly asks maximum quality and team GitHub inspection. [Wider refresh](team_refresh_r3/README.md) found no new post-R1 pushes, an older two-seed K16 mechanism without downloadable weight/prediction payloads, and reusable released clean/full-data team teachers. [Teacher-pool R3](teacher_pool_r3/README.md) imports exact original FBC/TLead tensors with explicit source-qualified membership equivalence and begins a fixed stronger-target diagnostic. Its matched student continuation is conditional; local8h/cloud8device-h caps and maximum2 final fits remain, with a newly explicit minimum-one-final reserve for this different continuation.
