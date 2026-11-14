@@ -3,7 +3,8 @@
 **Prepared; no profiles, fits, model tests or inference executed by this task.**
 H-B300-STRUCTURED-PERTURBATIONS-20261114 / E-B300-STRUCTURED-PERTURBATIONS-20261114.
 Owner of preparation: Ivanhacker13/Codex. Execution needs a named receiver and a
-fresh allocation. Published PR URL is recorded in `publication.json` after creation.
+fresh allocation. Published as [draft PR #99](https://github.com/VladKochetov007/WunderFunder/pull/99);
+[publication.json](publication.json) records the implementation commit and evidence level.
 
 The question is whether **correlated missing information during training** improves
 clean-data Transformer quality more than independent omissions of the same size.
