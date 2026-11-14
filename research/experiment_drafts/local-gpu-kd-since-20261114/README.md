@@ -1,5 +1,7 @@
 # Local GPU research log, from 2026-11-14: cold one-stage distillation × since-weighting on a 40-minute GRU cell
 
+**Quality follow-up resumed by the user.** Alpha .9 seed-4 confirmation is running; the six-fit screen, conditional final refits and cloud bootstrap panel are frozen in the [source-addressed follow-up packet](https://github.com/VladKochetov007/WunderFunder/tree/f908084242c190f15b12db37b5335375ef9f6da8/research/campaign_2026-11-14/quality_r2). [Current PR description](PR.md) records all comparisons and limits. This is a dated amendment to future admission; the 18 completed fits below remain unchanged.
+
 **Status: all 18 fits completed; submission collection and checks on November 14.** Owner: Vlad / Claude Code; collected by Codex. A live log of local-GPU experiments (one RTX 3060 Laptop,
 6 GB) with all ideas, triage, code and per-epoch results. Updated as cells finish.
 **Results table: [RESULTS.md](RESULTS.md)** (generated from the fit logs in this folder).
