@@ -36,6 +36,10 @@ Since × distillation 2×2, fixed epoch 4, full valid:
   together +0.0046; interaction +0.0016. One seed: the interaction is about the size of seed noise, so the
   second-seed 2×2 (seed 4) is queued before anything is claimed. This is the opposite sign to our older
   E-351 (substitution, −0.0012), which used a warm-started child.
+- **Six epochs do not help the distilled recipe:** `l14_kd50_e6_s3` ends at 0.68887 (best epoch 0.68935)
+  against 0.69047 for four epochs. Keep four.
+- **The interaction builds up during training.** Per epoch, I = both − kd − since + labels is
+  −0.0001, +0.0010, +0.0015, +0.0016: absent after one epoch, present from the second.
 - **Cold one-stage distillation** beats our Oct 29 two-stage chain (parent → distilled child, 0.68997) in one
   40-minute fit and sits 0.001 below its teacher (0.69142).
 - **Distillation removes the last-epoch regression** that label-only runs show.
@@ -50,7 +54,9 @@ Since × distillation 2×2, fixed epoch 4, full valid:
 | `submissions/local_20261114/kd50_s3_single.zip` (SHA `e5790b71…`, 4.6 MB) | `l14_kd50_s3@ep3`, train-only | Torch 0.69047 | team INT8 runtime; native vs Torch on a 64-sequence valid panel 0.66546 vs 0.66545 (RMS diff 0.6%); ABI, CRC, A-B-A reset pass; 0.42 s/sequence on the laptop |
 
 Built with the Oct 26 `package_tool.py` (`export`, `build`, `replay`) and `score_panel.py` here. A train+valid
-refit of the same recipe (`l14_final_kd50_s3`) is queued for a second ZIP. Reference pair for transfer:
+refit of the same recipe (`l14_final_kd50_s3`, 12,479 sequences, launched by `final_launch.py`, which
+disables the trainer's train-only guard for this sanctioned final fit; no held-out score exists for it) is
+queued for a second ZIP. Reference pair for transfer:
 tiedlead-s5 single, valid 0.69143, public 0.66246.
 
 ## Operations
@@ -92,6 +98,26 @@ Prompt [FREEBUFF_TASK_R2.md](FREEBUFF_TASK_R2.md), output [FREEBUFF_IDEAS_R2.md]
 Caveat on `teacher_resid_diag.py`: the train target cache has an empty mask array, so the diagnostic includes
 unscored rows and its absolute WP (0.51) is not the scored-row WP. The residual correlations between
 teachers do not depend on that.
+
+## External ideation round 3 (Freebuff, DeepSeek V4.1 Flash): why the pair is super-additive, what to stack
+
+Prompt [FREEBUFF_TASK_R3.md](FREEBUFF_TASK_R3.md), output [FREEBUFF_IDEAS_R3.md](FREEBUFF_IDEAS_R3.md).
+It points out that two variance reductions on one target should substitute, so a positive interaction needs
+another mechanism, and offers three: (E1) the teacher keeps the information of rows the age weight discards,
+(E2) the pair leaves a residue of large-|y| teacher-disagreement rows, (E3) each knob delays a different
+part of the over-fit so the last epoch stays productive.
+
+| Item | Status |
+|---|---|
+| Per-epoch interaction (E3 diagnostic) | done from existing logs: grows from 0 to +0.0016, consistent with E3; but 6 epochs did not help, so it is not simply "more epochs" |
+| Shared-seed check | all four cells share seed 3 (same init and data order), so the common seed effect cancels in I; seed 4 2×2 is queued for the across-seed read |
+| B1 event-gated second layer | same as PR #93 C02; needs model code |
+| B2 Muon | already in the recipe |
+| B3 event-phase inputs | PR #92 B06 family; needs input code |
+| B4 density-matched sequence sampling | trainer has `--class-balance`, but the train-only guard forbids it; skipped |
+| B5 per-since-band affine readout | zero-fit ceiling check planned (same family as PR #93 C04) |
+| B6 Huber on the mixed target | open; Ivan's PR #63 covers Huber on B300 |
+| 12-run screen (six singles on the pair, then one A×B 2×2 at two seeds) | adopted in spirit: current queue = singles on the pair at seed 3 + the since×KD 2×2 at seed 4 |
 
 ## Next
 
