@@ -56,3 +56,17 @@ below the ~.004 public all-data shift; they cannot be distinguished on public.
 
 Decision: after s7, `queue2.sh` (`wnn-q15-queue2`) fits all-data strict KD90 s3 (`q15f_kd90_s3`), then TLead
 s8/s9. Linear-GRU NPZ export verified natively: KD90 corr .99997/.99996 ([PARITY_TORCH_kd90.json](PARITY_TORCH_kd90.json)).
+
+## Dependency map ([dependencies.py](dependencies.py) → [DEPENDENCIES_R1.json](DEPENDENCIES_R1.json))
+
+- TL3C TLead-pair share curve is flat: .5 .692321, .6 .692351 (max), .66 .692340, .8 .692230; tl3's weights are ~optimal.
+- Strict KD90 as 4th member: b=.1 .692437, .2 .692492, .25 .692504, .3 .692507, .5 .692417.
+- b=.25 vs TL3C: +.000164, paired 579-component bootstrap 95% [−.000035, +.000375], P(>0)=.94; t0 +.000235,
+  t1 +.000093. Selection exposure: chosen among 8 fourth members (see FOURTH_MEMBER_R1).
+
+**Pre-declared packages (before any all-data fit result):**
+- `tl3_tl7`: S5 .34 + TL5/TL6/TL7 .22 each (keeps student share .34, TLead .66).
+- `tl3_kd90`: .75×tl3 + .25 all-data KD90 → S5 .255, TL5 .2475, TL6 .2475, KD90 .25.
+
+Thermal: CPU package reached 95°C under the fit; slice quota lowered to 200% and
+[thermal_guard.sh](thermal_guard.sh) (`wnn-q15-thermal`) freezes `wnn-campaign.slice` at ≥97°C ×3, thaws ≤88°C.
