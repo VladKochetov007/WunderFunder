@@ -152,3 +152,5 @@ part of the over-fit so the last epoch stays productive.
 ## Next
 
 The queue is complete. Deliver the checked ZIPs in SUBMISSIONS_R1.md for human upload. No additional experiment is launched by this collection.
+
+[Quality update R3](QUALITY_UPDATE_R3.md): actual public receipts, completed strict pair/negative weight means and a hash-bound stronger-teacher target probe. New matched fitting is conditional; no new public or student gain is claimed.
