@@ -1,0 +1,35 @@
+# Full-data TLead seeds for the TL3 family (2026-11-15)
+
+User: "utilize gpu, make experiments" — releases the PHCapital GPU hold
+([release receipt](../../campaign_2026-11-14/quality_r2/LOCAL_GPU_RELEASE_R1.json)). Deadline Nov 15 23:59 UTC.
+
+## Hypothesis
+
+Public feedback ranks the original team `tl3.zip` (.34 distilled S5 + .33 `fttall_tlead_s5` + .33
+`fttall_tlead_s6`, all-data parents per its description) first at .66832, while every newer student
+line scores lower. Its TLead members carry most of its weight. Adding further all-data TLead seeds should
+diversify the strongest public family. Its tensors differ from the PR49 train-only `tl3c_fttall_tlead_s5`
+reproduction (normalization max diff .23), consistent with different fit data.
+
+## Recipe
+
+[queue.sh](queue.sh): exports full-valid caches of train-only teachers `tt29rep_fin256_s3/s4` (ep3), then
+fits `q15f_tlead_s{7,8,9}` with the PR49 `q14t_tlead_s5` recipe (tiedlead H256×2, tl3-muon rnn ×3, onecycle
+lr .001, EMA .999 eval, KD α .5 boot-h 8, since32, WMSE + aux, 4 epochs fixed ep3, strict FP32) changed
+only to train+valid (10,607 + 1,873 sequences, no evaluation) via the final-fit launcher. Deviation: the
+original distilled from `fin256ft`; the local reproduced `fin256` teachers are used. No held-out score is
+possible; fitted-valid diagnostics only detect broken training.
+
+## Packaging tools
+
+- [export_npz.py](export_npz.py): tiedlead checkpoint → TL3 `wnn_cpp` member NPZ (keys/shapes asserted
+  against the original `weights_tl5.npz`).
+- [build_tl3.py](build_tl3.py): TL3 runtime bytes from the original team ZIP + chosen members.
+- [parity_torch.py](parity_torch.py): native callback vs torch FP32 predictions on valid sequences.
+  Exporter check on PR49 `q14t_tlead_s5`: 4 sequences, 79,604 rows, corr .99993/.99991, mean abs .0052
+  (dynamic int8), finite — [PARITY_TORCH_q14t_tlead_s5.json](PARITY_TORCH_q14t_tlead_s5.json).
+
+## Status
+
+Running as `wnn-q15-tlead` since 22:16 UTC Nov 14; s7 at 12.8 seq/s ≈ 65 min per fit. GPU 3.7 GB/75°C,
+CPU package 89°C at start.
