@@ -11,8 +11,17 @@
 | l14_final_kd50_s3 | `FINAL --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` |  | — | — | done |
 | l14_kd50_s4 | `--distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68439 → 0.68816 → 0.68991 → 0.69048 | 0.69048 | — | done |
 | l14_nosince_s4 | `--since-weight 0` | 0.67985 → 0.68391 → 0.68663 → 0.68488 | 0.68488 | — | done |
-| l14_kd50_nosince_s4 | `--since-weight 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68397 | — | — | running |
+| l14_kd50_nosince_s4 | `--since-weight 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68397 → 0.68742 → 0.68884 → 0.68897 | 0.68897 | — | done |
+| l14_final_kd50_s4 | `FINAL --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` |  | — | — | done |
+| l14_kdfar_s3 | `--distill tt29rep_fbc1k_s5 --distill-alpha 0.3 --distill-alpha-far 0.8 --distill-alpha-tau 32` | 0.68459 → 0.68852 → 0.69058 → 0.69112 | 0.69112 | +0.00441 | done |
+| l14_kd90_s3 | `--distill tt29rep_fbc1k_s5 --distill-alpha 0.9` | 0.68716 → 0.68967 → 0.69126 → 0.69144 | 0.69144 | +0.00473 | done |
+| l14_kd50_noaux_s3 | `--aux-next 0 --aux-struct 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68235 → 0.68678 → 0.68887 → 0.68857 | 0.68857 | +0.00186 | done |
+| l14_ba2_s3 | `--distill tt29rep_fbc1k_s5,l14_kd50_s3 --distill-alpha 0.5` | 0.68367 → 0.68816 → 0.68954 → 0.68971 | 0.68971 | +0.00300 | done |
+| l14_kd50_h384_s3 | `--hidden 384 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68435 → 0.68958 → 0.69080 → 0.69021 | 0.69021 | +0.00350 | done |
+| l14_kd50_since8_s3 | `--since-weight 8 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5` | 0.68313 → 0.68823 → 0.68935 → 0.68973 | 0.68973 | +0.00302 | done |
+| l14_data50_s3 | `--train-seqs 5162 --epoch-samples 10325` | 0.67436 → 0.67773 → 0.64352 → 0.62151 | 0.62151 | -0.06520 | done |
+| l14_data75_s3 | `--train-seqs 7744 --epoch-samples 10325` | 0.68115 → 0.67567 → 0.67279 → 0.66290 | 0.66290 | -0.02381 | done |
 
-Pending in queue order: l14_final_kd50_s4, l14_kdfar_s3, l14_kd90_s3, l14_kd50_noaux_s3, l14_ba2_s3, l14_kd50_h384_s3, l14_kd50_since8_s3, l14_data50_s3, l14_data75_s3.
+All queued endpoints completed. Final-data rows have no held-out score.
 
 One seed per cell unless a seed-4 pair is listed; valid is repeatedly inspected development data.

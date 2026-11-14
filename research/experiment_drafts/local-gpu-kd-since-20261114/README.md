@@ -1,8 +1,18 @@
 # Local GPU research log, from 2026-11-14: cold one-stage distillation × since-weighting on a 40-minute GRU cell
 
-**Status: running.** Owner: Vlad / Claude Code. A live log of local-GPU experiments (one RTX 3060 Laptop,
+**Status: all 18 fits completed; submission collection and checks on November 14.** Owner: Vlad / Claude Code; collected by Codex. A live log of local-GPU experiments (one RTX 3060 Laptop,
 6 GB) with all ideas, triage, code and per-epoch results. Updated as cells finish.
 **Results table: [RESULTS.md](RESULTS.md)** (generated from the fit logs in this folder).
+
+## Final collection (2026-11-14)
+
+All 18 fitted endpoints are saved (16 train-only, two final train+valid). The GPU fitting queue is finished. [Submission handoff](SUBMISSIONS_R1.md), [checks and manifests](submission_checks/README.md), and [review status and limits](SUBMISSION_AUDIT_R1.md) own the current release status. No new fitting was needed for collection.
+
+**Correction to the preliminary synergy claim below:** the since×KD interaction is +0.001587 on seed 3 and −0.001786 on seed 4 (mean −0.000100). Synergy did not replicate. KD on top of since32 gains +0.003756/+0.002299, mean +0.003028. Two close seed scores alone do not establish removal of training variability.
+
+The fixed equal-weight train-only kd50 s3/s4 pair scores **0.691423** on all official valid, +0.000949 over the mean single. Alpha 0.9 is the best single screen endpoint at **0.691442** (one seed). Row-dependent alpha scores 0.691117; longer training, no auxiliaries, a second distillation round, H384 and since8 trail these endpoints. The 50%/75% data runs end at 0.621511/0.662904 after severe within-run regression; they do not isolate a clean data-scaling law.
+
+The user reports the train-only kd50 single at **public 0.66108 / 15m27s / 628 MB**, ID `1qn2bx0q`. This is transfer feedback, not a numerical forecast for the final-data pair.
 
 ## Why this exists
 
@@ -12,10 +22,10 @@ do since-weighting and distillation add up or substitute?
 
 ## Recipe (frozen; `recipe_args.sh` BASE + PARENT, launched by `run_cell.sh`)
 
-GRU H256×2 (0.98M parameters), raw inputs, Muon on recurrent matrices + AdamW elsewhere, LR 1e-3, onecycle
+GRU H256×2 (0.98M parameters), canonical 211 derived inputs, Muon on recurrent matrices + AdamW elsewhere, LR 1e-3, onecycle
 with 5% warmup, batch 32 × chunk 1000, 4 epochs, fixed last epoch, WMSE, `--since-weight 32 --since-floor .25`,
 auxiliary next/struct heads 0.3, strict IEEE FP32 (`strict_launch.py`, TF32 off). Trainer source: PR49 legacy
-runtime `188c0788e`. Fit on the 10,325 train-only sequences (split `0c4de3a2…`, 282 linked sequences excluded),
+runtime `188c0788e`. Fit on the 10,325 train-only sequences (local split `6d23a1b7…`, 282 linked sequences excluded),
 evaluate all 1,873 valid sequences / 3,528,273 scored rows with `global_wp_clip2_v1`. Teacher for distillation:
 our local reproduction of the PR49 `fbc1k_s5` teacher (valid 0.69142), feature-only train predictions;
 target = (1−α)·label + α·teacher.
@@ -23,7 +33,7 @@ target = (1−α)·label + α·teacher.
 Differences from Semyon's L4 contract: Muon at LR 1e-3 instead of AdamW 3e-4, 4 epochs instead of 6, no K16
 stem, auxiliary heads on. Numbers here are not directly comparable with PR #95/#96 cells; paired deltas are.
 
-## Findings so far (seed 3, see RESULTS.md for every epoch)
+## Early seed-3 snapshot (superseded by final collection above)
 
 Since × distillation 2×2, fixed epoch 4, full valid:
 
@@ -50,7 +60,7 @@ Since × distillation 2×2, fixed epoch 4, full valid:
 - Zero-fit (`blend_check.py`): the distilled student correlates 0.9956 with the served TL3C blend; adding it
   at weight 0.2 gives +0.0001 on valid, so no four-member ZIP is built.
 
-## Submission ZIPs (human upload only)
+## Early packaging snapshot (current handoff is SUBMISSIONS_R1.md)
 
 | ZIP | Members | Valid | Checks |
 |---|---|---|---|
@@ -137,6 +147,4 @@ part of the over-fit so the last epoch stays productive.
 
 ## Next
 
-Queue order is in RESULTS.md. Planned after the queue: teacher fraction rising over epochs (needs a two-line
-trainer change in a separate source copy), second distillation round from the round-1 student, PR #93 C04
-(since-band readouts) as a zero-fit check.
+The queue is complete. Deliver the checked ZIPs in SUBMISSIONS_R1.md for human upload. No additional experiment is launched by this collection.

@@ -22,3 +22,31 @@ l14_kd50_s4 "weighted_pearson": 0.6904817339765228
 CELL_DONE l14_nosince_s4
 l14_nosince_s4 "weighted_pearson": 0.6848837121693749
 2026-11-14T04:08:43Z start l14_kd50_nosince_s4 4 --since-weight 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5
+CELL_DONE l14_kd50_nosince_s4
+l14_kd50_nosince_s4 "weighted_pearson": 0.6889692080798315
+2026-11-14T04:49:35Z start l14_final_kd50_s4 4 FINAL --distill tt29rep_fbc1k_s5 --distill-alpha 0.5
+CELL_DONE l14_final_kd50_s4
+2026-11-14T05:30:04Z start l14_kdfar_s3 3 --distill tt29rep_fbc1k_s5 --distill-alpha 0.3 --distill-alpha-far 0.8 --distill-alpha-tau 32
+CELL_DONE l14_kdfar_s3
+l14_kdfar_s3 "weighted_pearson": 0.6911171452792808
+2026-11-14T06:11:05Z start l14_kd90_s3 3 --distill tt29rep_fbc1k_s5 --distill-alpha 0.9
+CELL_DONE l14_kd90_s3
+l14_kd90_s3 "weighted_pearson": 0.6914422495483512
+2026-11-14T06:51:59Z start l14_kd50_noaux_s3 3 --aux-next 0 --aux-struct 0 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5
+CELL_DONE l14_kd50_noaux_s3
+l14_kd50_noaux_s3 "weighted_pearson": 0.6885683122312845
+2026-11-14T07:32:34Z start l14_ba2_s3 3 --distill tt29rep_fbc1k_s5,l14_kd50_s3 --distill-alpha 0.5
+CELL_DONE l14_ba2_s3
+l14_ba2_s3 "weighted_pearson": 0.6897053899715058
+2026-11-14T08:13:38Z start l14_kd50_h384_s3 3 --hidden 384 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5
+CELL_DONE l14_kd50_h384_s3
+l14_kd50_h384_s3 "weighted_pearson": 0.6902121326081566
+2026-11-14T09:28:02Z start l14_kd50_since8_s3 3 --since-weight 8 --distill tt29rep_fbc1k_s5 --distill-alpha 0.5
+CELL_DONE l14_kd50_since8_s3
+l14_kd50_since8_s3 "weighted_pearson": 0.6897268269975994
+2026-11-14T10:08:52Z start l14_data50_s3 3 --train-seqs 5162 --epoch-samples 10325
+CELL_DONE l14_data50_s3
+l14_data50_s3 "weighted_pearson": 0.6215109064662553
+2026-11-14T10:49:20Z start l14_data75_s3 3 --train-seqs 7744 --epoch-samples 10325
+CELL_DONE l14_data75_s3
+l14_data75_s3 "weighted_pearson": 0.6629036760045917
