@@ -1,0 +1,127 @@
+{
+  "schema": "wnn.structured-perturbations.recipe.v1",
+  "experiment_id": "E-B300-STRUCTURED-PERTURBATIONS-20261114",
+  "hypothesis_id": "H-B300-STRUCTURED-PERTURBATIONS-20261114",
+  "status": "IMPLEMENTED_NOT_EXECUTED",
+  "objective_mode": "competition",
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "native_runtime_commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+  "midas_commit": "dec62b91120bfb6aaf4b0d214f4c4e2ac88bc54d",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "seeds": [
+    208401,
+    208402
+  ],
+  "arms": {
+    "clean": {
+      "input_perturbation": "none",
+      "history_perturbation": "none"
+    },
+    "stale_iid": {
+      "input_perturbation": "iid",
+      "history_perturbation": "none"
+    },
+    "stale_burst": {
+      "input_perturbation": "burst",
+      "history_perturbation": "none"
+    },
+    "history_iid": {
+      "input_perturbation": "none",
+      "history_perturbation": "iid"
+    },
+    "history_burst": {
+      "input_perturbation": "none",
+      "history_perturbation": "burst"
+    }
+  },
+  "cells": [
+    "clean_s208401",
+    "stale_iid_s208401",
+    "stale_burst_s208401",
+    "history_iid_s208401",
+    "history_burst_s208401",
+    "clean_s208402",
+    "stale_iid_s208402",
+    "stale_burst_s208402",
+    "history_iid_s208402",
+    "history_burst_s208402"
+  ],
+  "panels": [
+    {
+      "id": "input",
+      "arms": [
+        "clean",
+        "stale_iid",
+        "stale_burst"
+      ],
+      "new_fits": 6
+    },
+    {
+      "id": "history",
+      "arms": [
+        "clean",
+        "history_iid",
+        "history_burst"
+      ],
+      "new_fits": 4,
+      "reuse_controls": [
+        "clean_s208401",
+        "clean_s208402"
+      ]
+    }
+  ],
+  "new_fits_planned": 10,
+  "new_student_fits": 0,
+  "profiles_completed_at_publication": 0,
+  "fits_completed_at_publication": 0,
+  "primary_endpoint": {
+    "epoch": 4,
+    "updates": 3280,
+    "metric": "global_wp_clip2_v1",
+    "evaluation_sequences": 1873,
+    "scored_rows": 3528273,
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0
+  },
+  "validation_exposure": "development_exposed",
+  "input_corruption": {
+    "block_rows": 128,
+    "eligible_rows": [
+      1,
+      19969
+    ],
+    "blocks_chosen": 39,
+    "eligible_blocks": 156,
+    "masked_rows_per_sequence": 4992,
+    "feature_slice": [
+      52,
+      104
+    ],
+    "fill": "last observed same-sequence row",
+    "protect": [
+      "row0",
+      "last31 rows",
+      "i0",
+      "a0:a7"
+    ]
+  },
+  "history_corruption": {
+    "fraction": 0.25,
+    "protect_recent_cache_rows": 32,
+    "protect_current_chunk": true,
+    "block_topology": "circular eligible-cache index",
+    "mask_location": "pre-softmax",
+    "cache_write_unchanged": true
+  },
+  "decision": {
+    "candidate_vs_clean_mean_wp_min": 0.001,
+    "both_seed_deltas_positive": true,
+    "mechanism_requires_structured_vs_iid_mean_positive": true,
+    "confirmation": "separately budgeted source-qualified folds and measured student benefit",
+    "formal_significance_claim": false
+  },
+  "execution_authorized": false,
+  "owner_at_admission_required": true,
+  "fresh_budget_at_admission_required": true,
+  "public_score": null
+}

@@ -1,0 +1,193 @@
+--- a/src/wnn/training/sequence_config.py
++++ b/src/wnn/training/sequence_config.py
+@@ -10,6 +10,7 @@
+ from wnn.training.sequence_complement_monitor import validate_complement_monitor
+ from wnn.training.sequence_ensemble_config import validate_ensemble_objective
+ from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
++from wnn.training.sequence_perturbations import validate_perturbation_mode
+ from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+ from wnn.training.sequence_qk_norm import canonical_qk_norm
+ from wnn.training.sequence_runtime_context import runtime_context_contract
+@@ -79,6 +80,7 @@
+         "lr_role_factors",
+         "lr_head_factor",
+         "lr_body_factor",
++        "input_perturbation",
+     }
+     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
+         raise ValueError("unknown sequence recipe field")
+@@ -94,7 +96,7 @@
+     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
+         config["adamw_beta2"] = 0.95
+     model_values = raw.get("model", {})
+-    if set(model_values) - (set(MODEL_DEFAULTS) | {"qk_norm"}):
++    if set(model_values) - (set(MODEL_DEFAULTS) | {"qk_norm", "history_perturbation"}):
+         raise ValueError("unknown sequence model field")
+     model_values = dict(model_values)
+     if "qk_norm" in model_values:
+@@ -105,6 +107,14 @@
+             model_values["qk_norm"] = qk_norm
+     model = MODEL_DEFAULTS | model_values
+     config["model"] = model
++    input_perturbation = validate_perturbation_mode(config.get("input_perturbation", "none"))
++    history_perturbation = validate_perturbation_mode(model.get("history_perturbation", "none"))
++    if input_perturbation != "none" and history_perturbation != "none":
++        raise ValueError("the registered panel does not combine input and history perturbations")
++    if model["architecture"] != "transformer" and (
++        input_perturbation != "none" or history_perturbation != "none"
++    ):
++        raise ValueError("the registered perturbation panel requires a Transformer")
+     for key in (
+         "schema_version",
+         "epochs",
+--- a/src/wnn/training/sequence_models.py
++++ b/src/wnn/training/sequence_models.py
+@@ -14,6 +14,7 @@
+ from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
+ from wnn.training.sequence_model_helpers import check_model_precision as _check_fp32_environment
+ from wnn.training.sequence_model_helpers import detach_state as detach_state
++from wnn.training.sequence_perturbations import validate_perturbation_mode
+ from wnn.training.sequence_precision import (
+     PRECISION_MODES,
+     checkpoint_context_fn,
+@@ -86,6 +87,7 @@
+         precision_mode: str,
+         attention_backend: str,
+         qk_norm: bool,
++        history_perturbation: str,
+     ) -> None:
+         super().__init__()
+         self.hidden = hidden
+@@ -100,7 +102,9 @@
+         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
+         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
+         self.blocks = nn.ModuleList(
+-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend, qk_norm)
++            CausalTransformerBlock(
++                hidden, heads, ff_width, dropout, attention_backend, qk_norm, history_perturbation
++            )
+             for _ in range(layers)
+         )
+         self.output_norm = nn.LayerNorm(hidden)
+@@ -244,6 +248,11 @@
+     attention_backend = config.get("attention_backend", "math")
+     compile_blocks = config.get("compile_blocks", False)
+     qk_norm = canonical_qk_norm(config.get("qk_norm", "none"))
++    history_perturbation = validate_perturbation_mode(config.get("history_perturbation", "none"))
++    if history_perturbation != "none" and (
++        architecture != "transformer" or attention_backend not in ("math", "efficient")
++    ):
++        raise ValueError("history perturbation requires Transformer math or efficient attention")
+     if type(checkpoint_blocks) is not bool:
+         raise TypeError("model config 'checkpoint_blocks' must be boolean")
+     if hint_mode not in ("learned", "fixed"):
+@@ -287,6 +296,7 @@
+         precision_mode,
+         attention_backend,
+         qk_norm == "rms",
++        history_perturbation,
+     )
+     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
+     return model
+--- a/src/wnn/training/sequence_attention.py
++++ b/src/wnn/training/sequence_attention.py
+@@ -9,6 +9,11 @@
+ from torch.nn import functional as F
+ 
+ from wnn.training.sequence_attention_backends import LocalCausalAttention
++from wnn.training.sequence_perturbations import (
++    HISTORY_PROTECTED_ROWS,
++    perturb_history_attention,
++    validate_perturbation_mode,
++)
+ from wnn.training.sequence_qk_norm import headwise_rms_normalize
+ 
+ 
+@@ -51,6 +56,7 @@
+         dropout: float,
+         attention_backend: str = "math",
+         qk_norm: bool = False,
++        history_perturbation: str = "none",
+     ) -> None:
+         super().__init__()
+         if type(qk_norm) is not bool:
+@@ -59,6 +65,8 @@
+         self.heads = heads
+         self.head_dim = hidden // heads
+         self.qk_norm = qk_norm
++        self.history_perturbation = validate_perturbation_mode(history_perturbation)
++        self.attention_backend = attention_backend
+         self.norm_attention = nn.LayerNorm(hidden)
+         self.qkv = nn.Linear(hidden, 3 * hidden)
+         self.attention_output = nn.Linear(hidden, hidden)
+@@ -97,15 +105,32 @@
+         all_key = torch.cat((past_key.float(), current_key.float()), dim=-2)
+         all_value = torch.cat((past_value.float(), current_value.float()), dim=-2)
+         key_start = start_position - past_key.shape[-2]
+-        attended = self.local_attention(
+-            query,
+-            all_key.to(dtype=query.dtype),
+-            all_value.to(dtype=query.dtype),
+-            start_position,
+-            key_start,
+-            context_rows,
+-            dropout_p,
+-        )
++        if (
++            self.training
++            and self.history_perturbation != "none"
++            and past_key.shape[-2] >= HISTORY_PROTECTED_ROWS + 4
++        ):
++            attended = perturb_history_attention(
++                query,
++                all_key.to(dtype=query.dtype),
++                all_value.to(dtype=query.dtype),
++                start_position,
++                key_start,
++                context_rows,
++                dropout_p,
++                self.history_perturbation,
++                self.attention_backend,
++            )
++        else:
++            attended = self.local_attention(
++                query,
++                all_key.to(dtype=query.dtype),
++                all_value.to(dtype=query.dtype),
++                start_position,
++                key_start,
++                context_rows,
++                dropout_p,
++            )
+         attended = attended.transpose(1, 2).reshape(batch, rows, self.hidden)
+         values = values + self.residual_dropout(self.attention_output(attended))
+         feedforward = self.feedforward_out(
+--- a/src/wnn/training/sequence_loop.py
++++ b/src/wnn/training/sequence_loop.py
+@@ -34,6 +34,7 @@
+     window_denominators,
+ )
+ from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
++from wnn.training.sequence_perturbations import perturb_input
+ from wnn.training.sequence_precision import backward_context, forward_context
+ from wnn.training.sequence_update import finish_sampled_update, finish_update
+ from wnn.training.sequence_window_reporting import window_record as _window_record
+@@ -206,6 +207,18 @@
+             batch["hints"],
+             batch["x"],
+         )
++        x = coordinated_call(
++            lambda x=x, batch_start=batch_start: perturb_input(
++                x,
++                str(config.get("input_perturbation", "none")),
++                seed=int(config["seed"]),
++                epoch=epoch,
++                rank=context.rank,
++                batch_start=batch_start,
++            ),
++            "training-only i1 staleness",
++            context,
++        )
+         real_sequence_count = sum(index >= 0 for index in batch_ids)
+         state: Any = None
+         for window_start in range(0, len(chunk_intervals), accumulation):
