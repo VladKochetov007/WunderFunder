@@ -59,6 +59,18 @@ disables the trainer's train-only guard for this sanctioned final fit; no held-o
 queued for a second ZIP. Reference pair for transfer:
 tiedlead-s5 single, valid 0.69143, public 0.66246.
 
+## Where the error sits (zero-fit, `band_calibration.py`, `l14_kd50_s3`, 400 valid sequences)
+
+| Rows since the last i0 price event | Share of scored rows | Share of metric weight | WP |
+|---|---|---|---|
+| < 8 | 46% | 41% | 0.809 |
+| 8–32 | 21% | 22% | 0.707 |
+| 32–128 | 21% | 23% | 0.632 |
+| ≥ 128 | 13% | 15% | 0.487 |
+
+More than a third of the metric weight sits on rows 32+ rows after the last event, where WP is 0.49–0.63.
+A per-band affine correction of the output does not help, so the gap there is information, not calibration.
+
 ## Operations
 
 `run_queue.sh` runs `queue.txt` one cell at a time (a single fit already uses ~94% GPU, 3.0 GB VRAM); each
@@ -115,7 +127,7 @@ part of the over-fit so the last epoch stays productive.
 | B2 Muon | already in the recipe |
 | B3 event-phase inputs | PR #92 B06 family; needs input code |
 | B4 density-matched sequence sampling | trainer has `--class-balance`, but the train-only guard forbids it; skipped |
-| B5 per-since-band affine readout | zero-fit ceiling check planned (same family as PR #93 C04) |
+| B5 per-since-band affine readout | **killed zero-fit** (`band_calibration.py`, 400 valid sequences, 2-fold cross-fit): 0.70353 raw → 0.70324 by since band, 0.70316 by band × class, 0.70358 by class; the readout is already calibrated per band |
 | B6 Huber on the mixed target | open; Ivan's PR #63 covers Huber on B300 |
 | 12-run screen (six singles on the pair, then one A×B 2×2 at two seeds) | adopted in spirit: current queue = singles on the pair at seed 3 + the since×KD 2×2 at seed 4 |
 
