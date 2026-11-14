@@ -1,5 +1,7 @@
 # November 14 submission handoff
 
+**Later precision correction:** source review found FP32 model kernels with BF16 Muon Newton–Schulz in this original recipe. The all-math strict-FP32 description is superseded; numerical scores, hashes and native checks remain recorded observations. Corrected-source experiments are a separate panel.
+
 The user requested current status and submissions from the strongest available variants, and supplied four portal receipts. All 18 queued fits completed before collection. This handoff uses existing fixed-epoch checkpoints; no new fitting or portal upload. Source: local fit logs, run provenance and exported predictions under `/home/vlad/development/wunder/research_tmp/chrono_root/`; package runtime is the SHA-pinned original team TL3 engine.
 
 ## Deliverables, in upload priority order
