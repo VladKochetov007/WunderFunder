@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## November 15 (final day): GPU released, final submissions
+
+Latest user: "сделай лучшие сабмиты из возможных … нам нужно победить", then "utilize gpu, make experiments". The PHCapital hold is released ([receipt](research/campaign_2026-11-14/quality_r2/LOCAL_GPU_RELEASE_R1.json)). Deadline Nov 15 23:59 UTC. Public ranks original team tl3.zip first (.66832); newer KD/full-data lines score lower. Prepared CPU-only [TL3+W18 candidates](research/campaign_2026-11-15/tl3_w18_r1/README.md); GPU queue `wnn-q15-tlead` fits all-data TLead seeds 7/8/9 for TL3-family packages ([packet](research/campaign_2026-11-15/tlead_final_r1/README.md)). No automatic upload.
+
 ## November 14: local GPU reserved for PHCapital
 
 Latest user: **"Пока оставь GPU PHCapital; продолжай доступные проверки Wunder"**. This restricts local GPU work only; bounded CPU/read-only checks and the existing queued Kaggle panel remain authorized. All owned local GPU/thermal units are stopped, partial S6 predictions preserved ungraded, and local wrappers check [hold marker](research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD). No automatic local GPU restart. [Receipt](research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json).
