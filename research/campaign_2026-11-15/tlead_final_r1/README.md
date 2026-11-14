@@ -70,3 +70,14 @@ s8/s9. Linear-GRU NPZ export verified natively: KD90 corr .99997/.99996 ([PARITY
 
 Thermal: CPU package reached 95°C under the fit; slice quota lowered to 200% and
 [thermal_guard.sh](thermal_guard.sh) (`wnn-q15-thermal`) freezes `wnn-campaign.slice` at ≥97°C ×3, thaws ≤88°C.
+
+## Results: q15f_tlead_s7 (all-data, done 23:20 UTC, 925.6 s/epoch, 0 nonfinite steps)
+
+Fitted-valid sanity ([sanity_alldata.py](sanity_alldata.py); valid in fit, inflated): s7 .69652 vs all-data
+KD50 s3 .69957; corr with train-only TLead s5/s6 .9909/.9922 — trained normally. Native NPZ parity vs torch
+corr .99992/.99992 ([PARITY_TORCH_s7.json](PARITY_TORCH_s7.json)).
+
+`submissions/final_20261115/tl3_tl7.zip` (16.49 MB, sha256 `6041d3f0…e6e7`): S5 .34 + TL5/TL6/TL7 .22.
+[pkgcheck.py](pkgcheck.py) 8 sequences ([PKGCHECK_tl3_tl7.json](PKGCHECK_tl3_tl7.json)): finite, A-B-A 0.0,
+reconstruction (2/3·tl3 + .1133·S5 + .22·TL7) max abs 2.1e-7. Runtime ratio vs tl3 1.37 → ≈54 min projected
+(TLead members cost more than students; ~6 min margin, higher timeout risk than the 2+2 packages).
