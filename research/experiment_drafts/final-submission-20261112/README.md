@@ -41,3 +41,5 @@ The scoped `.gitattributes` preserves imported source/receipt bytes so Git line-
 ## Later actual upload,13 November2026
 
 [The user-directed platform trial](submission-attempt-20261113-r1/README.md) was uploaded once despite the host-runtime projection. The signed-in platform confirmed upload success and a new PENDING record for the exact14.8MB R2 ZIP at14:53,1/5 today and109 total. Earlier not-uploaded/Desktop-unavailable observations above are historical. Checker outcome, actual runtime and public score are pending; this upload does not turn the runtime projection into a passed gate.
+
+[Public status check,15 November](status-20261115-r1/README.md): official public API now reports team best0.668579656155, rank62 and117 submissions. This does not identify the result of1Y4RW907. The submission-history API requires authentication; its latest specific outcome remains unverified.
