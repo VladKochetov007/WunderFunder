@@ -84,3 +84,12 @@ only perturbs them, so `otl3_V.zip`/`otl3_V4.zip` are low priority. Cross-lineag
 New cross-lineage packages (fixed equal weights, no search):
 - `orig3_vs7.zip`: original S5/TL5/TL6 .25 each + all-data V_s7 .25.
 - `orig2_vall2.zip`: original S5/TL5 .25 each + all-data V_s7 .25 + all-data V_fkd .25.
+
+## Public feedback and runtime correction (user snapshot 2026-11-15)
+
+`tl3_w18swap.zip` .66805 (45m46s); `tl3_s5w18.zip` **SCORE:TIMEOUT at 61m57s** (4 members); kd90_s3_single .66193.
+Server time is now ≈15.3 min/member, so every 4-member ZIP is a timeout risk; they are moved to
+`submissions/final_20261115/four_member_timeout_risk/` (not for upload). 3-member replacements (TL3 slot weights):
+- `o2_vs7.zip`: original S5 .34 + original TL5 .33 + all-data V_s7 .33 (sha256 de5e1641…).
+- `o1_vall2.zip`: original S5 .34 + all-data V_s7 .33 + all-data V_fkd .33 (f4db5bf1…).
+- `v3_ft.zip`: V_fbc .34 + V_tl5 .33 + V_tl6 .33, train-only bases + V (OOF twin .694065 vs TL3C .692340) (f22a46c1…).
