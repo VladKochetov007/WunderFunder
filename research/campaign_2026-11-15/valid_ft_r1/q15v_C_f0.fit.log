@@ -1,0 +1,77 @@
+FINAL_ALL_DATA_FIT guard=disabled STRICT_FP32 False False ieee
+{"name": "q15v_C_f0", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "encoder_width": null, "recurrent_width": null, "readout_width": null, "head_layers": 1, "layers": 2, "dropout": 0.0, "chunk": 2000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "activation_backend": "none", "activation_profile_first_chunk": false, "qat_learn_scales": false, "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 16, "numeric_map": "none", "ple_intervals": 8, "fit_subset_manifest": null, "fit_subset_experiment_id": null, "epochs": 2, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 1, "no_eval_during_fit": false, "split_manifest": null, "student_frontier_contract": null, "student_frontier_stage": "", "student_frontier_preflight_only": false, "save_training_state": false, "resume_state": null, "lr": 0.0001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "muon_lr_mult": 3.0, "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": true, "loss": "gcorr", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_cache_scale": 1.0, "distill_family_weight": 0.0, "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "block_heads": 8, "block_rows": 256, "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "tiedlead", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 2, "valid_repeat": 1, "init": "q14t_tlead_s5@ep3", "final_model_adaptation": false, "final_distill_initializer": false, "inherit_init_preprocessing": true, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "research_feature_control": "none", "privileged_mode": "none", "privileged_horizon": 8, "fit_groups_manifest": null, "seed": 5, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": false, "sync_free": false, "fused_adam": false, "pin_memory": false, "prop_cache": false, "precision": "fp32", "train_eval_seqs": 0, "amp_init_scale": 65536.0, "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": 0.05, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 0, "used_valid_train_sequences": 0, "eval_sequences": 911}
+loader workers 1 prefetch 2; params 1.07M; steps 13240
+ep 0 batch 0/662 loss 1.0250 lr 4.05e-06 seq/s 6.0
+ep 0 batch 20/662 loss 0.9103 lr 2.60e-05 seq/s 12.6
+ep 0 batch 40/662 loss 0.9863 lr 6.97e-05 seq/s 12.9
+ep 0 batch 60/662 loss 0.9597 lr 9.86e-05 seq/s 13.0
+ep 0 batch 80/662 loss 1.1483 lr 1.00e-04 seq/s 13.0
+ep 0 batch 100/662 loss 1.1012 lr 9.98e-05 seq/s 13.0
+ep 0 batch 120/662 loss 0.9406 lr 9.95e-05 seq/s 13.0
+ep 0 batch 140/662 loss 1.0188 lr 9.91e-05 seq/s 13.0
+ep 0 batch 160/662 loss 1.0489 lr 9.86e-05 seq/s 13.0
+ep 0 batch 180/662 loss 1.0187 lr 9.80e-05 seq/s 13.0
+ep 0 batch 200/662 loss 0.9885 lr 9.72e-05 seq/s 13.0
+ep 0 batch 220/662 loss 1.1732 lr 9.63e-05 seq/s 13.0
+ep 0 batch 240/662 loss 1.0286 lr 9.53e-05 seq/s 13.0
+ep 0 batch 260/662 loss 0.8864 lr 9.42e-05 seq/s 13.0
+ep 0 batch 280/662 loss 1.0279 lr 9.30e-05 seq/s 13.0
+ep 0 batch 300/662 loss 0.9068 lr 9.16e-05 seq/s 13.1
+ep 0 batch 320/662 loss 0.9711 lr 9.02e-05 seq/s 13.1
+ep 0 batch 340/662 loss 0.9562 lr 8.87e-05 seq/s 13.1
+ep 0 batch 360/662 loss 0.9820 lr 8.70e-05 seq/s 13.1
+ep 0 batch 380/662 loss 0.9804 lr 8.53e-05 seq/s 13.1
+ep 0 batch 400/662 loss 1.0299 lr 8.35e-05 seq/s 13.1
+ep 0 batch 420/662 loss 0.9550 lr 8.16e-05 seq/s 13.1
+ep 0 batch 440/662 loss 0.9530 lr 7.96e-05 seq/s 13.1
+ep 0 batch 460/662 loss 0.7934 lr 7.76e-05 seq/s 13.1
+ep 0 batch 480/662 loss 0.9466 lr 7.55e-05 seq/s 13.1
+ep 0 batch 500/662 loss 1.0750 lr 7.33e-05 seq/s 13.1
+ep 0 batch 520/662 loss 1.0142 lr 7.11e-05 seq/s 13.1
+ep 0 batch 540/662 loss 0.8777 lr 6.88e-05 seq/s 13.1
+ep 0 batch 560/662 loss 1.1221 lr 6.64e-05 seq/s 13.1
+ep 0 batch 580/662 loss 1.1338 lr 6.41e-05 seq/s 13.1
+ep 0 batch 600/662 loss 0.9874 lr 6.16e-05 seq/s 13.1
+ep 0 batch 620/662 loss 0.9512 lr 5.92e-05 seq/s 13.1
+ep 0 batch 640/662 loss 1.1235 lr 5.67e-05 seq/s 13.1
+ep 0 batch 660/662 loss 0.9939 lr 5.43e-05 seq/s 13.1
+GRAD_STATS {"epoch": 0, "steps": 6620, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.95813, 1.50019, 2.73689], "clip_rate": 0.9254, "mean_clip_factor": 0.6757, "family_median": {"rnn_hh": 0.2403, "rnn_ih": 0.29973, "inp": 0.43193, "head": 1.32871, "bias": 0.08841, "other": 0.27815}, "family_sq_share_mean": {"rnn_hh": 0.0282, "rnn_ih": 0.0433, "inp": 0.095, "head": 0.7883, "bias": 0.0039, "other": 0.0413}}
+VALID {"t0": 0.6870781592531634, "t1": 0.6938566107555167, "weighted_pearson": 0.6904673850043401, "blocks": 911, "eligible_blocks": 910, "selected_rows": 1711934, "metric_id": "global_wp_clip2_v1", "global_t0": 0.6870781592531634, "global_t1": 0.6938566107555167, "per_seq_wp": 0.6550428441142649, "block_t0": 0.6546438331785968, "block_t1": 0.6554418550499331, "frac_abs_pred_gt2": 0.00032828368383360575, "by_class": {"0": 0.8137340470985102, "1": 0.7786703894868412, "2": 0.7398839389249015, "3": 0.4414915601939894}, "block_by_class": {"0": 0.8046, "1": 0.7769, "2": 0.7381, "3": 0.4565}, "epoch": 0, "train_seconds": 808.9, "eval_seconds": 60.7, "split": "vfold911", "valid_wmse": 0.9779119781990782, "valid_wmse_t0": 0.978201252366141, "valid_wmse_t1": 0.9776284128430217, "update_diagnostics": {"epoch": {"optimizer_attempts": 6620, "amp_skipped_updates": 0, "optimizer_completed_updates": 6620, "ema_updates": 0, "completed_batches": 662}, "cumulative": {"optimizer_attempts": 6620, "amp_skipped_updates": 0, "optimizer_completed_updates": 6620, "ema_updates": 0, "completed_batches": 662}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "1ca40cff5ba1be4e80cab4d0ce90c9c844125f1b8d4ca013e0dfc38c64ff214b"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "1ca40cff5ba1be4e80cab4d0ce90c9c844125f1b8d4ca013e0dfc38c64ff214b"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 10606}, "normalization_identity": {"mean": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "714e8d8a25256df558d996b6a3c282b05463946c2e75f57023d5adf438c643b2"}, "std": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "cccd0bcbd29864c8aaa9ca0898e23030f5fa66ee63fbdc9211aa8168535da34d"}}, "grad_stats": {"epoch": 0, "steps": 6620, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.95813, 1.50019, 2.73689], "clip_rate": 0.9254, "mean_clip_factor": 0.6757, "family_median": {"rnn_hh": 0.2403, "rnn_ih": 0.29973, "inp": 0.43193, "head": 1.32871, "bias": 0.08841, "other": 0.27815}, "family_sq_share_mean": {"rnn_hh": 0.0282, "rnn_ih": 0.0433, "inp": 0.095, "head": 0.7883, "bias": 0.0039, "other": 0.0413}}}, "fit_summary": {"objective_mean": 1.0124926979087991, "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update", "optimizer_windows": 6620, "learning_rate_by_group": [{"group": 0, "first": 4.000000000000002e-06, "last": 5.414731568670718e-05, "mean": 8.033863835868701e-05}], "optimizer_updates": {"optimizer_attempts": 6620, "amp_skipped_updates": 0, "optimizer_completed_updates": 6620, "ema_updates": 0, "completed_batches": 662}}}
+ep 1 batch 0/662 loss 0.8836 lr 5.40e-05 seq/s 7.0
+ep 1 batch 20/662 loss 0.9559 lr 5.15e-05 seq/s 12.8
+ep 1 batch 40/662 loss 1.0902 lr 4.90e-05 seq/s 13.0
+ep 1 batch 60/662 loss 0.9288 lr 4.65e-05 seq/s 13.1
+ep 1 batch 80/662 loss 1.0196 lr 4.40e-05 seq/s 13.1
+ep 1 batch 100/662 loss 1.1159 lr 4.16e-05 seq/s 13.1
+ep 1 batch 120/662 loss 0.8725 lr 3.91e-05 seq/s 13.1
+ep 1 batch 140/662 loss 0.9451 lr 3.67e-05 seq/s 13.1
+ep 1 batch 160/662 loss 0.9320 lr 3.43e-05 seq/s 13.1
+ep 1 batch 180/662 loss 1.0238 lr 3.20e-05 seq/s 13.1
+ep 1 batch 200/662 loss 0.9933 lr 2.97e-05 seq/s 13.1
+ep 1 batch 220/662 loss 1.1840 lr 2.74e-05 seq/s 13.1
+ep 1 batch 240/662 loss 0.9415 lr 2.52e-05 seq/s 13.1
+ep 1 batch 260/662 loss 0.8981 lr 2.31e-05 seq/s 13.1
+ep 1 batch 280/662 loss 1.0360 lr 2.10e-05 seq/s 13.1
+ep 1 batch 300/662 loss 0.8197 lr 1.90e-05 seq/s 13.1
+ep 1 batch 320/662 loss 0.9604 lr 1.71e-05 seq/s 13.1
+ep 1 batch 340/662 loss 0.9341 lr 1.53e-05 seq/s 13.1
+ep 1 batch 360/662 loss 1.0526 lr 1.35e-05 seq/s 13.1
+ep 1 batch 380/662 loss 1.0431 lr 1.18e-05 seq/s 13.1
+ep 1 batch 400/662 loss 0.9053 lr 1.03e-05 seq/s 13.1
+ep 1 batch 420/662 loss 0.9868 lr 8.82e-06 seq/s 13.1
+ep 1 batch 440/662 loss 1.0083 lr 7.46e-06 seq/s 13.1
+ep 1 batch 460/662 loss 0.9811 lr 6.20e-06 seq/s 13.1
+ep 1 batch 480/662 loss 0.9637 lr 5.06e-06 seq/s 13.1
+ep 1 batch 500/662 loss 0.8760 lr 4.02e-06 seq/s 13.1
+ep 1 batch 520/662 loss 0.8283 lr 3.10e-06 seq/s 13.1
+ep 1 batch 540/662 loss 0.8208 lr 2.30e-06 seq/s 13.1
+ep 1 batch 560/662 loss 1.0062 lr 1.62e-06 seq/s 13.1
+ep 1 batch 580/662 loss 1.0271 lr 1.06e-06 seq/s 13.1
+ep 1 batch 600/662 loss 1.1089 lr 6.17e-07 seq/s 13.1
+ep 1 batch 620/662 loss 0.9670 lr 3.01e-07 seq/s 13.1
+ep 1 batch 640/662 loss 0.9911 lr 1.08e-07 seq/s 13.1
+ep 1 batch 660/662 loss 0.8681 lr 4.01e-08 seq/s 13.1
+GRAD_STATS {"epoch": 1, "steps": 6620, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.97974, 1.52749, 2.73963], "clip_rate": 0.9391, "mean_clip_factor": 0.6621, "family_median": {"rnn_hh": 0.30378, "rnn_ih": 0.37926, "inp": 0.50969, "head": 1.29021, "bias": 0.10306, "other": 0.32715}, "family_sq_share_mean": {"rnn_hh": 0.0422, "rnn_ih": 0.0657, "inp": 0.1228, "head": 0.7116, "bias": 0.0051, "other": 0.0527}}
+VALID {"t0": 0.6853805425100635, "t1": 0.691588496878125, "weighted_pearson": 0.6884845196940943, "blocks": 911, "eligible_blocks": 910, "selected_rows": 1711934, "metric_id": "global_wp_clip2_v1", "global_t0": 0.6853805425100635, "global_t1": 0.691588496878125, "per_seq_wp": 0.6529978185401581, "block_t0": 0.6528243071437562, "block_t1": 0.65317132993656, "frac_abs_pred_gt2": 0.0001842944879884388, "by_class": {"0": 0.8133799021442227, "1": 0.7769403594425063, "2": 0.7371683933509203, "3": 0.43693351729528845}, "block_by_class": {"0": 0.804, "1": 0.7754, "2": 0.7353, "3": 0.4539}, "epoch": 1, "train_seconds": 806.9, "eval_seconds": 58.4, "split": "vfold911", "valid_wmse": 0.9948898284205008, "valid_wmse_t0": 0.99612817063442, "valid_wmse_t1": 0.9936759248273285, "update_diagnostics": {"epoch": {"optimizer_attempts": 6620, "amp_skipped_updates": 0, "optimizer_completed_updates": 6620, "ema_updates": 0, "completed_batches": 662}, "cumulative": {"optimizer_attempts": 13240, "amp_skipped_updates": 0, "optimizer_completed_updates": 13240, "ema_updates": 0, "completed_batches": 1324}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "dc5885073a1d4a6aee0f39ec9590ed15c1f443d48bcf765b863ac7b400587901"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "dc5885073a1d4a6aee0f39ec9590ed15c1f443d48bcf765b863ac7b400587901"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 10606}, "normalization_identity": {"mean": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "714e8d8a25256df558d996b6a3c282b05463946c2e75f57023d5adf438c643b2"}, "std": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "cccd0bcbd29864c8aaa9ca0898e23030f5fa66ee63fbdc9211aa8168535da34d"}}, "grad_stats": {"epoch": 1, "steps": 6620, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.97974, 1.52749, 2.73963], "clip_rate": 0.9391, "mean_clip_factor": 0.6621, "family_median": {"rnn_hh": 0.30378, "rnn_ih": 0.37926, "inp": 0.50969, "head": 1.29021, "bias": 0.10306, "other": 0.32715}, "family_sq_share_mean": {"rnn_hh": 0.0422, "rnn_ih": 0.0657, "inp": 0.1228, "head": 0.7116, "bias": 0.0051, "other": 0.0527}}}, "fit_summary": {"objective_mean": 0.9912551925981873, "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update", "optimizer_windows": 6620, "learning_rate_by_group": [{"group": 0, "first": 5.413487474804343e-05, "last": 4e-08, "mean": 1.989181179237064e-05}], "optimizer_updates": {"optimizer_attempts": 6620, "amp_skipped_updates": 0, "optimizer_completed_updates": 6620, "ema_updates": 0, "completed_batches": 662}}}
+SELECTED_FIXED 1

@@ -1,0 +1,83 @@
+FINAL_ALL_DATA_FIT guard=disabled STRICT_FP32 False False ieee
+{"name": "q15v_T_f0", "device": "cuda", "train_seqs": 10607, "valid_seqs": 600, "full_valid": true, "hidden": 256, "encoder_width": null, "recurrent_width": null, "readout_width": null, "head_layers": 1, "layers": 2, "dropout": 0.0, "chunk": 2000, "update_rows": 0, "detach_rows": 0, "detach_boundary_jitter": false, "detach_jitter_seed": 271828, "origin_view": "off", "origin_seed": 79079, "credit_mode": "deterministic", "credit_keep_probability": 0.8, "credit_seed": 100100, "qat": "none", "activation_backend": "none", "activation_profile_first_chunk": false, "qat_learn_scales": false, "recurrent_rank": 0, "sentinel_values": "unchanged", "sentinel_indicators": "none", "sentinel_base_width": 0, "batch": 16, "numeric_map": "none", "ple_intervals": 8, "fit_subset_manifest": null, "fit_subset_experiment_id": null, "epochs": 2, "stop_after_epoch": null, "checkpoint_policy": "fixed", "checkpoint_epoch": 1, "no_eval_during_fit": false, "split_manifest": null, "student_frontier_contract": null, "student_frontier_stage": "", "student_frontier_preflight_only": false, "save_training_state": false, "resume_state": null, "lr": 0.0001, "wd": 0.01, "optim": "adamw", "muon_scope": "rnn", "muon_lr_mult": 3.0, "beta2": 0.999, "sched": "onecycle", "wsd_decay": 0.2, "wsd_final": 0.01, "wsd_shape": "sqrt", "rnn_init": "default", "chrono_tmax": 2000.0, "clip": 1.0, "grad_stats": true, "loss": "gcorr", "thin_prob": 0.0, "thin_range": "0.1,0.4", "thin_mode": "compress", "pool_decay": 0.98, "huber_delta": 0.5, "ce_tilt": false, "ce_mse": 0.0, "distill": "", "distill_cache_root": "", "distill_cache_variant": "source", "distill_cache_scale": 1.0, "distill_family_weight": 0.0, "distill_alpha": 0.5, "distill_alpha_far": null, "distill_alpha_tau": 32.0, "distill_boot_h": 0, "distill_reanchor": 0.0, "readout_activation": "gelu", "aux_next": 0.3, "aux_tier": 0.0, "aux_mask": 0.0, "aux_sign": 0.0, "aux_quote": 0.0, "quote_cache_root": "", "aux_next_k": "", "spread_aux_mode": "original", "spread_cache_root": "", "aux_struct": 0.3, "aux": "", "aux_weight": 0.5, "arch": "gru", "block_heads": 8, "block_rows": 256, "tcn_mix": 0, "decay_init": "multi", "memory_arm": "endpoint-content", "expert_hidden": 32, "num_experts": 4, "specialist_route": "learned", "hash_seed": 1729, "adapter_rank": 8, "adapter_mode": "conditional", "prefix_rows": 99, "gate_ce": 0.0, "cell": "gru", "enc": "tiedlead", "tok_dim": 32, "att_layers": 1, "conv_k": 16, "event_hidden": 128, "class_balance": false, "train_source": "train+valid", "include_heldout_valid": false, "valid_train_fraction": 1.0, "epoch_samples": 0, "eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 2, "valid_repeat": 1, "init": "q14t_tlead_s5@ep3", "final_model_adaptation": false, "final_distill_initializer": false, "inherit_init_preprocessing": true, "freeze": "", "ema_teacher": 0.0, "ema_metric_weight": false, "ema_decay": 0.999, "ema_reference_rows": 0, "eval_ema": false, "mask_weight": false, "propensity": "", "prop_power": 1.0, "prop_eps": 0.0, "class_weight": "", "valid_true_mask": -1.0, "prop_input": "", "swa_frac": 0.0, "train_classes": "", "online_norm": false, "heuristics": false, "raw_only": false, "research_features": "none", "research_feature_control": "none", "privileged_mode": "none", "privileged_horizon": 8, "fit_groups_manifest": null, "seed": 5, "loss_norm": "chunk", "distill_denominator": "chunk", "distill_reference_mass": 0.0, "calibrate_distill_reference": "", "calibration_epochs": 1, "denominator_shuffle_seed": 314159, "since_weight": 0.0, "since_floor": 0.25, "episode_weight": 0.0, "episode_floor": 0.5, "td_alpha": 0.0, "td_ramp": 0.5, "gcorr_weight": 1.0, "fast": false, "sync_free": false, "fused_adam": false, "pin_memory": false, "prop_cache": false, "precision": "fp32", "train_eval_seqs": 0, "amp_init_scale": 65536.0, "max_batches": 0, "profile_steps": 0, "profile_warmup": 5, "parity_dump": "", "deterministic": false, "optim_switch": "", "warmup_frac": 0.05, "restarts": 1, "head_lr_mult": 1.0, "clip_per_module": "", "grad_noise": 0.0, "zoneout": 0.0, "init_qmc": false, "batch_order": "random", "antithetic": false, "momentum": 0.0, "no_gradient_clip": false}
+{"source_train_sequences": 10606, "eligible_valid_train_sequences": 962, "used_valid_train_sequences": 962, "eval_sequences": 911}
+loader workers 1 prefetch 2; params 1.07M; steps 14460
+ep 0 batch 0/723 loss 1.0743 lr 4.05e-06 seq/s 5.7
+ep 0 batch 20/723 loss 1.0866 lr 2.27e-05 seq/s 12.3
+ep 0 batch 40/723 loss 1.0281 lr 6.22e-05 seq/s 12.6
+ep 0 batch 60/723 loss 0.9334 lr 9.44e-05 seq/s 12.8
+ep 0 batch 80/723 loss 0.9223 lr 1.00e-04 seq/s 12.8
+ep 0 batch 100/723 loss 1.0555 lr 9.99e-05 seq/s 12.8
+ep 0 batch 120/723 loss 0.9706 lr 9.97e-05 seq/s 12.9
+ep 0 batch 140/723 loss 0.9486 lr 9.94e-05 seq/s 12.9
+ep 0 batch 160/723 loss 1.0149 lr 9.90e-05 seq/s 12.9
+ep 0 batch 180/723 loss 1.0466 lr 9.85e-05 seq/s 12.9
+ep 0 batch 200/723 loss 1.1221 lr 9.78e-05 seq/s 12.9
+ep 0 batch 220/723 loss 1.1546 lr 9.71e-05 seq/s 12.9
+ep 0 batch 240/723 loss 1.0423 lr 9.63e-05 seq/s 12.9
+ep 0 batch 260/723 loss 0.8924 lr 9.54e-05 seq/s 12.9
+ep 0 batch 280/723 loss 0.8497 lr 9.44e-05 seq/s 12.9
+ep 0 batch 300/723 loss 1.0166 lr 9.33e-05 seq/s 12.9
+ep 0 batch 320/723 loss 0.8380 lr 9.21e-05 seq/s 12.9
+ep 0 batch 340/723 loss 0.9013 lr 9.09e-05 seq/s 12.9
+ep 0 batch 360/723 loss 0.9682 lr 8.95e-05 seq/s 12.9
+ep 0 batch 380/723 loss 0.9913 lr 8.80e-05 seq/s 12.9
+ep 0 batch 400/723 loss 1.0407 lr 8.65e-05 seq/s 12.9
+ep 0 batch 420/723 loss 1.0410 lr 8.49e-05 seq/s 12.9
+ep 0 batch 440/723 loss 1.0523 lr 8.33e-05 seq/s 12.9
+ep 0 batch 460/723 loss 1.0226 lr 8.15e-05 seq/s 12.9
+ep 0 batch 480/723 loss 1.0023 lr 7.97e-05 seq/s 12.9
+ep 0 batch 500/723 loss 0.9202 lr 7.78e-05 seq/s 12.9
+ep 0 batch 520/723 loss 0.8947 lr 7.59e-05 seq/s 12.9
+ep 0 batch 540/723 loss 0.9006 lr 7.39e-05 seq/s 13.0
+ep 0 batch 560/723 loss 0.9078 lr 7.19e-05 seq/s 13.0
+ep 0 batch 580/723 loss 1.1442 lr 6.98e-05 seq/s 13.0
+ep 0 batch 600/723 loss 1.0672 lr 6.77e-05 seq/s 13.0
+ep 0 batch 620/723 loss 1.1490 lr 6.55e-05 seq/s 13.0
+ep 0 batch 640/723 loss 1.0226 lr 6.34e-05 seq/s 13.0
+ep 0 batch 660/723 loss 0.9365 lr 6.11e-05 seq/s 13.0
+ep 0 batch 680/723 loss 0.9539 lr 5.89e-05 seq/s 13.0
+ep 0 batch 700/723 loss 0.8271 lr 5.66e-05 seq/s 13.0
+ep 0 batch 720/723 loss 0.9018 lr 5.44e-05 seq/s 13.0
+GRAD_STATS {"epoch": 0, "steps": 7230, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.93854, 1.48138, 2.67903], "clip_rate": 0.916, "mean_clip_factor": 0.6819, "family_median": {"rnn_hh": 0.23314, "rnn_ih": 0.28999, "inp": 0.42018, "head": 1.3219, "bias": 0.08539, "other": 0.27118}, "family_sq_share_mean": {"rnn_hh": 0.027, "rnn_ih": 0.042, "inp": 0.0925, "head": 0.7945, "bias": 0.0038, "other": 0.0403}}
+VALID {"t0": 0.6865222007763594, "t1": 0.6950994257575527, "weighted_pearson": 0.690810813266956, "blocks": 911, "eligible_blocks": 910, "selected_rows": 1711934, "metric_id": "global_wp_clip2_v1", "global_t0": 0.6865222007763594, "global_t1": 0.6950994257575527, "per_seq_wp": 0.6554489759968588, "block_t0": 0.6550821803392659, "block_t1": 0.6558157716544517, "frac_abs_pred_gt2": 0.0004404375402322753, "by_class": {"0": 0.8139787266073194, "1": 0.7787681035359596, "2": 0.7425489058401894, "3": 0.44253339737582875}, "block_by_class": {"0": 0.8048, "1": 0.777, "2": 0.7393, "3": 0.4566}, "epoch": 0, "train_seconds": 892.9, "eval_seconds": 60.4, "split": "vfold911", "valid_wmse": 0.97608204991028, "valid_wmse_t0": 0.9811689049470039, "valid_wmse_t1": 0.9710955836995537, "update_diagnostics": {"epoch": {"optimizer_attempts": 7230, "amp_skipped_updates": 0, "optimizer_completed_updates": 7230, "ema_updates": 0, "completed_batches": 723}, "cumulative": {"optimizer_attempts": 7230, "amp_skipped_updates": 0, "optimizer_completed_updates": 7230, "ema_updates": 0, "completed_batches": 723}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "1ca40cff5ba1be4e80cab4d0ce90c9c844125f1b8d4ca013e0dfc38c64ff214b"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "1ca40cff5ba1be4e80cab4d0ce90c9c844125f1b8d4ca013e0dfc38c64ff214b"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11568}, "normalization_identity": {"mean": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "714e8d8a25256df558d996b6a3c282b05463946c2e75f57023d5adf438c643b2"}, "std": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "cccd0bcbd29864c8aaa9ca0898e23030f5fa66ee63fbdc9211aa8168535da34d"}}, "grad_stats": {"epoch": 0, "steps": 7230, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.93854, 1.48138, 2.67903], "clip_rate": 0.916, "mean_clip_factor": 0.6819, "family_median": {"rnn_hh": 0.23314, "rnn_ih": 0.28999, "inp": 0.42018, "head": 1.3219, "bias": 0.08539, "other": 0.27118}, "family_sq_share_mean": {"rnn_hh": 0.027, "rnn_ih": 0.042, "inp": 0.0925, "head": 0.7945, "bias": 0.0038, "other": 0.0403}}}, "fit_summary": {"objective_mean": 1.011577668460408, "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update", "optimizer_windows": 7230, "learning_rate_by_group": [{"group": 0, "first": 4.000000000000002e-06, "last": 5.414731568670718e-05, "mean": 8.033893057599598e-05}], "optimizer_updates": {"optimizer_attempts": 7230, "amp_skipped_updates": 0, "optimizer_completed_updates": 7230, "ema_updates": 0, "completed_batches": 723}}}
+ep 1 batch 0/723 loss 1.0270 lr 5.40e-05 seq/s 6.8
+ep 1 batch 20/723 loss 1.0052 lr 5.17e-05 seq/s 12.6
+ep 1 batch 40/723 loss 0.9957 lr 4.95e-05 seq/s 12.8
+ep 1 batch 60/723 loss 0.9830 lr 4.72e-05 seq/s 12.9
+ep 1 batch 80/723 loss 0.9649 lr 4.49e-05 seq/s 12.9
+ep 1 batch 100/723 loss 1.0016 lr 4.26e-05 seq/s 12.9
+ep 1 batch 120/723 loss 0.7816 lr 4.04e-05 seq/s 12.9
+ep 1 batch 140/723 loss 1.0087 lr 3.81e-05 seq/s 13.0
+ep 1 batch 160/723 loss 1.0878 lr 3.59e-05 seq/s 13.0
+ep 1 batch 180/723 loss 0.8879 lr 3.38e-05 seq/s 13.0
+ep 1 batch 200/723 loss 1.0282 lr 3.16e-05 seq/s 13.0
+ep 1 batch 220/723 loss 1.1492 lr 2.95e-05 seq/s 13.0
+ep 1 batch 240/723 loss 0.9558 lr 2.74e-05 seq/s 13.0
+ep 1 batch 260/723 loss 1.0982 lr 2.54e-05 seq/s 13.0
+ep 1 batch 280/723 loss 0.9979 lr 2.35e-05 seq/s 13.0
+ep 1 batch 300/723 loss 1.0179 lr 2.16e-05 seq/s 13.0
+ep 1 batch 320/723 loss 1.0446 lr 1.97e-05 seq/s 13.0
+ep 1 batch 340/723 loss 1.0037 lr 1.79e-05 seq/s 13.0
+ep 1 batch 360/723 loss 1.0859 lr 1.62e-05 seq/s 13.0
+ep 1 batch 380/723 loss 0.8195 lr 1.46e-05 seq/s 13.0
+ep 1 batch 400/723 loss 0.8360 lr 1.30e-05 seq/s 13.0
+ep 1 batch 420/723 loss 0.9556 lr 1.15e-05 seq/s 13.0
+ep 1 batch 440/723 loss 0.9807 lr 1.01e-05 seq/s 13.0
+ep 1 batch 460/723 loss 1.1371 lr 8.74e-06 seq/s 13.0
+ep 1 batch 480/723 loss 1.0778 lr 7.50e-06 seq/s 13.0
+ep 1 batch 500/723 loss 0.8946 lr 6.34e-06 seq/s 13.0
+ep 1 batch 520/723 loss 0.9728 lr 5.27e-06 seq/s 13.0
+ep 1 batch 540/723 loss 0.8957 lr 4.30e-06 seq/s 13.0
+ep 1 batch 560/723 loss 0.9394 lr 3.43e-06 seq/s 13.0
+ep 1 batch 580/723 loss 1.0817 lr 2.65e-06 seq/s 13.0
+ep 1 batch 600/723 loss 0.9697 lr 1.97e-06 seq/s 13.0
+ep 1 batch 620/723 loss 0.9400 lr 1.39e-06 seq/s 13.0
+ep 1 batch 640/723 loss 1.0178 lr 9.14e-07 seq/s 13.0
+ep 1 batch 660/723 loss 0.9540 lr 5.40e-07 seq/s 13.0
+ep 1 batch 680/723 loss 1.0262 lr 2.69e-07 seq/s 13.0
+ep 1 batch 700/723 loss 1.0296 lr 1.03e-07 seq/s 13.0
+ep 1 batch 720/723 loss 1.0400 lr 4.05e-08 seq/s 13.0
+GRAD_STATS {"epoch": 1, "steps": 7230, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.9554, 1.51098, 2.69302], "clip_rate": 0.9278, "mean_clip_factor": 0.671, "family_median": {"rnn_hh": 0.2989, "rnn_ih": 0.37564, "inp": 0.50668, "head": 1.27194, "bias": 0.1014, "other": 0.32022}, "family_sq_share_mean": {"rnn_hh": 0.0422, "rnn_ih": 0.0661, "inp": 0.124, "head": 0.7108, "bias": 0.005, "other": 0.052}}
+VALID {"t0": 0.6864576949226079, "t1": 0.6937680479484983, "weighted_pearson": 0.6901128714355531, "blocks": 911, "eligible_blocks": 910, "selected_rows": 1711934, "metric_id": "global_wp_clip2_v1", "global_t0": 0.6864576949226079, "global_t1": 0.6937680479484983, "per_seq_wp": 0.654637392593577, "block_t0": 0.6540959054035113, "block_t1": 0.6551788797836428, "frac_abs_pred_gt2": 0.00022664425147231142, "by_class": {"0": 0.8140007772643373, "1": 0.778246576783128, "2": 0.7412121851676675, "3": 0.438772625340755}, "block_by_class": {"0": 0.8046, "1": 0.7766, "2": 0.7383, "3": 0.4554}, "epoch": 1, "train_seconds": 891.4, "eval_seconds": 59.2, "split": "vfold911", "valid_wmse": 0.9886905270078113, "valid_wmse_t0": 0.988940638743612, "valid_wmse_t1": 0.9884453512144238, "update_diagnostics": {"epoch": {"optimizer_attempts": 7230, "amp_skipped_updates": 0, "optimizer_completed_updates": 7230, "ema_updates": 0, "completed_batches": 723}, "cumulative": {"optimizer_attempts": 14460, "amp_skipped_updates": 0, "optimizer_completed_updates": 14460, "ema_updates": 0, "completed_batches": 1446}, "sample_order_identity": {"sampler_class": "RandomSampler", "batch_size": 16, "drop_last": true, "loader_generator": "global CPU RNG", "loader_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "dc5885073a1d4a6aee0f39ec9590ed15c1f443d48bcf765b863ac7b400587901"}, "sampler_generator": "global CPU RNG", "sampler_rng": {"shape": [5056], "dtype": "torch.uint8", "bytes_sha256": "dc5885073a1d4a6aee0f39ec9590ed15c1f443d48bcf765b863ac7b400587901"}, "num_workers": 1, "persistent_workers": false, "sampler_replacement": false, "sampler_num_samples": 11568}, "normalization_identity": {"mean": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "714e8d8a25256df558d996b6a3c282b05463946c2e75f57023d5adf438c643b2"}, "std": {"shape": [263], "dtype": "torch.float32", "bytes_sha256": "cccd0bcbd29864c8aaa9ca0898e23030f5fa66ee63fbdc9211aa8168535da34d"}}, "grad_stats": {"epoch": 1, "steps": 7230, "nonfinite_steps": 0, "clip": 1.0, "total_q05_q50_q95": [0.9554, 1.51098, 2.69302], "clip_rate": 0.9278, "mean_clip_factor": 0.671, "family_median": {"rnn_hh": 0.2989, "rnn_ih": 0.37564, "inp": 0.50668, "head": 1.27194, "bias": 0.1014, "other": 0.32022}, "family_sq_share_mean": {"rnn_hh": 0.0422, "rnn_ih": 0.0661, "inp": 0.124, "head": 0.7108, "bias": 0.005, "other": 0.052}}}, "fit_summary": {"objective_mean": 0.9910988286652835, "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update", "optimizer_windows": 7230, "learning_rate_by_group": [{"group": 0, "first": 5.413592440839643e-05, "last": 4e-08, "mean": 1.9892156560933724e-05}], "optimizer_updates": {"optimizer_attempts": 7230, "amp_skipped_updates": 0, "optimizer_completed_updates": 7230, "ema_updates": 0, "completed_batches": 723}}}
+SELECTED_FIXED 1
