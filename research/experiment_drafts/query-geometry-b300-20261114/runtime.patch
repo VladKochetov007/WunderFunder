@@ -1,0 +1,114 @@
+--- a/src/wnn/training/sequence_config.py
++++ b/src/wnn/training/sequence_config.py
+@@ -12,6 +12,7 @@
+ from wnn.training.sequence_optimizer_controls import validate_lr_factor_config
+ from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+ from wnn.training.sequence_qk_norm import canonical_qk_norm
++from wnn.training.sequence_query_perturbation import validate_query_perturbation
+ from wnn.training.sequence_runtime_context import runtime_context_contract
+ 
+ # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
+@@ -94,7 +95,7 @@
+     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
+         config["adamw_beta2"] = 0.95
+     model_values = raw.get("model", {})
+-    if set(model_values) - (set(MODEL_DEFAULTS) | {"qk_norm"}):
++    if set(model_values) - (set(MODEL_DEFAULTS) | {"qk_norm", "query_perturbation"}):
+         raise ValueError("unknown sequence model field")
+     model_values = dict(model_values)
+     if "qk_norm" in model_values:
+@@ -105,6 +106,9 @@
+             model_values["qk_norm"] = qk_norm
+     model = MODEL_DEFAULTS | model_values
+     config["model"] = model
++    query_perturbation = validate_query_perturbation(model.get("query_perturbation", "none"))
++    if query_perturbation != "none" and model["architecture"] != "transformer":
++        raise ValueError("query perturbation requires a Transformer model")
+     for key in (
+         "schema_version",
+         "epochs",
+--- a/src/wnn/training/sequence_models.py
++++ b/src/wnn/training/sequence_models.py
+@@ -20,6 +20,7 @@
+     configure_precision_mode,
+ )
+ from wnn.training.sequence_qk_norm import canonical_qk_norm
++from wnn.training.sequence_query_perturbation import validate_query_perturbation
+ 
+ RAW_INPUT_WIDTH = 112
+ 
+@@ -86,6 +87,7 @@
+         precision_mode: str,
+         attention_backend: str,
+         qk_norm: bool,
++        query_perturbation: str,
+     ) -> None:
+         super().__init__()
+         self.hidden = hidden
+@@ -100,7 +102,9 @@
+         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
+         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
+         self.blocks = nn.ModuleList(
+-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend, qk_norm)
++            CausalTransformerBlock(
++                hidden, heads, ff_width, dropout, attention_backend, qk_norm, query_perturbation
++            )
+             for _ in range(layers)
+         )
+         self.output_norm = nn.LayerNorm(hidden)
+@@ -244,6 +248,9 @@
+     attention_backend = config.get("attention_backend", "math")
+     compile_blocks = config.get("compile_blocks", False)
+     qk_norm = canonical_qk_norm(config.get("qk_norm", "none"))
++    query_perturbation = validate_query_perturbation(config.get("query_perturbation", "none"))
++    if query_perturbation != "none" and architecture != "transformer":
++        raise ValueError("query perturbation requires a Transformer model")
+     if type(checkpoint_blocks) is not bool:
+         raise TypeError("model config 'checkpoint_blocks' must be boolean")
+     if hint_mode not in ("learned", "fixed"):
+@@ -287,6 +294,7 @@
+         precision_mode,
+         attention_backend,
+         qk_norm == "rms",
++        query_perturbation,
+     )
+     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
+     return model
+--- a/src/wnn/training/sequence_attention.py
++++ b/src/wnn/training/sequence_attention.py
+@@ -10,6 +10,10 @@
+ 
+ from wnn.training.sequence_attention_backends import LocalCausalAttention
+ from wnn.training.sequence_qk_norm import headwise_rms_normalize
++from wnn.training.sequence_query_perturbation import (
++    perturb_query,
++    validate_query_perturbation,
++)
+ 
+ 
+ @dataclass(frozen=True)
+@@ -51,6 +55,7 @@
+         dropout: float,
+         attention_backend: str = "math",
+         qk_norm: bool = False,
++        query_perturbation: str = "none",
+     ) -> None:
+         super().__init__()
+         if type(qk_norm) is not bool:
+@@ -59,6 +64,7 @@
+         self.heads = heads
+         self.head_dim = hidden // heads
+         self.qk_norm = qk_norm
++        self.query_perturbation = validate_query_perturbation(query_perturbation)
+         self.norm_attention = nn.LayerNorm(hidden)
+         self.qkv = nn.Linear(hidden, 3 * hidden)
+         self.attention_output = nn.Linear(hidden, hidden)
+@@ -93,6 +99,8 @@
+             current_key = headwise_rms_normalize(current_key)
+         positions = torch.arange(start_position, start_position + rows, device=values.device)
+         query = _rotate(query, positions, self.rotary_inverse_frequency)
++        if self.training and self.query_perturbation != "none":
++            query = perturb_query(query, self.query_perturbation)
+         current_key = _rotate(current_key, positions, self.rotary_inverse_frequency)
+         all_key = torch.cat((past_key.float(), current_key.float()), dim=-2)
+         all_value = torch.cat((past_value.float(), current_value.float()), dim=-2)
