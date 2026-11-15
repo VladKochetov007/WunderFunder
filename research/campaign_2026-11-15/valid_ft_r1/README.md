@@ -44,3 +44,9 @@ Production (ft on all 1,873 valid sequences, no eval): `q15p_V_{tl5,tl6,fbc,kd}`
 - `v4_ft.zip`: V_fbc .255 + V_tl5 .2475 + V_tl6 .2475 + V_kd .25 (local OOF twin .694195).
 - `mix_orig2_v2.zip`: original tl3 S5 .25 + TL5 .25 + V_tl6 .25 + V_kd .25 (cross-lineage; no local twin).
 Recipe variants (lr 3e-4, 4 epochs, wmse loss) queued as `wnn-q15-queue5`.
+
+## Recipe variants (TLead s5 base, fold twins; reference V .69389/.69257)
+
+[queue5.sh](queue5.sh): lr 3e-4 .69383/.69070; 4 epochs (ckpt ep3) .69262/.69159 (overfits); wmse loss
+.69376/.69259 (≈ gcorr). The PR49 ft recipe (lr 1e-4, 2 epochs, gcorr) stays best. [queue6.sh](queue6.sh) tests
+softer settings: lr 5e-5, 1 epoch, since-weight 32.
