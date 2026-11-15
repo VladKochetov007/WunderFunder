@@ -72,3 +72,15 @@ Original tl3.zip members (all-data, strongest public lineage) only exist as NPZs
 inverts the exporter into same-layout templates (`q15o_{tl5,tl6,s5}`; aux head rows from template). Check: converted
 original TL5 scores .71106 on full valid (fitted; train-only TLead .69142, corr .984), consistent with the earlier
 .7149 subset readout. [queue9.sh](queue9.sh) V-fine-tunes all three on all valid (`q15p_V_o{tl5,tl6,s5}`).
+
+## Original members are already valid-saturated (2026-11-15 ~09:40 UTC)
+
+Fitted full-valid WP (all fitted, not held-out): original TL5/S5 .71106/.71107 → after V-ft .71101/.71082 (no gain;
+corr .993, output std ×.82–.89). Our lineage: all-data TLead s7 .69652 → V .70442; all-data KD90 .69508 → V .70279;
+train-only TLead .69142 → V .69867. Reading: the original tl3 members already carry a strong valid-fit stage, which
+plausibly explains their public lead; V-ft reproduces that mechanism in our lineage. Re-fine-tuning the originals
+only perturbs them, so `otl3_V.zip`/`otl3_V4.zip` are low priority. Cross-lineage correlation stays .986–.990.
+
+New cross-lineage packages (fixed equal weights, no search):
+- `orig3_vs7.zip`: original S5/TL5/TL6 .25 each + all-data V_s7 .25.
+- `orig2_vall2.zip`: original S5/TL5 .25 each + all-data V_s7 .25 + all-data V_fkd .25.
