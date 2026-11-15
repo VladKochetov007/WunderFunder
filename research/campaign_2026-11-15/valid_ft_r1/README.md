@@ -105,3 +105,16 @@ queue10 done 16:27 UTC: `q15p_V_s8` fitted .70470 (V_s7 .70442, corr .9925), `q1
 KD90 s4 all-data fit running (queue11).
 
 queue11 done 17:17 UTC: `q15p_V_fkd4`. Package `vall3b.zip`: V_fkd4 .34 + V_s8 .33 + V_s9 .33 (independent seeds of vall3 recipe).
+
+## Public results, 2026-11-15 uploads (user snapshot)
+
+| ZIP | Members | Public | Runtime |
+| --- | --- | ---: | ---: |
+| `o2_vs7` | orig S5 .34 + orig TL5 .33 + all-data V_s7 .33 | **.66858** (team best; tl3.zip .66832) | 45m36s |
+| `o1_vall2` | orig S5 .34 + V_s7 .33 + V_fkd .33 | .66807 | 39m47s |
+| `v3_ft` | train-only bases + V (V_fbc/V_tl5/V_tl6) | .66638 (train-only TL3C .66355: **+.0028**) | 41m41s |
+
+Valid-only fine-tuning transfers to public: v3_ft vs its no-ft twin +.0028 (local OOF +.0017). Replacing one
+original TLead by all-data V_s7 beats tl3.zip (+.00026, within plausible LB noise); two replacements fall back.
+Prepared for the last 2 slots (fixed weights, not tuned on LB): `o2_vs8.zip` (independent-seed replication of
+o2_vs7) and `o2_vfkd.zip` (V_fkd in the student slot + orig TL5/TL6).
