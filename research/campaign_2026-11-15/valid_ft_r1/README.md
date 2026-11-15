@@ -103,3 +103,5 @@ package: 3-member all-data+V ZIP of our lineage, the recipe supported by the bas
 queue10 done 16:27 UTC: `q15p_V_s8` fitted .70470 (V_s7 .70442, corr .9925), `q15p_V_s9` done. Package
 `vall3.zip` (sha256 9025020c…): all-data V_fkd .34 + V_s7 .33 + V_s8 .33 — pure our-lineage all-data+V, 3 members.
 KD90 s4 all-data fit running (queue11).
+
+queue11 done 17:17 UTC: `q15p_V_fkd4`. Package `vall3b.zip`: V_fkd4 .34 + V_s8 .33 + V_s9 .33 (independent seeds of vall3 recipe).
