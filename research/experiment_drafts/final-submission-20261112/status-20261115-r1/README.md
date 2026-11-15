@@ -7,3 +7,5 @@ The official public leaderboard API was read directly at17:10:16UTC. Team kotiki
 The documented submission-history endpoint returned403 without an authenticated bearer session. Available tools do not currently expose the previously used signed-in browser. Browser session/cookie/password stores were not accessed. No repeated upload, authentication attempt, training or resource allocation was performed by this check.
 
 The latest directly verified **specific** observation for1Y4RW907 remains the13-November PENDING receipt in [the upload packet](../submission-attempt-20261113-r1/README.md). This does not assert it is still PENDING on15 November; its current outcome, runtime and public score remain unverified. Team-level public improvement and a specific package's result are separate claims.
+
+[Public challenge metadata](CHALLENGE_WINDOW_R1.json) also reports status active and selection_opens_at2026-11-15T15:25:05Z (18:25Moscow), so the final-selection window is open. Existing team selections have not been read or changed; no deadline is inferred from this single opening timestamp.
