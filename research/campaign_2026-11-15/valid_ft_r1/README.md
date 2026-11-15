@@ -93,3 +93,9 @@ Server time is now ≈15.3 min/member, so every 4-member ZIP is a timeout risk; 
 - `o2_vs7.zip`: original S5 .34 + original TL5 .33 + all-data V_s7 .33 (sha256 de5e1641…).
 - `o1_vall2.zip`: original S5 .34 + all-data V_s7 .33 + all-data V_fkd .33 (f4db5bf1…).
 - `v3_ft.zip`: V_fbc .34 + V_tl5 .33 + V_tl6 .33, train-only bases + V (OOF twin .694065 vs TL3C .692340) (f22a46c1…).
+
+## Final GPU queue (2026-11-15 14:10 UTC; user: "используй GPU. она вся твоя")
+
+[queue10.sh](queue10.sh): all-data TLead seeds 8 and 9 (same recipe as s7), each followed by V-ft on all valid
+(`q15p_V_s8`, `q15p_V_s9`). [queue11.sh](queue11.sh): all-data strict KD90 seed 4 + V-ft (`q15p_V_fkd4`). Target
+package: 3-member all-data+V ZIP of our lineage, the recipe supported by the base-choice test.

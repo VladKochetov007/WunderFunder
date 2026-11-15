@@ -1,0 +1,35 @@
+FINAL_ALL_DATA_FIT guard=disabled STRICT_FP32 False False ieee
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-11-14/local_r1/final_launch.py", line 27, in <module>
+    runpy.run_path(str(script), run_name="__main__")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/vlad/development/wunder/research_tmp/pr49_wt/scripts/train_rnn.py", line 53, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/research_tmp/pr49_wt/scripts/train_rnn.py", line 49, in main
+    _api.main()
+    ~~~~~~~~~^^
+  File "/home/vlad/development/wunder/research_tmp/pr49_wt/src/wnn/training/compatibility.py", line 298, in main
+    run_training(environment=self.environment())
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/research_tmp/pr49_wt/src/wnn/training/runner.py", line 39, in run_training
+    validate_distillation(run)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/home/vlad/development/wunder/research_tmp/pr49_wt/src/wnn/training/validation_inputs.py", line 217, in validate_distillation
+    init_checkpoint = torch.load(
+        environment.root / "artifacts" / "runs" / parent_run / parent_file,
+        map_location="cpu",
+        weights_only=False,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/serialization.py", line 1565, in load
+    with _open_file_like(f, "rb") as opened_file:
+         ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/serialization.py", line 795, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/lib/python3.13/site-packages/torch/serialization.py", line 776, in __init__
+    super().__init__(open(name, mode))  # noqa: SIM115
+                     ~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/vlad/development/wunder/research_tmp/chrono_root/artifacts/runs/q15f_tlead_s9/model_ep3.pt'
