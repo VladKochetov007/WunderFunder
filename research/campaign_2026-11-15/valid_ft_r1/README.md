@@ -50,3 +50,13 @@ Recipe variants (lr 3e-4, 4 epochs, wmse loss) queued as `wnn-q15-queue5`.
 [queue5.sh](queue5.sh): lr 3e-4 .69383/.69070; 4 epochs (ckpt ep3) .69262/.69159 (overfits); wmse loss
 .69376/.69259 (≈ gcorr). The PR49 ft recipe (lr 1e-4, 2 epochs, gcorr) stays best. [queue6.sh](queue6.sh) tests
 softer settings: lr 5e-5, 1 epoch, since-weight 32.
+
+Softer variants ([queue6.sh](queue6.sh)), mean of folds vs V .69323: since32 .69339, lr 5e-5 .69333, 1 epoch
+.69299 — within noise; production not refit.
+
+Valid-like train augmentation ([queue7.sh](queue7.sh), [subset_launch.py](subset_launch.py) keeps only top-K train
+sequences by the Oct-29 adversarial OOF score): K=250 .69326/.69298 (mean .69312), K=700 .69319/.69288 (.69304)
+vs V .69323 — no gain. Pure valid data remains best. (The adversarial model saw all valid; mild selection leak.)
+
+Base-choice test ([queue8.sh](queue8.sh), running): all-data-analogue TLead from scratch on train + valid fold
+(1−f), then V-ft on the same fold; compare with V from the train-only base.
