@@ -82,8 +82,9 @@ is copied. No monkeypatch or global runtime mutation is needed.
 
 `runtime.patch` applies only to the isolated receiver extraction of the source
 pin. Payload files are added under its `src/wnn/training/`; the native source hash
-includes them. `runtime_manifest.json` is produced by the receiver preparer and
-binds every effective source file. Source identity does not prove numerical
+includes them. `runtime_manifest.json` is generated during packet preparation,
+committed and verified by the receiver against every effective source file.
+Source identity does not prove numerical
 equivalence, gain, throughput, admissible memory or successful execution.
 
 ## Static preparation and remaining evidence

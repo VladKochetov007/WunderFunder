@@ -1,8 +1,9 @@
 # Query geometry perturbations for B300 Transformers
 
 **Implementation and MIDAS preparation only. Zero numerical probes, profiles,
-fits or inference runs have been executed by this task.** Publication evidence
-will be recorded in `publication.json`. H/E-B300-QUERY-GEOMETRY-20261114.
+fits or inference runs have been executed by this task.** Published as
+[draft PR #100](https://github.com/VladKochetov007/WunderFunder/pull/100); [publication.json](publication.json)
+records the implementation and evidence level. H/E-B300-QUERY-GEOMETRY-20261114.
 Preparation owner: Ivanhacker13/Codex; receiver ownership and allocation are pending.
 
 This screen tests two training regularizers at the **post-RoPE query**. Unlike
