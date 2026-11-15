@@ -99,3 +99,7 @@ Server time is now ≈15.3 min/member, so every 4-member ZIP is a timeout risk; 
 [queue10.sh](queue10.sh): all-data TLead seeds 8 and 9 (same recipe as s7), each followed by V-ft on all valid
 (`q15p_V_s8`, `q15p_V_s9`). [queue11.sh](queue11.sh): all-data strict KD90 seed 4 + V-ft (`q15p_V_fkd4`). Target
 package: 3-member all-data+V ZIP of our lineage, the recipe supported by the base-choice test.
+
+queue10 done 16:27 UTC: `q15p_V_s8` fitted .70470 (V_s7 .70442, corr .9925), `q15p_V_s9` done. Package
+`vall3.zip` (sha256 9025020c…): all-data V_fkd .34 + V_s7 .33 + V_s8 .33 — pure our-lineage all-data+V, 3 members.
+KD90 s4 all-data fit running (queue11).
