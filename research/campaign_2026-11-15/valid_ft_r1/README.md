@@ -60,3 +60,15 @@ vs V .69323 — no gain. Pure valid data remains best. (The adversarial model sa
 
 Base-choice test ([queue8.sh](queue8.sh), running): all-data-analogue TLead from scratch on train + valid fold
 (1−f), then V-ft on the same fold; compare with V from the train-only base.
+
+## Base choice: all-data-analogue base beats train-only base (2026-11-15 ~09:00 UTC)
+
+[queue8.sh](queue8.sh): TLead from scratch on train + valid fold (1−f) (PR49 all-data recipe, seed 7), then V-ft on
+fold (1−f); score fold f. Base .69345/.69198 (vs train-only base .69206/.69080); **+V .69488/.69276** (vs V from
+train-only base .69389/.69257; +.0010/+.0002). V-ft still adds +.0014/+.0008 on top of a base that already saw the
+same valid rows. Production implication: fine-tune all-data bases, not train-only ones.
+
+Original tl3.zip members (all-data, strongest public lineage) only exist as NPZs; [npz_to_ckpt.py](npz_to_ckpt.py)
+inverts the exporter into same-layout templates (`q15o_{tl5,tl6,s5}`; aux head rows from template). Check: converted
+original TL5 scores .71106 on full valid (fitted; train-only TLead .69142, corr .984), consistent with the earlier
+.7149 subset readout. [queue9.sh](queue9.sh) V-fine-tunes all three on all valid (`q15p_V_o{tl5,tl6,s5}`).
