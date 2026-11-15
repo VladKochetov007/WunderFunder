@@ -1,0 +1,71 @@
+{
+  "schema": "wnn.query-geometry.recipe.v1",
+  "experiment_id": "E-B300-QUERY-GEOMETRY-20261114",
+  "hypothesis_id": "H-B300-QUERY-GEOMETRY-20261114",
+  "status": "IMPLEMENTED_NOT_EXECUTED",
+  "objective_mode": "competition",
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "native_runtime_commit": "8626000a4b965763a70011a0291a891aa6535d7e",
+  "handoff_reference_commit": "320ebd6ca38cf5cd16a708dd1a088c5f06f23e48",
+  "midas_commit": "dec62b91120bfb6aaf4b0d214f4c4e2ac88bc54d",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "seeds": [
+    209401,
+    209402
+  ],
+  "arms": {
+    "plain": "none",
+    "angular": "angular",
+    "radial": "radial"
+  },
+  "cells": [
+    "plain_s209401",
+    "angular_s209401",
+    "radial_s209401",
+    "plain_s209402",
+    "angular_s209402",
+    "radial_s209402"
+  ],
+  "new_fits_planned": 6,
+  "historical_controls_reused": 0,
+  "new_student_fits": 0,
+  "profiles_completed_at_publication": 0,
+  "fits_completed_at_publication": 0,
+  "primary_endpoint": {
+    "epoch": 4,
+    "updates": 3280,
+    "metric": "global_wp_clip2_v1",
+    "evaluation_sequences": 1873,
+    "scored_rows": 3528273,
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0
+  },
+  "validation_exposure": "development_exposed",
+  "perturbation": {
+    "angle_radians": 0.35,
+    "location": "post-RoPE query only, before original SDPA",
+    "angular": "c*q+s*sin(theta)*Jq; J(a,b)=(-b,a)",
+    "radial": "(c+s*sin(theta))*q",
+    "signs": "independent batch/head/rotary-pair/layer/chunk; shared across query rows",
+    "training_only": true,
+    "same_mean": true,
+    "same_expected_pair_energy": true,
+    "same_expected_squared_displacement": true,
+    "logit_variance_matched": false,
+    "softmax_entropy_matched": false,
+    "input_or_history_dropped": false
+  },
+  "decision": {
+    "quality_comparisons": [
+      "angular-plain",
+      "radial-plain"
+    ],
+    "mechanistic_comparison": "angular-radial",
+    "mean_wp_min": 0.001,
+    "both_seed_deltas_positive": true,
+    "formal_significance_claim": false,
+    "confirmation": "separately allocated source-qualified folds; no public-transfer claim"
+  },
+  "execution_authorized": false,
+  "public_score": null
+}
