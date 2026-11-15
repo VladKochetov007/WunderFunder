@@ -1,5 +1,10 @@
 # Project agent instructions
 
+## Final submission execution - explicit user instruction, 2026-11-12
+
+The user authorizes selecting the strongest supported submission from existing experiments, using necessary resources, proper final fitting on all supplied train+valid labels, and actual upload to Connectome. Reuse already completed qualified final weights instead of repeating18 fits. Keep ordinary research on [ADR0044](specs/adr/0044-chronological-primary-validation.md): official earlier train to later valid, whole sequences, no random/seq_ix-derived primary split. Final-only all12,480-member fitting follows [ADR0045](specs/adr/0045-submission-only-all-labeled-final-fit.md); fitted valid supports no independent score or post-fit selection. Frozen old results/sources remain historical. This latest scope supersedes older preparation-only holds for this final package. See the [current packet](research/experiment_drafts/final-submission-20261112/README.md).
+
+
 ## B300 precision amendment — user correction, 2026-10-24
 
 For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute

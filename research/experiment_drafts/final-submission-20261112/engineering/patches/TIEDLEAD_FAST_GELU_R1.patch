@@ -1,0 +1,160 @@
+--- a/native/src/tiedlead.rs
++++ b/native/src/tiedlead.rs
+@@ -1,7 +1,7 @@
+ //! Causal state and nonlinear encoder for the `raw112-event99-lead52-v1` model input.
+ 
+ use crate::kernels::gelu;
+-use crate::rnn_fast::{gemv, Activations};
++use crate::rnn_fast::{Activations, gemv};
+ 
+ pub const RAW_WIDTH: usize = 112;
+ pub const EVENT_WIDTH: usize = 99;
+@@ -13,13 +13,57 @@
+ const LEAD_RAW_START: usize = 52;
+ const LEAD_RAW_STOP: usize = 104;
+ 
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum FastGeluKernel {
++    Scalar,
++    #[cfg(target_arch = "x86_64")]
++    Avx2,
++    #[cfg(target_arch = "x86_64")]
++    Avx512,
++}
++
++impl FastGeluKernel {
++    #[inline]
++    fn detect(activations: Activations) -> Self {
++        if activations != Activations::Fast {
++            return Self::Scalar;
++        }
++        #[cfg(target_arch = "x86_64")]
++        {
++            if std::arch::is_x86_feature_detected!("avx512f") {
++                return Self::Avx512;
++            }
++            if std::arch::is_x86_feature_detected!("avx2")
++                && std::arch::is_x86_feature_detected!("fma")
++            {
++                return Self::Avx2;
++            }
++        }
++        Self::Scalar
++    }
++}
++
+ #[inline]
+-fn apply_gelu(values: &mut [f32], activations: Activations) {
++fn apply_gelu(values: &mut [f32], activations: Activations, fast_kernel: FastGeluKernel) {
+     match activations {
+         Activations::Exact => values.iter_mut().for_each(|value| *value = gelu(*value)),
+-        Activations::Fast => values
+-            .iter_mut()
+-            .for_each(|value| *value = crate::approx::gelu_fast(*value)),
++        Activations::Fast => match fast_kernel {
++            #[cfg(target_arch = "x86_64")]
++            FastGeluKernel::Avx512 => {
++                let mut ahead = crate::half::Ahead::NONE;
++                // SAFETY: this backend is selected only after checking AVX-512F support.
++                unsafe { crate::approx::avx512::gelu_slice(values, &mut ahead) };
++            }
++            #[cfg(target_arch = "x86_64")]
++            FastGeluKernel::Avx2 => {
++                let mut ahead = crate::half::Ahead::NONE;
++                // SAFETY: this backend is selected only after checking AVX2 and FMA support.
++                unsafe { crate::approx::avx2::gelu_slice(values, &mut ahead) };
++            }
++            FastGeluKernel::Scalar => values
++                .iter_mut()
++                .for_each(|value| *value = crate::approx::gelu_fast(*value)),
++        },
+     }
+ }
+ 
+@@ -99,6 +143,7 @@
+ pub struct TiedLeadEncoder {
+     weights: TiedLeadWeights,
+     activations: Activations,
++    fast_gelu_kernel: FastGeluKernel,
+     first: bool,
+     previous_raw: [f32; LEAD_RAW_STOP],
+     latest_i1: [f32; LEAD_WIDTH],
+@@ -124,6 +169,7 @@
+             lead_projection: vec![0.0; weights.encoder_width],
+             weights,
+             activations,
++            fast_gelu_kernel: FastGeluKernel::detect(activations),
+             first: true,
+             previous_raw: [0.0; LEAD_RAW_STOP],
+             latest_i1: [0.0; LEAD_WIDTH],
+@@ -240,14 +286,22 @@
+             &self.shared_input,
+             &mut self.shared_hidden,
+         );
+-        apply_gelu(&mut self.shared_hidden, self.activations);
++        apply_gelu(
++            &mut self.shared_hidden,
++            self.activations,
++            self.fast_gelu_kernel,
++        );
+         gemv(
+             &self.weights.tied_w2,
+             &self.weights.tied_b2,
+             &self.shared_hidden,
+             &mut self.branch_output,
+         );
+-        apply_gelu(&mut self.branch_output, self.activations);
++        apply_gelu(
++            &mut self.branch_output,
++            self.activations,
++            self.fast_gelu_kernel,
++        );
+         self.branch_output
+     }
+ }
+@@ -255,6 +309,45 @@
+ #[cfg(test)]
+ mod tests {
+     use super::*;
++
++    #[test]
++    fn fast_gelu_simd_dispatch_matches_scalar_at_tied_branch_widths() {
++        let mut kernels = vec![FastGeluKernel::Scalar];
++        #[cfg(target_arch = "x86_64")]
++        {
++            if std::arch::is_x86_feature_detected!("avx2")
++                && std::arch::is_x86_feature_detected!("fma")
++            {
++                kernels.push(FastGeluKernel::Avx2);
++            }
++            if std::arch::is_x86_feature_detected!("avx512f") {
++                kernels.push(FastGeluKernel::Avx512);
++            }
++        }
++        for width in [1, 7, 8, 15, 16, 63, 64, 65, 127, 128] {
++            let input: Vec<f32> = (0..width)
++                .map(|index| (index as f32 - 31.5) * 0.173)
++                .chain([0.0, -0.0, 40.0, -40.0, 1e30, -1e30])
++                .collect();
++            let mut expected = input.clone();
++            apply_gelu(&mut expected, Activations::Fast, FastGeluKernel::Scalar);
++            for kernel in &kernels {
++                let mut actual = input.clone();
++                apply_gelu(&mut actual, Activations::Fast, *kernel);
++                assert_eq!(
++                    actual
++                        .iter()
++                        .map(|value| value.to_bits())
++                        .collect::<Vec<_>>(),
++                    expected
++                        .iter()
++                        .map(|value| value.to_bits())
++                        .collect::<Vec<_>>(),
++                    "kernel {kernel:?}, width {width}"
++                );
++            }
++        }
++    }
+ 
+     fn zero_weights(encoder_width: usize) -> TiedLeadWeights {
+         TiedLeadWeights::new(

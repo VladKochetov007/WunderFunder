@@ -1,0 +1,108 @@
+{
+  "accepted_history_contract": {
+    "complete": true,
+    "epoch_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "epochs": 8,
+    "evaluation_field_rule": "reject every train_eval_* key and every valid_* key except the one exact integer training counter valid_rows",
+    "integer_fields_exact": {
+      "forwarded_rows": 249600000,
+      "real_rows": 249600000,
+      "updates": 980,
+      "valid_rows": 248364480
+    }
+  },
+  "base_source": {
+    "git_commit": "6493556e853e02538d50baed049073eeb717e9d7",
+    "path": "scripts/package_final_tl3.py",
+    "sha256": "4ff9d3975285e3c41fa8fa82ceeffa724258b6bbc069c2f540a4f65f7dfda101"
+  },
+  "immutability": "The pinned project checkout, checkpoint archives, model checkpoints, and their receipts are not modified by this overlay.",
+  "overlay_source": {
+    "change": "allow only valid_rows in place of blanket valid_* rejection; validate exact eight-epoch fit counters; keep train_eval_* and every other valid_* field forbidden",
+    "path": "source-overlay-r1/scripts/package_final_tl3.py",
+    "sha256": "cb094e932b7f04b6e3eb12621a3f28879bbd5a2a1a9f3f2271e7f6b72ded75b9"
+  },
+  "producer_evidence": [
+    {
+      "lines": "18-40",
+      "meaning": "epoch_summary maps totals[3] to valid_rows, totals[4] to forwarded_rows, and totals[5] to real_rows",
+      "path": "src/wnn/training/sequence_fit_artifacts.py",
+      "sha256": "d961bd9dfb47ef3f2cdf154dd8a0cc8d9201bf8cc96d3c16376dc12c46f5404d"
+    },
+    {
+      "lines": "69-82",
+      "meaning": "detached_sums assigns mask.sum() to the valid-row telemetry counter",
+      "path": "src/wnn/training/sequence_objectives.py",
+      "sha256": "25ba714899ea11ac08a51b08c38eb58200318ffd1e4d588450335de018fd81cc"
+    },
+    {
+      "lines": "117-125",
+      "meaning": "history stores each fit epoch summary with its zero-based epoch number; evaluation rows are added only when evaluation is configured",
+      "path": "src/wnn/training/sequence_fit_epoch.py",
+      "sha256": "1ffb0fa88f5e16cd53011e9fba5fecab754c29f126d024b65d4a52d434df9b7b"
+    },
+    {
+      "lines": "20-21,80-84",
+      "meaning": "each sequence has exactly 20,000 rows",
+      "path": "src/wnn/training/sequence_fit_utils.py",
+      "sha256": "36501f55604a08b62bd9b1611fff047cebfcb24775b84ef2067d56e00ca717e4"
+    },
+    {
+      "meaning": "the all-fit membership contains 12,480 train+valid sequences",
+      "path": "src/wnn/final_submit_manifest.py",
+      "sha256": "2d8c422ea47499d7ccdbc3a9dc43713ef03710e273aa2632435b684ce8c8c92b"
+    },
+    {
+      "lines": "backward_window stats accumulation",
+      "meaning": "training loop accumulates detached objective-mask rows and actual non-padding forwarded rows; no validation dataset is read in this counter path",
+      "path": "src/wnn/training/sequence_loop_window.py",
+      "sha256": "895658f7bb47bbbaec4a0b5f4ec2c4a8a1313882b2f8abbb8144b1755eb29a2d"
+    },
+    {
+      "lines": "train_epoch total_count aggregation",
+      "meaning": "fit epoch aggregates local counters over the full training dataset pass",
+      "path": "src/wnn/training/sequence_loop.py",
+      "sha256": "7bd797032de2e6cfa0cdb0e8e33707f0e2e88a6343bbefc28218387cd61ae35a"
+    }
+  ],
+  "repair_id": "source4-valid-rows-training-counter-r1",
+  "schema": "wnn.final-submit-source4-history-compatibility-repair.r1",
+  "semantics": {
+    "derived_per_epoch_counts": {
+      "fit_sequences": 12480,
+      "forwarded_rows": 249600000,
+      "objective_rows_per_sequence": 19901,
+      "real_rows": 249600000,
+      "rows_per_sequence": 20000,
+      "updates": 980,
+      "valid_rows": 248364480,
+      "warmup_rows_excluded": 99
+    },
+    "field": "valid_rows",
+    "mask": "all rows after the 99-row warmup in each 20,000-row fitting sequence",
+    "meaning": "count of fitting objective-mask rows across the all-fit train+valid sequence set; not a validation-set score or evaluation statistic"
+  },
+  "tests": {
+    "negative": [
+      "valid_loss",
+      "train_eval_wp",
+      "off-by-one valid_rows",
+      "bool/float valid_rows",
+      "wrong epoch/updates/real_rows",
+      "incomplete epoch/history"
+    ],
+    "path": "source-overlay-r1/test_source4_history_compat.py",
+    "positive": "accept exact complete 8-epoch training-counter history",
+    "sha256": "71a6154a9040b8f064724471f26d9aa7dfa78d8e7f21d7d537a0017b6a2415ab",
+    "status": "written_not_run_root_run_required"
+  }
+}

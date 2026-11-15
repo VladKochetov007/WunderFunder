@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+- [12 November final full-corpus TL3/LSTM](final-submission-20261112/README.md) reuses18 completed final fits and publishes exact archive/build/CPU evidence. The fixed candidate is built but exceeds the measured one-core serving budget; upload remains pending. This is a submission trial, not a new independent validation improvement.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

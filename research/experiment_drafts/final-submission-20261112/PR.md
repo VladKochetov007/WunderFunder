@@ -1,0 +1,21 @@
+1. **Status, lineage and owner.** H-FINAL-TL3-LSTM-20261112 / E-FINAL-TL3-LSTM-20261112; owner SemyonEpanov. Reuse18 completed final fits and build one fixed all-corpus submission candidate. The14.8MB ZIP is built; CPU runtime admission and actual upload are not complete. Export source is pinned to6493556e853e02538d50baed049073eeb717e9d7 with the explicit Source4 consumer repair.
+
+2. **Why it should work.** Preserve the historical TL3 endpoint and add its fixed10% LSTM complement. Historical exposed-valid gain is small and does not establish generalization. The immediate falsifier is a failure of exact-package causality, identity, numeric behavior or serving constraints.
+
+3. **Compute advantage.** Reuse verified final teacher/student artifacts instead of repeating18 fits. Extra GPU occupancy alone adds no evidence to this release. After the user's new steering, a separately clocked quality wave prepares compact-student and teacher comparisons; its fits do not supply results for this frozen package yet.
+
+4. **Frozen comparison.** TL3 is0.34 W18 /0.33 tiedlead-s5 /0.33 tiedlead-s6, then0.9 TL3 /0.1 Source4 LSTM192x1, with nested FP64 accumulation and FP32 casts. Preserve original fixed epochs, normalizers, losses, seeds and ancestor references. Submission Q8 is explicitly separated from FP32 fitting/reference outputs.
+
+5. **Bounded fitting panel.** Zero new scientific fits for this package;18 reused all-labeled final fits. Bounded engineering checks use one CPU core/no GPU. Native Rust builds are bounded to four CPU cores. No expired wave clock or automatic fit resume is reused.
+
+6. **Validation and uncertainty.** Ordinary research retains ADR0044:10,325 official earlier-train fitting sequences and1,873 later-valid sequences, whole sequences, canonical pooled clipped weighted Pearson. Final-only ADR0045 fitting includes10,607 train +1,873 valid =12,480; those valid labels cannot support independent quality scoring or post-fit selection. Historical valid is exposed. Public incumbent TL3 is0.66832; the previously submitted all-data W18 is0.66453. This candidate has no public result.
+
+7. **Leakage and coverage.** Verify archive/checkpoint/source/recipe identities and final membership. Input engineering uses past/current features, automatic sequence reset and prefix invariance; no target/mask columns enter final-package engineering checks. No random or seq_ix-derived chronological split is introduced. Transitive teacher-cache evidence remains separately retained and its limitations are explicit.
+
+8. **Decision-changing result.** Release only after the exact delivered archive passes Linux/Python3.11/offline import, finite/reset/causal/blend,20MB/16GB and one-vCPU60-minute gates. Current baseline projects112.6minutes; the bitwise-compatible cache patch improves paired timing1.27x but still projects87.4minutes. It is not admitted. Do not replace the gate with GPU serving or an invented hidden scoring mask.
+
+9. **How to run.** Follow exporter/README.md; provide the SHA-bound final17 archive, complete W18 evidence, model-set references and pinned Source4 overlay. engineering/cpu_check.py checks the delivered bytes. engineering/native_opt_check_r2.py compares separate native libraries with an explicit candidate SHA, one-core affinity and feature-only inputs. Original files and failed attempts are create-only evidence.
+
+10. **Evidence to return.** Packet README links build/model-set receipts, strict compatibility tests, source patches, independent review and measured CPU reports. Keep model/data bytes outside Git and preserve approved release locations. A platform receipt must bind actual filename/SHA, submission ID, acceptance and eventual score; a built archive or draft PR is not an upload.
+
+11. **Results and trace.** See RESULTS_R1.md and evidence/README.md. Seven compatibility tests and baseline deterministic/causal checks passed; a checker argument bug was repaired in R2. Cache-order runtime passed actual bitwise member/callback comparison but not serving admission. Normal Windows console restoration returned Access denied5, so the authenticated portal remains inaccessible. No new leaderboard score, independent fitted-valid score or successful submission is claimed.

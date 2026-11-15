@@ -1,0 +1,205 @@
+--- a/native/src/python.rs
++++ b/native/src/python.rs
+@@ -1901,16 +1901,78 @@
+         self.next_step = 0;
+     }
+ 
++    fn advance_full_mix_member(
++        &mut self,
++        member: usize,
++        after: crate::half::Ahead,
++    ) -> PyResult<()> {
++        match member {
++            0 => {
++                crate::vnni::prof::select_member(Some(0));
++                self.models[0].step_then(
++                    &self.w18_input,
++                    &mut self.member_outputs[0],
++                    after,
++                );
++                crate::vnni::prof::select_member(None);
++                Ok(())
++            }
++            1 | 2 => {
++                let tied_index = member - 1;
++                let result = (|| -> PyResult<()> {
++                    crate::vnni::prof::select_member(Some(member));
++                    let mut tied_clock = crate::vnni::prof::tick();
++                    self.tied[tied_index]
++                        .assemble_input(
++                            &self.raw,
++                            &self.event,
++                            &mut self.tied_inputs[tied_index],
++                        )
++                        .map_err(PyValueError::new_err)?;
++                    self.models[member].restore_normalized_input(
++                        &self.tied_inputs[tied_index],
++                        &mut self.tied_restored_inputs[tied_index],
++                    );
++                    self.tied[tied_index]
++                        .encoder_residual(
++                            &self.tied_restored_inputs[tied_index],
++                            &mut self.tied_residuals[tied_index],
++                        )
++                        .map_err(PyValueError::new_err)?;
++                    crate::vnni::prof::lap(12 + member, &mut tied_clock);
++                    self.models[member]
++                        .step_with_encoder_residual_then(
++                            &self.tied_inputs[tied_index],
++                            &self.tied_residuals[tied_index],
++                            &mut self.member_outputs[member],
++                            after,
++                        )
++                        .map_err(|error| PyValueError::new_err(error.0))?;
++                    Ok(())
++                })();
++                crate::vnni::prof::select_member(None);
++                result
++            }
++            3 => {
++                crate::vnni::prof::select_member(Some(3));
++                self.models[3].step_then(&self.raw, &mut self.member_outputs[3], after);
++                crate::vnni::prof::select_member(None);
++                Ok(())
++            }
++            _ => Err(PyValueError::new_err("invalid final predictor member index")),
++        }
++    }
++
+     fn advance_row(&mut self) -> PyResult<()> {
+         self.features.sanitize(&mut self.raw);
+         self.features.update(&self.raw, &mut self.event);
+         self.w18_input[..112].copy_from_slice(&self.raw);
+         self.w18_input[112..].copy_from_slice(&self.event);
+ 
+-        crate::vnni::prof::select_member(Some(0));
+-        self.models[0].step(&self.w18_input, &mut self.member_outputs[0]);
+-        crate::vnni::prof::select_member(None);
+         if self.w18_only {
++            crate::vnni::prof::select_member(Some(0));
++            self.models[0].step(&self.w18_input, &mut self.member_outputs[0]);
++            crate::vnni::prof::select_member(None);
+             if self.member_outputs[0]
+                 .iter()
+                 .any(|value| !value.is_finite())
+@@ -1922,55 +1984,27 @@
+             self.next_step += 1;
+             return Ok(());
+         }
+-        let tied_s5_result = (|| -> PyResult<()> {
+-            crate::vnni::prof::select_member(Some(1));
+-            let mut tied_clock = crate::vnni::prof::tick();
+-            self.tied[0]
+-                .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[0])
+-                .map_err(PyValueError::new_err)?;
+-            self.models[1]
+-                .restore_normalized_input(&self.tied_inputs[0], &mut self.tied_restored_inputs[0]);
+-            self.tied[0]
+-                .encoder_residual(&self.tied_restored_inputs[0], &mut self.tied_residuals[0])
+-                .map_err(PyValueError::new_err)?;
+-            crate::vnni::prof::lap(13, &mut tied_clock);
+-            self.models[1]
+-                .step_with_encoder_residual(
+-                    &self.tied_inputs[0],
+-                    &self.tied_residuals[0],
+-                    &mut self.member_outputs[1],
+-                )
+-                .map_err(|error| PyValueError::new_err(error.0))?;
+-            Ok(())
+-        })();
+-        crate::vnni::prof::select_member(None);
+-        tied_s5_result?;
+-        let tied_s6_result = (|| -> PyResult<()> {
+-            crate::vnni::prof::select_member(Some(2));
+-            let mut tied_clock = crate::vnni::prof::tick();
+-            self.tied[1]
+-                .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[1])
+-                .map_err(PyValueError::new_err)?;
+-            self.models[2]
+-                .restore_normalized_input(&self.tied_inputs[1], &mut self.tied_restored_inputs[1]);
+-            self.tied[1]
+-                .encoder_residual(&self.tied_restored_inputs[1], &mut self.tied_residuals[1])
+-                .map_err(PyValueError::new_err)?;
+-            crate::vnni::prof::lap(14, &mut tied_clock);
+-            self.models[2]
+-                .step_with_encoder_residual(
+-                    &self.tied_inputs[1],
+-                    &self.tied_residuals[1],
+-                    &mut self.member_outputs[2],
+-                )
+-                .map_err(|error| PyValueError::new_err(error.0))?;
+-            Ok(())
+-        })();
+-        crate::vnni::prof::select_member(None);
+-        tied_s6_result?;
+-        crate::vnni::prof::select_member(Some(3));
+-        self.models[3].step(&self.raw, &mut self.member_outputs[3]);
+-        crate::vnni::prof::select_member(None);
++
++        // Every member advances once per row and only reads shared row features. Reverse the
++        // independent execution order every other row so the previous row's last member is
++        // first again. Keep member_outputs indexed and blended in canonical receipt order.
++        let reverse = self.next_step % 2 == 1;
++        let order = if reverse {
++            [3usize, 2, 1, 0]
++        } else {
++            [0usize, 1, 2, 3]
++        };
++        let next_row_first = if reverse { 0 } else { 3 };
++        for position in 0..order.len() {
++            let member = order[position];
++            let after_member = if position + 1 < order.len() {
++                order[position + 1]
++            } else {
++                next_row_first
++            };
++            let after = self.models[after_member].first_weights();
++            self.advance_full_mix_member(member, after)?;
++        }
+ 
+         if self
+             .member_outputs
+--- a/native/src/rnn_fast.rs
++++ b/native/src/rnn_fast.rs
+@@ -1540,6 +1540,19 @@
+         residual: &[f32],
+         out: &mut [f32],
+     ) -> Result<(), ShapeError> {
++        let after = self.first_weights();
++        self.step_with_encoder_residual_then(x, residual, out, after)
++    }
++
++    /// Run a model with an encoder residual while prefetching `after` during its final activation.
++    /// The hint changes cache state only; it never changes arithmetic or recurrent state.
++    pub fn step_with_encoder_residual_then(
++        &mut self,
++        x: &[f32],
++        residual: &[f32],
++        out: &mut [f32],
++        after: crate::half::Ahead,
++    ) -> Result<(), ShapeError> {
+         if self.precision != Precision::F32 && self.precision.dyn8().is_none() {
+             return Err(ShapeError(
+                 "encoder residual requires fp32 or dynamic q8vnni precision".into(),
+@@ -1576,13 +1589,18 @@
+         } else if self.general_dims {
+             self.step_general_dyn8_with_residual(x, residual, out);
+         } else {
+-            self.step_dyn_with_encoder_residual(x, residual, out);
++            self.step_dyn_with_encoder_residual(x, residual, out, after);
+         }
+         Ok(())
+     }
+ 
+-    fn step_dyn_with_encoder_residual(&mut self, x: &[f32], residual: &[f32], out: &mut [f32]) {
+-        let after = self.first_weights();
++    fn step_dyn_with_encoder_residual(
++        &mut self,
++        x: &[f32],
++        residual: &[f32],
++        out: &mut [f32],
++        after: crate::half::Ahead,
++    ) {
+         #[cfg(target_arch = "x86_64")]
+         match self.precision {
+             Precision::Q8Vnni => unsafe { self.step_dyn_vnni(x, out, after, residual) },

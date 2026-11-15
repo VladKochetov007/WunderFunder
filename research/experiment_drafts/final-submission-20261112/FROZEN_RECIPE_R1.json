@@ -1,0 +1,74 @@
+{
+  "schema": "wnn.frozen-final-submission.v1",
+  "frozen_utc": "2026-11-12T15:15:15.293236+00:00",
+  "candidate": "full-all-labeled-tl3-lstm10-20261112-r1",
+  "fit_membership_sha256": "3f766945e00a2fa5edc6230d9c0bed125da112584f11e3d82458167a011bf543",
+  "fit_sequences": 12480,
+  "fit_train_sequences": 10607,
+  "fit_valid_sequences": 1873,
+  "independent_evaluation_sequences": 0,
+  "post_fit_valid_tuning": false,
+  "members": [
+    {
+      "role": "w18",
+      "checkpoint_sha256": "70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8",
+      "fixed_epoch_index": 1,
+      "configured_epochs": 2
+    },
+    {
+      "role": "tiedlead_s5",
+      "checkpoint_sha256": "7f19e81376e9c9f3f0ab87446c7aad0def081d01b58fb7638602a37380064318",
+      "fixed_epoch_index": 3,
+      "configured_epochs": 4
+    },
+    {
+      "role": "tiedlead_s6",
+      "checkpoint_sha256": "567becffc737c6c08cebb2ee8e8c129eb52169cf241d831d8f147f08c96f0d03",
+      "fixed_epoch_index": 3,
+      "configured_epochs": 4
+    },
+    {
+      "role": "source4_lstm",
+      "fixed_epoch_index": 7,
+      "configured_epochs": 8,
+      "checkpoint_sha256": "e134b79535f1f3c18dec4f8b18ed47137053990edf8c44b222a12b78d80e4ad4"
+    }
+  ],
+  "blend": {
+    "inner_fp64_weights": [
+      0.34,
+      0.33,
+      0.33
+    ],
+    "inner_output": "float32",
+    "outer_fp64_weights": [
+      0.9,
+      0.1
+    ],
+    "output": "float32",
+    "clipping": "official scorer after callback"
+  },
+  "selection_basis": [
+    "public incumbent TL3 .66832",
+    "weak exposed historical fixed90/10 panel +.00012464; not served/independent/public gain"
+  ],
+  "all_final_fits_reused": true,
+  "required_release_checks": [
+    "complete18-role ancestry hashes",
+    "Linux Python3.11 exactZIP import",
+    "finite outputs",
+    "determinism",
+    "sequence reset",
+    "causal prefix parity",
+    "FP32 reference vs served drift",
+    "one-core runtime60min envelope",
+    "20MB ZIP",
+    "16GB RAM",
+    "no network/GPU dependency"
+  ],
+  "known_blockers": [
+    "VPN SSH banner-timeout on both hosts after channel reset",
+    "desktop connector CONTROL_UNAVAILABLE; browser execution tool absent",
+    "fullmix runtime previously exceeded60min; remeasure/optimize before uploading"
+  ]
+}
