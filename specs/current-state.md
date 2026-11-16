@@ -1,5 +1,7 @@
 # Current project state
 
+**Handoff update, 2026-11-14 21:40 UTC:** Kaggle R2 is now ERROR, not queued. Both started workers stopped at chronological train-parquet identity validation before training; four cells never started. Logs are saved; diagnosis/retry is deferred by the user. Local GPU hold remains, no WNN services running. [Complete session handoff](../research/unified/operations/SESSION_HANDOFF_20261114_R1.md). Earlier queue snapshots below are historical.
+
 ## November 14: CPU checks continue; local GPU held for PHCapital
 
 The user's latest instruction reserves GPU for PHCapital. All owned local GPU/thermal services are stopped; launch wrappers respect the [hold](../research/campaign_2026-11-14/quality_r2/LOCAL_GPU_HOLD_R1.json). Existing six-fit Kaggle panel is unchanged and still queued without outputs. No automatic local restart, paid compute or competition upload.

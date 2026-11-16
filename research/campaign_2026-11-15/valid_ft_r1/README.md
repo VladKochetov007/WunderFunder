@@ -118,3 +118,17 @@ Valid-only fine-tuning transfers to public: v3_ft vs its no-ft twin +.0028 (loca
 original TLead by all-data V_s7 beats tl3.zip (+.00026, within plausible LB noise); two replacements fall back.
 Prepared for the last 2 slots (fixed weights, not tuned on LB): `o2_vs8.zip` (independent-seed replication of
 o2_vs7) and `o2_vfkd.zip` (V_fkd in the student slot + orig TL5/TL6).
+
+## Final public table and selection (2026-11-16)
+
+Public: `o2_vs7` .66858 (team best), tl3.zip .66832, `o2_vfkd` .66831, `o1_vall2` .66807, `v3_ft` .66638
+(its no-ft twin TL3C .66355: valid-only fine-tune +.0028 on public). Top team ZIPs sit within .0005, i.e.
+inside public noise; final choice is a hedge across lineages and valid-fit strength, not the single best public
+number. Recommended final picks, in order: `o2_vs7`, `xteam_h4`, `tl3.zip`, `tl3_h390_s3_s4`, `pair_ftt2`.
+
+## Cleanup (2026-11-16, user: "удаляй всё эти parquet данные, чекпоинты моделей и прочее")
+
+Deleted untracked, regenerable files under `/home/vlad/development/wunder` only (train/valid parquet and copies,
+`.pt` checkpoints, `.npy` prediction caches, `.npz`, `.wnn`, `.tar`; ≈190 GB, `/home` free 85 → 275 GB). Kept:
+git-tracked files, submission ZIPs (`submissions/`), JSON/JSONL evidence, code and notes. Other projects (PHCapital)
+and system paths were not touched. Checkpoint-based claims in these notes can no longer be re-run locally.
