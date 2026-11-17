@@ -8,17 +8,25 @@
 pub const N_RAW: usize = 112;
 pub const N_EVENT: usize = 99;
 pub const N_REPRESENTATION: usize = 256;
+pub const N_I1_HISTORY: usize = 156;
+pub const N_I1_CHANNELS: usize = 52;
 pub const N_EMA_PREFIX: usize = 128;
 pub const N_EMA_TAIL: usize = 16;
+const I1_RAW_START: usize = 52;
 const CAP: f64 = 10_000.0;
+const I1_FAST_DECAY: f32 = 0.978_572_070_598_602_3;
+const I1_FAST_UPDATE: f32 = 0.021_427_929_401_397_705;
+const I1_SLOW_DECAY: f32 = 0.998_647_093_772_888_2;
+const I1_SLOW_UPDATE: f32 = 0.001_352_906_227_111_816_4;
 
-/// Supported 467-column input layouts. Sparse dictionaries need checkpoint-owned tensors and are
-/// deliberately not inferred from a model's width.
+/// Supported 367- and 467-column input layouts. Sparse dictionaries need checkpoint-owned tensors
+/// and are deliberately not inferred from a model's width.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RepresentationMode {
     None,
     Base,
     Ema,
+    I1History,
 }
 
 impl RepresentationMode {
@@ -27,6 +35,7 @@ impl RepresentationMode {
             "none" => Ok(Self::None),
             "base" => Ok(Self::Base),
             "ema" => Ok(Self::Ema),
+            "i1_history" => Ok(Self::I1History),
             "sparse" | "ema_sparse" => Err(format!(
                 "input representation mode {value:?} is unsupported by native serving"
             )),
@@ -63,6 +72,9 @@ pub fn fill_representation_suffix(
             ema.copy_from_slice(ema_values);
             zero_tail.fill(0.0);
             Ok(())
+        }
+        RepresentationMode::I1History => {
+            Err("i1_history suffix requires its checkpoint prior and streaming state".into())
         }
         RepresentationMode::Base | RepresentationMode::Ema => Err(format!(
             "representation suffix must have {N_REPRESENTATION} values, got {}",
@@ -116,6 +128,84 @@ impl CausalDeltaEma {
             *previous = *raw;
         }
         self.first = false;
+    }
+}
+
+/// Per-sequence state for the 156-channel causal i1 residual and energy features.
+#[derive(Debug, Clone)]
+pub struct I1History {
+    scale: [f32; N_I1_CHANNELS],
+    previous: [f32; N_I1_CHANNELS],
+    mean32: [f32; N_I1_CHANNELS],
+    mean512: [f32; N_I1_CHANNELS],
+    energy512: [f32; N_I1_CHANNELS],
+    first: bool,
+}
+
+impl I1History {
+    pub fn new(scale: Vec<f32>) -> Result<Self, String> {
+        if scale.len() != N_I1_CHANNELS
+            || scale.iter().any(|value| !value.is_finite() || *value <= 0.0)
+        {
+            return Err(format!(
+                "i1_history prior must contain {N_I1_CHANNELS} finite positive scales"
+            ));
+        }
+        let scale = scale
+            .try_into()
+            .map_err(|_| "i1_history prior scale width changed".to_owned())?;
+        Ok(Self {
+            scale,
+            previous: [0.0; N_I1_CHANNELS],
+            mean32: [0.0; N_I1_CHANNELS],
+            mean512: [0.0; N_I1_CHANNELS],
+            energy512: [0.0; N_I1_CHANNELS],
+            first: true,
+        })
+    }
+
+    pub fn reset(&mut self) {
+        self.previous.fill(0.0);
+        self.mean32.fill(0.0);
+        self.mean512.fill(0.0);
+        self.energy512.fill(0.0);
+        self.first = true;
+    }
+
+    /// Writes history for the current sanitized raw row, then advances the EMA state.
+    pub fn update(&mut self, row: &[f32], out: &mut [f32]) -> Result<(), String> {
+        if row.len() != N_RAW || out.len() != N_I1_HISTORY {
+            return Err(format!(
+                "i1_history expected raw/history widths {N_RAW}/{N_I1_HISTORY}, got {}/{}",
+                row.len(),
+                out.len()
+            ));
+        }
+        let current = &row[I1_RAW_START..I1_RAW_START + N_I1_CHANNELS];
+        if self.first {
+            self.previous.copy_from_slice(current);
+            out.fill(0.0);
+            self.first = false;
+            return Ok(());
+        }
+        for channel in 0..N_I1_CHANNELS {
+            let delta = current[channel] - self.previous[channel];
+            out[channel] = delta - self.mean32[channel];
+            out[N_I1_CHANNELS + channel] = delta - self.mean512[channel];
+
+            let squared_delta = delta * delta;
+            self.energy512[channel] =
+                I1_SLOW_DECAY * self.energy512[channel] + I1_SLOW_UPDATE * squared_delta;
+            out[2 * N_I1_CHANNELS + channel] =
+                (self.energy512[channel].sqrt() / self.scale[channel]).ln_1p();
+
+            self.mean32[channel] =
+                (I1_FAST_DECAY * self.mean32[channel] + I1_FAST_UPDATE * delta) - delta;
+            self.mean512[channel] =
+                (I1_SLOW_DECAY * self.mean512[channel] + I1_SLOW_UPDATE * delta) - delta;
+            self.previous[channel] = current[channel];
+        }
+        Ok(())
     }
 }
 

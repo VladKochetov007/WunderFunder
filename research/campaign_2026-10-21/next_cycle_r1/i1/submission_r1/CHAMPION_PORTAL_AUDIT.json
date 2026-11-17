@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.portal-champion-static-audit.v1",
+  "date": "2026-10-23",
+  "source": "Authenticated Chrome downloads from https://wundernn.io/connectome/submit",
+  "leaderboard": {
+    "source": "https://wundernn.io/connectome/leaderboard",
+    "team_rank": 25,
+    "team_score": 0.66832,
+    "leader": "Order_of_the_Orb",
+    "leader_score": 0.67387,
+    "gap": 0.00555
+  },
+  "archives": {
+    "tl3.zip": {
+      "portal_submission_id": "1LMEHFI3",
+      "public_score": 0.66832,
+      "portal_duration_seconds": 2352,
+      "local_payload": "/Users/alfa/Downloads/tl3.zip",
+      "zip_bytes": 12538394,
+      "zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+      "members": [
+        {
+          "weights": "weights_s5.npz",
+          "name": "distilled_s5@ep1",
+          "coef": 0.34
+        },
+        {
+          "weights": "weights_tl5.npz",
+          "name": "fttall_tlead_s5@ep3",
+          "coef": 0.33
+        },
+        {
+          "weights": "weights_tl6.npz",
+          "name": "fttall_tlead_s6@ep3",
+          "coef": 0.33
+        }
+      ],
+      "files_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db",
+        "members.json": "7156289855a8b503dd1bd5949055b3461760aabcbf0fcd4800b532b837c5dd58",
+        "solution.py": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a",
+        "weights_s5.npz": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf",
+        "weights_tl5.npz": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427",
+        "weights_tl6.npz": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+      }
+    },
+    "tl3_two_parents_20261022.zip": {
+      "portal_submission_id": "0R4H74XW",
+      "public_score": 0.66771,
+      "portal_duration_seconds": 1711,
+      "local_payload": "/Users/alfa/Downloads/tl3_two_parents_20261022.zip",
+      "zip_bytes": 8903420,
+      "zip_sha256": "7a76f1cb90c8140a20d29b0566c1d0b9e3037511d22dc3b9c79881f4c84ba23f",
+      "members": [
+        {
+          "weights": "weights_tl5.npz",
+          "name": "fttall_tlead_s5@ep3",
+          "coef": 0.5
+        },
+        {
+          "weights": "weights_tl6.npz",
+          "name": "fttall_tlead_s6@ep3",
+          "coef": 0.5
+        }
+      ],
+      "files_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db",
+        "members.json": "bd09dedab3f936ff23b72e9abe93152083d965d158275c14bca6fa45fb1ca106",
+        "solution.py": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a",
+        "weights_tl5.npz": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427",
+        "weights_tl6.npz": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+      }
+    }
+  },
+  "pair_payload_identity": {
+    "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": true,
+    "solution.py": true,
+    "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": true,
+    "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": true,
+    "weights_tl5.npz": true,
+    "weights_tl6.npz": true
+  },
+  "public_ablation": {
+    "delta_tl3_minus_pair": 0.00061,
+    "change": "Remove distilled_s5@ep1 and renormalize the same two parent weights from 0.33/0.33 to 0.5/0.5. All common payload bytes, solution and native libraries are identical.",
+    "interpretation": "This exact student-containing endpoint scores higher on the public board; it does not establish an architecture-wide or seed-general distillation effect."
+  },
+  "validation_lineage": "ZIPs contain no fitting memberships or teacher provenance. These production weights are not certified fold-clean controls/teachers.",
+  "inspections": "ZIP metadata, Python source, member configuration, NPY tensor headers and byte hashes only. No model imports, tests, inference or training."
+}

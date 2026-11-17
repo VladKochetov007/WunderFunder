@@ -1,5 +1,10 @@
 # i1 causal-history A/B/C screen
 
+[CPU delivery packet, 23 October](submission_r1/README.md) adds the causal
+367-input serving path and fixed 90%B/10%C FP32 packaging for each graded pair.
+Weights are unavailable on the receiving Mac; the user requested proceeding
+without them. Model ZIP, exact streaming parity and timing remain pending.
+
 This folder records the amended six-fit i1 memory screen in the October21
 allocation. The sustained profile and all six fits completed; the terminal
 [fixed grade](runtime/GRADE_R1.json) covers F0/seed1001 and F2/seed1002. The

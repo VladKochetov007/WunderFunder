@@ -1,8 +1,11 @@
 # Builds the wnn_native abi3 wheel against the scorer's base image (glibc of Debian bookworm).
+FROM rust:1.94.0-slim-bookworm AS rust-toolchain
 FROM python:3.11-slim-bookworm
-RUN apt-get update && apt-get install -y --no-install-recommends curl build-essential ca-certificates \
+COPY --from=rust-toolchain /usr/local/cargo /usr/local/cargo
+COPY --from=rust-toolchain /usr/local/rustup /usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo RUSTUP_HOME=/usr/local/rustup
+ENV PATH=/usr/local/cargo/bin:$PATH
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential binutils ca-certificates \
  && rm -rf /var/lib/apt/lists/*
-RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.94.0
-ENV PATH=/root/.cargo/bin:$PATH
 RUN pip install --no-cache-dir "maturin>=1.9,<2"
 WORKDIR /src
